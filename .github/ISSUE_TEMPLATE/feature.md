@@ -1,6 +1,6 @@
 ---
 name: Feature
-about: 기능 작업 사항.
+about: 기능 작업 사항
 title: "[FEATURE]"
 labels: ''
 assignees: ''
@@ -12,7 +12,7 @@ assignees: ''
 - 어떤 작업을 진행할지 간단하게 내용 작성하세요.
 
 ## Task
-> 필요한 구성 요소나 작업을 작은 단위로 분리하세요.
+> 진행하는 작업을 작은 단위로 분리하세요.
 
 - [ ] 위젯1
 - [ ] 위젯2
