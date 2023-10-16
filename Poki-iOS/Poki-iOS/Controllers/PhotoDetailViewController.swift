@@ -61,6 +61,24 @@ final class PhotoDetailViewController: UIViewController {
         effectView.effect = UIBlurEffect(style: .light)
         return effectView
     }()
+    
+    private lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "backButton"), style: .done, target: self, action: nil)
+        button.tintColor = .white
+        return button
+    }()
+    
+    private lazy var menuButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: nil)
+        button.tintColor = .white
+        button.menu = detailMenu
+        return button
+    }()
+    
+    private lazy var detailMenu: UIMenu = {
+        let menu = UIMenu(children: setupDetailMenuAction())
+        return menu
+    }()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -72,12 +90,8 @@ final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Helper
     private func configureNav() {
-        let backButton = UIBarButtonItem(image: UIImage(named: "backButton"), style: .done, target: nil, action: nil)
-        backButton.tintColor = .white
-        let menuButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: nil, action: nil)
-        menuButton.tintColor = .white
-        navigationItem.leftBarButtonItem = backButton
-        navigationItem.rightBarButtonItem = menuButton
+        navigationItem.leftBarButtonItem = self.backButton
+        navigationItem.rightBarButtonItem = self.menuButton
     }
     
     private func addSubViews() {
@@ -104,5 +118,16 @@ final class PhotoDetailViewController: UIViewController {
             mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
         ])
+    }
+    
+    private func setupDetailMenuAction() -> [UIAction] {
+        let update = UIAction(title: "수정하기", image: UIImage(systemName: "highlighter")) { _ in
+            print("수정하기 클릭~") }
+        let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
+            print("공유하기 클릭~") }
+        let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+            print("삭제하기 클릭~") }
+        let actions = [update, share, delete]
+        return actions
     }
 }
