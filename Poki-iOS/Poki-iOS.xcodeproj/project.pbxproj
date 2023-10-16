@@ -224,8 +224,8 @@
 				EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */,
 				EB98AF242ADB93C9008586BC /* PoseSuggestionViewController.swift */,
 				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
-				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 				051135492ADD0CFF0045513A /* DetailPhotoViewController.swift */,
+				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

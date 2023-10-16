@@ -7,23 +7,37 @@
 
 import UIKit
 
-class DetailPhotoViewController: UIViewController {
+final class DetailPhotoViewController: UIViewController {
+    
+    // MARK: - Components
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: Constants.fontBold, size: 32)
+        label.text = "GOOD EATS"
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
 
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = .black
+        addSubViews()
+        setupLayout()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Helper
+    private func addSubViews() {
+        view.addSubviews(titleLabel)
     }
-    */
-
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+        ])
+    }
 }
