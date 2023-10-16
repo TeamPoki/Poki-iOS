@@ -9,11 +9,11 @@ import UIKit
 import SnapKit
 import Then
 
-class AddPhotoViewController: UIViewController {
+final class AddPhotoViewController: UIViewController {
     
     // MARK: - Properties
     
-    
+    private let addPhotoView = AddPhotoView()
     
     
     
@@ -24,7 +24,10 @@ class AddPhotoViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureNav()
+        setup()
     }
+    
+    
     
     // MARK: - Helpers
     
@@ -44,6 +47,15 @@ class AddPhotoViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    private func setup() {
+        self.view.addSubview(addPhotoView)
+        
+        addPhotoView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     // MARK: - Actions

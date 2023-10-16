@@ -49,6 +49,7 @@ class MainPageViewController: UIViewController {
         let galleryAction = UIAction(title: "갤러리에서 추가하기", image: UIImage(systemName: "photo"), handler: { _ in
             print("이미지 피커 구현예정")
             let addPhotoVC = AddPhotoViewController() // 일단 개발을 위해서 페이지로 바로 연결
+            addPhotoVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(addPhotoVC, animated: true)
         })
         let cameraAction = UIAction(title: "QR코드로 추가하기", image: UIImage(systemName: "qrcode"), handler: { _ in
