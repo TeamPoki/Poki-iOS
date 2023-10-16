@@ -54,12 +54,21 @@ final class DetailPhotoViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black
+        configureNav()
         addSubViews()
         setupLayout()
     }
     
     // MARK: - Helper
+    private func configureNav() {
+        let backButton = UIBarButtonItem(image: UIImage(named: "backButton"), style: .done, target: nil, action: nil)
+        backButton.tintColor = .white
+        let menuButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: nil, action: nil)
+        menuButton.tintColor = .white
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.rightBarButtonItem = menuButton
+    }
+    
     private func addSubViews() {
         view.addSubviews(backgroundImageView)
         backgroundImageView.addSubviews(backgroundBlurEffectView, titleLabel, dateLabel, mainImageView)
