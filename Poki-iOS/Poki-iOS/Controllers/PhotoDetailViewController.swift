@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailPhotoViewController: UIViewController {
+final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Components
     private let titleLabel: UILabel = {

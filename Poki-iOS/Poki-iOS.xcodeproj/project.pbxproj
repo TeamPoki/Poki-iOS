@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0511354A2ADD0CFF0045513A /* DetailPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051135492ADD0CFF0045513A /* DetailPhotoViewController.swift */; };
+		0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */; };
 		EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255BE2ADCBCF800B73A89 /* Photos.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
@@ -42,7 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		051135492ADD0CFF0045513A /* DetailPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPhotoViewController.swift; sourceTree = "<group>"; };
+		051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		EB5255BE2ADCBCF800B73A89 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */,
 				EB98AF242ADB93C9008586BC /* PoseSuggestionViewController.swift */,
 				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
-				051135492ADD0CFF0045513A /* DetailPhotoViewController.swift */,
+				051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */,
 				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 			);
 			path = Controllers;
@@ -325,7 +325,7 @@
 				EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */,
 				EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */,
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
-				0511354A2ADD0CFF0045513A /* DetailPhotoViewController.swift in Sources */,
+				0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */,
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
 				EB7119002ADC5A9100CD19D6 /* NotiveListViewController.swift in Sources */,
 				EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */,
