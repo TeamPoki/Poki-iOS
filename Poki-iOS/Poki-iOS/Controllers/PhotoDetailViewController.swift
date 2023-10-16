@@ -37,6 +37,17 @@ final class PhotoDetailViewController: UIViewController {
         return iv
     }()
     
+    private lazy var mainStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [titleLabel, dateLabel, mainImageView])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .vertical
+        sv.distribution = .fill
+        sv.alignment = .fill
+        sv.setCustomSpacing(3, after: titleLabel)
+        sv.setCustomSpacing(20, after: dateLabel)
+        return sv
+    }()
+    
     private let backgroundImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -70,8 +81,8 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private func addSubViews() {
-        view.addSubviews(backgroundImageView)
-        backgroundImageView.addSubviews(backgroundBlurEffectView, titleLabel, dateLabel, mainImageView)
+        view.addSubview(backgroundImageView)
+        backgroundImageView.addSubviews(backgroundBlurEffectView, mainStackView)
     }
     
     private func setupLayout() {
@@ -88,20 +99,10 @@ final class PhotoDetailViewController: UIViewController {
             backgroundBlurEffectView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor)
         ])
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-        ])
-        NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
-            dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-        NSLayoutConstraint.activate([
-            mainImageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
-            mainImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainImageView.heightAnchor.constraint(equalToConstant: 537)
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
         ])
     }
 }
