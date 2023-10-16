@@ -39,6 +39,7 @@
 		EBE4FAA72ADA7E6F00EFFE54 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA62ADA7E6F00EFFE54 /* Kingfisher */; };
 		EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA92ADA7E7A00EFFE54 /* Then */; };
 		EBE4FAAD2ADA7E8900EFFE54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAAC2ADA7E8900EFFE54 /* SnapKit */; };
+		F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		EBE4FA942ADA7D1300EFFE54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 		EBE4FAA32ADA7E3800EFFE54 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F9030B212ADD0CA9007C5043 /* AddPhtoPage */,
 				EB98AF3C2ADBC667008586BC /* MainPage */,
 				EB98AF3D2ADBC6A5008586BC /* PoseSuggestionPage */,
 				EB98AF3E2ADBC6BA008586BC /* MyPage */,
@@ -228,6 +231,14 @@
 				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F9030B212ADD0CA9007C5043 /* AddPhtoPage */ = {
+			isa = PBXGroup;
+			children = (
+				F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */,
+			);
+			path = AddPhtoPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +338,7 @@
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
 				0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */,
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
+				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
 				EB7119002ADC5A9100CD19D6 /* NotiveListViewController.swift in Sources */,
 				EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */,
 				EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */,
