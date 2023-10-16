@@ -36,6 +36,20 @@ final class DetailPhotoViewController: UIViewController {
         iv.image = UIImage(named: "인생네컷")
         return iv
     }()
+    
+    private let backgroundImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.image = UIImage(named: "인생네컷")
+        return iv
+    }()
+    
+    private lazy var backgroundBlurEffectView: UIVisualEffectView = {
+        let effectView = UIVisualEffectView()
+        effectView.translatesAutoresizingMaskIntoConstraints = false
+        effectView.effect = UIBlurEffect(style: .light)
+        return effectView
+    }()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -47,10 +61,23 @@ final class DetailPhotoViewController: UIViewController {
     
     // MARK: - Helper
     private func addSubViews() {
-        view.addSubviews(titleLabel, dateLabel, mainImageView)
+        view.addSubviews(backgroundImageView)
+        backgroundImageView.addSubviews(backgroundBlurEffectView, titleLabel, dateLabel, mainImageView)
     }
     
     private func setupLayout() {
+        NSLayoutConstraint.activate([
+            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            backgroundBlurEffectView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor),
+            backgroundBlurEffectView.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor),
+            backgroundBlurEffectView.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor),
+            backgroundBlurEffectView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor)
+        ])
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
