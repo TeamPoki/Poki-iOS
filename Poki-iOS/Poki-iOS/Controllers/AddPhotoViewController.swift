@@ -10,14 +10,16 @@ import SnapKit
 import Then
 import PhotosUI
 
+protocol TagSelectionDelegate: AnyObject {
+    func didSelectTag(_ tag: TagModel)
+}
+
 final class AddPhotoViewController: UIViewController {
     
     // MARK: - Properties
     
     private let addPhotoView = AddPhotoView()
-    
-    
-    
+
 
     // MARK: - Life Cycle
     
@@ -27,9 +29,8 @@ final class AddPhotoViewController: UIViewController {
         configureNav()
         setup()
         setupTapGestures()
+        tagButtonTapped()
     }
-    
-    
     
     // MARK: - Helpers
     
@@ -58,6 +59,10 @@ final class AddPhotoViewController: UIViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    private func tagButtonTapped() {
+        addPhotoView.tagAddButton.addTarget(self, action: #selector(tagButtonAction), for: .touchUpInside)
     }
     
     // MARK: - Actions
@@ -94,6 +99,16 @@ final class AddPhotoViewController: UIViewController {
             picker.delegate = self
             self.present(picker, animated: true, completion: nil)
         }
+    
+    @objc private func tagButtonAction() {
+        let tagViewController = TagViewController()
+        tagViewController.modalPresentationStyle = .custom
+        tagViewController.transitioningDelegate = self
+        tagViewController.delegate = self
+        present(tagViewController, animated: true, completion: nil)
+    }
+ 
+    
     
 //    func requestPhotoLibraryAccess() {
 //        PHPhotoLibrary.requestAuthorization {  status in
@@ -148,4 +163,43 @@ extension AddPhotoViewController: PHPickerViewControllerDelegate {
             print("이미지 로드 실패")
         }
     }
+}
+
+extension AddPhotoViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        // UISheetPresentationController를 사용하여 커스텀 프레
+
+let sheetPresentationController = UISheetPresentationController(presentedViewController: presented, presenting: presenting)
+        sheetPresentationController.detents = [.medium()]
+        sheetPresentationController.prefersGrabberVisible = true
+        sheetPresentationController.prefersScrollingExpandsWhenScrolledToEdge = true
+        return sheetPresentationController
+    }
+}
+
+extension AddPhotoViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+       
+    }
+}
+
+
+extension AddPhotoViewController: TagSelectionDelegate {
+    func didSelectTag(_ tag: TagModel) {
+//        if addPhotoView.tagStackView.contains(addPhotoView.tagAddButton) == true {
+//            print("tagAddButton 확인")
+//            addPhotoView.tagStackView.removeArrangedSubview(addPhotoView.tagAddButton)
+//            addPhotoView.tagStackView.addArrangedSubviews(addPhotoView.tagImageButton)
+//            addPhotoView.tagImageButton.setTitle(tag.tagLabel, for: .normal)
+//            addPhotoView.tagImageButton.setImage(tag.tagImage, for: .normal)
+//        } else {
+//            addPhotoView.tagImageButton.setTitle(tag.tagLabel, for: .normal)
+//            addPhotoView.tagImageButton.setImage(tag.tagImage, for: .normal)
+//        }
+        
+        addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
+        addPhotoView.tagAddButton.setImage(tag.tagImage, for: .normal)
+    }
+    
+    
 }

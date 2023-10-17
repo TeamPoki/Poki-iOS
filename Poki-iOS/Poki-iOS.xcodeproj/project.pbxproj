@@ -40,6 +40,8 @@
 		EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA92ADA7E7A00EFFE54 /* Then */; };
 		EBE4FAAD2ADA7E8900EFFE54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAAC2ADA7E8900EFFE54 /* SnapKit */; };
 		F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */; };
+		F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B242ADE0E28007C5043 /* TagViewController.swift */; };
+		F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,8 @@
 		EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
+		F9030B242ADE0E28007C5043 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +215,7 @@
 		EBE4FAA32ADA7E3800EFFE54 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F9030B262ADE0E34007C5043 /* TagViewPage */,
 				F9030B212ADD0CA9007C5043 /* AddPhtoPage */,
 				EB98AF3C2ADBC667008586BC /* MainPage */,
 				EB98AF3D2ADBC6A5008586BC /* PoseSuggestionPage */,
@@ -225,6 +230,7 @@
 				EB98AF202ADB92A9008586BC /* CustomTabBarController.swift */,
 				EB98AF262ADB93D7008586BC /* MainPageViewController.swift */,
 				EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */,
+				F9030B242ADE0E28007C5043 /* TagViewController.swift */,
 				EB98AF242ADB93C9008586BC /* PoseSuggestionViewController.swift */,
 				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
 				051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */,
@@ -239,6 +245,14 @@
 				F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */,
 			);
 			path = AddPhtoPage;
+			sourceTree = "<group>";
+		};
+		F9030B262ADE0E34007C5043 /* TagViewPage */ = {
+			isa = PBXGroup;
+			children = (
+				F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */,
+			);
+			path = TagViewPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,6 +347,7 @@
 				EB5255C52ADCC2C200B73A89 /* Tag.swift in Sources */,
 				EBE4FAA12ADA7DF600EFFE54 /* Constants.swift in Sources */,
 				EB98AF3B2ADBC4D9008586BC /* Extensions.swift in Sources */,
+				F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */,
 				EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */,
 				EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */,
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
@@ -347,6 +362,7 @@
 				EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */,
 				EB98AF252ADB93CA008586BC /* PoseSuggestionViewController.swift in Sources */,
 				EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */,
+				F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */,
 				EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */,
 				EB98AF272ADB93D7008586BC /* MainPageViewController.swift in Sources */,
 			);
