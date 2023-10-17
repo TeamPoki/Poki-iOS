@@ -44,6 +44,16 @@ final class PoseSuggestionViewController: UIViewController {
         button.setImage(UIImage(systemName: "person.3.fill", withConfiguration: self.imageConfig), for: .normal)
         return button
     }()
+    
+    private lazy var mainStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [commentLabel, aloneButton, twoPeopleButton, manyPeopleButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .vertical
+        sv.distribution = .fill
+        sv.alignment = .fill
+        sv.spacing = 50
+        return sv
+    }()
 
     // MARK: - Life Cycle
     
@@ -91,31 +101,18 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubviews(commentLabel, aloneButton, twoPeopleButton, manyPeopleButton)
+        view.addSubview(mainStackView)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            commentLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            commentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            commentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
         ])
         NSLayoutConstraint.activate([
-            aloneButton.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: 50),
-            aloneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            aloneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            aloneButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        NSLayoutConstraint.activate([
-            twoPeopleButton.topAnchor.constraint(equalTo: aloneButton.bottomAnchor, constant: 50),
-            twoPeopleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            twoPeopleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            twoPeopleButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        NSLayoutConstraint.activate([
-            manyPeopleButton.topAnchor.constraint(equalTo: twoPeopleButton.bottomAnchor, constant: 50),
-            manyPeopleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            manyPeopleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            aloneButton.heightAnchor.constraint(equalToConstant: 60),
+            twoPeopleButton.heightAnchor.constraint(equalToConstant: 60),
             manyPeopleButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
