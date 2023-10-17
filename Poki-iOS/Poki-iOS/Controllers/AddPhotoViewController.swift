@@ -18,7 +18,7 @@ final class AddPhotoViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let addPhotoView = AddPhotoView()
+     let addPhotoView = AddPhotoView()
 
 
     // MARK: - Life Cycle
@@ -107,43 +107,6 @@ final class AddPhotoViewController: UIViewController {
         tagViewController.delegate = self
         present(tagViewController, animated: true, completion: nil)
     }
- 
-    
-    
-//    func requestPhotoLibraryAccess() {
-//        PHPhotoLibrary.requestAuthorization {  status in
-//            switch status {
-//            case .authorized:
-//                // 사용자가 권한을 허용한 경우
-//                // 여기에서 사진 라이브러리에 접근할 수 있습니다.
-//                let fetchOptions = PHFetchOptions()
-//                let allPhotos = PHAsset.fetchAssets(with: fetchOptions)
-//                DispatchQueue.main.async {
-//                    self.setupImagePicker()
-//                    // 사진에 접근하여 무엇인가 작업 수행
-//                }
-//            case .denied, .restricted:
-//                DispatchQueue.main.async {
-//                    let alertController = UIAlertController(title: "사진 접근 거부됨", message: "사진에 접근하려면 설정에서 권한을 허용해야 합니다.", preferredStyle: .alert)
-//                    let settingsAction = UIAlertAction(title: "설정 열기", style: .default) { _ in
-//                        if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-//                            UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
-//                        }
-//                    }
-//                    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-//                    alertController.addAction(settingsAction)
-//                    alertController.addAction(cancelAction)
-//                    self.present(alertController, animated: true, completion: nil)
-//                }
-//            case .notDetermined: break
-//                // 사용자가 아직 결정을 내리지 않은 경우
-//                // 다음에 권한 요청을 수행할 수 있습니다.
-//
-//            @unknown default:
-//                break
-//            }
-//        }
-//    }
     
 }
 
@@ -177,26 +140,9 @@ let sheetPresentationController = UISheetPresentationController(presentedViewCon
     }
 }
 
-extension AddPhotoViewController: UIAdaptivePresentationControllerDelegate {
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-       
-    }
-}
-
 
 extension AddPhotoViewController: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
-//        if addPhotoView.tagStackView.contains(addPhotoView.tagAddButton) == true {
-//            print("tagAddButton 확인")
-//            addPhotoView.tagStackView.removeArrangedSubview(addPhotoView.tagAddButton)
-//            addPhotoView.tagStackView.addArrangedSubviews(addPhotoView.tagImageButton)
-//            addPhotoView.tagImageButton.setTitle(tag.tagLabel, for: .normal)
-//            addPhotoView.tagImageButton.setImage(tag.tagImage, for: .normal)
-//        } else {
-//            addPhotoView.tagImageButton.setTitle(tag.tagLabel, for: .normal)
-//            addPhotoView.tagImageButton.setImage(tag.tagImage, for: .normal)
-//        }
-        
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
         addPhotoView.tagAddButton.setImage(tag.tagImage, for: .normal)
     }
