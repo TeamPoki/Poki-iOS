@@ -28,6 +28,7 @@ final class PoseSuggestionViewController: UIViewController {
         let button = UIButton()
         button.setTitle("혼자서 찍기", for: .normal)
         button.setImage(UIImage(systemName: "person.fill", withConfiguration: self.imageConfig), for: .normal)
+        button.tag = 1
         return button
     }()
     
@@ -35,6 +36,7 @@ final class PoseSuggestionViewController: UIViewController {
         let button = UIButton()
         button.setTitle("둘이서 찍기", for: .normal)
         button.setImage(UIImage(systemName: "person.2.fill", withConfiguration: self.imageConfig), for: .normal)
+        button.tag = 2
         return button
     }()
     
@@ -42,6 +44,7 @@ final class PoseSuggestionViewController: UIViewController {
         let button = UIButton()
         button.setTitle("여럿이서 찍기", for: .normal)
         button.setImage(UIImage(systemName: "person.3.fill", withConfiguration: self.imageConfig), for: .normal)
+        button.tag = 3
         return button
     }()
     
@@ -69,9 +72,7 @@ final class PoseSuggestionViewController: UIViewController {
     
     private func configureUI() {
         configureNav()
-        configure(aloneButton)
-        configure(twoPeopleButton)
-        configure(manyPeopleButton)
+        [aloneButton, twoPeopleButton, manyPeopleButton].forEach { configure($0) }
     }
 
     private func configureNav() {
@@ -98,6 +99,7 @@ final class PoseSuggestionViewController: UIViewController {
         button.tintColor = .white
         button.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(numberOfPeopleButtonTapped), for: .touchUpInside)
     }
     
     private func addSubviews() {
@@ -118,5 +120,7 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     // MARK: - Actions
-
+    @objc private func numberOfPeopleButtonTapped(_ sender: UIButton) {
+        navigationController?.pushViewController(PhotoDetailViewController(), animated: true)
+    }
 }
