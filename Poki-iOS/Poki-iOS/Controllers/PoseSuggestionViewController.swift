@@ -13,6 +13,15 @@ final class PoseSuggestionViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let commentLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: Constants.fontSemiBold, size: 26)
+        label.text = "인원수를 선택해주세요."
+        label.textAlignment = .center
+        return label
+    }()
+    
     private let imageConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium)
     
     private lazy var aloneButton: UIButton = {
@@ -82,12 +91,17 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubviews(aloneButton, twoPeopleButton, manyPeopleButton)
+        view.addSubviews(commentLabel, aloneButton, twoPeopleButton, manyPeopleButton)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            aloneButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            commentLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            commentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            commentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
+        NSLayoutConstraint.activate([
+            aloneButton.topAnchor.constraint(equalTo: commentLabel.bottomAnchor, constant: 50),
             aloneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             aloneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             aloneButton.heightAnchor.constraint(equalToConstant: 60)
