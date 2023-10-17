@@ -77,19 +77,20 @@ final class AddPhotoView: UIView {
         $0.text = "태그"
     }
     
-    let tagButton = UIButton(type: .custom).then {
+    let tagAddButton = UIButton(type: .custom).then {
         $0.setImage(UIImage(named: "addButton"), for: .normal)
         $0.setTitleColor(.black, for: .normal)
-        $0.sizeToFit()
         $0.backgroundColor = .clear
+        $0.imageView?.contentMode = .scaleAspectFit
     }
+  
     
     lazy var tagStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution  = .equalSpacing
         $0.alignment = .leading
         $0.spacing = 0
-        $0.addArrangedSubviews(tagLabel, tagButton)
+        $0.addArrangedSubviews(tagLabel, tagAddButton)
     }
     
     let addButton = UIButton(type: .custom).then {
@@ -97,7 +98,7 @@ final class AddPhotoView: UIView {
         $0.setTitle("작성완료", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 7
-        
+      
     }
     
     
@@ -161,6 +162,14 @@ final class AddPhotoView: UIView {
             $0.bottom.equalToSuperview().inset(60)
             $0.height.equalTo(40)
         }
+        
+//        tagAddButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview()
+//            $0.trailing.equalToSuperview()
+//            $0.bottom.equalToSuperview()
+//            $0.height.equalTo(40)
+//        }
+        
     }
     
 }
