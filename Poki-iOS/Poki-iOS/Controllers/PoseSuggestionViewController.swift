@@ -53,8 +53,8 @@ final class PoseSuggestionViewController: UIViewController {
         let sv = UIStackView(arrangedSubviews: [commentLabel, aloneButton, twoPeopleButton, manyPeopleButton])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .vertical
-        sv.distribution = .fill
         sv.alignment = .fill
+        sv.distribution = .fill
         sv.spacing = 50
         return sv
     }()
@@ -123,6 +123,16 @@ final class PoseSuggestionViewController: UIViewController {
     // MARK: - Actions
     @objc private func numberOfPeopleButtonTapped(_ sender: UIButton) {
         let moveVC = RandomPoseViewController()
+        switch sender.tag {
+        case 1:
+            moveVC.title = "혼자서 찍기"
+        case 2:
+            moveVC.title = "둘이서 찍기"
+        case 3:
+            moveVC.title = "여럿이서 찍기"
+        default:
+            print("에러")
+        }
         navigationController?.pushViewController(moveVC, animated: true)
     }
 }

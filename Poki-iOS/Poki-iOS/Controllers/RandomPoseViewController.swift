@@ -33,6 +33,16 @@ final class RandomPoseViewController: UIViewController {
         button.layer.cornerRadius = 30
         return button
     }()
+    
+    private lazy var buttonStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [bookmarkButton, refreshButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 20
+        return sv
+    }()
 
     // MARK: - Life Cycle
     
@@ -58,27 +68,25 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubviews(poseImageView, bookmarkButton, refreshButton)
+        view.addSubviews(poseImageView, buttonStackView)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
             poseImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            poseImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            poseImageView.widthAnchor.constraint(equalToConstant: 150),
-            poseImageView.heightAnchor.constraint(equalToConstant: 452)
+            poseImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+            poseImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
+            poseImageView.heightAnchor.constraint(equalToConstant: 480)
         ])
         NSLayoutConstraint.activate([
-            bookmarkButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            bookmarkButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            bookmarkButton.heightAnchor.constraint(equalToConstant: 60),
-            bookmarkButton.widthAnchor.constraint(equalToConstant: 60)
+            refreshButton.heightAnchor.constraint(equalToConstant: 60),
+            bookmarkButton.widthAnchor.constraint(equalToConstant: 60),
+            bookmarkButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         NSLayoutConstraint.activate([
-            refreshButton.leadingAnchor.constraint(equalTo: bookmarkButton.trailingAnchor, constant: 20),
-            refreshButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            refreshButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            refreshButton.heightAnchor.constraint(equalToConstant: 60)
+            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
         ])
     }
     
