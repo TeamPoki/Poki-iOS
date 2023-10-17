@@ -121,6 +121,7 @@ final class PoseSuggestionViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func numberOfPeopleButtonTapped(_ sender: UIButton) {
-        navigationController?.pushViewController(PhotoDetailViewController(), animated: true)
+        let moveVC = RandomPoseViewController()
+        navigationController?.pushViewController(moveVC, animated: true)
     }
 }
