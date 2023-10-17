@@ -24,6 +24,7 @@ final class PoseSuggestionViewController: UIViewController {
     
     private let imageConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium)
     
+    /// RandomPoseViewController 로 전환할 때 혼자서 찍기, 둘이서 찍기, 여럿이서 찍기인지 구분이 필요할 것 같아서 우선 버튼에 tag 를 넣어놨습니다!
     private lazy var aloneButton: UIButton = {
         let button = UIButton()
         button.setTitle("혼자서 찍기", for: .normal)
