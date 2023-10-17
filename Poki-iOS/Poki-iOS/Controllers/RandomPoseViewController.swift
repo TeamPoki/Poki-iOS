@@ -57,8 +57,12 @@ final class RandomPoseViewController: UIViewController {
     // MARK: - Helpers
     
     private func configure() {
+        configureNav()
         configure(refreshButton)
         configure(bookmarkButton)
+    }
+    
+    private func configureNav() {
     }
     
     private func configure(_ button: UIButton) {

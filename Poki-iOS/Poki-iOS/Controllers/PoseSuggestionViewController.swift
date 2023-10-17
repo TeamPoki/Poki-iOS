@@ -55,7 +55,7 @@ final class PoseSuggestionViewController: UIViewController {
         sv.axis = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
-        sv.spacing = 50
+        sv.spacing = 70
         return sv
     }()
 
@@ -64,14 +64,14 @@ final class PoseSuggestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureUI()
+        configure()
         addSubviews()
         setupLayout()
     }
     
     // MARK: - Helpers
     
-    private func configureUI() {
+    private func configure() {
         configureNav()
         [aloneButton, twoPeopleButton, manyPeopleButton].forEach { configure($0) }
     }
@@ -109,7 +109,7 @@ final class PoseSuggestionViewController: UIViewController {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            mainStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
         ])
