@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MessageUI
 import SnapKit
 import Then
 
@@ -13,150 +14,103 @@ class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let addButton: UIButton = {
-        let button = UIButton()
-        let image1 = UIImage(systemName: "photo")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        button.setImage(image1, for: .normal)
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let myPageTableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.register(CustomTableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
+        $0.register(CustomTableViewCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
+        $0.isScrollEnabled = false
+    }
     
-    private let bookMarkButton: UIButton = {
-        let button = UIButton()
-        let image1 = UIImage(systemName: "star")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        button.setImage(image1, for: .normal)
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private lazy var addButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "photo")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        $0.backgroundColor = .white
+        $0.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+    }
     
-    private let modifyProfileButton: UIButton = {
-        let button = UIButton()
-        let image1 = UIImage(named: "user-edit")
-        button.setImage(image1, for: .normal)
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(modifyProfileButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private lazy var bookMarkButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "star")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        $0.backgroundColor = .white
+        $0.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchUpInside)
+    }
     
-    private let userImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "image")
-        image.contentMode = .scaleAspectFit
-        image.layer.borderWidth = 1.0
-        image.layer.borderColor = UIColor.systemGray5.cgColor
-        image.clipsToBounds = true
-        
-        image.snp.makeConstraints { make in
-            make.width.equalTo(120)
-            make.height.equalTo(120)
-        }
-        
-        image.layer.cornerRadius = 120 / 2
-        
-        return image
-    }()
+    private lazy var modifyProfileButton = UIButton().then {
+        $0.setImage(UIImage(named: "user-edit"), for: .normal)
+        $0.backgroundColor = .white
+        $0.addTarget(self, action: #selector(modifyProfileButtonTapped), for: .touchUpInside)
+    }
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "포키"
-        label.textColor = .black
-        label.font = UIFont(name: Constants.fontBold, size: 20)
-        
-        return label
-    }()
+    private let userImage = UIImageView().then {
+        $0.image = UIImage(named: "image")
+        $0.contentMode = .scaleAspectFit
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.systemGray5.cgColor
+        $0.layer.cornerRadius = 120 / 2
+        $0.clipsToBounds = true
+    }
     
-    private let emailLabel: UILabel = {
-        let label = UILabel()
-        label.text = "pokopoki@gmail.com"
-        label.textColor = .lightGray
-        label.font = UIFont(name: Constants.fontLight, size: 14)
-        
-        return label
-    }()
+    private let nameLabel = UILabel().then {
+        $0.text = "포키"
+        $0.textColor = .black
+        $0.font = UIFont(name: Constants.fontBold, size: 20)
+    }
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [userImage, nameLabel, emailLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.alignment = .center
-        
-        return stackView
-    }()
+    private let emailLabel = UILabel().then {
+        $0.text = "pokopoki@gmail.com"
+        $0.textColor = .lightGray
+        $0.font = UIFont(name: Constants.fontLight, size: 14)
+    }
     
-    private let contentView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.systemGray5.cgColor
-        view.layer.cornerRadius = 10.0
-        view.clipsToBounds = true
-        return view
-    }()
+    private lazy var stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 10
+        $0.alignment = .center
+        $0.addArrangedSubviews(userImage,nameLabel, emailLabel)
+    }
     
-    private let subStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 40
-        stackView.alignment = .center
-        
-        return stackView
-    }()
+    private let contentView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.systemGray5.cgColor
+        $0.layer.cornerRadius = 10.0
+        $0.clipsToBounds = true
+    }
     
-    private lazy var addButtonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        
-        stackView.addArrangedSubview(addButton)
-        
-        let label = UILabel()
-        label.text = "네컷 추가하기"
-        label.font = UIFont(name: Constants.fontSemiBold, size: 14)
-        stackView.addArrangedSubview(label)
-        
-        return stackView
-    }()
+    private let subStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 40
+        $0.alignment = .center
+        $0.distribution = .equalSpacing
+    }
     
-    private lazy var bookMarkButtonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        
-        stackView.addArrangedSubview(bookMarkButton)
-        
-        let label = UILabel()
-        label.text = "찜 한 포즈"
-        label.font = UIFont(name: Constants.fontSemiBold, size: 14)
-        stackView.addArrangedSubview(label)
-        
-        return stackView
-    }()
+    private lazy var addButtonStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 10
+        $0.addArrangedSubview(addButton)
+        $0.addArrangedSubview(UILabel().then {
+            $0.text = "네컷 추가하기"
+            $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        })
+    }
     
-    private lazy var modifyProfileButtonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        
-        stackView.addArrangedSubview(modifyProfileButton)
-        
-        let label = UILabel()
-        label.text = "프로필 수정"
-        label.font = UIFont(name: Constants.fontSemiBold, size: 14)
-        stackView.addArrangedSubview(label)
-        
-        return stackView
-    }()
+    private lazy var bookMarkButtonStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 10
+        $0.addArrangedSubview(bookMarkButton)
+        $0.addArrangedSubview(UILabel().then {
+            $0.text = "찜 한 포즈"
+            $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        })
+    }
     
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = .white
-        //tableView.separatorStyle = .singleLine
-        
-        return tableView
-    }()
-    
+    private lazy var modifyProfileButtonStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 10
+        $0.addArrangedSubview(modifyProfileButton)
+        $0.addArrangedSubview(UILabel().then {
+            $0.text = "프로필 수정"
+            $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        })
+    }
     
     // MARK: - Life Cycle
     
@@ -164,44 +118,7 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureNav()
-        
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-        }
-        view.addSubview(contentView)
-        contentView.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(320)
-            make.height.equalTo(100)
-        }
-        
-        contentView.addSubview(subStackView)
-        subStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
-        }
-        subStackView.addArrangedSubview(addButtonStackView)
-        subStackView.addArrangedSubview(bookMarkButtonStackView)
-        subStackView.addArrangedSubview(modifyProfileButtonStackView)
-        subStackView.distribution = .equalSpacing
-        
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.bottom).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isScrollEnabled = false
+        configureUI()
     }
     
     // MARK: - Helpers
@@ -227,6 +144,54 @@ class MyPageViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
+    private func configureUI() {
+        myPageTableView.delegate = self
+        myPageTableView.dataSource = self
+        
+        view.addSubviews(myPageTableView, stackView, contentView)
+        contentView.addSubview(subStackView)
+        subStackView.addArrangedSubviews(addButtonStackView, bookMarkButtonStackView, modifyProfileButtonStackView)
+        
+        myPageTableView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(stackView.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(320)
+            $0.height.equalTo(100)
+        }
+        
+        subStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(10)
+        }
+        
+        userImage.snp.makeConstraints {
+            $0.width.equalTo(120)
+            $0.height.equalTo(120)
+        }
+    }
+    
+    private func retrieveAppVersion() -> String? {
+        guard let dictionary = Bundle.main.infoDictionary,
+              let version = dictionary["CFBundleShortVersionString"] as? String,
+              let build = dictionary["CFBundleVersion"] as? String else {
+            return nil
+        }
+        return "\(version).\(build)"
+    }
+    
     // MARK: - Actions
     // 네컷 추가하기, 찜 한 포즈, 프로필 수정에 사용
     @objc private func addButtonTapped() {
@@ -244,38 +209,41 @@ class MyPageViewController: UIViewController {
 }
 
 // MARK: - Extension
+
 extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath) as! CustomTableViewCell
         switch indexPath.row {
         case 0:
             cell.cellTextLabel.text = "APP 설정"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 16)
+            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
         case 1:
             cell.cellTextLabel.text = "문의하기"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 16)
+            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
         case 2:
             cell.cellTextLabel.text = "로그아웃"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 16)
+            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
         case 3:
             cell.appVersionLabel.text = "앱 버전"
-            cell.appVersionLabel.font = UIFont(name: Constants.fontSemiBold, size: 16)
-            cell.cellButton.setTitle("1.0.0", for: .normal)
+            cell.appVersionLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
+            guard let appVersion = retrieveAppVersion() else {
+                cell.cellButton.setTitle("버전 정보 없음", for: .normal)
+                break
+            }
+            cell.cellButton.setTitle(appVersion, for: .normal)
             
             let buttonFont = UIFont(name: Constants.fontSemiBold, size: 12)
             
@@ -288,8 +256,34 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.row {
+        case 0:
+            let settingsVC = SettingsViewController()
+            navigationController?.pushViewController(settingsVC, animated: true)
+        case 1:
+            if MFMailComposeViewController.canSendMail() {
+                let mailComposeVC = MFMailComposeViewController()
+                mailComposeVC.mailComposeDelegate = self
+                mailComposeVC.setToRecipients(["poki230709@gmail.com"])
+                mailComposeVC.setSubject("문의하기")
+                self.present(mailComposeVC, animated: true, completion: nil)
+            } else {
+                let alertController = UIAlertController(title: "문의 메일 보내기 실패", message: "문의를 보내기 위해선 \n 기기의 메일 설정이 필요합니다.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
+        case 2:
+            print("로그아웃 됨")
+        case 3:
+            break
+        default:
+            break
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 60.0
     }
 
@@ -310,49 +304,20 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
     }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == 3 {
+            return false
+        }
+        return true
+    }
+
 }
 
-class CustomTableViewCell: UITableViewCell {
-    
-    let cellButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    var cellTextLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont(name: Constants.fontLight, size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var appVersionLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont(name: Constants.fontLight, size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.addSubview(cellButton)
-        contentView.addSubview(cellTextLabel)
-        cellButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        cellButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        cellTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        cellTextLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        
-        contentView.addSubview(appVersionLabel)
-        appVersionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        appVersionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+// MARK: - MFMailComposeViewControllerDelegate
+
+extension MyPageViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
