@@ -2,8 +2,7 @@
 //  RandomPoseViewController.swift
 //  Poki-iOS
 //
-//  Created by playhong on 2023/10/17.
-//
+//  Created by playhong on 2023/10/17
 
 import UIKit
 
@@ -12,7 +11,6 @@ final class RandomPoseViewController: UIViewController {
     // MARK: - Components
     
     private let poseImageView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "alone-pose-1")
     }
     
@@ -29,7 +27,6 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private lazy var buttonStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .horizontal
         $0.alignment = .fill
         $0.distribution = .fill
@@ -58,7 +55,6 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func configure(_ button: UIButton) {
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.tintColor = .white
     }
@@ -69,22 +65,24 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            poseImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            poseImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
-            poseImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
-            poseImageView.heightAnchor.constraint(equalToConstant: 480)
-        ])
-        NSLayoutConstraint.activate([
-            refreshButton.heightAnchor.constraint(equalToConstant: 60),
-            bookmarkButton.widthAnchor.constraint(equalToConstant: 60),
-            bookmarkButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        NSLayoutConstraint.activate([
-            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-        ])
+        poseImageView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.leading.equalToSuperview().offset(100)
+            $0.trailing.equalToSuperview().inset(100)
+            $0.height.equalTo(480)
+        }
+        bookmarkButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+            $0.width.equalTo(60)
+        }
+        refreshButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        buttonStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
+        }
     }
     
     // MARK: - Actions
