@@ -10,75 +10,54 @@ import UIKit
 final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Components
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Constants.fontBold, size: 32)
-        label.text = "GOOD EATS"
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
-    }()
+    private let titleLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontBold, size: 32)
+        $0.text = "GOOD EATS"
+        $0.textColor = .white
+        $0.textAlignment = .center
+    }
     
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Constants.fontBold, size: 16)
-        label.text = "2023. 10. 16"
-        label.textColor = .white
-        label.textAlignment = .center
-        return label
-    }()
+    private let dateLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.text = "2023. 10. 16"
+        $0.textColor = .white
+        $0.textAlignment = .center
+    }
     
-    private let mainImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "인생네컷")
-        return iv
-    }()
+    private let mainImageView = UIImageView().then {
+        $0.image = UIImage(named: "necut-sample")
+    }
     
-    private lazy var mainStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [titleLabel, dateLabel, mainImageView])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .vertical
-        sv.distribution = .fill
-        sv.alignment = .fill
-        sv.setCustomSpacing(3, after: titleLabel)
-        sv.setCustomSpacing(20, after: dateLabel)
-        return sv
-    }()
+    private lazy var mainStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+    }
     
-    private let backgroundImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "인생네컷")
-        return iv
-    }()
+    private let backgroundImageView = UIImageView().then {
+        $0.image = UIImage(named: "necut-sample")
+    }
     
-    private lazy var backgroundBlurEffectView: UIVisualEffectView = {
-        let effectView = UIVisualEffectView()
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        effectView.effect = UIBlurEffect(style: .light)
-        return effectView
-    }()
+    private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
+        $0.effect = UIBlurEffect(style: .light)
+    }
     
-    private lazy var backButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "backButton"), style: .done, target: self, action: nil)
-        button.tintColor = .white
-        return button
-    }()
+    private lazy var backButton = UIBarButtonItem(image: UIImage(named: "backButton"),
+                                                  style: .done,
+                                                  target: self,
+                                                  action: nil).then {
+        $0.tintColor = .white
+    }
     
-    private lazy var menuButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: nil)
-        button.tintColor = .white
-        button.menu = detailMenu
-        return button
-    }()
+    private lazy var menuButton = UIBarButtonItem(image: UIImage(named: "ellipsis.circle"),
+                                                  style: .done,
+                                                  target: self,
+                                                  action: nil).then {
+        $0.tintColor = .white
+        $0.menu = self.detailMenu
+    }
     
-    private lazy var detailMenu: UIMenu = {
-        let menu = UIMenu(children: setupDetailMenuAction())
-        return menu
-    }()
+    private lazy var detailMenu = UIMenu(children: setupDetailMenuAction())
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -95,29 +74,32 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private func addSubViews() {
+        mainStackView.addArrangedSubviews(titleLabel, dateLabel, mainImageView)
         view.addSubview(backgroundImageView)
         backgroundImageView.addSubviews(backgroundBlurEffectView, mainStackView)
     }
     
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            backgroundBlurEffectView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor),
-            backgroundBlurEffectView.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor),
-            backgroundBlurEffectView.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor),
-            backgroundBlurEffectView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
-        ])
+        backgroundImageView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        backgroundBlurEffectView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        mainStackView.setCustomSpacing(3, after: self.titleLabel)
+        mainStackView.setCustomSpacing(20, after: self.dateLabel)
+        mainStackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
     }
     
     private func setupDetailMenuAction() -> [UIAction] {
