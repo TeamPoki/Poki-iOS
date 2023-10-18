@@ -7,22 +7,26 @@
 import UIKit
 
 final class RandomPoseViewController: UIViewController {
-    
+    // MARK: - Constants
+    private let poseImageName = "alone-pose-1"
+    private let refreshButtonTitle = "다른 포즈보기"
+    private let bookmarkButtonImageName = "star"
+
     // MARK: - Components
     
-    private let poseImageView = UIImageView().then {
-        $0.image = UIImage(named: "alone-pose-1")
+    private lazy var poseImageView = UIImageView().then {
+        $0.image = UIImage(named: poseImageName)
     }
     
-    private let refreshButton = UIButton().then {
+    private lazy var refreshButton = UIButton().then {
         $0.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 16)
-        $0.setTitle("다른 포즈보기", for: .normal)
+        $0.setTitle(self.refreshButtonTitle, for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         $0.layer.cornerRadius = 8
     }
     
-    private let bookmarkButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "star"), for: .normal)
+    private lazy var bookmarkButton = UIButton().then {
+        $0.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
         $0.layer.cornerRadius = 30
     }
     

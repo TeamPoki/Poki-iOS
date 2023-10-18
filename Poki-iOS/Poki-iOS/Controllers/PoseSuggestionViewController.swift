@@ -10,13 +10,24 @@ import SnapKit
 import Then
 
 final class PoseSuggestionViewController: UIViewController {
+    // MARK: - Constants
+    private let commentText = "인원수를 선택해주세요."
+    
+    private let aloneButtonText = "혼자서 찍기"
+    private let aloneButtonImageName = "person.fill"
+    
+    private let twoPeopleButtonText = "둘이서 찍기"
+    private let twoPeopleButtonImageName = "person.2.fill"
+    
+    private let manyPeopleButtonText = "여럿이서 찍기"
+    private let manyPeopleButtonImageName = "person.3.fill"
     
     // MARK: - Properties
     
-    private let commentLabel = UILabel().then {
+    private lazy var commentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont(name: Constants.fontSemiBold, size: 26)
-        $0.text = "인원수를 선택해주세요."
+        $0.text = self.commentText
         $0.textAlignment = .center
     }
     
@@ -24,20 +35,20 @@ final class PoseSuggestionViewController: UIViewController {
     
     /// RandomPoseViewController 로 전환할 때 혼자서 찍기, 둘이서 찍기, 여럿이서 찍기인지 구분이 필요할 것 같아서 우선 버튼에 tag 를 넣어놨습니다!
     private lazy var aloneButton = UIButton().then {
-        $0.setTitle("혼자서 찍기", for: .normal)
-        $0.setImage(UIImage(systemName: "person.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.setTitle(self.aloneButtonText, for: .normal)
+        $0.setImage(UIImage(systemName: self.aloneButtonImageName, withConfiguration: self.imageConfig), for: .normal)
         $0.tag = 1
     }
     
     private lazy var twoPeopleButton = UIButton().then {
-        $0.setTitle("둘이서 찍기", for: .normal)
-        $0.setImage(UIImage(systemName: "person.2.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.setTitle(self.twoPeopleButtonText, for: .normal)
+        $0.setImage(UIImage(systemName: self.twoPeopleButtonImageName, withConfiguration: self.imageConfig), for: .normal)
         $0.tag = 2
     }
     
     private lazy var manyPeopleButton = UIButton().then {
-        $0.setTitle("여럿이서 찍기", for: .normal)
-        $0.setImage(UIImage(systemName: "person.3.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.setTitle(self.manyPeopleButtonText, for: .normal)
+        $0.setImage(UIImage(systemName: self.manyPeopleButtonImageName, withConfiguration: self.imageConfig), for: .normal)
         $0.tag = 3
     }
     
@@ -119,11 +130,11 @@ final class PoseSuggestionViewController: UIViewController {
         let moveVC = RandomPoseViewController()
         switch sender.tag {
         case 1:
-            moveVC.title = "혼자서 찍기"
+            moveVC.title = self.aloneButtonText
         case 2:
-            moveVC.title = "둘이서 찍기"
+            moveVC.title = self.twoPeopleButtonText
         case 3:
-            moveVC.title = "여럿이서 찍기"
+            moveVC.title = self.manyPeopleButtonText
         default:
             print("에러")
         }
