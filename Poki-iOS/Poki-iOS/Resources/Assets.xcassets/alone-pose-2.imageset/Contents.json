@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "하루필름@2x.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "하루필름 1.jpg",
+      "filename" : "alone-pose-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "하루필름@3x.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
