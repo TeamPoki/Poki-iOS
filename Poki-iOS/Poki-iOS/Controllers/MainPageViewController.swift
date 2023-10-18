@@ -11,21 +11,32 @@ import Then
 import PhotosUI
 
 class MainPageViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
-    
-    
-    
-    
-    
+
+    private var photoListCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
+    }()
+
     // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureNav()
+        setupCollectionView()
+        photoListCollectionView.decelerationRate = .fast
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        photoListCollectionView.reloadData()
+    }
+
     // MARK: - Helpers
 
     private func configureNav() {
@@ -34,18 +45,18 @@ class MainPageViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         let logoBarButton = UIBarButtonItem(customView: imageView)
         navigationItem.leftBarButtonItem = logoBarButton
-        
+
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
             $0.shadowColor = nil
         }
-        
+
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.tintColor = .black
-        
+
         let galleryAction = UIAction(title: "갤러리에서 추가하기", image: UIImage(systemName: "photo"), handler: { _ in
             self.requestPhotoLibraryAccess()
         })
@@ -54,30 +65,39 @@ class MainPageViewController: UIViewController {
         })
 
         let menu = UIMenu(title: "", children: [galleryAction, cameraAction])
-        
+
         let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), primaryAction: nil, menu: menu)
         navigationItem.rightBarButtonItem = plusButton
     }
 
-    
+    private func setupCollectionView() {
+        view.addSubview(photoListCollectionView)
 
-    
-    
-    
-    
-    
-    // MARK: - Actions
-    private func setupImagePicker() {
-            var configuration = PHPickerConfiguration()
-            configuration.selectionLimit = 1
-            configuration.filter = .any(of: [.images, .videos])
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            self.present(picker, animated: true, completion: nil)
+        photoListCollectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
+        photoListCollectionView.delegate = self
+        photoListCollectionView.dataSource = self
+        photoListCollectionView.isPagingEnabled = false
+        photoListCollectionView.decelerationRate = .fast
+
+        photoListCollectionView.register(PhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "PhotoCell")
+    }
+
+    private func setupImagePicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images, .videos])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+
+    // MARK: - Actions
+
     func requestPhotoLibraryAccess() {
-        PHPhotoLibrary.requestAuthorization {  status in
+        PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
                 // 사용자가 권한을 허용한 경우
@@ -110,9 +130,70 @@ class MainPageViewController: UIViewController {
             }
         }
     }
-    
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+
+extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoListCollectionViewCell
+        cell.photoImage.image = UIImage(named: "necut-sample")
+        cell.titleLabel.text = "Jellyfish"
+
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension MainPageViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width * 0.8, height: collectionView.frame.height * 0.7)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: collectionView.frame.width * 0.1, bottom: 20, right: collectionView.frame.width * 0.1)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return -collectionView.frame.width * 0.2
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        updateCellAppearance(cell: cell, in: collectionView)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        for cell in photoListCollectionView.visibleCells {
+            updateCellAppearance(cell: cell, in: photoListCollectionView)
+        }
+    }
+
+    private func updateCellAppearance(cell: UICollectionViewCell, in collectionView: UICollectionView) {
+        let distanceFromCenter = abs(collectionView.frame.width / 2 - cell.center.x + collectionView.contentOffset.x)
+        let scale = max(0.7, 1 - distanceFromCenter / collectionView.frame.width)
+
+        cell.transform = CGAffineTransform(scaleX: scale, y: scale)
+        // 셀의 중앙 위치에서 얼마나 떨어져 있는지에 따라 알파 값을 조절
+        if distanceFromCenter > collectionView.frame.width / 2 {
+            cell.alpha = 0
+        } else {
+            cell.alpha = 1 - (distanceFromCenter / (collectionView.frame.width / 2))
+        }
+
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOpacity = 0.3
+        cell.layer.shadowOffset = CGSize(width: 0, height: 5)
+        cell.layer.shadowRadius = 10
+        cell.layer.masksToBounds = false
+    }
+}
+
+// MARK: - PHPickerViewControllerDelegate
 
 extension MainPageViewController: PHPickerViewControllerDelegate {
     // 사진이 선택이 된 후에 호출되는 메서드
@@ -122,7 +203,7 @@ extension MainPageViewController: PHPickerViewControllerDelegate {
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                 DispatchQueue.main.async {
-                    let addPhotoVC = AddPhotoViewController() 
+                    let addPhotoVC = AddPhotoViewController()
                     addPhotoVC.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(addPhotoVC, animated: true)
                     addPhotoVC.addPhotoView.photoImageView.image = image as? UIImage
