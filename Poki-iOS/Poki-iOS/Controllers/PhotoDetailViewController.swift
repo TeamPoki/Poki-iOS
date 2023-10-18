@@ -32,8 +32,6 @@ final class PhotoDetailViewController: UIViewController {
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.setCustomSpacing(5, after: self.titleLabel)
-        $0.setCustomSpacing(20, after: self.dateLabel)
     }
     
     private let backgroundImageView = UIImageView().then {
@@ -77,8 +75,6 @@ final class PhotoDetailViewController: UIViewController {
     
     private func addSubViews() {
         mainStackView.addArrangedSubviews(titleLabel, dateLabel, mainImageView)
-        mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(20, after: dateLabel)
         view.addSubview(backgroundImageView)
         backgroundImageView.addSubviews(backgroundBlurEffectView, mainStackView)
     }
@@ -96,6 +92,8 @@ final class PhotoDetailViewController: UIViewController {
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+        mainStackView.setCustomSpacing(3, after: self.titleLabel)
+        mainStackView.setCustomSpacing(20, after: self.dateLabel)
         mainStackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(20)
