@@ -11,7 +11,6 @@ final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Components
     private let titleLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont(name: Constants.fontBold, size: 32)
         $0.text = "GOOD EATS"
         $0.textColor = .white
@@ -19,7 +18,6 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private let dateLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.text = "2023. 10. 16"
         $0.textColor = .white
@@ -27,26 +25,22 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private let mainImageView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "인생네컷")
+        $0.image = UIImage(named: "necut-sample")
     }
     
     private lazy var mainStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.setCustomSpacing(3, after: titleLabel)
-        $0.setCustomSpacing(20, after: dateLabel)
+        $0.setCustomSpacing(5, after: self.titleLabel)
+        $0.setCustomSpacing(20, after: self.dateLabel)
     }
     
     private let backgroundImageView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "인생네컷")
+        $0.image = UIImage(named: "necut-sample")
     }
     
     private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.effect = UIBlurEffect(style: .light)
     }
     
@@ -83,29 +77,31 @@ final class PhotoDetailViewController: UIViewController {
     
     private func addSubViews() {
         mainStackView.addArrangedSubviews(titleLabel, dateLabel, mainImageView)
+        mainStackView.setCustomSpacing(5, after: titleLabel)
+        mainStackView.setCustomSpacing(20, after: dateLabel)
         view.addSubview(backgroundImageView)
         backgroundImageView.addSubviews(backgroundBlurEffectView, mainStackView)
     }
     
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            backgroundBlurEffectView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor),
-            backgroundBlurEffectView.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor),
-            backgroundBlurEffectView.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor),
-            backgroundBlurEffectView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
-        ])
+        backgroundImageView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        backgroundBlurEffectView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        mainStackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
     }
     
     private func setupDetailMenuAction() -> [UIAction] {
