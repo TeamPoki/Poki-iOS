@@ -1,13 +1,15 @@
 //
-//  NotiveListViewController.swift
+//  NoticeListViewController.swift
 //  Poki-iOS
 //
 //  Created by Insu on 10/16/23.
 //
 
 import UIKit
+import SnapKit
+import Then
 
-class NotiveListViewController: UIViewController {
+class NoticeListViewController: UIViewController {
     
     // MARK: - Properties
     
