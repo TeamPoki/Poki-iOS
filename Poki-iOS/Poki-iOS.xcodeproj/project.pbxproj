@@ -14,7 +14,7 @@
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
 		EB5255C52ADCC2C200B73A89 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C42ADCC2C200B73A89 /* Tag.swift */; };
-		EB7119002ADC5A9100CD19D6 /* NotiveListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7118FF2ADC5A9100CD19D6 /* NotiveListViewController.swift */; };
+		EB7119002ADC5A9100CD19D6 /* NoticeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */; };
 		EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */; };
 		EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF202ADB92A9008586BC /* CustomTabBarController.swift */; };
 		EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF222ADB9390008586BC /* MyPageViewController.swift */; };
@@ -33,6 +33,7 @@
 		EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */; };
 		EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */; };
 		EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */; };
+		EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */; };
 		EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */; };
 		EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */; };
 		EBE4FA902ADA7D1300EFFE54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */; };
@@ -55,7 +56,7 @@
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EB5255C42ADCC2C200B73A89 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		EB7118FF2ADC5A9100CD19D6 /* NotiveListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiveListViewController.swift; sourceTree = "<group>"; };
+		EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewController.swift; sourceTree = "<group>"; };
 		EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeletionViewController.swift; sourceTree = "<group>"; };
 		EB98AF202ADB92A9008586BC /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		EB98AF222ADB9390008586BC /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +75,7 @@
 		EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoListCollectionViewCell.swift; path = "Poki-iOS/Views/MainPage/PhotoListCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,17 +107,10 @@
 			isa = PBXGroup;
 			children = (
 				EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */,
-				EB7118FF2ADC5A9100CD19D6 /* NotiveListViewController.swift */,
+				EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */,
 				EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */,
 			);
 			path = SettingVC;
-			sourceTree = "<group>";
-		};
-		EB98AF3E2ADBC6BA008586BC /* MyPage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MyPage;
 			sourceTree = "<group>";
 		};
 		EBC495E92ADFBAA5001EE564 /* MainPage */ = {
@@ -124,6 +119,14 @@
 				EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */,
 			);
 			path = MainPage;
+			sourceTree = "<group>";
+		};
+		EBC495EB2AE0109E001EE564 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 		EBE4FA7A2ADA7D1200EFFE54 = {
@@ -218,7 +221,7 @@
 				EBC495E92ADFBAA5001EE564 /* MainPage */,
 				F9030B262ADE0E34007C5043 /* TagViewPage */,
 				F9030B212ADD0CA9007C5043 /* AddPhtoPage */,
-				EB98AF3E2ADBC6BA008586BC /* MyPage */,
+				EBC495EB2AE0109E001EE564 /* MyPage */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -358,12 +361,12 @@
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
 				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
 				051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */,
-				EB7119002ADC5A9100CD19D6 /* NotiveListViewController.swift in Sources */,
 				EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */,
 				EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */,
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
 				EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */,
 				EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */,
+				EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */,
 				EB98AF252ADB93CA008586BC /* PoseSuggestionViewController.swift in Sources */,
 				EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */,
 				F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */,
