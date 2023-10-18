@@ -31,6 +31,7 @@
 		EB98AF3B2ADBC4D9008586BC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3A2ADBC4D9008586BC /* Extensions.swift */; };
 		EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */; };
 		EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */; };
+		EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */; };
 		EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */; };
 		EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */; };
 		EBE4FA902ADA7D1300EFFE54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */; };
@@ -70,6 +71,7 @@
 		EB98AF3A2ADBC4D9008586BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		EB98AF3C2ADBC667008586BC /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
+				EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				EBE4FAA12ADA7DF600EFFE54 /* Constants.swift in Sources */,
 				EB98AF3B2ADBC4D9008586BC /* Extensions.swift in Sources */,
 				F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */,
+				EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */,
 				EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */,
 				EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */,
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
