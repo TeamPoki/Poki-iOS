@@ -51,12 +51,16 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private lazy var backButton = UIBarButtonItem(image: UIImage(named: "backButton"),
-                                                  style: .done, target: self, action: nil).then {
+                                                  style: .done,
+                                                  target: self,
+                                                  action: nil).then {
         $0.tintColor = .white
     }
     
     private lazy var menuButton = UIBarButtonItem(image: UIImage(named: "ellipsis.circle"),
-                                                  style: .done, target: self, action: nil).then {
+                                                  style: .done,
+                                                  target: self,
+                                                  action: nil).then {
         $0.tintColor = .white
         $0.menu = self.detailMenu
     }
