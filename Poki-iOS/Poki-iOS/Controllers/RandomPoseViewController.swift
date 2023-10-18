@@ -11,38 +11,30 @@ final class RandomPoseViewController: UIViewController {
     
     // MARK: - Components
     
-    private let poseImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "alone-pose-1")
-        return iv
-    }()
+    private let poseImageView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "alone-pose-1")
+    }
     
-    private let refreshButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 16)
-        button.setTitle("다른 포즈보기", for: .normal)
-        button.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
-        button.layer.cornerRadius = 8
-        return button
-    }()
+    private let refreshButton = UIButton().then {
+        $0.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 16)
+        $0.setTitle("다른 포즈보기", for: .normal)
+        $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
+        $0.layer.cornerRadius = 8
+    }
     
-    private let bookmarkButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.layer.cornerRadius = 30
-        return button
-    }()
+    private let bookmarkButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "star"), for: .normal)
+        $0.layer.cornerRadius = 30
+    }
     
-    private lazy var buttonStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [bookmarkButton, refreshButton])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .horizontal
-        sv.alignment = .fill
-        sv.distribution = .fill
-        sv.spacing = 20
-        return sv
-    }()
+    private lazy var buttonStackView = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.spacing = 20
+    }
 
     // MARK: - Life Cycle
     
@@ -72,6 +64,7 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func addSubviews() {
+        buttonStackView.addArrangedSubviews(bookmarkButton, refreshButton)
         view.addSubviews(poseImageView, buttonStackView)
     }
     
