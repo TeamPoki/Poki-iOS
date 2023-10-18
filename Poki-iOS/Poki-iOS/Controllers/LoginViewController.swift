@@ -22,7 +22,9 @@ class LoginViewController: UIViewController {
     }
     
     private let signUpButton = UIButton().then {
+        $0.titleLabel?.font = UIFont(name: Constants.fontMedium, size: 12)
         $0.setTitle("회원가입", for: .normal)
+        $0.setTitleColor(UIColor.gray, for: .normal)
         $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
 
@@ -45,7 +47,7 @@ class LoginViewController: UIViewController {
     // MARK: - Helpers
     
     private func addSubviews() {
-        buttonStackView.addArrangedSubviews(kakakoLoginButton, emailLoginButton)
+        buttonStackView.addArrangedSubviews(kakakoLoginButton, emailLoginButton, signUpButton)
         view.addSubviews(buttonStackView)
     }
     
