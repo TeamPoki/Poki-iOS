@@ -52,6 +52,8 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func configureNav() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configure(_ button: UIButton) {
@@ -66,10 +68,10 @@ final class RandomPoseViewController: UIViewController {
     
     private func setupLayout() {
         poseImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
             $0.leading.equalToSuperview().offset(100)
             $0.trailing.equalToSuperview().inset(100)
-            $0.height.equalTo(480)
+            $0.height.equalTo(500)
         }
         bookmarkButton.snp.makeConstraints {
             $0.height.equalTo(60)
@@ -81,7 +83,7 @@ final class RandomPoseViewController: UIViewController {
         buttonStackView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
         }
     }
     
