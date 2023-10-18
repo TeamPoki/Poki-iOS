@@ -13,51 +13,41 @@ final class PoseSuggestionViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let commentLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Constants.fontSemiBold, size: 26)
-        label.text = "인원수를 선택해주세요."
-        label.textAlignment = .center
-        return label
-    }()
+    private let commentLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 26)
+        $0.text = "인원수를 선택해주세요."
+        $0.textAlignment = .center
+    }
     
     private let imageConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium)
     
     /// RandomPoseViewController 로 전환할 때 혼자서 찍기, 둘이서 찍기, 여럿이서 찍기인지 구분이 필요할 것 같아서 우선 버튼에 tag 를 넣어놨습니다!
-    private lazy var aloneButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("혼자서 찍기", for: .normal)
-        button.setImage(UIImage(systemName: "person.fill", withConfiguration: self.imageConfig), for: .normal)
-        button.tag = 1
-        return button
-    }()
+    private lazy var aloneButton = UIButton().then {
+        $0.setTitle("혼자서 찍기", for: .normal)
+        $0.setImage(UIImage(systemName: "person.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.tag = 1
+    }
     
-    private lazy var twoPeopleButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("둘이서 찍기", for: .normal)
-        button.setImage(UIImage(systemName: "person.2.fill", withConfiguration: self.imageConfig), for: .normal)
-        button.tag = 2
-        return button
-    }()
+    private lazy var twoPeopleButton = UIButton().then {
+        $0.setTitle("둘이서 찍기", for: .normal)
+        $0.setImage(UIImage(systemName: "person.2.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.tag = 2
+    }
     
-    private lazy var manyPeopleButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("여럿이서 찍기", for: .normal)
-        button.setImage(UIImage(systemName: "person.3.fill", withConfiguration: self.imageConfig), for: .normal)
-        button.tag = 3
-        return button
-    }()
+    private lazy var manyPeopleButton = UIButton().then {
+        $0.setTitle("여럿이서 찍기", for: .normal)
+        $0.setImage(UIImage(systemName: "person.3.fill", withConfiguration: self.imageConfig), for: .normal)
+        $0.tag = 3
+    }
     
-    private lazy var mainStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [commentLabel, aloneButton, twoPeopleButton, manyPeopleButton])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .vertical
-        sv.alignment = .fill
-        sv.distribution = .fill
-        sv.spacing = 70
-        return sv
-    }()
+    private lazy var mainStackView = UIStackView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.spacing = 70
+    }
 
     // MARK: - Life Cycle
     
@@ -104,6 +94,7 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func addSubviews() {
+        mainStackView.addArrangedSubviews(commentLabel, aloneButton, twoPeopleButton, manyPeopleButton)
         view.addSubview(mainStackView)
     }
     
