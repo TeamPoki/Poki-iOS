@@ -36,15 +36,15 @@ class TagCollectionViewCell: UICollectionViewCell {
     private func setup() {
         [tagImageView, tagLabel].forEach{ contentView.addSubview($0) }
         self.layer.cornerRadius = 7
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.systemGray2.cgColor
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor.systemGray4.cgColor
         tagImageView.layer.cornerRadius = tagImageView.frame.size.height / 2
         
         tagImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
-            $0.height.equalTo(45)
-            $0.width.equalTo(45)
+            $0.height.equalTo(30)
+            $0.width.equalTo(30)
         }
         
         
