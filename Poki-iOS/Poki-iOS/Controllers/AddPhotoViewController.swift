@@ -30,6 +30,7 @@ final class AddPhotoViewController: UIViewController {
         setup()
         setupTapGestures()
         tagButtonTapped()
+        datePickerTapped()
     }
     
     // MARK: - Helpers
@@ -63,6 +64,10 @@ final class AddPhotoViewController: UIViewController {
     
     private func tagButtonTapped() {
         addPhotoView.tagAddButton.addTarget(self, action: #selector(tagButtonAction), for: .touchUpInside)
+    }
+    
+    private func datePickerTapped() {
+        addPhotoView.datePicker.addTarget(self, action: #selector(dateButtonAction), for: .valueChanged)
     }
     
     // MARK: - Actions
@@ -106,6 +111,14 @@ final class AddPhotoViewController: UIViewController {
         tagViewController.transitioningDelegate = self
         tagViewController.delegate = self
         present(tagViewController, animated: true, completion: nil)
+    }
+    
+    @objc private func dateButtonAction() {
+        let formmater = DateFormatter()
+        formmater.dateFormat = "yyyy년 MM월 dd일"
+        formmater.locale = Locale(identifier: "ko_KR")
+        self.addPhotoView.dateTextField.text = formmater.string(from: self.addPhotoView.datePicker.date)
+        self.view.endEditing(true)
     }
     
 }

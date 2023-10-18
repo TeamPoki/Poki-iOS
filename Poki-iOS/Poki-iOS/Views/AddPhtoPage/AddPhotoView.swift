@@ -22,28 +22,34 @@ final class AddPhotoView: UIView {
         $0.text = "날짜"
     }
     
-    let dateButtonTapped = UIButton(type: .custom).then {
+    let dateTextField = UITextField().then {
+        $0.textColor = .gray
         $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
-        $0.setTitle("날짜를 선택해 주세요", for: .normal)
-        $0.setTitleColor(.gray, for: .normal)
+        $0.borderStyle = .roundedRect
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
+        $0.clearsOnBeginEditing = false
+        $0.placeholder = "날짜를 선택해 주세요"
         $0.layer.cornerRadius = 7
-        $0.contentHorizontalAlignment = .left
-    }
-    
-    lazy var dateStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.distribution  = .fill
-        $0.alignment = .fill
-        $0.spacing = 0
-        $0.addArrangedSubviews(dateLabel, dateButtonTapped)
     }
     
     let datePicker = UIDatePicker().then {
         $0.datePickerMode = .date
         $0.preferredDatePickerStyle = .inline
-        $0.date = .now
         $0.sizeToFit()
+        $0.locale = Locale(identifier: "ko_KR")
     }
+    
+    lazy var dateStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution  = .fillProportionally
+        $0.alignment = .fill
+        $0.spacing = 0
+        $0.addArrangedSubviews(dateLabel, dateTextField)
+    }
+    
+  
     
     let memoLabel = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 12)
@@ -83,7 +89,7 @@ final class AddPhotoView: UIView {
         $0.backgroundColor = .clear
         $0.imageView?.contentMode = .scaleAspectFit
     }
-  
+    
     
     lazy var tagStackView = UIStackView().then {
         $0.axis = .vertical
@@ -98,7 +104,7 @@ final class AddPhotoView: UIView {
         $0.setTitle("작성완료", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 7
-      
+        
     }
     
     
@@ -109,6 +115,7 @@ final class AddPhotoView: UIView {
         backgroundColor = .white
         setup()
         layoutSetup()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -118,13 +125,14 @@ final class AddPhotoView: UIView {
     // MARK: - Actions
     private func setup() {
         [photoImageView, dateStackView, memoStackView, tagStackView, addButton].forEach { addSubview($0) }
+        dateTextField.inputView = datePicker
     }
     
     private func layoutSetup() {
-        dateButtonTapped.snp.makeConstraints {
+        dateTextField.snp.makeConstraints {
             $0.height.equalTo(40)
+            
         }
-                
         memoTextField.snp.makeConstraints {
             $0.height.equalTo(40)
         }
@@ -132,7 +140,7 @@ final class AddPhotoView: UIView {
         tagLabel.snp.makeConstraints {
             $0.height.equalTo(25)
         }
-
+        
         photoImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(120)
@@ -162,14 +170,28 @@ final class AddPhotoView: UIView {
             $0.bottom.equalToSuperview().inset(60)
             $0.height.equalTo(40)
         }
-        
-//        tagAddButton.snp.makeConstraints {
-//            $0.leading.equalToSuperview()
-//            $0.trailing.equalToSuperview()
-//            $0.bottom.equalToSuperview()
-//            $0.height.equalTo(40)
-//        }
+
         
     }
+    
+    //datePicker done 버튼
+//    private func creatToolBar() -> UIToolbar {
+//        let toolbar = UIToolbar()
+//        toolbar.sizeToFit()
+//        
+//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+//        toolbar.setItems([doneButton], animated: true)
+//        
+//        return toolbar
+//    }
+//    
+//    @objc private func donePressed() {
+//        let formmater = DateFormatter()
+//        formmater.dateFormat = "yyyy년 MM월 dd일"
+//        formmater.locale = Locale(identifier: "ko_KR")
+//        //데이터를 넣을 곳
+//        self.dateTextField.text = formmater.string(from: datePicker.date)
+//        self.endEditing(true)
+//    }
     
 }
