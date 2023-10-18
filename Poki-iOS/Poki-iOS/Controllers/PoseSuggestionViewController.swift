@@ -42,7 +42,6 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private lazy var mainStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fill
@@ -82,7 +81,6 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func configure(_ button: UIButton) {
-        button.translatesAutoresizingMaskIntoConstraints = false
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.imagePadding = 10
         button.configuration = buttonConfig
@@ -99,19 +97,24 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func setupLayout() {
-        NSLayoutConstraint.activate([
-            mainStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-        ])
-        NSLayoutConstraint.activate([
-            aloneButton.heightAnchor.constraint(equalToConstant: 60),
-            twoPeopleButton.heightAnchor.constraint(equalToConstant: 60),
-            manyPeopleButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
+        aloneButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        twoPeopleButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        manyPeopleButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        mainStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
+            $0.centerY.equalToSuperview()
+        }
     }
     
     // MARK: - Actions
+    
     @objc private func numberOfPeopleButtonTapped(_ sender: UIButton) {
         let moveVC = RandomPoseViewController()
         switch sender.tag {
