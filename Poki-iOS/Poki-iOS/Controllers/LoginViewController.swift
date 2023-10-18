@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     
     private let emailLoginButton = UIButton().then {
         $0.setImage(UIImage(named: "Email Login"), for: .normal)
+        $0.addTarget(self, action: #selector(emailLoginButtonTapped), for: .touchUpInside)
     }
     
     private let signUpButton = UIButton().then {
@@ -60,7 +61,12 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func signUpButtonTapped() {
+    @objc private func emailLoginButtonTapped(_ sender: UIButton) {
+        let moveVC = EmailLoginViewController()
+        navigationController?.pushViewController(moveVC, animated: true)
+    }
+    
+    @objc private func signUpButtonTapped(_ sender: UIButton) {
         print("회원가입 버튼 눌렀어유~")
     }
 }

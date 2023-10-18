@@ -10,11 +10,11 @@
 		0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */; };
 		0511354C2ADE46550045513A /* RandomPoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511354B2ADE46550045513A /* RandomPoseViewController.swift */; };
 		051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D12ADFDB9D00597886 /* LoginViewController.swift */; };
+		051A60D42AE08F4400597886 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D32AE08F4400597886 /* EmailLoginViewController.swift */; };
 		EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255BE2ADCBCF800B73A89 /* Photos.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
 		EB5255C52ADCC2C200B73A89 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C42ADCC2C200B73A89 /* Tag.swift */; };
-		EB7119002ADC5A9100CD19D6 /* NoticeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */; };
 		EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */; };
 		EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF202ADB92A9008586BC /* CustomTabBarController.swift */; };
 		EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF222ADB9390008586BC /* MyPageViewController.swift */; };
@@ -52,6 +52,7 @@
 		051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		0511354B2ADE46550045513A /* RandomPoseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPoseViewController.swift; sourceTree = "<group>"; };
 		051A60D12ADFDB9D00597886 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		051A60D32AE08F4400597886 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		EB5255BE2ADCBCF800B73A89 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -238,6 +239,7 @@
 				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
 				051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */,
 				051A60D12ADFDB9D00597886 /* LoginViewController.swift */,
+				051A60D32AE08F4400597886 /* EmailLoginViewController.swift */,
 				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 			);
 			path = Controllers;
@@ -358,6 +360,7 @@
 				EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */,
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
 				0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */,
+				051A60D42AE08F4400597886 /* EmailLoginViewController.swift in Sources */,
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
 				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
 				051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */,
