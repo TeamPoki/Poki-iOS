@@ -73,7 +73,7 @@
 		EB98AF3A2ADBC4D9008586BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoListCollectionViewCell.swift; path = "Poki-iOS/Views/MainPage/PhotoListCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,26 +111,19 @@
 			path = SettingVC;
 			sourceTree = "<group>";
 		};
-		EB98AF3C2ADBC667008586BC /* MainPage */ = {
-			isa = PBXGroup;
-			children = (
-				EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */,
-			);
-			path = MainPage;
-			sourceTree = "<group>";
-		};
-		EB98AF3D2ADBC6A5008586BC /* PoseSuggestionPage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PoseSuggestionPage;
-			sourceTree = "<group>";
-		};
 		EB98AF3E2ADBC6BA008586BC /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		EBC495E92ADFBAA5001EE564 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */,
+			);
+			path = MainPage;
 			sourceTree = "<group>";
 		};
 		EBE4FA7A2ADA7D1200EFFE54 = {
@@ -222,10 +215,9 @@
 		EBE4FAA32ADA7E3800EFFE54 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EBC495E92ADFBAA5001EE564 /* MainPage */,
 				F9030B262ADE0E34007C5043 /* TagViewPage */,
 				F9030B212ADD0CA9007C5043 /* AddPhtoPage */,
-				EB98AF3C2ADBC667008586BC /* MainPage */,
-				EB98AF3D2ADBC6A5008586BC /* PoseSuggestionPage */,
 				EB98AF3E2ADBC6BA008586BC /* MyPage */,
 			);
 			path = Views;

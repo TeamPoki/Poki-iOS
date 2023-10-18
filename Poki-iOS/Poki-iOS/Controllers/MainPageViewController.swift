@@ -30,7 +30,6 @@ class MainPageViewController: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
-        photoListCollectionView.decelerationRate = .fast
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,8 +78,7 @@ class MainPageViewController: UIViewController {
 
         photoListCollectionView.delegate = self
         photoListCollectionView.dataSource = self
-        photoListCollectionView.isPagingEnabled = false
-        photoListCollectionView.decelerationRate = .fast
+        photoListCollectionView.isPagingEnabled = true
 
         photoListCollectionView.register(PhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "PhotoCell")
     }
@@ -175,7 +173,7 @@ extension MainPageViewController: UICollectionViewDelegateFlowLayout {
 
     private func updateCellAppearance(cell: UICollectionViewCell, in collectionView: UICollectionView) {
         let distanceFromCenter = abs(collectionView.frame.width / 2 - cell.center.x + collectionView.contentOffset.x)
-        let scale = max(0.7, 1 - distanceFromCenter / collectionView.frame.width)
+        let scale = max(0.75, 1 - distanceFromCenter / collectionView.frame.width)
 
         cell.transform = CGAffineTransform(scaleX: scale, y: scale)
         // 셀의 중앙 위치에서 얼마나 떨어져 있는지에 따라 알파 값을 조절
