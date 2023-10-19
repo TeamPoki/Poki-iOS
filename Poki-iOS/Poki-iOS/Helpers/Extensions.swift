@@ -32,6 +32,7 @@ extension UIStackView {
 // MARK: - UINavgationController
 
 extension UINavigationController {
+    // UINavigationBarAppearance 공통 적용을 위해 구현
     func configureAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
