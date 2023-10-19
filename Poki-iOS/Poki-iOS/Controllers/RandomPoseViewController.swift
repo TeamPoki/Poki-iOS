@@ -56,7 +56,7 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func configureNav() {
-        navigationController?.configureAppearance()
+        navigationController?.configureLineAppearance()
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.topItem?.title = ""
     }

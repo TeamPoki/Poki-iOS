@@ -36,9 +36,21 @@ extension UINavigationController {
     func configureAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
+            $0.backgroundColor = .clear
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
+            $0.shadowColor = nil
+        }
+        self.navigationBar.standardAppearance = appearance
+        self.navigationBar.compactAppearance = appearance
+        self.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    // 포즈 추천 페이지, 랜덤 포즈 페이지에서 사용하는 UINavigationBarAppearance
+    func configureLineAppearance() {
+        let appearance = UINavigationBarAppearance().then {
+            $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
             $0.titleTextAttributes = [.foregroundColor: UIColor.black]
-            $0.shadowColor = .lightGray
         }
         self.navigationBar.standardAppearance = appearance
         self.navigationBar.compactAppearance = appearance

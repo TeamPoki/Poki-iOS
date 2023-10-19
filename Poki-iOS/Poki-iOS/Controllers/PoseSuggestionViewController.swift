@@ -78,7 +78,7 @@ final class PoseSuggestionViewController: UIViewController {
 
     private func configureNav() {
         navigationItem.title = "포즈 추천"
-        navigationController?.configureAppearance()
+        navigationController?.configureLineAppearance()
     }
     
     private func configure(_ button: UIButton) {
