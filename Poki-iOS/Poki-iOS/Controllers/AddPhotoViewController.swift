@@ -58,7 +58,7 @@ final class AddPhotoViewController: UIViewController {
         self.view.addSubview(addPhotoView)
         
         addPhotoView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
