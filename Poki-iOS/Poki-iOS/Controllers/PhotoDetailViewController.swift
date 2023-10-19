@@ -71,6 +71,7 @@ final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Helper
     private func configureNav() {
+        navigationController?.configureAppearance()
         navigationItem.leftBarButtonItem = self.backButton
         navigationItem.rightBarButtonItem = self.menuButton
     }

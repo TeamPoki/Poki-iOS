@@ -78,17 +78,7 @@ final class PoseSuggestionViewController: UIViewController {
 
     private func configureNav() {
         navigationItem.title = "포즈 추천"
-        
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
-            $0.shadowColor = .lightGray
-        }
-        
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.configureAppearance()
     }
     
     private func configure(_ button: UIButton) {
