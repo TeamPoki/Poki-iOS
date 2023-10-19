@@ -69,10 +69,14 @@ final class PoseSuggestionViewController: UIViewController {
         setupLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNav()
+    }
+    
     // MARK: - Helpers
     
     private func configure() {
-        configureNav()
         [aloneButton, twoPeopleButton, manyPeopleButton].forEach { configure($0) }
     }
 
