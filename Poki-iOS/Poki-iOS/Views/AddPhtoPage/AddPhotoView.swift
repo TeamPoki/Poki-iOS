@@ -85,11 +85,25 @@ final class AddPhotoView: UIView {
         $0.text = "태그"
     }
     
+    let tagImageView = UIImageView().then {
+        $0.clipsToBounds = true
+        $0.backgroundColor = .clear
+        $0.image = UIImage(named: "addButton")
+    }
+    
+    
     let tagAddButton = UIButton(type: .custom).then {
-        $0.setImage(UIImage(named: "addButton"), for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.backgroundColor = .clear
         $0.imageView?.contentMode = .scaleAspectFit
+    }
+    
+    lazy var imageStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution  = .equalSpacing
+        $0.alignment = .leading
+        $0.spacing = 10
+        $0.addArrangedSubviews(tagImageView, tagAddButton)
     }
     
     
@@ -98,7 +112,7 @@ final class AddPhotoView: UIView {
         $0.distribution  = .equalSpacing
         $0.alignment = .leading
         $0.spacing = 0
-        $0.addArrangedSubviews(tagLabel, tagAddButton)
+        $0.addArrangedSubviews(tagLabel, imageStackView)
     }
     
     let addButton = UIButton(type: .custom).then {
@@ -149,6 +163,11 @@ final class AddPhotoView: UIView {
             $0.bottom.equalTo(dateStackView.snp.top).offset(-20)
         }
         
+        tagImageView.snp.makeConstraints {
+            $0.height.equalTo(30)
+            $0.width.equalTo(30)
+        }
+        
         dateStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(65)
@@ -158,6 +177,10 @@ final class AddPhotoView: UIView {
             $0.top.equalTo(dateStackView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(65)
+        }
+        
+        imageStackView.snp.makeConstraints {
+            $0.height.equalTo(40)
         }
         
         tagStackView.snp.makeConstraints {

@@ -28,9 +28,10 @@ final class AddPhotoViewController: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setup()
-        setupTapGestures()
+        mainImageSetupTapGestures()
         tagButtonTapped()
         datePickerTapped()
+        tagImageSetupTapGestures()
     }
     
     // MARK: - Helpers
@@ -69,6 +70,7 @@ final class AddPhotoViewController: UIViewController {
     private func datePickerTapped() {
         addPhotoView.datePicker.addTarget(self, action: #selector(dateButtonAction), for: .valueChanged)
     }
+
     
     // MARK: - Actions
     
@@ -85,7 +87,13 @@ final class AddPhotoViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func setupTapGestures() {
+    private func tagImageSetupTapGestures() {
+           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tagImageTapped))
+        addPhotoView.tagImageView.addGestureRecognizer(tapGesture)
+        addPhotoView.tagImageView.isUserInteractionEnabled = true
+       }
+    
+    private func mainImageSetupTapGestures() {
            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpImageView))
         addPhotoView.photoImageView.addGestureRecognizer(tapGesture)
         addPhotoView.photoImageView.isUserInteractionEnabled = true
@@ -119,6 +127,11 @@ final class AddPhotoViewController: UIViewController {
         formmater.locale = Locale(identifier: "ko_KR")
         self.addPhotoView.dateTextField.text = formmater.string(from: self.addPhotoView.datePicker.date)
         self.view.endEditing(true)
+    }
+    
+    
+    @objc private func tagImageTapped() {
+        tagButtonAction()
     }
     
 }
@@ -157,7 +170,7 @@ let sheetPresentationController = UISheetPresentationController(presentedViewCon
 extension AddPhotoViewController: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
-        addPhotoView.tagAddButton.setImage(tag.tagImage, for: .normal)
+        addPhotoView.tagImageView.image = tag.tagImage
     }
     
     
