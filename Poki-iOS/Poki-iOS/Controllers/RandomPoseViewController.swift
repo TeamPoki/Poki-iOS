@@ -41,15 +41,21 @@ final class RandomPoseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         configure()
         addSubviews()
         setupLayout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     // MARK: - Helpers
     
     private func configure() {
+        view.backgroundColor = .white
+        tabBarController?.tabBar.isHidden = true
         configureNav()
         configure(refreshButton)
         configure(bookmarkButton)
