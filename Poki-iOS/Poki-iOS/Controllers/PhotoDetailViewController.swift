@@ -44,13 +44,6 @@ final class PhotoDetailViewController: UIViewController {
         $0.effect = UIBlurEffect(style: .light)
     }
     
-    private lazy var backButton = UIBarButtonItem(image: UIImage(named: "backButton"),
-                                                  style: .done,
-                                                  target: self,
-                                                  action: nil).then {
-        $0.tintColor = .white
-    }
-    
     private lazy var menuButton = UIBarButtonItem(image: UIImage(named: "ellipsis.circle"),
                                                   style: .done,
                                                   target: self,
@@ -71,9 +64,10 @@ final class PhotoDetailViewController: UIViewController {
     
     // MARK: - Helper
     private func configureNav() {
-        navigationController?.configureAppearance()
-        navigationItem.leftBarButtonItem = self.backButton
         navigationItem.rightBarButtonItem = self.menuButton
+        navigationController?.configureAppearance()
+        navigationController?.navigationBar.topItem?.title = ""
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func addSubViews() {

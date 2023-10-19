@@ -21,7 +21,7 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     
     var titleLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont.boldSystemFont(ofSize: 18)
+        $0.font = UIFont(name: Constants.fontExtraBold, size: 32)
     }
     
     // MARK: - Initialization

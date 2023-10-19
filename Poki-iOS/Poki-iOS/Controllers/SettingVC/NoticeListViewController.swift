@@ -2,7 +2,7 @@
 //  NoticeListViewController.swift
 //  Poki-iOS
 //
-//  Created by Insu on 10/16/23.
+//  Created by Insu on 10/19/23.
 //
 
 import UIKit
@@ -38,5 +38,6 @@ class NoticeListViewController: UIViewController {
     
     
     
+
 
 }

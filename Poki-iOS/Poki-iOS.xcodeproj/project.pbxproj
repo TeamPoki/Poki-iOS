@@ -34,6 +34,7 @@
 		EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */; };
 		EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */; };
 		EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */; };
+		EBE195442AE117D000AC5647 /* NoticeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE195432AE117D000AC5647 /* NoticeListViewController.swift */; };
 		EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */; };
 		EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */; };
 		EBE4FA902ADA7D1300EFFE54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */; };
@@ -57,7 +58,6 @@
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EB5255C42ADCC2C200B73A89 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewController.swift; sourceTree = "<group>"; };
 		EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDeletionViewController.swift; sourceTree = "<group>"; };
 		EB98AF202ADB92A9008586BC /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		EB98AF222ADB9390008586BC /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +77,7 @@
 		EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoListCollectionViewCell.swift; path = "Poki-iOS/Views/MainPage/PhotoListCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		EBE195432AE117D000AC5647 /* NoticeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewController.swift; sourceTree = "<group>"; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,7 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */,
-				EB7118FF2ADC5A9100CD19D6 /* NoticeListViewController.swift */,
+				EBE195432AE117D000AC5647 /* NoticeListViewController.swift */,
 				EB7119022ADC5B2200CD19D6 /* AccountDeletionViewController.swift */,
 			);
 			path = SettingVC;
@@ -352,6 +353,7 @@
 			files = (
 				0511354C2ADE46550045513A /* RandomPoseViewController.swift in Sources */,
 				EB5255C52ADCC2C200B73A89 /* Tag.swift in Sources */,
+				EBE195442AE117D000AC5647 /* NoticeListViewController.swift in Sources */,
 				EBE4FAA12ADA7DF600EFFE54 /* Constants.swift in Sources */,
 				EB98AF3B2ADBC4D9008586BC /* Extensions.swift in Sources */,
 				F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */,
