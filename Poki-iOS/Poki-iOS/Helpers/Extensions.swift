@@ -29,4 +29,19 @@ extension UIStackView {
     }
 }
 
-// MARK: - 
+// MARK: - UINavgationController
+
+extension UINavigationController {
+    // UINavigationBarAppearance 공통 적용을 위해 구현
+    func configureAppearance() {
+        let appearance = UINavigationBarAppearance().then {
+            $0.configureWithOpaqueBackground()
+            $0.backgroundColor = .white
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
+            $0.shadowColor = .lightGray
+        }
+        self.navigationBar.standardAppearance = appearance
+        self.navigationBar.compactAppearance = appearance
+        self.navigationBar.scrollEdgeAppearance = appearance
+    }
+}
