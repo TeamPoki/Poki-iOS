@@ -29,6 +29,11 @@ class SettingsViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     // MARK: - Helpers
     
     private func configureNav() {
