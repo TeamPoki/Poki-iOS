@@ -18,6 +18,12 @@ final class AddPhotoView: UIView {
         $0.backgroundColor = .red
     }
     
+    lazy var imageBackgroundView = UIView().then {
+        $0.backgroundColor = UIColor.black
+        $0.layer.masksToBounds = true
+        $0.addSubview(photoImageView)
+    }
+    
     let dateLabel = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 12)
         $0.textColor = .black
@@ -140,7 +146,7 @@ final class AddPhotoView: UIView {
     
     // MARK: - Actions
     private func setup() {
-        [photoImageView, dateStackView, memoStackView, tagStackView, addButton].forEach { addSubview($0) }
+        [imageBackgroundView, dateStackView, memoStackView, tagStackView, addButton].forEach { addSubview($0) }
         dateTextField.inputView = datePicker
     }
     
@@ -157,10 +163,15 @@ final class AddPhotoView: UIView {
             $0.height.equalTo(25)
         }
         
+        imageBackgroundView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(dateStackView.snp.top).offset(-20)
+        }
+        
         photoImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(120)
-            $0.bottom.equalTo(dateStackView.snp.top).offset(-20)
+            $0.leading.trailing.equalToSuperview().inset(100)
+            $0.bottom.equalToSuperview()
         }
         
         tagImageView.snp.makeConstraints {
