@@ -69,6 +69,11 @@ final class PoseSuggestionViewController: UIViewController {
         setupLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = "포즈 추천"
+    }
+    
     // MARK: - Helpers
     
     private func configure() {
