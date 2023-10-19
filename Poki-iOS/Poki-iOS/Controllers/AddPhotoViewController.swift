@@ -61,6 +61,8 @@ final class AddPhotoViewController: UIViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).inset(20)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        addPhotoView.memoTextField.delegate = self
     }
     
     private func tagButtonTapped() {
@@ -70,6 +72,8 @@ final class AddPhotoViewController: UIViewController {
     private func datePickerTapped() {
         addPhotoView.datePicker.addTarget(self, action: #selector(dateButtonAction), for: .valueChanged)
     }
+    
+   
 
     
     // MARK: - Actions
@@ -149,6 +153,13 @@ final class AddPhotoViewController: UIViewController {
             }
         }
     }
+    
+    //키보드 관련
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+ 
 }
 
 
@@ -188,6 +199,33 @@ extension AddPhotoViewController: TagSelectionDelegate {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
         addPhotoView.tagImageView.image = tag.tagImage
     }
+}
+
+extension AddPhotoViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        addPhotoView.memoTextField.resignFirstResponder()
+        return true
+    }
     
-    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+         animateViewMoving(up: true)
+     }
+     
+     func textFieldDidEndEditing(_ textField: UITextField) {
+         animateViewMoving(up: false)
+     }
+     
+     // 키보드가 나타날 때 뷰를 이동시키는 메서드
+     func animateViewMoving(up: Bool) {
+         let movement: CGFloat = (up ? -keyboardOffset() : keyboardOffset())
+         
+         UIView.animate(withDuration: 0.3) {
+             self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+         }
+     }
+     
+     // 키보드의 높이 반환
+     func keyboardOffset() -> CGFloat {
+         return addPhotoView.memoTextField.frame.origin.y + addPhotoView.memoTextField.frame.height
+     }
 }
