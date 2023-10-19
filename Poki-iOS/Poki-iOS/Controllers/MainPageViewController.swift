@@ -94,6 +94,19 @@ class MainPageViewController: UIViewController {
 
     // MARK: - Actions
 
+    private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
+        let maxSizeInBytes: Int = 4 * 1024 * 1024
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            if imageData.count > maxSizeInBytes {
+                let alertController = UIAlertController(title: "경고", message: "이미지 파일이 너무 큽니다.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                picker.dismiss(animated: true, completion: nil)
+                present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func requestPhotoLibraryAccess() {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
@@ -201,10 +214,12 @@ extension MainPageViewController: PHPickerViewControllerDelegate {
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                 DispatchQueue.main.async {
+                    let dataImage = image as? UIImage
+                    self.limitedImageUpload(image: dataImage!, picker: picker)
                     let addPhotoVC = AddPhotoViewController()
                     addPhotoVC.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(addPhotoVC, animated: true)
-                    addPhotoVC.addPhotoView.photoImageView.image = image as? UIImage
+                    addPhotoVC.addPhotoView.photoImageView.image = dataImage
                 }
             }
         } else {
