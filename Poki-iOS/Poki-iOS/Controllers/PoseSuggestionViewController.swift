@@ -71,13 +71,12 @@ final class PoseSuggestionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "포즈 추천"
+        configureNav()
     }
     
     // MARK: - Helpers
     
     private func configure() {
-        configureNav()
         [aloneButton, twoPeopleButton, manyPeopleButton].forEach { configure($0) }
     }
 
