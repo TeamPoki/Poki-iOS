@@ -157,6 +157,11 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
 
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photoDetailVC = PhotoDetailViewController()
+        self.navigationController?.pushViewController(photoDetailVC, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

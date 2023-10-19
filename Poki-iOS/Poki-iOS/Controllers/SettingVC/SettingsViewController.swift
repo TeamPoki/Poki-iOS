@@ -20,9 +20,13 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureNav()
         setupTableView()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNav()
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     // MARK: - Helpers
@@ -98,12 +102,9 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedData = data[indexPath.row]
-        
-        //print("선택한 항목: \(selectedData)")
         if selectedData == "공지사항" {
-//            let noticeListViewController = NoticeListViewController()
-//            navigationController?.pushViewController(noticeListViewController, animated: true)
-            print("공지사항 눌림")
+            let noticeListViewController = NoticeListViewController()
+            navigationController?.pushViewController(noticeListViewController, animated: true)
         } else if selectedData == "탈퇴하기" {
             let accountDeletionViewController = AccountDeletionViewController()
             navigationController?.pushViewController(accountDeletionViewController, animated: true)
