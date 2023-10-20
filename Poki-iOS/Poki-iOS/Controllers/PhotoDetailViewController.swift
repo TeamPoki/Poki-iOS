@@ -44,7 +44,7 @@ final class PhotoDetailViewController: UIViewController {
         $0.effect = UIBlurEffect(style: .light)
     }
     
-    private lazy var menuButton = UIBarButtonItem(image: UIImage(named: "ellipsis.circle"),
+    private lazy var menuButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                   style: .done,
                                                   target: self,
                                                   action: nil).then {
@@ -66,6 +66,7 @@ final class PhotoDetailViewController: UIViewController {
     private func configureNav() {
         navigationItem.rightBarButtonItem = self.menuButton
         navigationController?.configureAppearance()
+        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.topItem?.title = ""
         tabBarController?.tabBar.isHidden = true
     }
@@ -101,12 +102,19 @@ final class PhotoDetailViewController: UIViewController {
     
     private func setupDetailMenuAction() -> [UIAction] {
         let update = UIAction(title: "수정하기", image: UIImage(systemName: "highlighter")) { _ in
-            print("수정하기 클릭~") }
-        let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
             print("공유하기 클릭~") }
+        let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
+            self.shareMenuTapped() }
         let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
             print("삭제하기 클릭~") }
         let actions = [update, share, delete]
         return actions
+    }
+    
+    private func shareMenuTapped() {
+        let title = "네컷 공유하기"
+        let image = UIImage(named: "necut-sample") ?? UIImage()
+        let activityVC = UIActivityViewController(activityItems: [title, image], applicationActivities: nil)
+        present(activityVC, animated: true)
     }
 }
