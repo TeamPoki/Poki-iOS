@@ -113,8 +113,7 @@ final class PhotoDetailViewController: UIViewController {
     
     private func shareMenuTapped() {
         let title = "네컷 공유하기"
-        let image = UIImage(named: "necut-sample") ?? UIImage()
-        let activityVC = UIActivityViewController(activityItems: [title, image], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: [title], applicationActivities: nil)
         present(activityVC, animated: true)
     }
 }
