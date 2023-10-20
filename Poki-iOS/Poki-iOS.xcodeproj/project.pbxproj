@@ -35,6 +35,11 @@
 		EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */; };
 		EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */; };
 		EBE195442AE117D000AC5647 /* NoticeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE195432AE117D000AC5647 /* NoticeListViewController.swift */; };
+		EBE195472AE158AD00AC5647 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EBE195462AE158AD00AC5647 /* FirebaseAnalytics */; };
+		EBE195532AE158AD00AC5647 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EBE195522AE158AD00AC5647 /* FirebaseAuth */; };
+		EBE1955F2AE158AD00AC5647 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EBE1955E2AE158AD00AC5647 /* FirebaseFirestore */; };
+		EBE195792AE158AD00AC5647 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = EBE195782AE158AD00AC5647 /* FirebaseStorage */; };
+		EBE1957D2AE16C8000AC5647 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBE1957C2AE16C8000AC5647 /* GoogleService-Info.plist */; };
 		EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */; };
 		EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */; };
 		EBE4FA902ADA7D1300EFFE54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */; };
@@ -78,6 +83,7 @@
 		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoListCollectionViewCell.swift; path = "Poki-iOS/Views/MainPage/PhotoListCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		EBE195432AE117D000AC5647 /* NoticeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewController.swift; sourceTree = "<group>"; };
+		EBE1957C2AE16C8000AC5647 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,8 +102,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBE195532AE158AD00AC5647 /* FirebaseAuth in Frameworks */,
+				EBE195792AE158AD00AC5647 /* FirebaseStorage in Frameworks */,
+				EBE1955F2AE158AD00AC5647 /* FirebaseFirestore in Frameworks */,
 				EBE4FAAD2ADA7E8900EFFE54 /* SnapKit in Frameworks */,
 				EBE4FAA72ADA7E6F00EFFE54 /* Kingfisher in Frameworks */,
+				EBE195472AE158AD00AC5647 /* FirebaseAnalytics in Frameworks */,
 				EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,6 +168,7 @@
 				EBE4FAA42ADA7E4200EFFE54 /* Controllers */,
 				EBE4FA912ADA7D1300EFFE54 /* LaunchScreen.storyboard */,
 				EBE4FA942ADA7D1300EFFE54 /* Info.plist */,
+				EBE1957C2AE16C8000AC5647 /* GoogleService-Info.plist */,
 			);
 			path = "Poki-iOS";
 			sourceTree = "<group>";
@@ -282,6 +293,10 @@
 				EBE4FAA62ADA7E6F00EFFE54 /* Kingfisher */,
 				EBE4FAA92ADA7E7A00EFFE54 /* Then */,
 				EBE4FAAC2ADA7E8900EFFE54 /* SnapKit */,
+				EBE195462AE158AD00AC5647 /* FirebaseAnalytics */,
+				EBE195522AE158AD00AC5647 /* FirebaseAuth */,
+				EBE1955E2AE158AD00AC5647 /* FirebaseFirestore */,
+				EBE195782AE158AD00AC5647 /* FirebaseStorage */,
 			);
 			productName = "Poki-iOS";
 			productReference = EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */;
@@ -315,6 +330,7 @@
 				EBE4FAA52ADA7E6F00EFFE54 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				EBE4FAA82ADA7E7A00EFFE54 /* XCRemoteSwiftPackageReference "Then" */,
 				EBE4FAAB2ADA7E8900EFFE54 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = EBE4FA842ADA7D1200EFFE54 /* Products */;
 			projectDirPath = "";
@@ -335,6 +351,7 @@
 				EB98AF312ADBC3AB008586BC /* SUIT-Bold.ttf in Resources */,
 				EB98AF352ADBC3AB008586BC /* SUIT-Thin.ttf in Resources */,
 				EB98AF322ADBC3AB008586BC /* SUIT-Heavy.ttf in Resources */,
+				EBE1957D2AE16C8000AC5647 /* GoogleService-Info.plist in Resources */,
 				EB98AF362ADBC3AB008586BC /* SUIT-Light.ttf in Resources */,
 				EBE4FA932ADA7D1300EFFE54 /* LaunchScreen.storyboard in Resources */,
 				EB98AF332ADBC3AB008586BC /* SUIT-SemiBold.ttf in Resources */,
@@ -604,6 +621,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.16.0;
+			};
+		};
 		EBE4FAA52ADA7E6F00EFFE54 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -631,6 +656,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EBE195462AE158AD00AC5647 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		EBE195522AE158AD00AC5647 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		EBE1955E2AE158AD00AC5647 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		EBE195782AE158AD00AC5647 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		EBE4FAA62ADA7E6F00EFFE54 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EBE4FAA52ADA7E6F00EFFE54 /* XCRemoteSwiftPackageReference "Kingfisher" */;
