@@ -11,7 +11,11 @@ import Then
 
 final class PhotoDetailViewController: UIViewController {
     
-    var photoData: Photo?
+    var photoData: Photo? {
+        didSet {
+            setupPhotoData()
+        }
+    }
     var indexPath: IndexPath?
     
     // MARK: - Components
@@ -29,9 +33,7 @@ final class PhotoDetailViewController: UIViewController {
         $0.textAlignment = .center
     }
     
-    private let mainImageView = UIImageView().then {
-        $0.image = UIImage(named: "necut-sample")
-    }
+    private let mainImageView = UIImageView()
     
     private lazy var mainStackView = UIStackView().then {
         $0.axis = .vertical
@@ -39,9 +41,7 @@ final class PhotoDetailViewController: UIViewController {
         $0.alignment = .fill
     }
     
-    private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "necut-sample")
-    }
+    private let backgroundImageView = UIImageView()
     
     private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
         $0.effect = UIBlurEffect(style: .light)
@@ -106,6 +106,13 @@ final class PhotoDetailViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
+    }
+    
+    private func setupPhotoData() {
+        self.mainImageView.image = photoData?.image
+        self.backgroundImageView.image = photoData?.image
+        self.titleLabel.text = photoData?.memo
+        self.dateLabel.text = photoData?.date
     }
     
     private func setupDetailMenuAction() -> [UIAction] {
