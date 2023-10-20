@@ -27,7 +27,8 @@ class NetworkingManager {
         photoList[index] = photo
     }
     
-    func delete(_ photo: Photo) {
-        
+    func delete(index: Int?) {
+        guard let index = index else { return }
+        photoList.remove(at: index)
     }
 }

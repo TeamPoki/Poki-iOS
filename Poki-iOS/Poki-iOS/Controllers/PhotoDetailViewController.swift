@@ -11,6 +11,15 @@ import Then
 
 final class PhotoDetailViewController: UIViewController {
     
+    var photoData: Photo? {
+        didSet {
+            setupPhotoData()
+        }
+    }
+    var indexPath: IndexPath?
+    
+    private let dataManager = NetworkingManager.shared
+    
     // MARK: - Components
     private let titleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 32)
@@ -26,9 +35,7 @@ final class PhotoDetailViewController: UIViewController {
         $0.textAlignment = .center
     }
     
-    private let mainImageView = UIImageView().then {
-        $0.image = UIImage(named: "necut-sample")
-    }
+    private let mainImageView = UIImageView()
     
     private lazy var mainStackView = UIStackView().then {
         $0.axis = .vertical
@@ -36,9 +43,7 @@ final class PhotoDetailViewController: UIViewController {
         $0.alignment = .fill
     }
     
-    private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "necut-sample")
-    }
+    private let backgroundImageView = UIImageView()
     
     private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
         $0.effect = UIBlurEffect(style: .light)
@@ -64,7 +69,7 @@ final class PhotoDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .black
     }
     
     // MARK: - Helper
@@ -73,7 +78,6 @@ final class PhotoDetailViewController: UIViewController {
         navigationController?.configureAppearance()
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.topItem?.title = ""
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func addSubViews() {
@@ -105,20 +109,52 @@ final class PhotoDetailViewController: UIViewController {
         }
     }
     
+    private func setupPhotoData() {
+        self.mainImageView.image = photoData?.image
+        self.backgroundImageView.image = photoData?.image
+        self.titleLabel.text = photoData?.memo
+        self.dateLabel.text = photoData?.date
+    }
+    
     private func setupDetailMenuAction() -> [UIAction] {
         let update = UIAction(title: "수정하기", image: UIImage(systemName: "highlighter")) { _ in
-            print("공유하기 클릭~") }
+            self.editMenuTapped() }
         let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
             self.shareMenuTapped() }
         let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-            print("삭제하기 클릭~") }
+            self.deleteMenuTapped() }
         let actions = [update, share, delete]
         return actions
+    }
+    
+    private func showAlertMessage() {
+        let alert = UIAlertController(title: "사진 삭제하기", message: "선택한 사진을 삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.dataManager.delete(index: self?.indexPath?.row)
+            self?.navigationController?.popViewController(animated: true)
+        })
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Actions
+    
+    private func editMenuTapped() {
+        let moveVC = AddPhotoViewController()
+        moveVC.hidesBottomBarWhenPushed = true
+        moveVC.viewSeperated = .edit
+        moveVC.photoData = self.photoData
+        moveVC.indexPath = self.indexPath
+        navigationController?.pushViewController(moveVC, animated: true)
     }
     
     private func shareMenuTapped() {
         let title = "네컷 공유하기"
         let activityVC = UIActivityViewController(activityItems: [title], applicationActivities: nil)
         present(activityVC, animated: true)
+    }
+    
+    private func deleteMenuTapped() {
+        showAlertMessage()
     }
 }
