@@ -11,6 +11,9 @@ import Then
 
 final class PhotoDetailViewController: UIViewController {
     
+    var photoData: Photo?
+    var indexPath: IndexPath?
+    
     // MARK: - Components
     private let titleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 32)
@@ -107,13 +110,24 @@ final class PhotoDetailViewController: UIViewController {
     
     private func setupDetailMenuAction() -> [UIAction] {
         let update = UIAction(title: "수정하기", image: UIImage(systemName: "highlighter")) { _ in
-            print("공유하기 클릭~") }
+            self.editMenuTapped() }
         let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
             self.shareMenuTapped() }
         let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
             print("삭제하기 클릭~") }
         let actions = [update, share, delete]
         return actions
+    }
+    
+    // MARK: - Actions
+    
+    private func editMenuTapped() {
+        let moveVC = AddPhotoViewController()
+        moveVC.hidesBottomBarWhenPushed = true
+        moveVC.viewSeperated = .edit
+        moveVC.photoData = self.photoData
+        moveVC.indexPath = self.indexPath
+        navigationController?.pushViewController(moveVC, animated: true)
     }
     
     private func shareMenuTapped() {

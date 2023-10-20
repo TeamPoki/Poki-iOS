@@ -37,6 +37,7 @@ final class AddPhotoViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureNav()
+        configuration()
         setup()
         mainImageSetupTapGestures()
         tagButtonTapped()

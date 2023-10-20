@@ -162,7 +162,8 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
-        //photoDetailVC.photoData = dataManager.read()[indexPath.row]
+        photoDetailVC.photoData = dataManager.read()[indexPath.row]
+        photoDetailVC.indexPath = indexPath
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
