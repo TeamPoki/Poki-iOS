@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseStorage
 
 class NetworkingManager {
     static let shared = NetworkingManager()
+    let db = Firestore.firestore()
     private var photoList: [Photo] = []
     private init() {}
     
