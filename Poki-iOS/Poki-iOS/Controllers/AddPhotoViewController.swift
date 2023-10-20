@@ -81,6 +81,7 @@ final class AddPhotoViewController: UIViewController {
         guard let photoData = photoData else { return }
         switch self.viewSeperated {
         case .edit:
+            navigationItem.title = "수정하기"
             addPhotoView.photoImageView.image = photoData.image
             addPhotoView.dateTextField.text = photoData.date
             addPhotoView.memoTextField.text = photoData.memo
