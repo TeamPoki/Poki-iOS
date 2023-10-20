@@ -67,7 +67,7 @@ final class PhotoDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .black
     }
     
     // MARK: - Helper
@@ -76,7 +76,6 @@ final class PhotoDetailViewController: UIViewController {
         navigationController?.configureAppearance()
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.topItem?.title = ""
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func addSubViews() {

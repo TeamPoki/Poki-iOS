@@ -164,6 +164,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         let photoDetailVC = PhotoDetailViewController()
         photoDetailVC.photoData = dataManager.read()[indexPath.row]
         photoDetailVC.indexPath = indexPath
+        photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
