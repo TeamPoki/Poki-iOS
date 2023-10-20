@@ -7,5 +7,8 @@
 
 import UIKit
 
+struct Photos {
+    // 필요할 때 정의예정
+}
 
 
