@@ -8,8 +8,8 @@
 import UIKit
 
 struct TagModel {
-    let tagLabel: String
-    let tagImage: UIImage
+    var tagLabel: String
+    var tagImage: UIImage
 }
 
 

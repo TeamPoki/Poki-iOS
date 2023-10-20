@@ -13,15 +13,15 @@ class NetworkingManager {
     private init() {}
     
     func create(_ photo: Photo) {
-        
+        photoList.append(photo)
     }
     
-    func read(_ photos: [Photo]) -> [Photo] {
-        return photos
+    func read() -> [Photo] {
+        return photoList
     }
     
-    func update(_ photo: Photo) {
-        
+    func update(_ photo: Photo, index: Int) {
+        photoList[index] = photo
     }
     
     func delete(_ photo: Photo) {

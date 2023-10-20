@@ -102,6 +102,7 @@ final class AddPhotoView: UIView {
         $0.setTitleColor(.black, for: .normal)
         $0.backgroundColor = .clear
         $0.imageView?.contentMode = .scaleAspectFit
+        $0.setTitle("", for: .normal)
     }
     
     lazy var imageStackView = UIStackView().then {
