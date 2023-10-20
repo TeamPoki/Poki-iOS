@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CustomTableViewCell: UITableViewCell {
+class MyPageMenuTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     

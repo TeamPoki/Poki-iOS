@@ -16,8 +16,8 @@ class MyPageViewController: UIViewController {
     
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
-        $0.register(CustomTableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
-        $0.register(CustomTableViewCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
+        $0.register(MyPageMenuTableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
+        $0.register(MyPageMenuTableViewCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
         $0.isScrollEnabled = false
     }
     
@@ -216,7 +216,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath) as! MyPageMenuTableViewCell
         switch indexPath.row {
         case 0:
             cell.cellTextLabel.text = "APP 설정"
