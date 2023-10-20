@@ -12,14 +12,9 @@ import Then
 class NoticeListViewController: UIViewController {
     
     // MARK: - Properties
-    private let tableView = UITableView()
     
-//    private let titleLabel = UILabel().then {
-//        $0.textAlignment = .center
-//        $0.textColor = .black
-//        $0.text = "공지사항"
-//        $0.font = UIFont(name: Constants.fontBold, size: 20)
-//    }
+    private let tableView = UITableView()
+
     private let noticeItems: [NoticeItem] = [
         NoticeItem(title: "중요한 공지사항", date: "2023.10.20"),
         NoticeItem(title: "새로운 업데이트 안내", date: "2023.10.18"),
@@ -60,16 +55,14 @@ class NoticeListViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    
     private func configureNav() {
         navigationItem.title = "공지사항"
         
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
-            
-            let titleFont = UIFont(name: Constants.font, size: 15)
-            
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black, .font: titleFont]
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
             $0.shadowColor = nil
         }
         
@@ -94,7 +87,8 @@ class NoticeListViewController: UIViewController {
     
 }
 
-// MARK: - Extension
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension NoticeListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

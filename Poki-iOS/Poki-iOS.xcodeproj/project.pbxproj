@@ -33,7 +33,7 @@
 		EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */; };
 		EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */; };
 		EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */; };
-		EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */; };
+		EBC495ED2AE0111D001EE564 /* MyPageMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* MyPageMenuTableViewCell.swift */; };
 		EBE195442AE117D000AC5647 /* NoticeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE195432AE117D000AC5647 /* NoticeListViewController.swift */; };
 		EBE195472AE158AD00AC5647 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EBE195462AE158AD00AC5647 /* FirebaseAnalytics */; };
 		EBE195532AE158AD00AC5647 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EBE195522AE158AD00AC5647 /* FirebaseAuth */; };
@@ -49,6 +49,10 @@
 		EBE4FAA72ADA7E6F00EFFE54 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA62ADA7E6F00EFFE54 /* Kingfisher */; };
 		EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA92ADA7E7A00EFFE54 /* Then */; };
 		EBE4FAAD2ADA7E8900EFFE54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAAC2ADA7E8900EFFE54 /* SnapKit */; };
+		EBF75BDA2AE24B6B00A11652 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF75BD92AE24B6B00A11652 /* Notice.swift */; };
+		EBF75BDE2AE24C7F00A11652 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF75BDD2AE24C7F00A11652 /* ProfileEditViewController.swift */; };
+		EBF75BE02AE24D6600A11652 /* LikedPoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF75BDF2AE24D6600A11652 /* LikedPoseViewController.swift */; };
+		EBF75BE22AE254B700A11652 /* NoticeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF75BE12AE254B700A11652 /* NoticeListTableViewCell.swift */; };
 		F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */; };
 		F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B242ADE0E28007C5043 /* TagViewController.swift */; };
 		F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */; };
@@ -81,7 +85,7 @@
 		EB98AF3F2ADBDF6B008586BC /* AddPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		EB98AF412ADBDF7D008586BC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoListCollectionViewCell.swift; path = "Poki-iOS/Views/MainPage/PhotoListCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		EBC495EC2AE0111D001EE564 /* MyPageMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MyPageMenuTableViewCell.swift; path = "Poki-iOS/Views/MyPage/MyPageMenuTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBE195432AE117D000AC5647 /* NoticeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListViewController.swift; sourceTree = "<group>"; };
 		EBE1957C2AE16C8000AC5647 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Poki-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +96,10 @@
 		EBE4FA942ADA7D1300EFFE54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EBF75BD92AE24B6B00A11652 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		EBF75BDD2AE24C7F00A11652 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		EBF75BDF2AE24D6600A11652 /* LikedPoseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPoseViewController.swift; sourceTree = "<group>"; };
+		EBF75BE12AE254B700A11652 /* NoticeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeListTableViewCell.swift; sourceTree = "<group>"; };
 		F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		F9030B242ADE0E28007C5043 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -131,14 +139,6 @@
 				EBC495E42ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift */,
 			);
 			path = MainPage;
-			sourceTree = "<group>";
-		};
-		EBC495EB2AE0109E001EE564 /* MyPage */ = {
-			isa = PBXGroup;
-			children = (
-				EBC495EC2AE0111D001EE564 /* CustomTableViewCell.swift */,
-			);
-			path = MyPage;
 			sourceTree = "<group>";
 		};
 		EBE4FA7A2ADA7D1200EFFE54 = {
@@ -224,6 +224,7 @@
 				EB5255C02ADCC0B000B73A89 /* Photo.swift */,
 				EB5255C22ADCC2B700B73A89 /* User.swift */,
 				EB5255C42ADCC2C200B73A89 /* Tag.swift */,
+				EBF75BD92AE24B6B00A11652 /* Notice.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -233,8 +234,9 @@
 			children = (
 				EBC495E92ADFBAA5001EE564 /* MainPage */,
 				F9030B262ADE0E34007C5043 /* TagViewPage */,
-				F9030B212ADD0CA9007C5043 /* AddPhtoPage */,
-				EBC495EB2AE0109E001EE564 /* MyPage */,
+				F9030B212ADD0CA9007C5043 /* AddPhotoPage */,
+				EBF75BD52AE24ACD00A11652 /* MyPage */,
+				EBF75BD62AE24ADF00A11652 /* SettingPage */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,21 +250,47 @@
 				F9030B242ADE0E28007C5043 /* TagViewController.swift */,
 				EB98AF242ADB93C9008586BC /* PoseSuggestionViewController.swift */,
 				0511354B2ADE46550045513A /* RandomPoseViewController.swift */,
-				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
 				051135492ADD0CFF0045513A /* PhotoDetailViewController.swift */,
 				051A60D12ADFDB9D00597886 /* LoginViewController.swift */,
 				051A60D32AE08F4400597886 /* EmailLoginViewController.swift */,
+				EBF75BDB2AE24C5400A11652 /* MyPageVC */,
 				EB7119012ADC5AA500CD19D6 /* SettingVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		F9030B212ADD0CA9007C5043 /* AddPhtoPage */ = {
+		EBF75BD52AE24ACD00A11652 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				EBC495EC2AE0111D001EE564 /* MyPageMenuTableViewCell.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		EBF75BD62AE24ADF00A11652 /* SettingPage */ = {
+			isa = PBXGroup;
+			children = (
+				EBF75BE12AE254B700A11652 /* NoticeListTableViewCell.swift */,
+			);
+			path = SettingPage;
+			sourceTree = "<group>";
+		};
+		EBF75BDB2AE24C5400A11652 /* MyPageVC */ = {
+			isa = PBXGroup;
+			children = (
+				EB98AF222ADB9390008586BC /* MyPageViewController.swift */,
+				EBF75BDD2AE24C7F00A11652 /* ProfileEditViewController.swift */,
+				EBF75BDF2AE24D6600A11652 /* LikedPoseViewController.swift */,
+			);
+			path = MyPageVC;
+			sourceTree = "<group>";
+		};
+		F9030B212ADD0CA9007C5043 /* AddPhotoPage */ = {
 			isa = PBXGroup;
 			children = (
 				F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */,
 			);
-			path = AddPhtoPage;
+			path = AddPhotoPage;
 			sourceTree = "<group>";
 		};
 		F9030B262ADE0E34007C5043 /* TagViewPage */ = {
@@ -376,9 +404,12 @@
 				F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */,
 				EBC495E52ADF7E2E001EE564 /* PhotoListCollectionViewCell.swift in Sources */,
 				EB98AF422ADBDF7D008586BC /* SettingsViewController.swift in Sources */,
+				EBF75BDE2AE24C7F00A11652 /* ProfileEditViewController.swift in Sources */,
 				EB98AF232ADB9390008586BC /* MyPageViewController.swift in Sources */,
 				EB5255C32ADCC2B700B73A89 /* User.swift in Sources */,
+				EBF75BE02AE24D6600A11652 /* LikedPoseViewController.swift in Sources */,
 				0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */,
+				EBF75BE22AE254B700A11652 /* NoticeListTableViewCell.swift in Sources */,
 				051A60D42AE08F4400597886 /* EmailLoginViewController.swift in Sources */,
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
 				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
@@ -388,7 +419,8 @@
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
 				EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */,
 				EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */,
-				EBC495ED2AE0111D001EE564 /* CustomTableViewCell.swift in Sources */,
+				EBC495ED2AE0111D001EE564 /* MyPageMenuTableViewCell.swift in Sources */,
+				EBF75BDA2AE24B6B00A11652 /* Notice.swift in Sources */,
 				EB98AF252ADB93CA008586BC /* PoseSuggestionViewController.swift in Sources */,
 				EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */,
 				F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */,
