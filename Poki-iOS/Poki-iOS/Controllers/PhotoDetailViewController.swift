@@ -18,6 +18,8 @@ final class PhotoDetailViewController: UIViewController {
     }
     var indexPath: IndexPath?
     
+    private let dataManager = NetworkingManager.shared
+    
     // MARK: - Components
     private let titleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 32)
@@ -120,9 +122,19 @@ final class PhotoDetailViewController: UIViewController {
         let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
             self.shareMenuTapped() }
         let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-            print("삭제하기 클릭~") }
+            self.deleteMenuTapped() }
         let actions = [update, share, delete]
         return actions
+    }
+    
+    private func showAlertMessage() {
+        let alert = UIAlertController(title: "사진 삭제하기", message: "선택한 사진을 삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.dataManager.delete(index: self?.indexPath?.row)
+            self?.navigationController?.popViewController(animated: true)
+        })
+        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Actions
@@ -140,5 +152,9 @@ final class PhotoDetailViewController: UIViewController {
         let title = "네컷 공유하기"
         let activityVC = UIActivityViewController(activityItems: [title], applicationActivities: nil)
         present(activityVC, animated: true)
+    }
+    
+    private func deleteMenuTapped() {
+        showAlertMessage()
     }
 }
