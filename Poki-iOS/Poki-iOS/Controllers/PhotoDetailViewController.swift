@@ -62,6 +62,10 @@ final class PhotoDetailViewController: UIViewController {
         setupLayout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     // MARK: - Helper
     private func configureNav() {
         navigationItem.rightBarButtonItem = self.menuButton
