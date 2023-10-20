@@ -16,7 +16,7 @@ protocol TagSelectionDelegate: AnyObject {
 
 enum ViewSeperated {
     case new
-    case eidt
+    case edit
 }
 
 final class AddPhotoViewController: UIViewController {
@@ -79,7 +79,7 @@ final class AddPhotoViewController: UIViewController {
     private func configuration() {
         guard let photoData = photoData else { return }
         switch self.viewSeperated {
-        case .eidt:
+        case .edit:
             addPhotoView.photoImageView.image = photoData.image
             addPhotoView.dateTextField.text = photoData.date
             addPhotoView.memoTextField.text = photoData.memo
@@ -176,7 +176,7 @@ final class AddPhotoViewController: UIViewController {
                 dataManager.create(photo)
                 
                 //Update 메서드
-            case .eidt:
+            case .edit:
                 guard var photoData = photoData else { return }
                 guard var indexPath = indexPath else { return }
                 

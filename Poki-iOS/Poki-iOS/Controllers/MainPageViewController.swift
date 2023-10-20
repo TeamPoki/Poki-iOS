@@ -22,6 +22,8 @@ class MainPageViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
+    
+    let dataManager = NetworkingManager.shared
 
     // MARK: - Life Cycle
 
@@ -147,19 +149,20 @@ class MainPageViewController: UIViewController {
 
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dataManager.read().count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoListCollectionViewCell
-        cell.photoImage.image = UIImage(named: "necut-sample")
-        cell.titleLabel.text = "Jellyfish"
-
+        let photo = dataManager.read()[indexPath.row]
+        cell.photoImage.image = photo.image
+        cell.titleLabel.text = photo.memo
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
+        //photoDetailVC.photoData = dataManager.read()[indexPath.row]
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
