@@ -199,11 +199,13 @@ class MyPageViewController: UIViewController {
     }
     
     @objc private func bookMarkButtonTapped() {
-        
+        let bookMarkViewController = LikedPoseViewController()
+        navigationController?.pushViewController(bookMarkViewController, animated: true)
     }
     
     @objc private func modifyProfileButtonTapped() {
-        
+        let modifyProfileViewController = ProfileEditViewController()
+        navigationController?.pushViewController(modifyProfileViewController, animated: true)
     }
     
 }
