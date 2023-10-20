@@ -10,6 +10,6 @@ import UIKit
 struct Photo {
     var image: UIImage
     var memo: String
-    var date: Date
-    var tage: TagModel
+    var date: String
+    var tag: TagModel
 }

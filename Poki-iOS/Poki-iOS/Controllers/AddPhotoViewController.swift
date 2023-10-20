@@ -14,13 +14,23 @@ protocol TagSelectionDelegate: AnyObject {
     func didSelectTag(_ tag: TagModel)
 }
 
+enum ViewSeperated {
+    case new
+    case eidt
+}
+
 final class AddPhotoViewController: UIViewController {
     
     // MARK: - Properties
     
      let addPhotoView = AddPhotoView()
 
-
+    var viewSeperated: ViewSeperated = .new
+    
+    var photoData: Photo?
+    var indexPath: IndexPath?
+    
+    let dataManager = NetworkingManager.shared
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -32,6 +42,7 @@ final class AddPhotoViewController: UIViewController {
         tagButtonTapped()
         datePickerTapped()
         tagImageSetupTapGestures()
+        addButtonTapped()
     }
     
     // MARK: - Helpers
@@ -65,12 +76,30 @@ final class AddPhotoViewController: UIViewController {
         addPhotoView.memoTextField.delegate = self
     }
     
+    private func configuration() {
+        guard let photoData = photoData else { return }
+        switch self.viewSeperated {
+        case .eidt:
+            addPhotoView.photoImageView.image = photoData.image
+            addPhotoView.dateTextField.text = photoData.date
+            addPhotoView.memoTextField.text = photoData.memo
+            addPhotoView.tagImageView.image = photoData.tag.tagImage
+            addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
+        default:
+            break
+        }
+    }
+    
     private func tagButtonTapped() {
         addPhotoView.tagAddButton.addTarget(self, action: #selector(tagButtonAction), for: .touchUpInside)
     }
     
     private func datePickerTapped() {
         addPhotoView.datePicker.addTarget(self, action: #selector(dateButtonAction), for: .valueChanged)
+    }
+    
+    private func addButtonTapped() {
+        addPhotoView.addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
     }
     
    
@@ -131,6 +160,42 @@ final class AddPhotoViewController: UIViewController {
         formmater.locale = Locale(identifier: "ko_KR")
         self.addPhotoView.dateTextField.text = formmater.string(from: self.addPhotoView.datePicker.date)
         self.view.endEditing(true)
+    }
+    
+    //Creat 메서드
+    @objc private func addButtonAction() {
+        if addPhotoView.photoImageView.image != nil {
+            guard let image = addPhotoView.photoImageView.image else { return }
+            guard  let date = addPhotoView.dateTextField.text else { return }
+            guard let memo = addPhotoView.memoTextField.text else { return }
+            guard let tagImage = addPhotoView.tagImageView.image else { return }
+            guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
+            switch self.viewSeperated {
+            case .new:
+                let photo = Photo(image: image, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagImage))
+                dataManager.create(photo)
+                
+                //Update 메서드
+            case .eidt:
+                guard var photoData = photoData else { return }
+                guard var indexPath = indexPath else { return }
+                
+                photoData.image = image
+                photoData.date = date
+                photoData.memo = memo
+                photoData.tag.tagImage = tagImage
+                photoData.tag.tagLabel = tagText
+                
+                let photo = Photo(image: photoData.image, memo: photoData.memo, date: photoData.date, tag: TagModel(tagLabel: photoData.tag.tagLabel, tagImage: photoData.tag.tagImage))
+                dataManager.update(photo, index: indexPath.row)
+            }
+        } else {
+            let alertController = UIAlertController(title: "경고", message: "이미지를 반드시 입력해주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     
