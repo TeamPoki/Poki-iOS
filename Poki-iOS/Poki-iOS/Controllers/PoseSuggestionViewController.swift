@@ -132,6 +132,7 @@ final class PoseSuggestionViewController: UIViewController {
         default:
             print("에러")
         }
+        moveVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(moveVC, animated: true)
     }
 }
