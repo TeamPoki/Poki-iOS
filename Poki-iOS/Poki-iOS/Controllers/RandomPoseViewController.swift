@@ -103,6 +103,7 @@ final class RandomPoseViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        print("새로고침 버튼 눌렀음요~")
+        guard let randomPose = poseImages.randomElement() else { return }
+        poseImageView.image = UIImage(named: randomPose)
     }
 }
