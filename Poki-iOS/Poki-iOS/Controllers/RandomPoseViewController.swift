@@ -11,6 +11,8 @@ final class RandomPoseViewController: UIViewController {
     private let poseImageName = "alone-pose-1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
+    
+    private let poseImages = ["alone-pose-1", "alone-pose-2", "alone-pose-3"]
 
     // MARK: - Components
     
@@ -48,14 +50,14 @@ final class RandomPoseViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
+//        tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - Helpers
     
     private func configure() {
         view.backgroundColor = .white
-        tabBarController?.tabBar.isHidden = true
+//        tabBarController?.tabBar.isHidden = true
         configureNav()
         configure(refreshButton)
         configure(bookmarkButton)
