@@ -56,7 +56,7 @@ final class PoseSuggestionViewController: UIViewController {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fill
-        $0.spacing = 70
+        $0.spacing = 60
     }
 
     // MARK: - Life Cycle
@@ -97,11 +97,16 @@ final class PoseSuggestionViewController: UIViewController {
     }
     
     private func addSubviews() {
-        mainStackView.addArrangedSubviews(commentLabel, aloneButton, twoPeopleButton, manyPeopleButton)
-        view.addSubview(mainStackView)
+        mainStackView.addArrangedSubviews(aloneButton, twoPeopleButton, manyPeopleButton)
+        view.addSubviews(commentLabel, mainStackView)
     }
     
     private func setupLayout() {
+        commentLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
+        }
         aloneButton.snp.makeConstraints {
             $0.height.equalTo(60)
         }
@@ -112,9 +117,9 @@ final class PoseSuggestionViewController: UIViewController {
             $0.height.equalTo(60)
         }
         mainStackView.snp.makeConstraints {
+            $0.top.equalTo(commentLabel.snp.bottom).offset(140)
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
-            $0.centerY.equalToSuperview()
         }
     }
     
