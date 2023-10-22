@@ -89,9 +89,11 @@ final class PoseSuggestionViewController: UIViewController {
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.imagePadding = 10
         button.configuration = buttonConfig
-        button.backgroundColor = .black
-        button.tintColor = .white
+        button.backgroundColor = .white
+        button.tintColor = .black
         button.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 0.5
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(numberOfPeopleButtonTapped), for: .touchUpInside)
     }
