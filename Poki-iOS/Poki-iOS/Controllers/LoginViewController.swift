@@ -12,7 +12,7 @@ import Then
 class LoginViewController: UIViewController {
     
     // MARK: - Components
-    private let topBackgroundView = UIView().then {
+    private let headerView = UIView().then {
         $0.backgroundColor = .black
     }
     
@@ -45,6 +45,13 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
+    private let emailStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 5
+    }
+    
     private let passwordTitleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.text = "비밀번호"
@@ -57,7 +64,15 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
+    private let passwordStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 5
+    }
+    
     private lazy var emailSaveButton = UIButton().then {
+        $0.contentHorizontalAlignment = .left
         let imageConfigure = UIImage.SymbolConfiguration(pointSize: 22)
         $0.tintColor = .lightGray
         $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfigure), for: .normal)
@@ -75,6 +90,13 @@ class LoginViewController: UIViewController {
         $0.distribution = .fill
         $0.alignment = .fill
         $0.spacing = 5
+    }
+    
+    private let bodyStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 30
     }
     
     private lazy var loginButton = UIButton().then {
@@ -97,6 +119,13 @@ class LoginViewController: UIViewController {
         $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
+    private let bottomStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 10
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -109,13 +138,17 @@ class LoginViewController: UIViewController {
     // MARK: - Helpers
     
     private func addSubviews() {
-        topBackgroundView.addSubviews(logoLabel, commentLabel)
+        headerView.addSubviews(logoLabel, commentLabel)
+        emailStackView.addArrangedSubviews(emailTitleLabel, emailTextField)
+        passwordStackView.addArrangedSubviews(passwordTitleLabel, passwordTextField)
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveStackView, loginButton, signUpButton)
+        bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
+        bottomStackView.addArrangedSubviews(loginButton, signUpButton)
+        view.addSubviews(headerView, bodyStackView, bottomStackView)
     }
     
     private func setupLayout() {
-        topBackgroundView.snp.makeConstraints {
+        headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
@@ -129,41 +162,31 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(logoLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(20)
         }
-        emailTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(topBackgroundView.snp.bottom).offset(60)
-            $0.leading.equalToSuperview().inset(20)
-        }
         emailTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
-        }
-        passwordTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
         }
         passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(passwordTitleLabel.snp.bottom).offset(5)
+            $0.height.equalTo(55)
+        }
+        emailSaveButton.snp.makeConstraints {
+            $0.width.equalTo(25)
+            $0.height.equalTo(25)
+        }
+        bodyStackView.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
-        }
-        emailSaveStackView.snp.makeConstraints {
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(20)
         }
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
         signUpButton.snp.makeConstraints {
-            $0.top.equalTo(loginButton.snp.bottom).offset(10)
+            $0.height.equalTo(55)
+        }
+        bottomStackView.snp.makeConstraints {
+            $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
         }
     }
     
