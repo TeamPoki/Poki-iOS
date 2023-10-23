@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     }
     
     private let commentLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontSemiBold, size: 14)
+        $0.font = UIFont(name: Constants.font, size: 14)
         $0.numberOfLines = 2
         $0.text = """
                     내가 찍은 인생네컷
@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
     }
     
     private let emailTitleLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontSemiBold, size: 16)
+        $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.text = "이메일"
         $0.textColor = .black
     }
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
     }
     
     private let passwordTitleLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontSemiBold, size: 16)
+        $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.text = "비밀번호"
         $0.textColor = .black
     }
@@ -78,6 +78,16 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 30
     }
     
+    private let signUpButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.setTitle("회원가입", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.layer.cornerRadius = 30
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.black.cgColor
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -91,7 +101,7 @@ class LoginViewController: UIViewController {
     
     private func addSubviews() {
         topBackgroundView.addSubviews(logoLabel, commentLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel, loginButton)
+        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel, loginButton, signUpButton)
     }
     
     private func setupLayout() {
@@ -145,6 +155,12 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
+        signUpButton.snp.makeConstraints {
+            $0.top.equalTo(loginButton.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
+        }
     }
     
     // MARK: - Actions
@@ -153,7 +169,11 @@ class LoginViewController: UIViewController {
         print("세이브 버튼 눌렀어염따")
     }
     
+    @objc private func loginButtonTapped(_ sender: UIButton) {
+        print("로그인 버튼 누름")
+    }
+    
     @objc private func signUpButtonTapped(_ sender: UIButton) {
-        print("회원가입 버튼 눌렀어유~")
+        print("회원가입 버튼 누름")
     }
 }
