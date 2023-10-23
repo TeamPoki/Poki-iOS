@@ -18,34 +18,16 @@ class SignUpViewController: UIViewController {
     }
     
     private lazy var emailTextField = UITextField().then {
-        $0.backgroundColor = .clear
-        $0.textColor = .black
-        $0.tintColor = .black
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-        $0.spellCheckingType = .no
         $0.keyboardType = .emailAddress
         $0.placeholder = "이메일을 입력하세요."
     }
     
     private lazy var passwordTextField = UITextField().then {
-        $0.backgroundColor = .clear
-        $0.textColor = .black
-        $0.tintColor = .black
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-        $0.spellCheckingType = .no
         $0.isSecureTextEntry = true
         $0.placeholder = "비밀번호를 입력하세요."
     }
     
     private lazy var passwordCheckTextField = UITextField().then {
-        $0.backgroundColor = .clear
-        $0.textColor = .black
-        $0.tintColor = .black
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-        $0.spellCheckingType = .no
         $0.isSecureTextEntry = true
         $0.placeholder = "비밀번호를 확인해주세요."
     }
@@ -82,7 +64,27 @@ class SignUpViewController: UIViewController {
     // MARK: - Helpers
     private func configureUI() {
         view.backgroundColor = .white
+        configureNav()
+        configure(emailTextField)
+        configure(passwordTextField)
+        configure(passwordCheckTextField)
+    }
+    
+    private func configureNav() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "회원가입"
+    }
+    
+    private func configure(_ textField: UITextField) {
+        textField.backgroundColor = .clear
+        textField.textColor = .black
+        textField.tintColor = .black
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
+        textField.delegate = self
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func addSubviews() {
@@ -121,4 +123,8 @@ class SignUpViewController: UIViewController {
     @objc private func textDidChange(_ textField: UITextField) {
         
     }
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+    
 }
