@@ -70,6 +70,14 @@ class LoginViewController: UIViewController {
         $0.textColor = .black
     }
     
+    private let loginButton = UIButton().then {
+        $0.backgroundColor = .black
+        $0.setTitle("로그인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.layer.cornerRadius = 30
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -83,7 +91,7 @@ class LoginViewController: UIViewController {
     
     private func addSubviews() {
         topBackgroundView.addSubviews(logoLabel, commentLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel)
+        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel, loginButton)
     }
     
     private func setupLayout() {
@@ -130,6 +138,12 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
             $0.leading.equalTo(emailSaveButton.snp.trailing).offset(5)
             $0.height.equalTo(25)
+        }
+        loginButton.snp.makeConstraints {
+            $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
         }
     }
     
