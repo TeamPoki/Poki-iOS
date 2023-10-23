@@ -15,6 +15,8 @@ class NoticeListViewController: UIViewController {
     
     private let tableView = UITableView()
     private var noticeItems: [Notice] = NoticeData.noticeItems
+    private var cellTitleFont = UIFont(name: Constants.fontMedium, size: 14)
+    private var cellDateFont = UIFont(name: Constants.fontMedium, size: 10)
     
     // MARK: - Life Cycle
     
@@ -43,7 +45,10 @@ class NoticeListViewController: UIViewController {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
+            $0.titleTextAttributes = [
+                .foregroundColor: UIColor.black,
+                .font: UIFont(name: Constants.fontMedium, size: 18)
+            ]
             $0.shadowColor = nil
         }
         
@@ -60,6 +65,11 @@ class NoticeListViewController: UIViewController {
         tableView.register(NoticeListTableViewCell.self, forCellReuseIdentifier: "NoticeListTableViewCell")
         
         view.addSubview(tableView)
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeListTableViewCell") as? NoticeListTableViewCell {
+            cell.titleLabel.font = cellTitleFont
+            cell.dateLabel.font = cellDateFont
+        }
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
