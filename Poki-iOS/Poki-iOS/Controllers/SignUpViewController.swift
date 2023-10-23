@@ -50,6 +50,14 @@ class SignUpViewController: UIViewController {
         $0.placeholder = "비밀번호를 확인해주세요."
     }
     
+    private lazy var signUpButton = UIButton().then {
+        $0.backgroundColor = .black
+        $0.setTitle("가입하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.layer.cornerRadius = 5
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -78,7 +86,7 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubviews(emailTextField, passwordTextField, passwordCheckTextField)
+        view.addSubviews(emailTextField, passwordTextField, passwordCheckTextField, signUpButton)
     }
     
     private func setupLayout() {
@@ -99,6 +107,12 @@ class SignUpViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(44)
+        }
+        signUpButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(25)
+            $0.height.equalTo(50)
         }
     }
     
