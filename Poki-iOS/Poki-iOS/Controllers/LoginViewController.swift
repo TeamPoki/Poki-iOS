@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
-        $0.layer.cornerRadius = 30
+        $0.layer.cornerRadius = 25
         $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
@@ -113,7 +113,7 @@ class LoginViewController: UIViewController {
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
-        $0.layer.cornerRadius = 30
+        $0.layer.cornerRadius = 25
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.black.cgColor
         $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
@@ -183,10 +183,10 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
         }
         loginButton.snp.makeConstraints {
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
         signUpButton.snp.makeConstraints {
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
         bottomStackView.snp.makeConstraints {
             $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)

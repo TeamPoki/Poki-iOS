@@ -55,7 +55,7 @@ class SignUpViewController: UIViewController {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
-        $0.layer.cornerRadius = 5
+        $0.layer.cornerRadius = 25
     }
     
     // MARK: - Life Cycle
