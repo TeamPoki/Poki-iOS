@@ -25,7 +25,7 @@ final class AddPhotoView: UIView {
     }
     
     let dateLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 12)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 15)
         $0.textColor = .black
         $0.text = "날짜"
     }
@@ -53,16 +53,16 @@ final class AddPhotoView: UIView {
         $0.axis = .vertical
         $0.distribution  = .fillProportionally
         $0.alignment = .fill
-        $0.spacing = 0
+        $0.spacing = 5
         $0.addArrangedSubviews(dateLabel, dateTextField)
     }
     
   
     
     let memoLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 12)
         $0.textColor = .black
         $0.text = "한 줄 메모"
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 15)
     }
     
     let memoTextField = UITextField().then {
@@ -81,14 +81,14 @@ final class AddPhotoView: UIView {
         $0.axis = .vertical
         $0.distribution  = .fill
         $0.alignment = .fill
-        $0.spacing = 0
+        $0.spacing = 5
         $0.addArrangedSubviews(memoLabel, memoTextField)
     }
     
     let tagLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 12)
         $0.textColor = .black
         $0.text = "태그"
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 15)
     }
     
     let tagImageView = UIImageView().then {
@@ -118,7 +118,7 @@ final class AddPhotoView: UIView {
         $0.axis = .vertical
         $0.distribution  = .equalSpacing
         $0.alignment = .leading
-        $0.spacing = 0
+        $0.spacing = 10
         $0.addArrangedSubviews(tagLabel, imageStackView)
     }
     
@@ -160,10 +160,6 @@ final class AddPhotoView: UIView {
             $0.height.equalTo(40)
         }
         
-        tagLabel.snp.makeConstraints {
-            $0.height.equalTo(25)
-        }
-        
         imageBackgroundView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(dateStackView.snp.top).offset(-20)
@@ -198,7 +194,7 @@ final class AddPhotoView: UIView {
         tagStackView.snp.makeConstraints {
             $0.top.equalTo(memoStackView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(65)
         }
         
         addButton.snp.makeConstraints {

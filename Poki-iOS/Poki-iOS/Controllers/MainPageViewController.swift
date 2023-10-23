@@ -138,7 +138,11 @@ class MainPageViewController: UIViewController {
                 // 사용자가 아직 결정을 내리지 않은 경우
                 // 다음에 권한 요청을 수행할 수 있습니다.
 
-            @unknown default:
+            case .limited:
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                fetchOptions.fetchLimit = 30 // 최신 30장만 가져옴
+                @unknown default:
                 break
             }
         }
