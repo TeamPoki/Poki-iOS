@@ -28,6 +28,28 @@ class SignUpViewController: UIViewController {
         $0.placeholder = "이메일을 입력하세요."
     }
     
+    private lazy var passwordTextField = UITextField().then {
+        $0.backgroundColor = .clear
+        $0.textColor = .black
+        $0.tintColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
+        $0.isSecureTextEntry = true
+        $0.placeholder = "비밀번호를 입력하세요."
+    }
+    
+    private lazy var passwordCheckTextField = UITextField().then {
+        $0.backgroundColor = .clear
+        $0.textColor = .black
+        $0.tintColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
+        $0.isSecureTextEntry = true
+        $0.placeholder = "비밀번호를 확인해주세요."
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -45,6 +67,8 @@ class SignUpViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         emailTextField.addUnderline()
+        passwordTextField.addUnderline()
+        passwordCheckTextField.addUnderline()
     }
     
     // MARK: - Helpers
@@ -54,12 +78,24 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubviews(emailTextField)
+        view.addSubviews(emailTextField, passwordTextField, passwordCheckTextField)
     }
     
     private func setupLayout() {
         emailTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTitleLabel.snp.bottom).offset(5)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(5)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(44)
+        }
+        passwordTextField.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(55)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(44)
+        }
+        passwordCheckTextField.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(55)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(44)

@@ -50,7 +50,7 @@ extension UITextField {
     func addUnderline() {
         let border = CALayer()
         let borderWidth = CGFloat(1.0)
-        border.borderColor = UIColor.black.cgColor
+        border.borderColor = UIColor.lightGray.cgColor
         border.frame = CGRect(origin: CGPoint(x: 0,y :self.frame.size.height - borderWidth),
                               size: CGSize(width: self.frame.size.width, height: self.frame.size.height))
         border.borderWidth = borderWidth
