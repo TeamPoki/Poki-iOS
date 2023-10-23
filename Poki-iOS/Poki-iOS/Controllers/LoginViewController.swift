@@ -13,7 +13,6 @@ class LoginViewController: UIViewController {
     
     // MARK: - Components
     
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -32,6 +31,7 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
     @objc private func signUpButtonTapped(_ sender: UIButton) {
         print("회원가입 버튼 눌렀어유~")
     }
