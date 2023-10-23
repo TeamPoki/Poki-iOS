@@ -39,9 +39,18 @@ class SignUpViewController: UIViewController {
         $0.backgroundColor = .clear
     }
     
+    private let passwordCheckTitleLabel = UILabel().then {
+        $0.text = "비밀번호 확인"
+        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.textColor = .lightGray
+    }
+    
     private lazy var passwordCheckTextField = UITextField().then {
         $0.isSecureTextEntry = true
-        $0.placeholder = "비밀번호를 확인해주세요."
+    }
+    
+    private lazy var passwordCheckTextFieldView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private lazy var signUpButton = UIButton().then {
@@ -70,6 +79,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLayoutSubviews()
         drawUnderline(emailTextFieldView)
         drawUnderline(passwordTextFieldView)
+        drawUnderline(passwordCheckTextFieldView)
     }
     
     // MARK: - Helpers
@@ -103,7 +113,8 @@ class SignUpViewController: UIViewController {
     private func addSubviews() {
         emailTextFieldView.addSubviews(emailTextField, emailTitleLabel)
         passwordTextFieldView.addSubviews(passwordTextField, passwordTitleLabel)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextField, signUpButton)
+        passwordCheckTextFieldView.addSubviews(passwordCheckTextField, passwordCheckTitleLabel)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextFieldView, signUpButton)
     }
     
     private func setupLayout() {
@@ -141,11 +152,22 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.centerY.equalToSuperview()
         }
-        passwordCheckTextField.snp.makeConstraints {
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(55)
+        passwordCheckTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(44)
+            $0.height.equalTo(55)
+        }
+        passwordCheckTextField.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview()
+        }
+        passwordCheckTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
         }
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
