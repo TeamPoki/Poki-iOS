@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import SafariServices
 
 class SettingsViewController: UIViewController {
     
@@ -75,8 +76,18 @@ class SettingsViewController: UIViewController {
     
     
     // MARK: - Actions
-    
-    
+    func openSFSafariPrivacyPolicy() {
+        if let privacyPolicyURL = URL(string: "https://poki-project.notion.site/bf9b73c51fc34d32991d88966283c0ce?pvs=4") {
+            let safariViewController = SFSafariViewController(url: privacyPolicyURL)
+            present(safariViewController, animated: true, completion: nil)
+        }
+    }
+    func openSFSafariServiceRule() {
+        if let serviceRuleURL = URL(string: "https://poki-project.notion.site/edab5f4b388545cd91a63665fc3b64dc?pvs=4") {
+            let safariViewController = SFSafariViewController(url: serviceRuleURL)
+            present(safariViewController, animated: true, completion: nil)
+        }
+    }
     
     
     
@@ -117,6 +128,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         } else if selectedData == "탈퇴하기" {
             let accountDeletionViewController = AccountDeletionViewController()
             navigationController?.pushViewController(accountDeletionViewController, animated: true)
+        } else if selectedData == "개인정보 처리방침" {
+            openSFSafariPrivacyPolicy()
+        } else if selectedData == "서비스 이용약관" {
+            openSFSafariServiceRule()
         }
     }
 }
