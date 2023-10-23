@@ -57,6 +57,19 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
+    private lazy var emailSaveButton = UIButton().then {
+        let imageConfigure = UIImage.SymbolConfiguration(pointSize: 22)
+        $0.tintColor = .lightGray
+        $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfigure), for: .normal)
+        $0.addTarget(self, action: #selector(emailSaveButtonTapped), for: .touchUpInside)
+    }
+    
+    private let emailSaveTextLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.text = "이메일 저장"
+        $0.textColor = .black
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -70,7 +83,7 @@ class LoginViewController: UIViewController {
     
     private func addSubviews() {
         topBackgroundView.addSubviews(logoLabel, commentLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField)
+        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel)
     }
     
     private func setupLayout() {
@@ -108,9 +121,23 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
+        emailSaveButton.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(25)
+        }
+        emailSaveTextLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            $0.leading.equalTo(emailSaveButton.snp.trailing).offset(5)
+            $0.height.equalTo(25)
+        }
     }
     
     // MARK: - Actions
+    
+    @objc private func emailSaveButtonTapped(_ sender: UIButton) {
+        print("세이브 버튼 눌렀어염따")
+    }
     
     @objc private func signUpButtonTapped(_ sender: UIButton) {
         print("회원가입 버튼 눌렀어유~")
