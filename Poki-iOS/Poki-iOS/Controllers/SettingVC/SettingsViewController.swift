@@ -14,6 +14,7 @@ class SettingsViewController: UIViewController {
     // MARK: - Properties
     private var tableView: UITableView!
     private var data: [String] = ["공지사항", "개인정보 처리방침", "서비스 이용약관", "탈퇴하기"]
+    private var dataFont = UIFont(name: Constants.fontMedium, size: 14)
     
     // MARK: - Life Cycle
     
@@ -42,7 +43,10 @@ class SettingsViewController: UIViewController {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
+            $0.titleTextAttributes = [
+                .foregroundColor: UIColor.black,
+                .font: UIFont(name: Constants.fontMedium, size: 18)
+            ]
             $0.shadowColor = nil
         }
         
@@ -96,7 +100,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.font = UIFont(name: "font", size: 12)
+        cell.textLabel?.font = dataFont
         cell.textLabel?.text = data[indexPath.row]
         return cell
     }
