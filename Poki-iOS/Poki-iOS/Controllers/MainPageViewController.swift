@@ -41,10 +41,14 @@ class MainPageViewController: UIViewController {
     // MARK: - Helpers
 
     private func configureNav() {
-        let logo = UIImage(named: "poki-logo") // 현재 임시로 넣은거라 사이즈도 작아서 추후에 로고 제작이 된다면 바로 적용
-        let imageView = UIImageView(image: logo)
-        imageView.contentMode = .scaleAspectFit
-        let logoBarButton = UIBarButtonItem(customView: imageView)
+        let logoLabel = UILabel().then {
+            $0.text = "POKI"
+            $0.font = UIFont(name: Constants.fontHeavy, size: 28)
+            $0.textColor = .black
+            $0.sizeToFit()
+        }
+        
+        let logoBarButton = UIBarButtonItem(customView: logoLabel)
         navigationItem.leftBarButtonItem = logoBarButton
 
         let appearance = UINavigationBarAppearance().then {
@@ -161,6 +165,9 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         let photo = dataManager.read()[indexPath.row]
         cell.photoImage.image = photo.image
         cell.titleLabel.text = photo.memo
+        cell.dateLabel.text = photo.date
+        cell.tagImage.image = photo.tag.tagImage
+        cell.tagLabel.text = photo.tag.tagLabel
         return cell
     }
     
