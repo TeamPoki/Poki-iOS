@@ -131,6 +131,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
         addSubviews()
         setupLayout()
     }
@@ -201,6 +202,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func signUpButtonTapped(_ sender: UIButton) {
-        print("회원가입 버튼 누름")
+        let signUpVC = SignUpViewController()
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
 }
