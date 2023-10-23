@@ -14,12 +14,15 @@ class SignUpViewController: UIViewController {
     private let emailTitleLabel = UILabel().then {
         $0.text = "이메일"
         $0.font = UIFont(name: Constants.fontBold, size: 16)
-        $0.textColor = .black
+        $0.textColor = .lightGray
     }
     
     private lazy var emailTextField = UITextField().then {
         $0.keyboardType = .emailAddress
-        $0.placeholder = "이메일을 입력하세요."
+    }
+    
+    private lazy var emailTextFieldView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private lazy var passwordTextField = UITextField().then {
@@ -56,12 +59,17 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        emailTextField.addUnderline()
         passwordTextField.addUnderline()
         passwordCheckTextField.addUnderline()
+        drawUnderline(emailTextFieldView)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     // MARK: - Helpers
+    
     private func configureUI() {
         view.backgroundColor = .white
         configureNav()
@@ -84,22 +92,36 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         textField.delegate = self
+        
+        textField.layer.masksToBounds = true
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func addSubviews() {
-        view.addSubviews(emailTextField, passwordTextField, passwordCheckTextField, signUpButton)
+        emailTextFieldView.addSubviews(emailTextField, emailTitleLabel)
+        view.addSubviews(emailTextFieldView, passwordTextField, passwordCheckTextField, signUpButton)
     }
     
     private func setupLayout() {
-        emailTextField.snp.makeConstraints {
+        emailTextFieldView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(5)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(44)
+            $0.height.equalTo(55)
+        }
+        emailTextField.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview()
+        }
+        emailTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
         }
         passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(55)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(55)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(44)
@@ -116,6 +138,17 @@ class SignUpViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(25)
             $0.height.equalTo(50)
         }
+    }
+    
+    private func drawUnderline(_ view: UIView) {
+        let underline = CALayer()
+        let borderWidth: CGFloat = 1
+        underline.borderColor = UIColor.lightGray.cgColor
+        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - borderWidth),
+                              size: CGSize(width: view.frame.size.width, height: view.frame.size.height))
+        underline.borderWidth = borderWidth
+        view.layer.addSublayer(underline)
+        view.layer.masksToBounds = true
     }
     
     // MARK: - Actions
