@@ -40,7 +40,18 @@ class LoginViewController: UIViewController {
     }
     
     private let emailTextField = UITextField().then {
-        $0.placeholder = " 이메일 입력해라"
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.cornerRadius = 8
+    }
+    
+    private let passwordTitleLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 16)
+        $0.text = "비밀번호"
+        $0.textColor = .black
+    }
+    
+    private let passwordTextField = UITextField().then {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.cornerRadius = 8
@@ -59,7 +70,7 @@ class LoginViewController: UIViewController {
     
     private func addSubviews() {
         topBackgroundView.addSubviews(logoLabel, commentLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField)
+        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField)
     }
     
     private func setupLayout() {
@@ -83,6 +94,16 @@ class LoginViewController: UIViewController {
         }
         emailTextField.snp.makeConstraints {
             $0.top.equalTo(emailTitleLabel.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+        passwordTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(20)
+        }
+        passwordTextField.snp.makeConstraints {
+            $0.top.equalTo(passwordTitleLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
