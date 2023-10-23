@@ -25,9 +25,18 @@ class SignUpViewController: UIViewController {
         $0.backgroundColor = .clear
     }
     
+    private let passwordTitleLabel = UILabel().then {
+        $0.text = "비밀번호"
+        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.textColor = .lightGray
+    }
+    
     private lazy var passwordTextField = UITextField().then {
         $0.isSecureTextEntry = true
-        $0.placeholder = "비밀번호를 입력하세요."
+    }
+    
+    private lazy var passwordTextFieldView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private lazy var passwordCheckTextField = UITextField().then {
@@ -59,13 +68,8 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        passwordTextField.addUnderline()
-        passwordCheckTextField.addUnderline()
         drawUnderline(emailTextFieldView)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        drawUnderline(passwordTextFieldView)
     }
     
     // MARK: - Helpers
@@ -92,14 +96,14 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         textField.delegate = self
-        
         textField.layer.masksToBounds = true
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func addSubviews() {
         emailTextFieldView.addSubviews(emailTextField, emailTitleLabel)
-        view.addSubviews(emailTextFieldView, passwordTextField, passwordCheckTextField, signUpButton)
+        passwordTextFieldView.addSubviews(passwordTextField, passwordTitleLabel)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextField, signUpButton)
     }
     
     private func setupLayout() {
@@ -120,11 +124,22 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.centerY.equalToSuperview()
         }
-        passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(55)
+        passwordTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(44)
+            $0.height.equalTo(55)
+        }
+        passwordTextField.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview()
+        }
+        passwordTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
         }
         passwordCheckTextField.snp.makeConstraints {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(55)
