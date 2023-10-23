@@ -70,15 +70,16 @@ class LoginViewController: UIViewController {
         $0.textColor = .black
     }
     
-    private let loginButton = UIButton().then {
+    private lazy var loginButton = UIButton().then {
         $0.backgroundColor = .black
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 30
+        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
-    private let signUpButton = UIButton().then {
+    private lazy var signUpButton = UIButton().then {
         $0.backgroundColor = .white
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -86,6 +87,7 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 30
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.black.cgColor
+        $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Life Cycle
