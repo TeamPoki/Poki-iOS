@@ -66,8 +66,15 @@ class LoginViewController: UIViewController {
     
     private let emailSaveTextLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        $0.text = "이메일 저장"
+        $0.text = "이메일 / 아이디 저장"
         $0.textColor = .black
+    }
+    
+    private lazy var emailSaveStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 5
     }
     
     private lazy var loginButton = UIButton().then {
@@ -103,7 +110,8 @@ class LoginViewController: UIViewController {
     
     private func addSubviews() {
         topBackgroundView.addSubviews(logoLabel, commentLabel)
-        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveButton, emailSaveTextLabel, loginButton, signUpButton)
+        emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
+        view.addSubviews(topBackgroundView, emailTitleLabel, emailTextField, passwordTitleLabel, passwordTextField, emailSaveStackView, loginButton, signUpButton)
     }
     
     private func setupLayout() {
@@ -141,15 +149,9 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
-        emailSaveButton.snp.makeConstraints {
+        emailSaveStackView.snp.makeConstraints {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
-            $0.height.equalTo(25)
-        }
-        emailSaveTextLabel.snp.makeConstraints {
-            $0.top.equalTo(passwordTextField.snp.bottom).offset(30)
-            $0.leading.equalTo(emailSaveButton.snp.trailing).offset(5)
-            $0.height.equalTo(25)
         }
         loginButton.snp.makeConstraints {
             $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)
