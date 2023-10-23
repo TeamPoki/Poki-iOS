@@ -22,6 +22,17 @@ class LoginViewController: UIViewController {
         $0.textColor = .white
     }
     
+    private let commentLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 14)
+        $0.numberOfLines = 2
+        $0.text = """
+                    내가 찍은 인생네컷
+                    이쁘게 보관할 수 있는 플랫폼
+                    """
+        $0.textColor = .white
+        $0.setLineSpacing(spacing: 3)
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -34,7 +45,7 @@ class LoginViewController: UIViewController {
     // MARK: - Helpers
     
     private func addSubviews() {
-        topBackgroundView.addSubviews(logoLabel)
+        topBackgroundView.addSubviews(logoLabel, commentLabel)
         view.addSubviews(topBackgroundView)
     }
     
@@ -45,9 +56,12 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview()
             $0.height.equalTo(250)
         }
-        
         logoLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(60)
+            $0.leading.equalToSuperview().inset(20)
+        }
+        commentLabel.snp.makeConstraints {
+            $0.top.equalTo(logoLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(20)
         }
     }
