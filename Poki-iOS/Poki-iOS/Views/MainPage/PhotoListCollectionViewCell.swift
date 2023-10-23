@@ -24,6 +24,22 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
         $0.font = UIFont(name: Constants.fontExtraBold, size: 32)
     }
     
+    var dateLabel = UILabel().then {
+        $0.textColor = .white
+        $0.font = UIFont(name: Constants.font, size: 16)
+    }
+    
+    var tagImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
+    
+    var tagLabel = UILabel().then {
+        $0.textColor = .white
+        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.textAlignment = .right
+    }
+    
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -38,7 +54,7 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     // MARK: - Helpers
     
     private func configureCell() {
-        addSubviews(photoImage, titleLabel)
+        addSubviews(photoImage, titleLabel, dateLabel, tagImage, tagLabel)
         self.backgroundColor = UIColor.clear
         
         photoImage.snp.makeConstraints {
@@ -47,8 +63,23 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
-            $0.bottom.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview().offset(-30)
+        }
+        
+        dateLabel.snp.makeConstraints {
+            $0.leading.equalTo(titleLabel)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+        }
+        
+        tagImage.snp.makeConstraints {
+            $0.trailing.equalTo(tagLabel.snp.leading).offset(-10)
+            $0.centerY.equalTo(tagLabel)
+            $0.width.height.equalTo(20)
+        }
+        
+        tagLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.top.equalToSuperview().offset(10)
         }
     }
-    
 }
