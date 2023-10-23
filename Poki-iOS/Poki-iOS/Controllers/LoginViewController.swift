@@ -16,6 +16,12 @@ class LoginViewController: UIViewController {
         $0.backgroundColor = .black
     }
     
+    private let logoLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontHeavy, size: 46)
+        $0.text = "POKI"
+        $0.textColor = .white
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -28,6 +34,7 @@ class LoginViewController: UIViewController {
     // MARK: - Helpers
     
     private func addSubviews() {
+        topBackgroundView.addSubviews(logoLabel)
         view.addSubviews(topBackgroundView)
     }
     
@@ -37,6 +44,11 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.height.equalTo(250)
+        }
+        
+        logoLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            $0.leading.equalToSuperview().inset(20)
         }
     }
     
