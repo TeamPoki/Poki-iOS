@@ -8,11 +8,9 @@ import UIKit
 
 final class RandomPoseViewController: UIViewController {
     // MARK: - Constants
-    private let poseImageName = "alone-pose-1"
+    private let poseImageName = "alone-pose1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
-    
-    private let poseImages = ["alone-pose-1", "alone-pose-2", "alone-pose-3"]
 
     // MARK: - Components
     
@@ -23,13 +21,15 @@ final class RandomPoseViewController: UIViewController {
     private lazy var refreshButton = UIButton().then {
         $0.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 16)
         $0.setTitle(self.refreshButtonTitle, for: .normal)
+        $0.setTitleColor( .black, for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         $0.layer.cornerRadius = 8
     }
     
     private lazy var bookmarkButton = UIButton().then {
-        $0.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
-        $0.layer.cornerRadius = 30
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
+        $0.setImage(UIImage(systemName: self.bookmarkButtonImageName, withConfiguration: imageConfig), for: .normal)
+        $0.layer.cornerRadius = 55 / 2
     }
     
     private lazy var buttonStackView = UIStackView().then {
@@ -38,12 +38,19 @@ final class RandomPoseViewController: UIViewController {
         $0.distribution = .fill
         $0.spacing = 20
     }
+    
+    private let mainStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.spacing = 40
+    }
 
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+        configureUI()
         addSubviews()
         setupLayout()
     }
@@ -54,7 +61,7 @@ final class RandomPoseViewController: UIViewController {
     
     // MARK: - Helpers
     
-    private func configure() {
+    private func configureUI() {
         view.backgroundColor = .white
         configureNav()
         configure(refreshButton)
@@ -68,40 +75,39 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func configure(_ button: UIButton) {
-        button.backgroundColor = .black
-        button.tintColor = .white
+        button.backgroundColor = .white
+        button.tintColor = .black
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     private func addSubviews() {
         buttonStackView.addArrangedSubviews(bookmarkButton, refreshButton)
-        view.addSubviews(poseImageView, buttonStackView)
+        mainStackView.addArrangedSubviews(poseImageView, buttonStackView)
+        view.addSubview(mainStackView)
     }
     
     private func setupLayout() {
-        poseImageView.snp.makeConstraints {
+        mainStackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
-            $0.leading.equalToSuperview().offset(100)
-            $0.trailing.equalToSuperview().inset(100)
-            $0.height.equalTo(500)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
         bookmarkButton.snp.makeConstraints {
-            $0.height.equalTo(60)
-            $0.width.equalTo(60)
+            $0.height.equalTo(55)
+            $0.width.equalTo(55)
         }
         refreshButton.snp.makeConstraints {
-            $0.height.equalTo(60)
-        }
-        buttonStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(30)
-            $0.trailing.equalToSuperview().inset(30)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.height.equalTo(55)
         }
     }
     
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        guard let randomPose = poseImages.randomElement() else { return }
-        poseImageView.image = UIImage(named: randomPose)
+        let images = NetworkingManager.shared.getAlonePoseImages()
+        guard let randomPose = images.randomElement() else { return }
+        poseImageView.image = randomPose
     }
 }
