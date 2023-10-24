@@ -11,8 +11,6 @@ final class RandomPoseViewController: UIViewController {
     private let poseImageName = "alone-pose-1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
-    
-    private let poseImages = ["alone-pose-1", "alone-pose-2", "alone-pose-3"]
 
     // MARK: - Components
     
@@ -101,7 +99,8 @@ final class RandomPoseViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        guard let randomPose = poseImages.randomElement() else { return }
-        poseImageView.image = UIImage(named: randomPose)
+        let images = NetworkingManager.shared.getAlonePoseImages()
+        guard let randomPose = images.randomElement() else { return }
+        poseImageView.image = randomPose
     }
 }
