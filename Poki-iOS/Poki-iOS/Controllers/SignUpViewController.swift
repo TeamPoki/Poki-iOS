@@ -11,49 +11,56 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let emailTitleLabel = UILabel().then {
+    private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.textColor = .lightGray
     }
     
-    private lazy var emailTextField = UITextField().then {
+    private let emailTextField = UITextField().then {
         $0.keyboardType = .emailAddress
     }
     
-    private lazy var emailTextFieldView = UIView().then {
+    private let emailTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    private let passwordTitleLabel = UILabel().then {
+    private let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.textColor = .lightGray
     }
     
-    private lazy var passwordTextField = UITextField().then {
+    private let passwordTextField = UITextField().then {
         $0.isSecureTextEntry = true
     }
     
-    private lazy var passwordTextFieldView = UIView().then {
+    private let passwordTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    private let passwordCheckTitleLabel = UILabel().then {
+    private let passwordCheckPlaceholder = UILabel().then {
         $0.text = "비밀번호 확인"
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.textColor = .lightGray
     }
     
-    private lazy var passwordCheckTextField = UITextField().then {
+    private let passwordCheckTextField = UITextField().then {
         $0.isSecureTextEntry = true
     }
     
-    private lazy var passwordCheckTextFieldView = UIView().then {
+    private let passwordCheckTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    private lazy var signUpButton = UIButton().then {
+    private let mainStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 30
+    }
+    
+    private let signUpButton = UIButton().then {
         $0.backgroundColor = .black
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -111,15 +118,15 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
-        emailTextFieldView.addSubviews(emailTextField, emailTitleLabel)
-        passwordTextFieldView.addSubviews(passwordTextField, passwordTitleLabel)
-        passwordCheckTextFieldView.addSubviews(passwordCheckTextField, passwordCheckTitleLabel)
+        emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
+        passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
+        passwordCheckTextFieldView.addSubviews(passwordCheckTextField, passwordCheckPlaceholder)
         view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextFieldView, signUpButton)
     }
     
     private func setupLayout() {
         emailTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(5)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
@@ -130,10 +137,10 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
-        emailTitleLabel.snp.makeConstraints {
+        emailPlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(emailTextField)
         }
         passwordTextFieldView.snp.makeConstraints {
             $0.top.equalTo(emailTextFieldView.snp.bottom).offset(30)
@@ -147,10 +154,10 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
-        passwordTitleLabel.snp.makeConstraints {
+        passwordPlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(passwordTextField)
         }
         passwordCheckTextFieldView.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
@@ -164,10 +171,10 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
-        passwordCheckTitleLabel.snp.makeConstraints {
+        passwordCheckPlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(passwordCheckTextField)
         }
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
@@ -196,5 +203,25 @@ class SignUpViewController: UIViewController {
 }
 
 extension SignUpViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+            movePlaceholder(emailPlaceholder, textField: textField)
+        }
+        if textField == passwordTextField {
+            movePlaceholder(passwordPlaceholder, textField: textField)
+        }
+        if textField == passwordCheckTextField {
+            movePlaceholder(passwordCheckPlaceholder, textField: textField)
+        }
+    }
     
+    func movePlaceholder(_ label: UILabel, textField: UITextField) {
+        label.snp.updateConstraints {
+            $0.centerY.equalTo(textField).offset(-20)
+        }
+        UIView.animate(withDuration: 0.5) {
+            label.font = UIFont(name: Constants.fontBold, size: 12)
+            label.superview?.layoutIfNeeded()
+        }
+    }
 }
