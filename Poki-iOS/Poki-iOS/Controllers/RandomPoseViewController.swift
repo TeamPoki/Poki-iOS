@@ -21,13 +21,15 @@ final class RandomPoseViewController: UIViewController {
     private lazy var refreshButton = UIButton().then {
         $0.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 16)
         $0.setTitle(self.refreshButtonTitle, for: .normal)
+        $0.setTitleColor( .black, for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         $0.layer.cornerRadius = 8
     }
     
     private lazy var bookmarkButton = UIButton().then {
-        $0.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
-        $0.layer.cornerRadius = 30
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
+        $0.setImage(UIImage(systemName: self.bookmarkButtonImageName, withConfiguration: imageConfig), for: .normal)
+        $0.layer.cornerRadius = 55 / 2
     }
     
     private lazy var buttonStackView = UIStackView().then {
@@ -48,7 +50,7 @@ final class RandomPoseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+        configureUI()
         addSubviews()
         setupLayout()
     }
@@ -59,7 +61,7 @@ final class RandomPoseViewController: UIViewController {
     
     // MARK: - Helpers
     
-    private func configure() {
+    private func configureUI() {
         view.backgroundColor = .white
         configureNav()
         configure(refreshButton)
@@ -73,8 +75,10 @@ final class RandomPoseViewController: UIViewController {
     }
     
     private func configure(_ button: UIButton) {
-        button.backgroundColor = .black
-        button.tintColor = .white
+        button.backgroundColor = .white
+        button.tintColor = .black
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     private func addSubviews() {
@@ -89,13 +93,13 @@ final class RandomPoseViewController: UIViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
-        } 
+        }
         bookmarkButton.snp.makeConstraints {
-            $0.height.equalTo(60)
-            $0.width.equalTo(60)
+            $0.height.equalTo(55)
+            $0.width.equalTo(55)
         }
         refreshButton.snp.makeConstraints {
-            $0.height.equalTo(60)
+            $0.height.equalTo(55)
         }
     }
     
