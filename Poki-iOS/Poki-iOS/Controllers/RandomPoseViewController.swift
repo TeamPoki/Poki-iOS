@@ -19,7 +19,7 @@ final class RandomPoseViewController: UIViewController {
 
     // MARK: - Properties
     
-    private var selectedPerson: Category?
+    private var selectedCategory: Category?
     private var poseImages: [UIImage?] = []
     
     private lazy var poseImageView = UIImageView().then {
@@ -111,8 +111,8 @@ final class RandomPoseViewController: UIViewController {
         }
     }
     
-    func setupCategory(selected category: Category) {
-        self.selectedPerson = category
+    func setup(selectCategory: Category) {
+        self.selectedCategory = category
         switch category {
         case .alone:
             self.poseImages = NetworkingManager.shared.getAlonePoseImages()
