@@ -132,10 +132,13 @@ final class PoseSuggestionViewController: UIViewController {
         switch sender.tag {
         case 1:
             moveVC.title = self.aloneButtonText
+            moveVC.setupCategory(selected: .alone)
         case 2:
             moveVC.title = self.twoPeopleButtonText
+            moveVC.setupCategory(selected: .twoPeople)
         case 3:
             moveVC.title = self.manyPeopleButtonText
+            moveVC.setupCategory(selected: .manyPeople)
         default:
             print("에러")
         }
