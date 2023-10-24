@@ -8,7 +8,7 @@ import UIKit
 
 final class RandomPoseViewController: UIViewController {
     // MARK: - Constants
-    private let poseImageName = "alone-pose-1"
+    private let poseImageName = "alone-pose1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
 
@@ -35,6 +35,13 @@ final class RandomPoseViewController: UIViewController {
         $0.alignment = .fill
         $0.distribution = .fill
         $0.spacing = 20
+    }
+    
+    private let mainStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.spacing = 40
     }
 
     // MARK: - Life Cycle
@@ -72,27 +79,23 @@ final class RandomPoseViewController: UIViewController {
     
     private func addSubviews() {
         buttonStackView.addArrangedSubviews(bookmarkButton, refreshButton)
-        view.addSubviews(poseImageView, buttonStackView)
+        mainStackView.addArrangedSubviews(poseImageView, buttonStackView)
+        view.addSubview(mainStackView)
     }
     
     private func setupLayout() {
-        poseImageView.snp.makeConstraints {
+        mainStackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
-            $0.leading.equalToSuperview().offset(100)
-            $0.trailing.equalToSuperview().inset(100)
-            $0.height.equalTo(500)
-        }
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
+        } 
         bookmarkButton.snp.makeConstraints {
             $0.height.equalTo(60)
             $0.width.equalTo(60)
         }
         refreshButton.snp.makeConstraints {
             $0.height.equalTo(60)
-        }
-        buttonStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(30)
-            $0.trailing.equalToSuperview().inset(30)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
         }
     }
     
