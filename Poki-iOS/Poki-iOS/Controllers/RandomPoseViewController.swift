@@ -112,8 +112,8 @@ final class RandomPoseViewController: UIViewController {
     }
     
     func setup(selectCategory: Category) {
-        self.selectedCategory = category
-        switch category {
+        self.selectedCategory = selectCategory
+        switch selectCategory {
         case .alone:
             self.poseImages = NetworkingManager.shared.getAlonePoseImages()
         case .twoPeople:
