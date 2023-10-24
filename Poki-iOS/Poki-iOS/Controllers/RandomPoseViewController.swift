@@ -7,12 +7,20 @@
 import UIKit
 
 final class RandomPoseViewController: UIViewController {
+    
+    enum Category {
+        case alone, twoPeople, manyPeople
+    }
+    
     // MARK: - Constants
     private let poseImageName = "alone-pose1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
 
-    // MARK: - Components
+    // MARK: - Properties
+    
+    private var selectedPerson: Category?
+    private var poseImages: [UIImage?] = []
     
     private lazy var poseImageView = UIImageView().then {
         $0.image = UIImage(named: poseImageName)
@@ -103,11 +111,23 @@ final class RandomPoseViewController: UIViewController {
         }
     }
     
+    func setupCategory(selected category: Category) {
+        self.selectedPerson = category
+        switch category {
+        case .alone:
+            self.poseImages = NetworkingManager.shared.getAlonePoseImages()
+        case .twoPeople:
+            self.poseImages = NetworkingManager.shared.getTwoPoseImages()
+        case .manyPeople:
+            self.poseImages = NetworkingManager.shared.getManyPoseImages()
+        }
+        self.poseImageView.image = poseImages.randomElement() ?? UIImage()
+    }
+    
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        let images = NetworkingManager.shared.getAlonePoseImages()
-        guard let randomPose = images.randomElement() else { return }
+        guard let randomPose = poseImages.randomElement() else { return }
         poseImageView.image = randomPose
     }
 }
