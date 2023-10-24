@@ -13,7 +13,7 @@ class SignUpViewController: UIViewController {
     
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
-        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.font = UIFont(name: Constants.font, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -27,7 +27,7 @@ class SignUpViewController: UIViewController {
     
     private let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
-        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.font = UIFont(name: Constants.font, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -41,7 +41,7 @@ class SignUpViewController: UIViewController {
     
     private let passwordCheckPlaceholder = UILabel().then {
         $0.text = "비밀번호 확인"
-        $0.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.font = UIFont(name: Constants.font, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -126,7 +126,7 @@ class SignUpViewController: UIViewController {
     
     private func setupLayout() {
         emailTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
@@ -205,23 +205,45 @@ class SignUpViewController: UIViewController {
 extension SignUpViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == emailTextField {
-            movePlaceholder(emailPlaceholder, textField: textField)
+            updateLayout(emailPlaceholder, textField: textField)
         }
         if textField == passwordTextField {
-            movePlaceholder(passwordPlaceholder, textField: textField)
+            updateLayout(passwordPlaceholder, textField: textField)
         }
         if textField == passwordCheckTextField {
-            movePlaceholder(passwordCheckPlaceholder, textField: textField)
+            updateLayout(passwordCheckPlaceholder, textField: textField)
         }
     }
     
-    func movePlaceholder(_ label: UILabel, textField: UITextField) {
-        label.snp.updateConstraints {
-            $0.centerY.equalTo(textField).offset(-20)
+    func updateLayout(_ placeholder: UILabel, textField: UITextField) {
+        placeholder.snp.updateConstraints {
+            $0.centerY.equalTo(textField).offset(-22)
         }
         UIView.animate(withDuration: 0.5) {
-            label.font = UIFont(name: Constants.fontBold, size: 12)
-            label.superview?.layoutIfNeeded()
+            placeholder.font = UIFont(name: Constants.font, size: 12)
+            placeholder.superview?.layoutIfNeeded()
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == emailTextField, textField.text == "" {
+            resetLayout(emailPlaceholder, textField: textField)
+        }
+        if textField == passwordTextField, textField.text == "" {
+            resetLayout(passwordPlaceholder, textField: textField)
+        }
+        if textField == passwordCheckTextField, textField.text == "" {
+            resetLayout(passwordCheckPlaceholder, textField: textField)
+        }
+    }
+    
+    func resetLayout(_ placeholder: UILabel, textField: UITextField) {
+        placeholder.snp.updateConstraints {
+            $0.centerY.equalTo(textField)
+        }
+        UIView.animate(withDuration: 0.5) {
+            placeholder.font = UIFont(name: Constants.font, size: 16)
+            placeholder.superview?.layoutIfNeeded()
         }
     }
 }
