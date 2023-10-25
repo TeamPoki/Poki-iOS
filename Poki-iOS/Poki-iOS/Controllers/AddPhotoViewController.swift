@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 import Then
 import PhotosUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Kingfisher
 
 protocol TagSelectionDelegate: AnyObject {
     func didSelectTag(_ tag: TagModel)
@@ -79,13 +82,15 @@ final class AddPhotoViewController: UIViewController {
     
     private func configuration() {
         guard let photoData = photoData else { return }
+        let photoImageURL = URL(string: photoData.image)
+        let tagImageURL = URL(string: photoData.tag.tagImage)
         switch self.viewSeperated {
         case .edit:
             navigationItem.title = "수정하기"
-            addPhotoView.photoImageView.image = photoData.image
+            addPhotoView.photoImageView.kf.setImage(with: photoImageURL)
             addPhotoView.dateTextField.text = photoData.date
             addPhotoView.memoTextField.text = photoData.memo
-            addPhotoView.tagImageView.image = photoData.tag.tagImage
+            addPhotoView.tagImageView.kf.setImage(with: tagImageURL)
             addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
         default:
             break
@@ -164,6 +169,57 @@ final class AddPhotoViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    func uploadAndCreateImageData(image: [UIImage], date: String, memo: String, tagText: String) {
+        dataManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+            switch result {
+            case .success((let photoURL, let tagURL)):
+                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
+                self.createImageData(photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
+                
+            case .failure(let error):
+                print("Error uploading images: \(error.localizedDescription)")
+                // 오류 처리
+            }
+        }
+    }
+    
+    // Firestore에 데이터 생성 및 저장
+    private func createImageData(photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
+        // URL을 문자열로 변환
+        let photoURLString = photoURL.absoluteString
+        let tagURLString = tagURL.absoluteString
+        
+        // Firestore에 데이터 생성
+        dataManager.create(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+    }
+    
+    
+    func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
+        dataManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+            switch result {
+            case .success((let photoURL, let tagURL)):
+                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
+                self.updateImageData(documentPath: documentPath, photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
+                
+            case .failure(let error):
+                print("Error uploading images: \(error.localizedDescription)")
+                // 오류 처리
+            }
+        }
+    }
+    
+    // Firestore에 데이터 생성 및 저장
+    private func updateImageData(documentPath: String, photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
+        // URL을 문자열로 변환
+        let photoURLString = photoURL.absoluteString
+        let tagURLString = tagURL.absoluteString
+        
+        // Firestore에 데이터 생성
+        dataManager.update(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+    }
+    
+ 
+    
     //Creat 메서드
     @objc private func addButtonAction() {
         if addPhotoView.photoImageView.image != nil {
@@ -174,22 +230,21 @@ final class AddPhotoViewController: UIViewController {
             guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
             switch self.viewSeperated {
             case .new:
-                let photo = Photo(image: image, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagImage))
-                dataManager.create(photo)
+                
+                uploadAndCreateImageData(image: [image, tagImage], date: date, memo: memo, tagText: tagText)
                 
                 //Update 메서드
             case .edit:
-                guard var photoData = photoData else { return }
-                guard var indexPath = indexPath else { return }
-                
-                photoData.image = image
-                photoData.date = date
-                photoData.memo = memo
-                photoData.tag.tagImage = tagImage
-                photoData.tag.tagLabel = tagText
-                
-                let photo = Photo(image: photoData.image, memo: photoData.memo, date: photoData.date, tag: TagModel(tagLabel: photoData.tag.tagLabel, tagImage: photoData.tag.tagImage))
-                dataManager.update(photo, index: indexPath.row)
+                guard let photoData = photoData else { return }
+                updateData(documentPath: photoData.documentReference , image: [image, tagImage], date: date, memo: memo, tagText: tagText)
+                dataManager.deleteImage(imageURL: photoData.image) { error in
+                    print("이미지 삭제 에러 : \(String(describing: error))")
+                }
+                dataManager.deleteImage(imageURL: photoData.tag.tagImage) { error in
+                    print("이미지 삭제 에러 : \(String(describing: error))")
+                }
+              
+
             }
         } else {
             let alertController = UIAlertController(title: "경고", message: "이미지를 반드시 입력해주세요.", preferredStyle: .alert)
@@ -264,7 +319,11 @@ let sheetPresentationController = UISheetPresentationController(presentedViewCon
 extension AddPhotoViewController: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
-        addPhotoView.tagImageView.image = tag.tagImage
+        dataManager.downloadImage(urlString: tag.tagImage) {  image in
+            DispatchQueue.main.async {
+                self.addPhotoView.tagImageView.image = image
+            }
+        }
     }
 }
 

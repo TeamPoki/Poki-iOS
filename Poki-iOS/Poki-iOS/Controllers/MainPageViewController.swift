@@ -36,6 +36,7 @@ class MainPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         photoListCollectionView.reloadData()
+        dataManager.realTimebinding()
     }
 
     // MARK: - Helpers
@@ -157,23 +158,33 @@ class MainPageViewController: UIViewController {
 
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataManager.read().count
+        return dataManager.photoList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoListCollectionViewCell
-        let photo = dataManager.read()[indexPath.row]
-        cell.photoImage.image = photo.image
+        let photo = dataManager.photoList[indexPath.row]
+        
+        dataManager.downloadImage(urlString: photo.image) {  image in
+            DispatchQueue.main.async {
+                cell.photoImage.image = image
+            }
+        }
+            
+        dataManager.downloadImage(urlString: photo.tag.tagImage) {  image in
+            DispatchQueue.main.async {
+                cell.tagImage.image = image
+            }
+        }
         cell.titleLabel.text = photo.memo
         cell.dateLabel.text = photo.date
-        cell.tagImage.image = photo.tag.tagImage
         cell.tagLabel.text = photo.tag.tagLabel
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
-        photoDetailVC.photoData = dataManager.read()[indexPath.row]
+        photoDetailVC.photoData = dataManager.photoList[indexPath.row]
         photoDetailVC.indexPath = indexPath
         photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)

@@ -55,6 +55,7 @@
 		F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */; };
 		F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B242ADE0E28007C5043 /* TagViewController.swift */; };
 		F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */; };
+		F92D584D2AE770B000147255 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F92D584C2AE770B000147255 /* FirebaseFirestoreSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,7 @@
 				EBE4FAA72ADA7E6F00EFFE54 /* Kingfisher in Frameworks */,
 				EBE195472AE158AD00AC5647 /* FirebaseAnalytics in Frameworks */,
 				EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */,
+				F92D584D2AE770B000147255 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +146,7 @@
 			children = (
 				EBE4FA852ADA7D1200EFFE54 /* Poki-iOS */,
 				EBE4FA842ADA7D1200EFFE54 /* Products */,
+				F92D584B2AE770B000147255 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -208,8 +211,8 @@
 			isa = PBXGroup;
 			children = (
 				EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */,
-				EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */,
 				EB98AF3A2ADBC4D9008586BC /* Extensions.swift */,
+				EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */,
 				EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */,
 			);
 			path = Helpers;
@@ -298,6 +301,13 @@
 			path = TagViewPage;
 			sourceTree = "<group>";
 		};
+		F92D584B2AE770B000147255 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -322,6 +332,7 @@
 				EBE195522AE158AD00AC5647 /* FirebaseAuth */,
 				EBE1955E2AE158AD00AC5647 /* FirebaseFirestore */,
 				EBE195782AE158AD00AC5647 /* FirebaseStorage */,
+				F92D584C2AE770B000147255 /* FirebaseFirestoreSwift */,
 			);
 			productName = "Poki-iOS";
 			productReference = EBE4FA832ADA7D1200EFFE54 /* Poki-iOS.app */;
@@ -718,6 +729,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EBE4FAAB2ADA7E8900EFFE54 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		F92D584C2AE770B000147255 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBE195452AE158AD00AC5647 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
