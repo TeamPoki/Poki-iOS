@@ -11,6 +11,7 @@
 		0511354C2ADE46550045513A /* RandomPoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0511354B2ADE46550045513A /* RandomPoseViewController.swift */; };
 		051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D12ADFDB9D00597886 /* LoginViewController.swift */; };
 		051A60D62AE69B9200597886 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D52AE69B9200597886 /* SignUpViewController.swift */; };
+		051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E32AE90B5C00597886 /* FirestoreManager.swift */; };
 		EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255BE2ADCBCF800B73A89 /* Photos.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
@@ -64,6 +65,7 @@
 		0511354B2ADE46550045513A /* RandomPoseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPoseViewController.swift; sourceTree = "<group>"; };
 		051A60D12ADFDB9D00597886 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		051A60D52AE69B9200597886 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		051A60E32AE90B5C00597886 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		EB5255BE2ADCBCF800B73A89 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */,
+				051A60E32AE90B5C00597886 /* FirestoreManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
 				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
 				051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */,
+				051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */,
 				EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */,
 				EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */,
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
