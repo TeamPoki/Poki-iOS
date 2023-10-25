@@ -136,12 +136,8 @@ final class PhotoDetailViewController: UIViewController {
             guard let self = self else { return }
             guard let indexPath = indexPath else { return}
             let photoData = dataManager.photoList[indexPath.row]
-            guard let photoURL = URL(string: photoData.image) else { return }
-            guard let tagImageURL = URL(string: photoData.tag.tagImage) else { return }
-            
-            let date = photoData.date
-            let memo = photoData.memo
-            let tagText = photoData.tag.tagLabel
+          
+            dataManager.delete(documentPath: photoData.documentReference)
             
             self.dataManager.deleteImage(imageURL: photoData.image) { error in
                 print("이미지 삭제 에러 : \(String(describing: error))")
@@ -149,13 +145,6 @@ final class PhotoDetailViewController: UIViewController {
             self.dataManager.deleteImage(imageURL: photoData.tag.tagImage) { error in
                 print("이미지 삭제 에러 : \(String(describing: error))")
             }
-            self.dataManager.delete(delete: ["image" : photoURL])
-            self.dataManager.delete(delete: ["tag" : tagImageURL])
-            self.dataManager.delete(delete: ["date" : date])
-            self.dataManager.delete(delete: ["memo" : memo])
-            self.dataManager.delete(delete: ["tag" : tagText])
-            
-            
             self.navigationController?.popViewController(animated: true)
         })
         present(alert, animated: true, completion: nil)

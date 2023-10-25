@@ -134,12 +134,17 @@ class NetworkingManager {
         return images
     }
 
-    func delete(delete photo: [String:Any]) {
-        documentReference.delete { error in
+    func delete(documentPath: String) {
+        let documentComponents = documentPath.components(separatedBy: "/")
+        _ = documentComponents[0]
+        let documentID = documentComponents[1]
+        let docRef = collectionReference.document(documentID)
+        
+        docRef.delete { error in
             if let error = error {
-                print("Error deleting document: \(error)")
+                print("Error updating document: \(error)")
             } else {
-                print("Document deleted successfully.")
+                print("Document updated successfully.")
             }
         }
     }
