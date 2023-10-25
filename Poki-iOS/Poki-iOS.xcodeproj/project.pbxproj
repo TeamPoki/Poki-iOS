@@ -12,6 +12,7 @@
 		051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D12ADFDB9D00597886 /* LoginViewController.swift */; };
 		051A60D62AE69B9200597886 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60D52AE69B9200597886 /* SignUpViewController.swift */; };
 		051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E32AE90B5C00597886 /* FirestoreManager.swift */; };
+		051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E62AE90BAF00597886 /* FirebaseError.swift */; };
 		EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255BE2ADCBCF800B73A89 /* Photos.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
@@ -66,6 +67,7 @@
 		051A60D12ADFDB9D00597886 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		051A60D52AE69B9200597886 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		051A60E32AE90B5C00597886 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		051A60E62AE90BAF00597886 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		EB5255BE2ADCBCF800B73A89 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -127,6 +129,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		051A60E52AE90B9B00597886 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				051A60E62AE90BAF00597886 /* FirebaseError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		EB7119012ADC5AA500CD19D6 /* SettingVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +236,7 @@
 		EBE4FAA22ADA7E2500EFFE54 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				051A60E52AE90B9B00597886 /* Error */,
 				EB5255BE2ADCBCF800B73A89 /* Photos.swift */,
 				EB5255C02ADCC0B000B73A89 /* Photo.swift */,
 				EB5255C22ADCC2B700B73A89 /* User.swift */,
@@ -435,6 +446,7 @@
 				EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */,
 				EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */,
 				EBC495ED2AE0111D001EE564 /* MyPageMenuTableViewCell.swift in Sources */,
+				051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */,
 				EBF75BDA2AE24B6B00A11652 /* Notice.swift in Sources */,
 				EB98AF252ADB93CA008586BC /* PoseSuggestionViewController.swift in Sources */,
 				EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */,

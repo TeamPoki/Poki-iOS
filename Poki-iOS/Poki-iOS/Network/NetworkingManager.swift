@@ -10,13 +10,6 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFirestoreSwift
 
-enum FirebaseError: Error {
-    case imageCountError
-    case imageDataError
-    case downloadURLError
-}
-
-
 class NetworkingManager {
     static let shared = NetworkingManager()
     let db = Firestore.firestore()
