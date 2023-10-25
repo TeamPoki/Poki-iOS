@@ -237,11 +237,11 @@ final class AddPhotoViewController: UIViewController {
             case .edit:
                 guard let photoData = photoData else { return }
                 updateData(documentPath: photoData.documentReference , image: [image, tagImage], date: date, memo: memo, tagText: tagText)
-                dataManager.deleteImage(imageURL: photoData.image) { error in
-                    print("이미지 삭제 에러 : \(String(describing: error))")
+                dataManager.deleteImage(imageURL: photoData.image) { _ in
+                    print("이미지 삭제 완료")
                 }
-                dataManager.deleteImage(imageURL: photoData.tag.tagImage) { error in
-                    print("이미지 삭제 에러 : \(String(describing: error))")
+                dataManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+                    print("이미지 삭제 완료")
                 }
               
 
