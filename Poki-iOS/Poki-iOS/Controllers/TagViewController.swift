@@ -17,7 +17,7 @@ class TagViewController: UIViewController {
     
     weak var delegate: TagSelectionDelegate?
     
-    let dataManager = NetworkingManager.shared
+    let dataManager = PoseImageManager.shared
     let stoageManager = StorageManager.shared
     
     let tagTitleLabel = UILabel().then {

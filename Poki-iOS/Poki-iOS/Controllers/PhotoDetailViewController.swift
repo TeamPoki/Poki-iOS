@@ -18,7 +18,7 @@ final class PhotoDetailViewController: UIViewController {
     }
     var indexPath: IndexPath?
     
-    private let dataManager = NetworkingManager.shared
+    private let dataManager = PoseImageManager.shared
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
     
