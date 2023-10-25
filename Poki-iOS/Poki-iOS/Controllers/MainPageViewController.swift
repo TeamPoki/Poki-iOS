@@ -24,6 +24,8 @@ class MainPageViewController: UIViewController {
     }()
     
     let dataManager = NetworkingManager.shared
+    let firestoreManager = FirestoreManager.shared
+    let stoageManager = StorageManager.shared
 
     // MARK: - Life Cycle
 
@@ -36,7 +38,7 @@ class MainPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         photoListCollectionView.reloadData()
-        dataManager.realTimebinding(collectionView: photoListCollectionView)
+        firestoreManager.realTimebinding(collectionView: photoListCollectionView)
     }
 
     // MARK: - Helpers
@@ -158,20 +160,20 @@ class MainPageViewController: UIViewController {
 
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataManager.photoList.count
+        return firestoreManager.photoList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoListCollectionViewCell
-        let photo = dataManager.photoList[indexPath.row]
+        let photo = firestoreManager.photoList[indexPath.row]
         
-        dataManager.downloadImage(urlString: photo.image) {  image in
+        stoageManager.downloadImage(urlString: photo.image) {  image in
             DispatchQueue.main.async {
                 cell.photoImage.image = image
             }
         }
             
-        dataManager.downloadImage(urlString: photo.tag.tagImage) {  image in
+        stoageManager.downloadImage(urlString: photo.tag.tagImage) {  image in
             DispatchQueue.main.async {
                 cell.tagImage.image = image
             }
@@ -184,7 +186,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
-        photoDetailVC.photoData = dataManager.photoList[indexPath.row]
+        photoDetailVC.photoData = firestoreManager.photoList[indexPath.row]
         photoDetailVC.indexPath = indexPath
         photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)

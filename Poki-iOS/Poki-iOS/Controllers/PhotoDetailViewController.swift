@@ -19,6 +19,8 @@ final class PhotoDetailViewController: UIViewController {
     var indexPath: IndexPath?
     
     private let dataManager = NetworkingManager.shared
+    private let firestoreManager = FirestoreManager.shared
+    private let storageManager = StorageManager.shared
     
     // MARK: - Components
     private let titleLabel = UILabel().then {
@@ -135,14 +137,14 @@ final class PhotoDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             guard let self = self else { return }
             guard let indexPath = indexPath else { return}
-            let photoData = dataManager.photoList[indexPath.row]
+            let photoData = firestoreManager.photoList[indexPath.row]
           
-            dataManager.delete(documentPath: photoData.documentReference)
+            firestoreManager.delete(documentPath: photoData.documentReference)
             
-            self.dataManager.deleteImage(imageURL: photoData.image) { _ in
+            self.storageManager.deleteImage(imageURL: photoData.image) { _ in
                 print("이미지 삭제 완료")
             }
-            self.dataManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+            self.storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
                 print("이미지 삭제 완료")
             }
             self.navigationController?.popViewController(animated: true)

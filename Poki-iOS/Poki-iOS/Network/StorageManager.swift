@@ -66,14 +66,14 @@ class StorageManager {
         let storageReference = Storage.storage().reference(forURL: urlString)
         let megaByte = Int64(4.9 * 1024 * 1024)
            
-           storageReference.getData(maxSize: megaByte) { data, error in
-               guard let imageData = data else {
-                   completion(nil)
-                   return
-               }
-               completion(UIImage(data: imageData))
-           }
-       }
+        storageReference.getData(maxSize: megaByte) { data, error in
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
+    }
     
     func deleteImage(imageURL: String, completion: @escaping (Error?) -> Void) {
         let storageReference = Storage.storage().reference(forURL: imageURL)
