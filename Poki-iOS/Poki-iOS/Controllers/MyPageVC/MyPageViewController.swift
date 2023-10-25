@@ -127,7 +127,7 @@ class MyPageViewController: UIViewController {
         let titleLabel = UILabel().then {
             $0.text = "My Page"
             $0.textColor = .black
-            $0.font = UIFont(name: Constants.fontExtraBold, size: 28)
+            $0.font = UIFont(name: Constants.fontExtraBold, size: 32)
         }
         let titleItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.leftBarButtonItem = titleItem
