@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseFirestore
-import FirebaseStorage
 import FirebaseFirestoreSwift
 
 class FirestoreManager {
@@ -52,7 +51,7 @@ class FirestoreManager {
     func update(documentPath: String, image: String, date: String, memo: String, tagText: String, tagImage: String) {
         let documentComponents = documentPath.components(separatedBy: "/")
         let collectionName = documentComponents[0]
-         let documentID = documentComponents[1]
+        let documentID = documentComponents[1]
         let docRef = collectionReference.document(documentID)
         let data: [String : Any] = [
              "image" : image,
