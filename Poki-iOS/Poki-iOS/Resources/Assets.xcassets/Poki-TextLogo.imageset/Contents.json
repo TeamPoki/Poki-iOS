@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "poki-logo.png",
+      "filename" : "Poki-TextLogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "poki-logo 1.png",
+      "filename" : "Poki-TextLogo 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "poki-logo 2.png",
+      "filename" : "Poki-TextLogo 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

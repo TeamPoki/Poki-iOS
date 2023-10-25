@@ -583,7 +583,7 @@
 				CURRENT_PROJECT_VERSION = 0;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Poki-iOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = PoKi;
+				INFOPLIST_KEY_CFBundleDisplayName = POKI;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -616,7 +616,7 @@
 				CURRENT_PROJECT_VERSION = 0;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Poki-iOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = PoKi;
+				INFOPLIST_KEY_CFBundleDisplayName = POKI;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
