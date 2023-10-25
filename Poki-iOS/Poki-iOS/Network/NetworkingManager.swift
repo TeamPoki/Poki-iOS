@@ -55,7 +55,7 @@ class NetworkingManager {
     }
     
     //실시간반영
-    func realTimebinding() {
+    func realTimebinding(collectionView : UICollectionView) {
         self.collectionReference.addSnapshotListener { snapshot, error in
             guard let documents = snapshot?.documents else {
                 print("Error Firestore fetching document: \(String(describing: error))")
@@ -66,12 +66,14 @@ class NetworkingManager {
                 // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
                 let data = doc.data()
                 if let photo = self.createPhotoFromData(data) {
+                    print("photo data load 완료")
                     return photo
                 } else {
-                    print("Error creating Photo model")
                     return nil
                 }
+                
             }
+            collectionView.reloadData()
         }
     }
 

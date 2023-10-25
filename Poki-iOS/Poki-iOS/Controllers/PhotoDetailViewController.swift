@@ -139,11 +139,11 @@ final class PhotoDetailViewController: UIViewController {
           
             dataManager.delete(documentPath: photoData.documentReference)
             
-            self.dataManager.deleteImage(imageURL: photoData.image) { error in
-                print("이미지 삭제 에러 : \(String(describing: error))")
+            self.dataManager.deleteImage(imageURL: photoData.image) { _ in
+                print("이미지 삭제 완료")
             }
-            self.dataManager.deleteImage(imageURL: photoData.tag.tagImage) { error in
-                print("이미지 삭제 에러 : \(String(describing: error))")
+            self.dataManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+                print("이미지 삭제 완료")
             }
             self.navigationController?.popViewController(animated: true)
         })

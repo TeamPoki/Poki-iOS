@@ -36,7 +36,7 @@ class MainPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         photoListCollectionView.reloadData()
-        dataManager.realTimebinding()
+        dataManager.realTimebinding(collectionView: photoListCollectionView)
     }
 
     // MARK: - Helpers
