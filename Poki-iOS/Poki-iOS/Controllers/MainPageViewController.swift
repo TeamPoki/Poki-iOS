@@ -23,7 +23,7 @@ class MainPageViewController: UIViewController {
         return collectionView
     }()
     
-    let dataManager = NetworkingManager.shared
+    let dataManager = PoseImageManager.shared
     let firestoreManager = FirestoreManager.shared
     let stoageManager = StorageManager.shared
 

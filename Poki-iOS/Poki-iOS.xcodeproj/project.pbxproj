@@ -47,7 +47,7 @@
 		EBE4FA892ADA7D1200EFFE54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */; };
 		EBE4FA902ADA7D1300EFFE54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */; };
 		EBE4FA932ADA7D1300EFFE54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE4FA912ADA7D1300EFFE54 /* LaunchScreen.storyboard */; };
-		EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */; };
+		EBE4FA9E2ADA7DCB00EFFE54 /* PoseImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FA9D2ADA7DCB00EFFE54 /* PoseImageManager.swift */; };
 		EBE4FAA12ADA7DF600EFFE54 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */; };
 		EBE4FAA72ADA7E6F00EFFE54 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA62ADA7E6F00EFFE54 /* Kingfisher */; };
 		EBE4FAAA2ADA7E7A00EFFE54 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = EBE4FAA92ADA7E7A00EFFE54 /* Then */; };
@@ -101,7 +101,7 @@
 		EBE4FA8F2ADA7D1300EFFE54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBE4FA922ADA7D1300EFFE54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBE4FA942ADA7D1300EFFE54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		EBE4FA9D2ADA7DCB00EFFE54 /* PoseImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseImageManager.swift; sourceTree = "<group>"; };
 		EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EBF75BD92AE24B6B00A11652 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		EBF75BDD2AE24C7F00A11652 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -218,7 +218,7 @@
 		EBE4FA9C2ADA7DB000EFFE54 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				EBE4FA9D2ADA7DCB00EFFE54 /* NetworkingManager.swift */,
+				EBE4FA9D2ADA7DCB00EFFE54 /* PoseImageManager.swift */,
 				051A60E32AE90B5C00597886 /* FirestoreManager.swift */,
 				051A60E82AE91F3400597886 /* StorageManager.swift */,
 			);
@@ -438,7 +438,7 @@
 				EBF75BE02AE24D6600A11652 /* LikedPoseViewController.swift in Sources */,
 				0511354A2ADD0CFF0045513A /* PhotoDetailViewController.swift in Sources */,
 				EBF75BE22AE254B700A11652 /* NoticeListTableViewCell.swift in Sources */,
-				EBE4FA9E2ADA7DCB00EFFE54 /* NetworkingManager.swift in Sources */,
+				EBE4FA9E2ADA7DCB00EFFE54 /* PoseImageManager.swift in Sources */,
 				F9030B232ADD0CD4007C5043 /* AddPhotoView.swift in Sources */,
 				051A60D22ADFDB9D00597886 /* LoginViewController.swift in Sources */,
 				051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */,

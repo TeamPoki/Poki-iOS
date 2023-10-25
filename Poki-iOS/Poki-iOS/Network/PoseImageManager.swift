@@ -6,12 +6,9 @@
 //
 
 import UIKit
-import FirebaseFirestore
-import FirebaseStorage
-import FirebaseFirestoreSwift
 
-class NetworkingManager {
-    static let shared = NetworkingManager()
+class PoseImageManager {
+    static let shared = PoseImageManager()
     
     private init() {}
     

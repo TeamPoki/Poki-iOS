@@ -33,7 +33,7 @@ final class AddPhotoViewController: UIViewController {
     var photoData: Photo?
     var indexPath: IndexPath?
     
-    let dataManager = NetworkingManager.shared
+    let dataManager = PoseImageManager.shared
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     

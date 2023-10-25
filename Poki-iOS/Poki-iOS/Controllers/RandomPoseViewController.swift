@@ -115,11 +115,11 @@ final class RandomPoseViewController: UIViewController {
         self.selectedCategory = selectCategory
         switch selectCategory {
         case .alone:
-            self.poseImages = NetworkingManager.shared.getAlonePoseImages()
+            self.poseImages = PoseImageManager.shared.getAlonePoseImages()
         case .twoPeople:
-            self.poseImages = NetworkingManager.shared.getTwoPoseImages()
+            self.poseImages = PoseImageManager.shared.getTwoPoseImages()
         case .manyPeople:
-            self.poseImages = NetworkingManager.shared.getManyPoseImages()
+            self.poseImages = PoseImageManager.shared.getManyPoseImages()
         }
         self.poseImageView.image = poseImages.randomElement() ?? UIImage()
     }
