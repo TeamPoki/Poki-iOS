@@ -22,7 +22,7 @@ class MainPageViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    
+
     let dataManager = PoseImageManager.shared
     let firestoreManager = FirestoreManager.shared
     let stoageManager = StorageManager.shared
@@ -46,7 +46,7 @@ class MainPageViewController: UIViewController {
     private func configureNav() {
         let logoLabel = UILabel().then {
             $0.text = "POKI"
-            $0.font = UIFont(name: Constants.fontHeavy, size: 28)
+            $0.font = UIFont(name: Constants.fontHeavy, size: 32)
             $0.textColor = .black
             $0.sizeToFit()
         }
@@ -69,7 +69,10 @@ class MainPageViewController: UIViewController {
             self.requestPhotoLibraryAccess()
         })
         let cameraAction = UIAction(title: "QR코드로 추가하기", image: UIImage(systemName: "qrcode"), handler: { _ in
-            print("카메라 기능 구현예정")
+            let qrCodeVC = QRCodeViewController()
+            let navController = UINavigationController(rootViewController: qrCodeVC)
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true, completion: nil)
         })
 
         let menu = UIMenu(title: "", children: [galleryAction, cameraAction])
