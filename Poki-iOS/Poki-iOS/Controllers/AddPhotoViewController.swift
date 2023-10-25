@@ -34,6 +34,9 @@ final class AddPhotoViewController: UIViewController {
     var indexPath: IndexPath?
     
     let dataManager = NetworkingManager.shared
+    let firestoreManager = FirestoreManager.shared
+    let storageManager = StorageManager.shared
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -170,7 +173,7 @@ final class AddPhotoViewController: UIViewController {
     }
     
     func uploadAndCreateImageData(image: [UIImage], date: String, memo: String, tagText: String) {
-        dataManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+        storageManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
             case .success((let photoURL, let tagURL)):
                 // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
@@ -190,12 +193,12 @@ final class AddPhotoViewController: UIViewController {
         let tagURLString = tagURL.absoluteString
         
         // Firestore에 데이터 생성
-        dataManager.create(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+        firestoreManager.create(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
     
     func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
-        dataManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+        storageManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
             case .success((let photoURL, let tagURL)):
                 // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
@@ -215,7 +218,7 @@ final class AddPhotoViewController: UIViewController {
         let tagURLString = tagURL.absoluteString
         
         // Firestore에 데이터 생성
-        dataManager.update(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+        firestoreManager.update(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
  
@@ -237,10 +240,10 @@ final class AddPhotoViewController: UIViewController {
             case .edit:
                 guard let photoData = photoData else { return }
                 updateData(documentPath: photoData.documentReference , image: [image, tagImage], date: date, memo: memo, tagText: tagText)
-                dataManager.deleteImage(imageURL: photoData.image) { _ in
+                storageManager.deleteImage(imageURL: photoData.image) { _ in
                     print("이미지 삭제 완료")
                 }
-                dataManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+                storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
                     print("이미지 삭제 완료")
                 }
               
@@ -319,7 +322,7 @@ let sheetPresentationController = UISheetPresentationController(presentedViewCon
 extension AddPhotoViewController: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
-        dataManager.downloadImage(urlString: tag.tagImage) {  image in
+        storageManager.downloadImage(urlString: tag.tagImage) {  image in
             DispatchQueue.main.async {
                 self.addPhotoView.tagImageView.image = image
             }

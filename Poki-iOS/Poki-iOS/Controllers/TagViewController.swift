@@ -18,6 +18,7 @@ class TagViewController: UIViewController {
     weak var delegate: TagSelectionDelegate?
     
     let dataManager = NetworkingManager.shared
+    let stoageManager = StorageManager.shared
     
     let tagTitleLabel = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 25)
@@ -89,7 +90,7 @@ extension TagViewController: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCollectionViewCell", for: indexPath) as? TagCollectionViewCell else { return UICollectionViewCell()}
         let data = dataArray[indexPath.row]
-        dataManager.downloadImage(urlString: data.tagImage) {  image in
+        stoageManager.downloadImage(urlString: data.tagImage) {  image in
             DispatchQueue.main.async {
                 cell.tagImageView.image = image
             }
