@@ -110,10 +110,12 @@ final class PhotoDetailViewController: UIViewController {
     }
     
     private func setupPhotoData() {
-        self.mainImageView.image = photoData?.image
-        self.backgroundImageView.image = photoData?.image
-        self.titleLabel.text = photoData?.memo
-        self.dateLabel.text = photoData?.date
+        guard let photoData = photoData else { return }
+        guard let photoURL = URL(string: photoData.image) else { return }
+        self.mainImageView.kf.setImage(with: photoURL)
+        self.backgroundImageView.kf.setImage(with: photoURL)
+        self.titleLabel.text = photoData.memo
+        self.dateLabel.text = photoData.date
     }
     
     private func setupDetailMenuAction() -> [UIAction] {
@@ -131,8 +133,19 @@ final class PhotoDetailViewController: UIViewController {
         let alert = UIAlertController(title: "사진 삭제하기", message: "선택한 사진을 삭제하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: nil))
         alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            self?.dataManager.delete(index: self?.indexPath?.row)
-            self?.navigationController?.popViewController(animated: true)
+            guard let self = self else { return }
+            guard let indexPath = indexPath else { return}
+            let photoData = dataManager.photoList[indexPath.row]
+          
+            dataManager.delete(documentPath: photoData.documentReference)
+            
+            self.dataManager.deleteImage(imageURL: photoData.image) { error in
+                print("이미지 삭제 에러 : \(String(describing: error))")
+            }
+            self.dataManager.deleteImage(imageURL: photoData.tag.tagImage) { error in
+                print("이미지 삭제 에러 : \(String(describing: error))")
+            }
+            self.navigationController?.popViewController(animated: true)
         })
         present(alert, animated: true, completion: nil)
     }
