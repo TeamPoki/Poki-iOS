@@ -173,7 +173,6 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
-        
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
@@ -299,14 +298,23 @@ class SignUpViewController: UIViewController {
     
     func isValid(nickname: String?) -> Bool {
         guard let nickname = nickname else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.nicknameRegex)
         return pred.evaluate(with: nickname)
     }
     
     // MARK: - Actions
     
-    @objc private func textDidChange(_ textField: UITextField) {
-        
+    @objc private func textDidChange(_ sender: UITextField) {
+        if sender == emailTextField {
+            self.email = sender.text
+        }
+        if sender == passwordTextField {
+            self.password = sender.text
+        }
+        if sender == nicknameTextField {
+            self.nickname = sender.text
+        }
+        self.updateSignUpButton()
     }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
@@ -331,6 +339,7 @@ class SignUpViewController: UIViewController {
             agreeToTermsOfServiceLabel.textColor = .lightGray
             self.isAgree = false
         }
+        self.updateSignUpButton()
     }
 
     @objc private func signUpButtonAction() {
