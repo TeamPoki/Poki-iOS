@@ -12,6 +12,26 @@ import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Properties
+    private var email: String?
+    private var password: String?
+    
+    // MARK: - Validation
+    private var isLoginFormValid: Bool? {
+        isValidEmail == true && isValidPassword == true
+    }
+    private var isValidEmail: Bool? {
+        self.email?.isEmpty == false &&
+        self.isValid(email: self.email)
+    }
+    private var isValidPassword: Bool? {
+        self.password?.isEmpty == false &&
+        self.isValid(password: self.password)
+    }
+    private var loginButtonColor: UIColor {
+        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
+    }
+
     // MARK: - Components
     private let headerView = UIView().then {
         $0.backgroundColor = .black
@@ -110,7 +130,7 @@ class LoginViewController: UIViewController {
     }
     
     private lazy var loginButton = UIButton().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .lightGray
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
@@ -141,6 +161,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        configureUI()
         addSubviews()
         setupLayout()
     }
@@ -149,6 +170,18 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
+    
+    // MARK: - Configure
+    private func configureUI() {
+        configure(emailTextField)
+        configure(passwordTextField)
+    }
+    
+    private func configure(_ textField: UITextField) {
+        textField.delegate = self
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+
     
     // MARK: - Helpers
     
@@ -221,33 +254,43 @@ class LoginViewController: UIViewController {
            UserDefaults.standard.set(true, forKey: "LoginStatus")
        }
     }
-        
-//    private func goToNextPage() {
-//        if let presentingVC = presentingViewController {
-//            let tabBarController = presentingVC as! UITabBarController
-//            let navi = tabBarController.viewControllers?[0] as! UINavigationController
-//            let firstVC = navi.viewControllers[0] as! MainPageViewController
-//
-//            //유효성 검사 (임시 나중에 계획 후 변경예정)
-//            if emailTextField.text == "" || emailTextField.text == " "
-//                || passwordTextField.text == "" || passwordTextField.text == " "{
-//                let alert = UIAlertController(title: "오류", message: "아이디와 비밀번호를 입력해 주세요.", preferredStyle: .alert)
-//                //동작버튼 설정
-//                let success = UIAlertAction(title: "확인", style: .default)
-//                alert.addAction(success)
-//                self.present(alert, animated: true, completion: nil)
-//                return
-//            } else {
-//                firstVC.userIdStatus.toggle()
-//                tabBarController.selectedIndex = 0
-//                dismiss(animated: true, completion: nil)
-//            }
-//
-//        }
-//    }
     
+    // MARK: - Update UI
+
+    private func updateLoginButton() {
+        if isLoginFormValid == true {
+            loginButton.isEnabled = true
+        }
+        if isLoginFormValid == false {
+            loginButton.isEnabled = false
+        }
+        loginButton.backgroundColor = self.loginButtonColor
+    }
+    
+    // MARK: - Validation
+    func isValid(email: String?) -> Bool {
+        guard let email = email else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
+        return pred.evaluate(with: email)
+    }
+    
+    func isValid(password: String?) -> Bool {
+        guard let password = password else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        return pred.evaluate(with: password)
+    }
     
     // MARK: - Actions
+    
+    @objc private func textDidChange(_ sender: UITextField) {
+        if sender == emailTextField {
+            self.email = sender.text
+        }
+        if sender == passwordTextField {
+            self.password = sender.text
+        }
+        updateLoginButton()
+    }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
@@ -272,8 +315,9 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
-        let email = self.emailTextField.text ?? ""
-        let password = self.passwordTextField.text ?? ""
+        guard let email = self.email,
+              let password = self.password
+        else { return }
         loginUser(withEmail: email, password: password)
     }
     
@@ -285,5 +329,9 @@ class LoginViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+}
+
+extension LoginViewController: UITextFieldDelegate {
     
 }
