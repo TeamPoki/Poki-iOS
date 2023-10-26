@@ -23,11 +23,11 @@ class LoginViewController: UIViewController {
     }
     
     private let commentLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 14)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 14)
         $0.numberOfLines = 2
         $0.text = """
                     내가 찍은 인생네컷
-                    이쁘게 보관할 수 있는 플랫폼
+                    네컷 추억을 보관하는 플랫폼
                     """
         $0.textColor = .white
         $0.setLineSpacing(spacing: 3)
