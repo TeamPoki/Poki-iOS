@@ -19,10 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let tabBarController = CustomTabBarController()
-//        let tabBarController = UINavigationController(rootViewController: LoginViewController())
-        
-        window.rootViewController = tabBarController
+        if UserDefaults.standard.bool(forKey: "LoginStatus") == true {
+            let rootVC = CustomTabBarController()
+            window.rootViewController = rootVC
+        }
+        if UserDefaults.standard.bool(forKey: "LoginStatus") == false {
+            let rootVC = CustomTabBarController()
+            window.rootViewController = rootVC
+        }
         self.window = window
         window.makeKeyAndVisible()
     }
