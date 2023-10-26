@@ -324,10 +324,12 @@ class SignUpViewController: UIViewController {
         if sender.isSelected == true {
             sender.tintColor = .black
             agreeToTermsOfServiceLabel.textColor = .black
+            self.isAgree = true
         }
         if sender.isSelected == false {
             sender.tintColor = .lightGray
             agreeToTermsOfServiceLabel.textColor = .lightGray
+            self.isAgree = false
         }
     }
 
