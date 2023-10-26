@@ -334,9 +334,7 @@ class SignUpViewController: UIViewController {
     }
 
     @objc private func signUpButtonAction() {
-        let email = self.emailTextField.text ?? ""
-        let password = self.passwordTextField.text ?? ""
-        
+        guard let email = self.email, let password = self.password else { return }
         Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
             guard let self = self else { return }
             if let error = error {
@@ -348,8 +346,7 @@ class SignUpViewController: UIViewController {
                     print("아이디 생성 오류 : \(error.localizedDescription)")
                 }
             } else {
-                self.dismiss(animated: true)
-//                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
