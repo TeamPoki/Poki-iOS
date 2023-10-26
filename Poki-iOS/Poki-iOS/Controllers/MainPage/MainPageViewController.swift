@@ -124,6 +124,7 @@ class MainPageViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func handleLogout() {
+        UserDefaults.standard.removeObject(forKey: "userIdStatus")
         self.userIdStatus.toggle()
     }
     

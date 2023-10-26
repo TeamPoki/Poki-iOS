@@ -254,9 +254,9 @@ class LoginViewController: UIViewController {
         
     private func goToNextPage() {
         if let presentingVC = presentingViewController {
-            let tabBarCon = presentingVC as! UITabBarController
-            let nav = tabBarCon.viewControllers?[0] as! UINavigationController
-            let firstVC = nav.viewControllers[0] as! MainPageViewController
+            let tabBarController = presentingVC as! UITabBarController
+            let navi = tabBarController.viewControllers?[0] as! UINavigationController
+            let firstVC = navi.viewControllers[0] as! MainPageViewController
             
             //유효성 검사 (임시 나중에 계획 후 변경예정)
             if self.loginFormIsEmpty == true {
@@ -269,6 +269,7 @@ class LoginViewController: UIViewController {
             }
             if self.loginFormIsEmpty == false {
                 firstVC.userIdStatus.toggle()
+                tabBarController.selectedIndex = 0
                 dismiss(animated: true, completion: nil)
             }
         }
