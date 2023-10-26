@@ -37,6 +37,13 @@ class SignUpViewController: UIViewController {
         $0.isSecureTextEntry = true
     }
     
+    private lazy var eyeButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "eye"), for: .normal)
+        $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        $0.tintColor = .lightGray
+        $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
+    }
+    
     private let passwordTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -61,7 +68,6 @@ class SignUpViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
-       
     }
     
     private lazy var agreeToTermsOfServiceButton = UIButton().then {
@@ -138,10 +144,12 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
+        
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
+        passwordTextFieldView.addSubview(eyeButton)
         view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
     }
     
@@ -174,6 +182,10 @@ class SignUpViewController: UIViewController {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
+        }
+        eyeButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(10)
+            $0.centerY.equalTo(passwordTextField)
         }
         passwordPlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
@@ -237,6 +249,16 @@ class SignUpViewController: UIViewController {
     
     @objc private func textDidChange(_ textField: UITextField) {
         
+    }
+    
+    @objc private func eyeButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            passwordTextField.isSecureTextEntry = false
+        }
+        if sender.isSelected == false {
+            passwordTextField.isSecureTextEntry = true
+        }
     }
     
     @objc func agreeToTermsOfServiceButtonTapped(_ sender: UIButton) {
