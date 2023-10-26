@@ -73,8 +73,8 @@ class LoginViewController: UIViewController {
     
     private lazy var emailSaveButton = UIButton().then {
         $0.contentHorizontalAlignment = .left
-        let imageConfigure = UIImage.SymbolConfiguration(pointSize: 22)
         $0.tintColor = .lightGray
+        let imageConfigure = UIImage.SymbolConfiguration(pointSize: 25)
         $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfigure), for: .normal)
         $0.addTarget(self, action: #selector(emailSaveButtonTapped), for: .touchUpInside)
     }

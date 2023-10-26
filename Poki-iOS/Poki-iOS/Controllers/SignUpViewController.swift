@@ -61,6 +61,26 @@ class SignUpViewController: UIViewController {
         $0.layer.cornerRadius = 25
     }
     
+    private let checkboxButton = UIButton().then {
+        $0.contentHorizontalAlignment = .left
+        $0.tintColor = .lightGray
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
+        $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfig), for: .normal)
+    }
+    
+    private let agreeToTermsOfServiceLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.text = "서비스 이용약관에 동의합니다."
+        $0.textColor = .lightGray
+    }
+    
+    private let agreeToTermsOfServiceStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 3
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -114,7 +134,8 @@ class SignUpViewController: UIViewController {
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, signUpButton)
+        agreeToTermsOfServiceStackView.addArrangedSubviews(checkboxButton, agreeToTermsOfServiceLabel)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -168,6 +189,11 @@ class SignUpViewController: UIViewController {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(nicknameTextField)
+        }
+        agreeToTermsOfServiceStackView.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
