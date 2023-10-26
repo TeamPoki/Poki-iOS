@@ -13,6 +13,10 @@ import PhotosUI
 class MainPageViewController: UIViewController {
 
     // MARK: - Properties
+    
+    private let dataManager = PoseImageManager.shared
+    private let firestoreManager = FirestoreManager.shared
+    private  let stoageManager = StorageManager.shared
 
     private var photoListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -22,17 +26,7 @@ class MainPageViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    var userIdStatus = false {
-        didSet {
-            UserDefaults.standard.set(userIdStatus, forKey: "userIdStatus")
-            presentingLoginVC()
-        }
-    }
     
-    let dataManager = PoseImageManager.shared
-    let firestoreManager = FirestoreManager.shared
-    let stoageManager = StorageManager.shared
-
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -40,9 +34,6 @@ class MainPageViewController: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
-        userIdStatus = UserDefaults.standard.bool(forKey: "userIdStatus")
-        presentingLoginVC()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLogout), name: Notification.Name("UserDidLogout"), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,14 +42,6 @@ class MainPageViewController: UIViewController {
     }
 
     // MARK: - Helpers
-
-    private func presentingLoginVC() {
-        if !userIdStatus {
-            let loginVC = LoginViewController()
-            loginVC.modalPresentationStyle = .fullScreen
-            present(loginVC, animated: false, completion: nil)
-        }
-    }
     
     private func configureNav() {
         let logoLabel = UILabel().then {
@@ -123,10 +106,10 @@ class MainPageViewController: UIViewController {
 
     // MARK: - Actions
 
-    @objc private func handleLogout() {
-        UserDefaults.standard.removeObject(forKey: "userIdStatus")
-        self.userIdStatus.toggle()
-    }
+//    @objc private func handleLogout() {
+//        UserDefaults.standard.removeObject(forKey: "userIdStatus")
+//        self.userIdStatus.toggle()
+//    }
     
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
         let maxSizeInBytes: Int = 4 * 1024 * 1024

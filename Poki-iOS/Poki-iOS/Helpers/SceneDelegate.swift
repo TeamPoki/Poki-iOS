@@ -19,12 +19,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let tabBarController = CustomTabBarController()
-//        let tabBarController = UINavigationController(rootViewController: LoginViewController())
-        
-        window.rootViewController = tabBarController
+        if UserDefaults.standard.bool(forKey: "LoginStatus") == true {
+            let rootVC = CustomTabBarController()
+            window.rootViewController = rootVC
+        }
+        if UserDefaults.standard.bool(forKey: "LoginStatus") == false {
+            let rootVC = UINavigationController(rootViewController: LoginViewController()) 
+            window.rootViewController = rootVC
+        }
         self.window = window
         window.makeKeyAndVisible()
+    }
+    
+    func changeRootViewController(_ viewController: UIViewController) {
+        guard let window = self.window else { return }
+        window.rootViewController = viewController
+        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
