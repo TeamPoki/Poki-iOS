@@ -18,13 +18,15 @@ class LoginViewController: UIViewController {
     
     // MARK: - Validation
     private var isLoginFormValid: Bool? {
-        isEmailValid == true && isPasswordValid == true
+        isValidEmail == true && isValidPassword == true
     }
-    private var isEmailValid: Bool? {
-        self.email?.isEmpty == false
+    private var isValidEmail: Bool? {
+        self.email?.isEmpty == false &&
+        self.isValid(email: self.email)
     }
-    private var isPasswordValid: Bool? {
-        self.password?.isEmpty == false
+    private var isValidPassword: Bool? {
+        self.password?.isEmpty == false &&
+        self.isValid(password: self.password)
     }
     private var loginButtonColor: UIColor {
         isLoginFormValid == true ? UIColor.black : UIColor.lightGray
@@ -277,6 +279,9 @@ class LoginViewController: UIViewController {
 //        }
 //    }
     
+    
+    // MARK: - Update UI
+
     private func updateLoginButton() {
         if isLoginFormValid == true {
             loginButton.isEnabled = true
@@ -285,6 +290,19 @@ class LoginViewController: UIViewController {
             loginButton.isEnabled = false
         }
         loginButton.backgroundColor = self.loginButtonColor
+    }
+    
+    // MARK: - Validation
+    func isValid(email: String?) -> Bool {
+        guard let email = email else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
+        return pred.evaluate(with: email)
+    }
+    
+    func isValid(password: String?) -> Bool {
+        guard let password = password else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        return pred.evaluate(with: password)
     }
     
     // MARK: - Actions
