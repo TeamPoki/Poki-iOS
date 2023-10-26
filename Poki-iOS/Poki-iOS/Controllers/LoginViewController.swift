@@ -64,6 +64,12 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
+    private let eyeButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "eye"), for: .normal)
+        $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        $0.tintColor = .lightGray
+    }
+    
     private let passwordStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fill
