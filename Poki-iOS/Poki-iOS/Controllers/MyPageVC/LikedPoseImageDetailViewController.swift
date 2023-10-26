@@ -6,17 +6,20 @@
 //
 
 import UIKit
+import Then
 
-class LikedPoseImageDetailViewController: UIViewController {
+final class LikedPoseImageDetailViewController: UIViewController {
+    
     // MARK: - Properties
+    
     var image: UIImage?
     
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imageSetup()
         view.backgroundColor = .black
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +44,6 @@ class LikedPoseImageDetailViewController: UIViewController {
         }
         
         navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.topItem?.title = ""
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -54,5 +56,4 @@ class LikedPoseImageDetailViewController: UIViewController {
         imageView.frame = view.bounds
         view.addSubview(imageView)
     }
-
 }

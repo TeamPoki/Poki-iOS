@@ -54,7 +54,6 @@ final class NoticeListViewController: UIViewController {
         }
         
         navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.topItem?.title = ""
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
