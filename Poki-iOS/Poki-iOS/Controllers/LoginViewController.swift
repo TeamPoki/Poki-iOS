@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
         $0.axis = .horizontal
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.spacing = 5
+        $0.spacing = 3
     }
     
     private let bodyStackView = UIStackView().then {
@@ -179,19 +179,18 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
         }
         emailTextField.snp.makeConstraints {
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
         passwordTextField.snp.makeConstraints {
-            $0.height.equalTo(55)
-        }
-        emailSaveButton.snp.makeConstraints {
-            $0.width.equalTo(25)
-            $0.height.equalTo(25)
+            $0.height.equalTo(50)
         }
         bodyStackView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        emailSaveButton.snp.makeConstraints {
+            $0.width.equalTo(25)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)

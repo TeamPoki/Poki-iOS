@@ -210,7 +210,7 @@ class SignUpViewController: UIViewController {
             $0.centerY.equalTo(nicknameTextField)
         }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(25)
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
         }
