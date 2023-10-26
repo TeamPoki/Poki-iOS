@@ -15,8 +15,17 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     private var email: String?
     private var password: String?
+    
+    // MARK: - Validation
     private var loginFormIsEmpty: Bool? {
-        self.email?.isEmpty == true && self.password?.isEmpty == true
+        self.email?.isEmpty == true &&
+        self.password?.isEmpty == true
+    }
+    private var isEmailValid: Bool? {
+        return nil
+    }
+    private var isPasswordValid: Bool? {
+        return nil
     }
 
     // MARK: - Components
