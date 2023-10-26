@@ -9,43 +9,59 @@ import UIKit
 import SnapKit
 import Then
 
-class NoticeListTableViewCell: UITableViewCell {
+final class NoticeListTableViewCell: UITableViewCell {
 
     // MARK: - Properties
-    let titleLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.font, size: 14)
-        $0.numberOfLines = 2 // 최대 2줄 표시
+    
+    private lazy var titleLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.numberOfLines = 0
+        $0.lineBreakStrategy = .hangulWordPriority
+        $0.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        $0.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+    }
+
+    private lazy var dateLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .lightGray
     }
     
-    let dateLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.font, size: 10)
-        $0.textColor = .gray
+    private lazy var stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 15
+        $0.distribution = .fill
     }
+
     
     // MARK: - Initialization
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(dateLabel)
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.left.equalTo(contentView).offset(16)
-            make.right.equalTo(contentView).offset(-16)
-        }
-        
-        dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.left.equalTo(contentView).offset(16)
-            make.right.equalTo(contentView).offset(-16)
-            make.bottom.equalTo(contentView).offset(-16)
-        }
+        configureCell()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Helpers
     
+    private func configureCell() {
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubviews(titleLabel, dateLabel)
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-20)
+        }
+    }
+    
+    func configure(title: String, date: String) {
+        titleLabel.text = title
+        dateLabel.text = date
+    }
 }

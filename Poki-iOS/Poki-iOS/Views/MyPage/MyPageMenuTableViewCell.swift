@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class MyPageMenuTableViewCell: UITableViewCell {
+final class MyPageMenuTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
@@ -38,7 +38,7 @@ class MyPageMenuTableViewCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Helpers
@@ -60,6 +60,5 @@ class MyPageMenuTableViewCell: UITableViewCell {
             $0.leading.equalTo(contentView).offset(16)
             $0.centerY.equalTo(contentView)
         }
-
     }
 }

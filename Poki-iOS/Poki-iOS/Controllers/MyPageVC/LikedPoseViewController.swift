@@ -35,7 +35,7 @@ class LikedPoseViewController: UIViewController {
     private lazy var poseOne = UILabel().then {
         $0.text = "1번포즈"
         $0.textColor = .black
-        $0.font = UIFont(name: Constants.font, size: 18)
+        $0.font = UIFont(name: Constants.fontRegular, size: 18)
         $0.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(poseOneTapped))
         $0.addGestureRecognizer(tapGesture)
@@ -44,7 +44,7 @@ class LikedPoseViewController: UIViewController {
     private lazy var poseTwo = UILabel().then {
         $0.text = "2번포즈"
         $0.textColor = .black
-        $0.font = UIFont(name: Constants.font, size: 18)
+        $0.font = UIFont(name: Constants.fontRegular, size: 18)
         $0.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(poseTwoTapped))
         $0.addGestureRecognizer(tapGesture)
@@ -53,7 +53,7 @@ class LikedPoseViewController: UIViewController {
     private lazy var poseThree = UILabel().then {
         $0.text = "3번포즈"
         $0.textColor = .black
-        $0.font = UIFont(name: Constants.font, size: 18)
+        $0.font = UIFont(name: Constants.fontRegular, size: 18)
         $0.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(poseManyTapped))
         $0.addGestureRecognizer(tapGesture)

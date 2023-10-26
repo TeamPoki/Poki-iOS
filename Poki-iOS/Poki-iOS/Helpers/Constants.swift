@@ -8,7 +8,8 @@
 import UIKit
 
 struct Constants {
-    static let font = "SUIT-Regular"
+    static let d9GrayColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.00)
+    static let fontRegular = "SUIT-Regular"
     static let fontBold = "SUIT-Bold"
     static let fontExtraLight = "SUIT-ExtraLight"
     static let fontHeavy = "SUIT-Heavy"
