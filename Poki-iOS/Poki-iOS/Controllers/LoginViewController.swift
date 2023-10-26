@@ -178,10 +178,12 @@ class LoginViewController: UIViewController {
     }
     
     private func configure(_ textField: UITextField) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         textField.delegate = self
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
-
     
     // MARK: - Helpers
     
@@ -256,7 +258,6 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Update UI
-
     private func updateLoginButton() {
         if isLoginFormValid == true {
             loginButton.isEnabled = true
@@ -332,6 +333,7 @@ class LoginViewController: UIViewController {
     
 }
 
+// MARK: - UITextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     
 }

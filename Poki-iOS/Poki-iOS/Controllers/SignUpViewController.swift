@@ -91,12 +91,12 @@ class SignUpViewController: UIViewController {
         $0.backgroundColor = .clear
     }
     
-    private let signUpButton = UIButton().then {
-        $0.backgroundColor = .black
+    private lazy var signUpButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
+        $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     private lazy var agreeToTermsOfServiceButton = UIButton().then {
@@ -129,7 +129,7 @@ class SignUpViewController: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
-        signUpButtonTapped()
+        updateSignUpButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -244,10 +244,6 @@ class SignUpViewController: UIViewController {
         view.addSubview(underline)
     }
     
-    private func signUpButtonTapped() {
-        self.signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
-    }
-    
     private func verifyingDuplicationAlert(text: String) {
         let alert = UIAlertController(title: "중복", message: "\(text)는 이미 존재하는 ID 입니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "종료", style: .cancel, handler: nil))
@@ -325,7 +321,7 @@ class SignUpViewController: UIViewController {
         self.updateSignUpButton()
     }
 
-    @objc private func signUpButtonAction() {
+    @objc private func signUpButtonTapped() {
         guard let email = self.email, let password = self.password else { return }
         Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
             guard let self = self else { return }
@@ -344,6 +340,7 @@ class SignUpViewController: UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension SignUpViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == emailTextField {
