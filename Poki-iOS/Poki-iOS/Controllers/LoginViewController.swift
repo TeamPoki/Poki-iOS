@@ -145,6 +145,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        configureUI()
         addSubviews()
         setupLayout()
     }
@@ -155,6 +156,11 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Configure
+    private func configureUI() {
+        configure(emailTextField)
+        configure(passwordTextField)
+    }
+    
     private func configure(_ textField: UITextField) {
         textField.delegate = self
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
@@ -259,6 +265,15 @@ class LoginViewController: UIViewController {
     
     
     // MARK: - Actions
+    
+    @objc private func textDidChange(_ sender: UITextField) {
+        if sender == emailTextField {
+            self.email = sender.text
+        }
+        if sender == passwordTextField {
+            self.password = sender.text
+        }
+    }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
