@@ -132,6 +132,7 @@ final class MyPageViewController: UIViewController {
         }
         let titleItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.leftBarButtonItem = titleItem
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
