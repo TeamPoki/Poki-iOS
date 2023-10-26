@@ -12,6 +12,10 @@ import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Properties
+    private var email: String?
+    private var password: String?
+
     // MARK: - Components
     private let headerView = UIView().then {
         $0.backgroundColor = .black
@@ -150,6 +154,13 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    // MARK: - Configure
+    private func configure(_ textField: UITextField) {
+        textField.delegate = self
+        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+
+    
     // MARK: - Helpers
     
     private func addSubviews() {
@@ -211,17 +222,17 @@ class LoginViewController: UIViewController {
     }
      
    private func loginUser(withEmail email: String, password: String) {
-            Auth.auth().signIn(withEmail: email, password: password) {[weak self] _, error in
-                guard let self = self else { return }
-                
-                if let error = error {
-                    print("로그인 에러 : \(error.localizedDescription)")
-                } else {
-                    // 로그인이 되면 메인페이지로 이동
-                    goToNextPage()
-                }
+        Auth.auth().signIn(withEmail: email, password: password) {[weak self] _, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("로그인 에러 : \(error.localizedDescription)")
+            } else {
+                // 로그인이 되면 메인페이지로 이동
+                goToNextPage()
             }
         }
+    }
         
     private func goToNextPage() {
         if let presentingVC = presentingViewController {
@@ -287,5 +298,9 @@ class LoginViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+}
+
+extension LoginViewController: UITextFieldDelegate {
     
 }
