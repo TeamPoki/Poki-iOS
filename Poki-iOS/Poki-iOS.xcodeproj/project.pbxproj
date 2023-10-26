@@ -15,7 +15,6 @@
 		051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E62AE90BAF00597886 /* FirebaseError.swift */; };
 		051A60E92AE91F3400597886 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E82AE91F3400597886 /* StorageManager.swift */; };
 		26CC4B0F2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift */; };
-		EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255BE2ADCBCF800B73A89 /* Photos.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
 		EB5255C52ADCC2C200B73A89 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C42ADCC2C200B73A89 /* Tag.swift */; };
@@ -73,7 +72,6 @@
 		051A60E62AE90BAF00597886 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		051A60E82AE91F3400597886 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPoseImageDetailViewController.swift; sourceTree = "<group>"; };
-		EB5255BE2ADCBCF800B73A89 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EB5255C42ADCC2C200B73A89 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -253,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				051A60E52AE90B9B00597886 /* Error */,
-				EB5255BE2ADCBCF800B73A89 /* Photos.swift */,
 				EB5255C02ADCC0B000B73A89 /* Photo.swift */,
 				EB5255C22ADCC2B700B73A89 /* User.swift */,
 				EB5255C42ADCC2C200B73A89 /* Tag.swift */,
@@ -462,7 +459,6 @@
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
 				051A60D62AE69B9200597886 /* SignUpViewController.swift in Sources */,
 				EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */,
-				EB5255BF2ADCBCF800B73A89 /* Photos.swift in Sources */,
 				051A60E92AE91F3400597886 /* StorageManager.swift in Sources */,
 				EBC495ED2AE0111D001EE564 /* MyPageMenuTableViewCell.swift in Sources */,
 				26CC4B0F2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift in Sources */,

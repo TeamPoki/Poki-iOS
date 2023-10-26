@@ -45,6 +45,7 @@ final class SettingsViewController: UIViewController {
     
     private func configureNav() {
         navigationItem.title = "설정"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
@@ -84,6 +85,7 @@ final class SettingsViewController: UIViewController {
     }
 }
 // MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count

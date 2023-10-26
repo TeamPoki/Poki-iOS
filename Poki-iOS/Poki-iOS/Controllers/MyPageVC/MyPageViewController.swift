@@ -229,18 +229,21 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
+            cell.selectionStyle = .none
         case 1:
             cell.cellTextLabel.text = "문의하기"
             cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
+            cell.selectionStyle = .none
         case 2:
             cell.cellTextLabel.text = "로그아웃"
             cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
             cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
             cell.cellButton.tintColor = .black
             cell.cellButton.isEnabled = false
+            cell.selectionStyle = .none
         case 3:
             cell.appVersionLabel.text = "앱 버전"
             cell.appVersionLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
@@ -280,8 +283,10 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(alertController, animated: true, completion: nil)
             }
         case 2:
-            print("로그아웃 됨")
-            NotificationCenter.default.post(name: Notification.Name("UserDidLogout"), object: nil)
+            let loginVC = UINavigationController(rootViewController: LoginViewController())
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.changeRootViewController(loginVC)
+            UserDefaults.standard.set(false, forKey: "LoginStatus")
         case 3:
             break
         default:

@@ -115,7 +115,7 @@ class LoginViewController: UIViewController {
         $0.axis = .horizontal
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.spacing = 5
+        $0.spacing = 3
     }
     
     private let bodyStackView = UIStackView().then {
@@ -208,19 +208,18 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
         }
         emailTextField.snp.makeConstraints {
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
         passwordTextField.snp.makeConstraints {
-            $0.height.equalTo(55)
-        }
-        emailSaveButton.snp.makeConstraints {
-            $0.width.equalTo(25)
-            $0.height.equalTo(25)
+            $0.height.equalTo(50)
         }
         bodyStackView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        emailSaveButton.snp.makeConstraints {
+            $0.width.equalTo(25)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
@@ -240,40 +239,41 @@ class LoginViewController: UIViewController {
     }
      
    private func loginUser(withEmail email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) {[weak self] _, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                print("로그인 에러 : \(error.localizedDescription)")
-            } else {
-                // 로그인이 되면 메인페이지로 이동
-                goToNextPage()
-            }
-        }
+       Auth.auth().signIn(withEmail: email, password: password) { _, error in
+           if let error = error {
+               print("로그인 에러 : \(error.localizedDescription)")
+               return
+           }
+           let rootVC = CustomTabBarController()
+           guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+           sceneDelegate.changeRootViewController(rootVC)
+           UserDefaults.standard.set(true, forKey: "LoginStatus")
+       }
     }
         
-    private func goToNextPage() {
-        if let presentingVC = presentingViewController {
-            let tabBarController = presentingVC as! UITabBarController
-            let navi = tabBarController.viewControllers?[0] as! UINavigationController
-            let firstVC = navi.viewControllers[0] as! MainPageViewController
-            
-            //유효성 검사 (임시 나중에 계획 후 변경예정)
-            if self.loginFormIsEmpty == true {
-                let alert = UIAlertController(title: "오류", message: "아이디와 비밀번호를 입력해 주세요.", preferredStyle: .alert)
-                //동작버튼 설정
-                let success = UIAlertAction(title: "확인", style: .default)
-                alert.addAction(success)
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
-            if self.loginFormIsEmpty == false {
-                firstVC.userIdStatus.toggle()
-                tabBarController.selectedIndex = 0
-                dismiss(animated: true, completion: nil)
-            }
-        }
-    }
+//    private func goToNextPage() {
+//        if let presentingVC = presentingViewController {
+//            let tabBarController = presentingVC as! UITabBarController
+//            let navi = tabBarController.viewControllers?[0] as! UINavigationController
+//            let firstVC = navi.viewControllers[0] as! MainPageViewController
+//
+//            //유효성 검사 (임시 나중에 계획 후 변경예정)
+//            if emailTextField.text == "" || emailTextField.text == " "
+//                || passwordTextField.text == "" || passwordTextField.text == " "{
+//                let alert = UIAlertController(title: "오류", message: "아이디와 비밀번호를 입력해 주세요.", preferredStyle: .alert)
+//                //동작버튼 설정
+//                let success = UIAlertAction(title: "확인", style: .default)
+//                alert.addAction(success)
+//                self.present(alert, animated: true, completion: nil)
+//                return
+//            } else {
+//                firstVC.userIdStatus.toggle()
+//                tabBarController.selectedIndex = 0
+//                dismiss(animated: true, completion: nil)
+//            }
+//
+//        }
+//    }
     
     
     // MARK: - Actions
@@ -318,8 +318,7 @@ class LoginViewController: UIViewController {
     
     @objc private func signUpButtonTapped(_ sender: UIButton) {
         let signUpVC = SignUpViewController()
-        self.present(signUpVC, animated: true)
-//        navigationController?.pushViewController(signUpVC, animated: true)
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
