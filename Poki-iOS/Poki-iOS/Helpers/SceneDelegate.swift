@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = rootVC
         }
         if UserDefaults.standard.bool(forKey: "LoginStatus") == false {
-            let rootVC = CustomTabBarController()
+            let rootVC = UINavigationController(rootViewController: LoginViewController()) 
             window.rootViewController = rootVC
         }
         self.window = window

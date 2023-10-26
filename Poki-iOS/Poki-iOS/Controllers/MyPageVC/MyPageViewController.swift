@@ -280,8 +280,10 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(alertController, animated: true, completion: nil)
             }
         case 2:
-            print("로그아웃 됨")
-            NotificationCenter.default.post(name: Notification.Name("UserDidLogout"), object: nil)
+            let loginVC = UINavigationController(rootViewController: LoginViewController())
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.changeRootViewController(loginVC)
+            UserDefaults.standard.set(false, forKey: "LoginStatus")
         case 3:
             break
         default:
