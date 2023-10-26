@@ -240,8 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				EBE4FA862ADA7D1200EFFE54 /* AppDelegate.swift */,
-				EB98AF3A2ADBC4D9008586BC /* Extensions.swift */,
 				EBE4FA882ADA7D1200EFFE54 /* SceneDelegate.swift */,
+				EB98AF3A2ADBC4D9008586BC /* Extensions.swift */,
 				EBE4FAA02ADA7DF600EFFE54 /* Constants.swift */,
 			);
 			path = Helpers;

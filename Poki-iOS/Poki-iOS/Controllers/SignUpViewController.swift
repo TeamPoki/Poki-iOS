@@ -179,7 +179,7 @@ class SignUpViewController: UIViewController {
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(25)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.height.equalTo(50)
         }
     }
