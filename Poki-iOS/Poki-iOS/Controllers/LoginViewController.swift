@@ -63,13 +63,14 @@ class LoginViewController: UIViewController {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.cornerRadius = 8
+        $0.isSecureTextEntry = true
     }
     
-    private var eyeButton = UIButton().then {
+    private lazy var eyeButton = UIButton().then {
         $0.setImage(UIImage(systemName: "eye"), for: .normal)
         $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
         $0.tintColor = .lightGray
-//        $0.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
+        $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
     }
     
     private let passwordStackView = UIStackView().then {
@@ -154,11 +155,11 @@ class LoginViewController: UIViewController {
     private func addSubviews() {
         headerView.addSubviews(logoLabel, commentLabel)
         emailStackView.addArrangedSubviews(emailTitleLabel, emailTextField)
-        passwordTextField.addSubview(eyeButton)
         passwordStackView.addArrangedSubviews(passwordTitleLabel, passwordTextField)
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
         bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
         bottomStackView.addArrangedSubviews(loginButton, signUpButton)
+        passwordStackView.addSubview(eyeButton)
         view.addSubviews(headerView, bodyStackView, bottomStackView)
     }
     
@@ -194,7 +195,7 @@ class LoginViewController: UIViewController {
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(passwordTextField)
         }
         loginButton.snp.makeConstraints {
             $0.height.equalTo(50)
@@ -247,6 +248,16 @@ class LoginViewController: UIViewController {
     
     
     // MARK: - Actions
+    
+    @objc private func eyeButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            passwordTextField.isSecureTextEntry = false
+        }
+        if sender.isSelected == false {
+            passwordTextField.isSecureTextEntry = true
+        }
+    }
     
     @objc private func emailSaveButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
