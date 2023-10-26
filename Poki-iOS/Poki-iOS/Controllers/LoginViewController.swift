@@ -184,7 +184,6 @@ class LoginViewController: UIViewController {
         textField.delegate = self
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
-
     
     // MARK: - Helpers
     
@@ -259,7 +258,6 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Update UI
-
     private func updateLoginButton() {
         if isLoginFormValid == true {
             loginButton.isEnabled = true
@@ -335,6 +333,7 @@ class LoginViewController: UIViewController {
     
 }
 
+// MARK: - UITextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     
 }
