@@ -24,11 +24,11 @@ class LoginViewController: UIViewController {
     }
     
     private let commentLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 14)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 14)
         $0.numberOfLines = 2
         $0.text = """
                     내가 찍은 인생네컷
-                    이쁘게 보관할 수 있는 플랫폼
+                    네컷 추억을 보관하는 플랫폼
                     """
         $0.textColor = .white
         $0.setLineSpacing(spacing: 3)
@@ -63,6 +63,14 @@ class LoginViewController: UIViewController {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.cornerRadius = 8
+        $0.isSecureTextEntry = true
+    }
+    
+    private lazy var eyeButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "eye"), for: .normal)
+        $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        $0.tintColor = .lightGray
+        $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
     }
     
     private let passwordStackView = UIStackView().then {
@@ -74,16 +82,17 @@ class LoginViewController: UIViewController {
     
     private lazy var emailSaveButton = UIButton().then {
         $0.contentHorizontalAlignment = .left
-        let imageConfigure = UIImage.SymbolConfiguration(pointSize: 22)
         $0.tintColor = .lightGray
-        $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfigure), for: .normal)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
+        $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfig), for: .normal)
+        $0.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: imageConfig), for: .selected)
         $0.addTarget(self, action: #selector(emailSaveButtonTapped), for: .touchUpInside)
     }
     
     private let emailSaveTextLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
         $0.text = "이메일 / 아이디 저장"
-        $0.textColor = .black
+        $0.textColor = .lightGray
     }
     
     private lazy var emailSaveStackView = UIStackView().then {
@@ -150,6 +159,7 @@ class LoginViewController: UIViewController {
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
         bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
         bottomStackView.addArrangedSubviews(loginButton, signUpButton)
+        passwordStackView.addSubview(eyeButton)
         view.addSubviews(headerView, bodyStackView, bottomStackView)
     }
     
@@ -182,6 +192,10 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(headerView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        eyeButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(10)
+            $0.centerY.equalTo(passwordTextField)
         }
         loginButton.snp.makeConstraints {
             $0.height.equalTo(50)
@@ -235,8 +249,26 @@ class LoginViewController: UIViewController {
     
     // MARK: - Actions
     
+    @objc private func eyeButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            passwordTextField.isSecureTextEntry = false
+        }
+        if sender.isSelected == false {
+            passwordTextField.isSecureTextEntry = true
+        }
+    }
+    
     @objc private func emailSaveButtonTapped(_ sender: UIButton) {
-        print("세이브 버튼 눌렀어염따")
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            sender.tintColor = .black
+            emailSaveTextLabel.textColor = .black
+        }
+        if sender.isSelected == false {
+            sender.tintColor = .lightGray
+            emailSaveTextLabel.textColor = .lightGray
+        }
     }
     
     @objc private func loginButtonTapped(_ sender: UIButton) {

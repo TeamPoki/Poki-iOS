@@ -37,29 +37,29 @@ class SignUpViewController: UIViewController {
         $0.isSecureTextEntry = true
     }
     
+    private lazy var eyeButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "eye"), for: .normal)
+        $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        $0.tintColor = .lightGray
+        $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
+    }
+    
     private let passwordTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    private let passwordCheckPlaceholder = UILabel().then {
-        $0.text = "비밀번호 확인"
+    private let nicknamePlaceholder = UILabel().then {
+        $0.text = "닉네임"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textColor = .lightGray
     }
     
-    private let passwordCheckTextField = UITextField().then {
-        $0.isSecureTextEntry = true
+    private let nicknameTextField = UITextField().then {
+        $0.keyboardType = .alphabet
     }
     
-    private let passwordCheckTextFieldView = UIView().then {
+    private let nicknameTextFieldView = UIView().then {
         $0.backgroundColor = .clear
-    }
-    
-    private let mainStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.distribution = .fill
-        $0.alignment = .fill
-        $0.spacing = 30
     }
     
     private let signUpButton = UIButton().then {
@@ -68,7 +68,29 @@ class SignUpViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
-       
+    }
+    
+    private lazy var agreeToTermsOfServiceButton = UIButton().then {
+        $0.contentHorizontalAlignment = .left
+        $0.tintColor = .lightGray
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
+        $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfig), for: .normal)
+        $0.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: imageConfig), for: .selected)
+        $0.addTarget(self, action: #selector(agreeToTermsOfServiceButtonTapped), for: .touchUpInside)
+        $0.clipsToBounds = true
+    }
+    
+    private let agreeToTermsOfServiceLabel = UILabel().then {
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.text = "서비스 이용약관에 동의합니다."
+        $0.textColor = .lightGray
+    }
+    
+    private let agreeToTermsOfServiceStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fill
+        $0.alignment = .fill
+        $0.spacing = 3
     }
     
     // MARK: - Life Cycle
@@ -90,7 +112,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLayoutSubviews()
         drawUnderline(emailTextFieldView)
         drawUnderline(passwordTextFieldView)
-        drawUnderline(passwordCheckTextFieldView)
+        drawUnderline(nicknameTextFieldView)
     }
     
     // MARK: - Helpers
@@ -100,7 +122,7 @@ class SignUpViewController: UIViewController {
         configureNav()
         configure(emailTextField)
         configure(passwordTextField)
-        configure(passwordCheckTextField)
+        configure(nicknameTextField)
     }
     
     private func configureNav() {
@@ -122,10 +144,13 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
+        
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
-        passwordCheckTextFieldView.addSubviews(passwordCheckTextField, passwordCheckPlaceholder)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextFieldView, signUpButton)
+        nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
+        agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
+        passwordTextFieldView.addSubview(eyeButton)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -158,32 +183,41 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
+        eyeButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(10)
+            $0.centerY.equalTo(passwordTextField)
+        }
         passwordPlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(passwordTextField)
         }
-        passwordCheckTextFieldView.snp.makeConstraints {
+        nicknameTextFieldView.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
-        passwordCheckTextField.snp.makeConstraints {
+        nicknameTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
-        passwordCheckPlaceholder.snp.makeConstraints {
+        nicknamePlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
-            $0.centerY.equalTo(passwordCheckTextField)
+            $0.centerY.equalTo(nicknameTextField)
+        }
+        agreeToTermsOfServiceStackView.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(25)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.height.equalTo(50)
         }
     }
@@ -217,6 +251,28 @@ class SignUpViewController: UIViewController {
         
     }
     
+    @objc private func eyeButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            passwordTextField.isSecureTextEntry = false
+        }
+        if sender.isSelected == false {
+            passwordTextField.isSecureTextEntry = true
+        }
+    }
+    
+    @objc func agreeToTermsOfServiceButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            sender.tintColor = .black
+            agreeToTermsOfServiceLabel.textColor = .black
+        }
+        if sender.isSelected == false {
+            sender.tintColor = .lightGray
+            agreeToTermsOfServiceLabel.textColor = .lightGray
+        }
+    }
+
     @objc private func signUpButtonAction() {
         let email = self.emailTextField.text ?? ""
         let password = self.passwordTextField.text ?? ""
@@ -237,9 +293,6 @@ class SignUpViewController: UIViewController {
             }
         }
     }
-    
-    
-    
 }
 
 extension SignUpViewController: UITextFieldDelegate {
@@ -250,8 +303,8 @@ extension SignUpViewController: UITextFieldDelegate {
         if textField == passwordTextField {
             updateLayout(passwordPlaceholder, textField: textField)
         }
-        if textField == passwordCheckTextField {
-            updateLayout(passwordCheckPlaceholder, textField: textField)
+        if textField == nicknameTextField {
+            updateLayout(nicknamePlaceholder, textField: textField)
         }
     }
     
@@ -272,8 +325,8 @@ extension SignUpViewController: UITextFieldDelegate {
         if textField == passwordTextField, textField.text == "" {
             resetLayout(passwordPlaceholder, textField: textField)
         }
-        if textField == passwordCheckTextField, textField.text == "" {
-            resetLayout(passwordCheckPlaceholder, textField: textField)
+        if textField == nicknameTextField, textField.text == "" {
+            resetLayout(nicknamePlaceholder, textField: textField)
         }
     }
     
