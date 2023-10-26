@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "user-edit.png",
+      "filename" : "user-edit.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "user-edit 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "user-edit 2.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

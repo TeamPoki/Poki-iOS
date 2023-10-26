@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class PhotoListCollectionViewCell: UICollectionViewCell {
+final class PhotoListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
@@ -26,7 +26,7 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     
     var dateLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 16)
     }
     
     var tagImage = UIImageView().then {
@@ -36,7 +36,7 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     
     var tagLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textAlignment = .right
     }
     

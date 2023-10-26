@@ -9,14 +9,18 @@ import UIKit
 import SnapKit
 import Then
 
-class NoticeListViewController: UIViewController {
+final class NoticeListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let tableView = UITableView()
+    private let noticeTableView = UITableView().then {
+        $0.estimatedRowHeight = 110
+        $0.rowHeight = UITableView.automaticDimension
+        $0.separatorColor = Constants.d9GrayColor
+        $0.register(NoticeListTableViewCell.self, forCellReuseIdentifier: "NoticeListTableViewCell")
+    }
+    
     private var noticeItems: [Notice] = NoticeData.noticeItems
-    private var cellTitleFont = UIFont(name: Constants.fontMedium, size: 14)
-    private var cellDateFont = UIFont(name: Constants.fontMedium, size: 10)
     
     // MARK: - Life Cycle
     
@@ -45,10 +49,7 @@ class NoticeListViewController: UIViewController {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
-            $0.titleTextAttributes = [
-                .foregroundColor: UIColor.black,
-                .font: UIFont(name: Constants.fontMedium, size: 18)
-            ]
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
             $0.shadowColor = nil
         }
         
@@ -60,32 +61,19 @@ class NoticeListViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(NoticeListTableViewCell.self, forCellReuseIdentifier: "NoticeListTableViewCell")
+        noticeTableView.dataSource = self
+        noticeTableView.delegate = self
         
-        view.addSubview(tableView)
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeListTableViewCell") as? NoticeListTableViewCell {
-            cell.titleLabel.font = cellTitleFont
-            cell.dateLabel.font = cellDateFont
-        }
-        
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().offset(-10)
+        view.addSubview(noticeTableView)
+        noticeTableView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }
-    // MARK: - Actions
-
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension NoticeListViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return noticeItems.count
     }
@@ -93,14 +81,8 @@ extension NoticeListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeListTableViewCell", for: indexPath) as! NoticeListTableViewCell
         let noticeItem = noticeItems[indexPath.row]
-        cell.titleLabel.text = noticeItem.title
-        cell.dateLabel.text = noticeItem.date
-        
+        cell.configure(title: noticeItem.title, date: noticeItem.date)
+        cell.selectionStyle = .none
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
-    }
 }
-
