@@ -16,7 +16,6 @@ class FirestoreManager {
     
     private let db = Firestore.firestore()
     private lazy var collectionReference = db.collection("Photo")
-    private lazy var documentReference = collectionReference.document("7vL68IneYlNuRW3cz5oZ")
     var photoList: [Photo] = []
     
     private func createPhotoFromData(_ data: [String: Any]) -> Photo? {

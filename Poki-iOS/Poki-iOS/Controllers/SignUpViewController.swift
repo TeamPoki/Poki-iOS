@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+
 
 class SignUpViewController: UIViewController {
     
@@ -66,6 +68,7 @@ class SignUpViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
+       
     }
     
     // MARK: - Life Cycle
@@ -75,6 +78,7 @@ class SignUpViewController: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
+        signUpButtonTapped()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -195,11 +199,47 @@ class SignUpViewController: UIViewController {
         view.layer.masksToBounds = true
     }
     
+    private func signUpButtonTapped() {
+        self.signUpButton.addTarget(self, action: #selector(signUpButtonAction), for: .touchUpInside)
+    }
+    
+    private func verifyingDuplicationAlert(text: String) {
+        let alert = UIAlertController(title: "중복", message: "\(text)는 이미 존재하는 ID 입니다.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "종료", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    
     // MARK: - Actions
     
     @objc private func textDidChange(_ textField: UITextField) {
         
     }
+    
+    @objc private func signUpButtonAction() {
+        let email = self.emailTextField.text ?? ""
+        let password = self.passwordTextField.text ?? ""
+        
+        Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
+            guard let self = self else { return }
+            if let error = error {
+                let code = (error as NSError).code
+                switch code {
+                case 17007: //이미 가입한 계정일 때
+                    self.verifyingDuplicationAlert(text: email)
+                default:
+                    print("아이디 생성 오류 : \(error.localizedDescription)")
+                }
+            } else {
+                self.dismiss(animated: true)
+//                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    
+    
 }
 
 extension SignUpViewController: UITextFieldDelegate {
