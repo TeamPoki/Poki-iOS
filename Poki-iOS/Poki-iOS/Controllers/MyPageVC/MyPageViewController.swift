@@ -209,6 +209,7 @@ final class MyPageViewController: UIViewController {
         let modifyProfileViewController = ProfileEditViewController()
         navigationController?.pushViewController(modifyProfileViewController, animated: true)
     }
+
     
 }
 
@@ -280,6 +281,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case 2:
             print("로그아웃 됨")
+            NotificationCenter.default.post(name: Notification.Name("UserDidLogout"), object: nil)
         case 3:
             break
         default:
