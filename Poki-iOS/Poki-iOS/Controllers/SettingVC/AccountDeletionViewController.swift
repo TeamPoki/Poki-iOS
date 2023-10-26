@@ -21,21 +21,21 @@ final class AccountDeletionViewController: UIViewController {
     
     private let titleLabel = UILabel().then {
         $0.text = "정말 떠나시는 건가요?"
-        $0.font = UIFont(name: Constants.fontSemiBold, size: 22)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 24)
     }
     
     private lazy var infoViews: [UIStackView] = {
         return infoTexts.map { text in
             let icon = UIImageView().then {
                 $0.image = UIImage(systemName: "exclamationmark.triangle")
-                $0.tintColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
+                $0.tintColor = Constants.d9GrayColor
             }
             
             let label = UILabel().then {
                 $0.text = text
                 $0.numberOfLines = 0
                 $0.lineBreakMode = .byWordWrapping
-                $0.font = UIFont(name: Constants.font, size: 14)
+                $0.font = UIFont(name: Constants.fontRegular, size: 14)
             }
             
             let stackView = UIStackView(arrangedSubviews: [icon, label]).then {
@@ -60,7 +60,7 @@ final class AccountDeletionViewController: UIViewController {
 
     private let checkBoxLabel = UILabel().then {
         $0.text = "회원 탈퇴 유의사항을 확인하였으며 동의합니다."
-        $0.font = UIFont(name: Constants.font, size: 14)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.textColor = .lightGray
     }
 
@@ -73,7 +73,7 @@ final class AccountDeletionViewController: UIViewController {
         $0.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.96, alpha: 1.00)
         $0.layer.cornerRadius = 10
         $0.text = "떠나는 이유를 50자 이내로 입력해주세요."
-        $0.font = UIFont(name: Constants.font, size: 14)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.textColor = .lightGray
     }
 
@@ -97,7 +97,7 @@ final class AccountDeletionViewController: UIViewController {
     
     private let contentView = UIView()
     
-    // MARK: - View Lifecycle
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

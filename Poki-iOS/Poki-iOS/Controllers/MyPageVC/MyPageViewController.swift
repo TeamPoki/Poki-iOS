@@ -10,12 +10,13 @@ import MessageUI
 import SnapKit
 import Then
 
-class MyPageViewController: UIViewController {
+final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
+        $0.separatorColor = Constants.d9GrayColor
         $0.register(MyPageMenuTableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
         $0.register(MyPageMenuTableViewCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
         $0.isScrollEnabled = false
@@ -107,7 +108,7 @@ class MyPageViewController: UIViewController {
         $0.spacing = 10
         $0.addArrangedSubview(modifyProfileButton)
         $0.addArrangedSubview(UILabel().then {
-            $0.text = "프로필 수정"
+            $0.text = "프로필 설정"
             $0.font = UIFont(name: Constants.fontMedium, size: 14)
         })
     }
@@ -193,7 +194,7 @@ class MyPageViewController: UIViewController {
     }
     
     // MARK: - Actions
-    // 네컷 추가하기, 찜 한 포즈, 프로필 수정에 사용
+    
     @objc private func addButtonTapped() {
         
     }
@@ -315,7 +316,6 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return true
     }
-
 }
 
 // MARK: - MFMailComposeViewControllerDelegate

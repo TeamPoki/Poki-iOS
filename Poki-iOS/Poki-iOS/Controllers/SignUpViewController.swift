@@ -15,7 +15,7 @@ class SignUpViewController: UIViewController {
     
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
-        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -29,7 +29,7 @@ class SignUpViewController: UIViewController {
     
     private let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
-        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -43,7 +43,7 @@ class SignUpViewController: UIViewController {
     
     private let passwordCheckPlaceholder = UILabel().then {
         $0.text = "비밀번호 확인"
-        $0.font = UIFont(name: Constants.font, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textColor = .lightGray
     }
     
@@ -260,7 +260,7 @@ extension SignUpViewController: UITextFieldDelegate {
             $0.centerY.equalTo(textField).offset(-22)
         }
         UIView.animate(withDuration: 0.5) {
-            placeholder.font = UIFont(name: Constants.font, size: 12)
+            placeholder.font = UIFont(name: Constants.fontRegular, size: 12)
             placeholder.superview?.layoutIfNeeded()
         }
     }
@@ -282,7 +282,7 @@ extension SignUpViewController: UITextFieldDelegate {
             $0.centerY.equalTo(textField)
         }
         UIView.animate(withDuration: 0.5) {
-            placeholder.font = UIFont(name: Constants.font, size: 16)
+            placeholder.font = UIFont(name: Constants.fontRegular, size: 16)
             placeholder.superview?.layoutIfNeeded()
         }
     }

@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
     }
     
     private let commentLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.font, size: 14)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.numberOfLines = 2
         $0.text = """
                     내가 찍은 인생네컷
