@@ -61,11 +61,14 @@ class SignUpViewController: UIViewController {
         $0.layer.cornerRadius = 25
     }
     
-    private let checkboxButton = UIButton().then {
+    private lazy var agreeToTermsOfServiceButton = UIButton().then {
         $0.contentHorizontalAlignment = .left
         $0.tintColor = .lightGray
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
         $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfig), for: .normal)
+        $0.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: imageConfig), for: .selected)
+        $0.addTarget(self, action: #selector(agreeToTermsOfServiceButtonTapped), for: .touchUpInside)
+        $0.clipsToBounds = true
     }
     
     private let agreeToTermsOfServiceLabel = UILabel().then {
@@ -134,7 +137,7 @@ class SignUpViewController: UIViewController {
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
-        agreeToTermsOfServiceStackView.addArrangedSubviews(checkboxButton, agreeToTermsOfServiceLabel)
+        agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
     }
     
@@ -218,6 +221,18 @@ class SignUpViewController: UIViewController {
     
     @objc private func textDidChange(_ textField: UITextField) {
         
+    }
+    
+    @objc func agreeToTermsOfServiceButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected == true {
+            sender.tintColor = .black
+            agreeToTermsOfServiceLabel.textColor = .black
+        }
+        if sender.isSelected == false {
+            sender.tintColor = .lightGray
+            agreeToTermsOfServiceLabel.textColor = .lightGray
+        }
     }
 }
 
