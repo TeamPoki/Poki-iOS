@@ -53,63 +53,76 @@ class FirestoreManager {
     }
     
     func update(documentPath: String, image: String, date: String, memo: String, tagText: String, tagImage: String) {
-        let documentComponents = documentPath.components(separatedBy: "/")
-        let collectionName = documentComponents[0]
-        let documentID = documentComponents[1]
-        let docRef = collectionReference.document(documentID)
-        let data: [String : Any] = [
-             "image" : image,
-             "date" : date,
-             "memo" : memo,
-             "tag" : [
-                 "tagLabel": tagText,
-                 "tagImage": tagImage
-             ]
-         ]
-        docRef.updateData(data) { error in
-             if let error = error {
-                 print("Error updating document: \(error)")
-             } else {
-                 print("Document updated successfully.")
-             }
-         }
-     }
+        if let user = Auth.auth().currentUser {
+            let userID = user.uid
+            
+            let documentComponents = documentPath.components(separatedBy: "/")
+            let collectionName = documentComponents[0]
+            let documentID = documentComponents[3]
+            let docRef = db.collection("users/\(userID)/Photo").document(documentID)
+            let data: [String : Any] = [
+                "image" : image,
+                "date" : date,
+                "memo" : memo,
+                "tag" : [
+                    "tagLabel": tagText,
+                    "tagImage": tagImage
+                ]
+            ]
+            docRef.updateData(data) { error in
+                if let error = error {
+                    print("Error updating document: \(error)")
+                } else {
+                    print("Document updated successfully.")
+                }
+            }
+        }
+    }
     
     func delete(documentPath: String) {
-        let documentComponents = documentPath.components(separatedBy: "/")
-        _ = documentComponents[0]
-        let documentID = documentComponents[1]
-        let docRef = collectionReference.document(documentID)
-        
-        docRef.delete { error in
-            if let error = error {
-                print("Error updating document: \(error)")
-            } else {
-                print("Document updated successfully.")
+        if let user = Auth.auth().currentUser {
+            let userID = user.uid
+            let documentComponents = documentPath.components(separatedBy: "/")
+            _ = documentComponents[0]
+            let documentID = documentComponents[3]
+            let docRef = db.collection("users/\(userID)/Photo").document(documentID)
+            
+            docRef.delete { error in
+                if let error = error {
+                    print("Error updating document: \(error)")
+                } else {
+                    print("Document updated successfully.")
+                }
             }
         }
     }
     
     //실시간반영
     func realTimebinding(collectionView : UICollectionView) {
-        self.collectionReference.addSnapshotListener { snapshot, error in
-            guard let documents = snapshot?.documents else {
-                print("Error Firestore fetching document: \(String(describing: error))")
-                return
-            }
-
-            self.photoList = documents.compactMap { doc -> Photo? in
-                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
-                let data = doc.data()
-                if let photo = self.createPhotoFromData(data) {
-                    print("photo data load 완료")
-                    return photo
-                } else {
-                    return nil
+        if let user = Auth.auth().currentUser {
+            let userID = user.uid
+            let docRef = db.collection("users/\(userID)/Photo")
+            docRef.addSnapshotListener { snapshot, error in
+                guard let documents = snapshot?.documents else {
+                    print("Error Firestore fetching document: \(String(describing: error))")
+                    return
                 }
                 
+                self.photoList = documents.compactMap { doc -> Photo? in
+                    // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
+                    let data = doc.data()
+                    if let photo = self.createPhotoFromData(data) {
+                        print("photo data load 완료")
+                        return photo
+                    } else {
+                        return nil
+                    }
+                    
+                }
+                collectionView.reloadData()
             }
-            collectionView.reloadData()
         }
     }
+        
+        
 }
