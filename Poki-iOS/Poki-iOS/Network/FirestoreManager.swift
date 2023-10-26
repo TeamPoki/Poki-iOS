@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 class FirestoreManager {
     static let shared = FirestoreManager()
@@ -37,13 +38,17 @@ class FirestoreManager {
     }
     
     func create(image: String, date: String, memo: String, tagText: String, tagImage: String) {
-        let newDocumentRef = collectionReference.document()
-        let phothData = Photo(documentReference: newDocumentRef.path, image: image, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagImage))
-        do {
-            try newDocumentRef.setData(from: phothData)
-            print("Document added successfully.")
-        } catch let error {
-            print("Error adding document: \(error)")
+        if let user = Auth.auth().currentUser {
+            let userID = user.uid
+            
+            let newDocumentRef = db.collection("users/\(userID)/Photo").document()
+            let phothData = Photo(documentReference: newDocumentRef.path, image: image, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagImage))
+            do {
+                try newDocumentRef.setData(from: phothData)
+                print("Document added successfully.")
+            } catch let error {
+                print("Error adding document: \(error)")
+            }
         }
     }
     
