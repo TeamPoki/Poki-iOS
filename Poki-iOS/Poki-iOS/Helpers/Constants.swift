@@ -18,4 +18,8 @@ struct Constants {
     static let fontSemiBold = "SUIT-SemiBold"
     static let fontThin = "SUIT-Thin"
     static let fontExtraBold = "SUIT-ExtraBold"
+    
+    // MARK: - Login and SignUp
+    static let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    static let passwordRegex = "(?=.*[a-zA-Z])(?=.*\\d)(?=.*[$@$!%*?&#^().,])[A-Za-z\\d$@$!%*?&#^().,]{8,16}"
 }
