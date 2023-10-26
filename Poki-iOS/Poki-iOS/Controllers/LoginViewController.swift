@@ -17,15 +17,17 @@ class LoginViewController: UIViewController {
     private var password: String?
     
     // MARK: - Validation
-    private var loginFormIsEmpty: Bool? {
-        self.email?.isEmpty == true &&
-        self.password?.isEmpty == true
+    private var isLoginFormValid: Bool? {
+        isEmailValid == true && isPasswordValid == true
     }
     private var isEmailValid: Bool? {
-        return nil
+        self.email?.isEmpty == false
     }
     private var isPasswordValid: Bool? {
-        return nil
+        self.password?.isEmpty == false
+    }
+    private var loginButtonColor: UIColor {
+        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
     }
 
     // MARK: - Components
@@ -126,7 +128,7 @@ class LoginViewController: UIViewController {
     }
     
     private lazy var loginButton = UIButton().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .lightGray
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
@@ -275,6 +277,15 @@ class LoginViewController: UIViewController {
 //        }
 //    }
     
+    private func updateLoginButton() {
+        if isLoginFormValid == true {
+            loginButton.isEnabled = true
+        }
+        if isLoginFormValid == false {
+            loginButton.isEnabled = false
+        }
+        loginButton.backgroundColor = self.loginButtonColor
+    }
     
     // MARK: - Actions
     
@@ -285,6 +296,7 @@ class LoginViewController: UIViewController {
         if sender == passwordTextField {
             self.password = sender.text
         }
+        updateLoginButton()
     }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
