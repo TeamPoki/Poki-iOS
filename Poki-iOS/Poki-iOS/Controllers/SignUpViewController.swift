@@ -39,25 +39,18 @@ class SignUpViewController: UIViewController {
         $0.backgroundColor = .clear
     }
     
-    private let passwordCheckPlaceholder = UILabel().then {
-        $0.text = "비밀번호 확인"
+    private let nicknamePlaceholder = UILabel().then {
+        $0.text = "닉네임"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.textColor = .lightGray
     }
     
-    private let passwordCheckTextField = UITextField().then {
-        $0.isSecureTextEntry = true
+    private let nicknameTextField = UITextField().then {
+        $0.keyboardType = .alphabet
     }
     
-    private let passwordCheckTextFieldView = UIView().then {
+    private let nicknameTextFieldView = UIView().then {
         $0.backgroundColor = .clear
-    }
-    
-    private let mainStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.distribution = .fill
-        $0.alignment = .fill
-        $0.spacing = 30
     }
     
     private let signUpButton = UIButton().then {
@@ -86,7 +79,7 @@ class SignUpViewController: UIViewController {
         super.viewDidLayoutSubviews()
         drawUnderline(emailTextFieldView)
         drawUnderline(passwordTextFieldView)
-        drawUnderline(passwordCheckTextFieldView)
+        drawUnderline(nicknameTextFieldView)
     }
     
     // MARK: - Helpers
@@ -96,7 +89,7 @@ class SignUpViewController: UIViewController {
         configureNav()
         configure(emailTextField)
         configure(passwordTextField)
-        configure(passwordCheckTextField)
+        configure(nicknameTextField)
     }
     
     private func configureNav() {
@@ -120,8 +113,8 @@ class SignUpViewController: UIViewController {
     private func addSubviews() {
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
-        passwordCheckTextFieldView.addSubviews(passwordCheckTextField, passwordCheckPlaceholder)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordCheckTextFieldView, signUpButton)
+        nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, signUpButton)
     }
     
     private func setupLayout() {
@@ -159,22 +152,22 @@ class SignUpViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(passwordTextField)
         }
-        passwordCheckTextFieldView.snp.makeConstraints {
+        nicknameTextFieldView.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
-        passwordCheckTextField.snp.makeConstraints {
+        nicknameTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
-        passwordCheckPlaceholder.snp.makeConstraints {
+        nicknamePlaceholder.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(8)
-            $0.centerY.equalTo(passwordCheckTextField)
+            $0.centerY.equalTo(nicknameTextField)
         }
         signUpButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
@@ -210,8 +203,8 @@ extension SignUpViewController: UITextFieldDelegate {
         if textField == passwordTextField {
             updateLayout(passwordPlaceholder, textField: textField)
         }
-        if textField == passwordCheckTextField {
-            updateLayout(passwordCheckPlaceholder, textField: textField)
+        if textField == nicknameTextField {
+            updateLayout(nicknamePlaceholder, textField: textField)
         }
     }
     
@@ -232,8 +225,8 @@ extension SignUpViewController: UITextFieldDelegate {
         if textField == passwordTextField, textField.text == "" {
             resetLayout(passwordPlaceholder, textField: textField)
         }
-        if textField == passwordCheckTextField, textField.text == "" {
-            resetLayout(passwordCheckPlaceholder, textField: textField)
+        if textField == nicknameTextField, textField.text == "" {
+            resetLayout(nicknamePlaceholder, textField: textField)
         }
     }
     
