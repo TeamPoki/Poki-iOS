@@ -12,7 +12,36 @@ import FirebaseAuth
 class SignUpViewController: UIViewController {
     
     // MARK: - Properties
+    private var email: String?
+    private var password: String?
+    private var nickname: String?
+    private var isAgree: Bool?
     
+    // MARK: - Validation
+    private var isLoginFormValid: Bool? {
+        self.isValidEmail == true &&
+        self.isValidPassword == true &&
+        self.isValidNickname == true &&
+        self.isAgree == true
+    }
+    private var isValidEmail: Bool? {
+        self.email?.isEmpty == false &&
+        self.isValid(email: self.email)
+    }
+    private var isValidPassword: Bool? {
+        self.password?.isEmpty == false &&
+        self.isValid(password: self.password)
+    }
+    private var isValidNickname: Bool? {
+        self.nickname?.isEmpty == false &&
+        self.isValid(nickname: self.nickname)
+    }
+    private var signUpButtonColor: UIColor {
+        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
+    }
+
+    
+    // MARK: - Components
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
@@ -243,7 +272,36 @@ class SignUpViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Update UI
+
+    private func updateSignUpButton() {
+        if isLoginFormValid == true {
+            signUpButton.isEnabled = true
+        }
+        if isLoginFormValid == false {
+            signUpButton.isEnabled = false
+        }
+        signUpButton.backgroundColor = self.signUpButtonColor
+    }
     
+    // MARK: - Validation
+    func isValid(email: String?) -> Bool {
+        guard let email = email else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
+        return pred.evaluate(with: email)
+    }
+    
+    func isValid(password: String?) -> Bool {
+        guard let password = password else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        return pred.evaluate(with: password)
+    }
+    
+    func isValid(nickname: String?) -> Bool {
+        guard let nickname = nickname else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        return pred.evaluate(with: nickname)
+    }
     
     // MARK: - Actions
     
