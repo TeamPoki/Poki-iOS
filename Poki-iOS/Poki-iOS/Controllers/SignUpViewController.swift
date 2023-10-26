@@ -12,7 +12,36 @@ import FirebaseAuth
 class SignUpViewController: UIViewController {
     
     // MARK: - Properties
+    private var email: String?
+    private var password: String?
+    private var nickname: String?
+    private var isAgree: Bool?
     
+    // MARK: - Validation
+    private var isLoginFormValid: Bool? {
+        self.isValidEmail == true &&
+        self.isValidPassword == true &&
+        self.isValidNickname == true &&
+        self.isAgree == true
+    }
+    private var isValidEmail: Bool? {
+        self.email?.isEmpty == false &&
+        self.isValid(email: self.email)
+    }
+    private var isValidPassword: Bool? {
+        self.password?.isEmpty == false &&
+        self.isValid(password: self.password)
+    }
+    private var isValidNickname: Bool? {
+        self.nickname?.isEmpty == false &&
+        self.isValid(nickname: self.nickname)
+    }
+    private var signUpButtonColor: UIColor {
+        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
+    }
+
+    
+    // MARK: - Components
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
@@ -144,7 +173,6 @@ class SignUpViewController: UIViewController {
     }
     
     private func addSubviews() {
-        
         emailTextFieldView.addSubviews(emailTextField, emailPlaceholder)
         passwordTextFieldView.addSubviews(passwordTextField, passwordPlaceholder)
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
@@ -156,81 +184,64 @@ class SignUpViewController: UIViewController {
     private func setupLayout() {
         emailTextFieldView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
         emailTextField.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(8)
         }
         emailPlaceholder.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
+            $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(emailTextField)
         }
         passwordTextFieldView.snp.makeConstraints {
             $0.top.equalTo(emailTextFieldView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
         passwordTextField.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(8)
+            $0.centerY.equalToSuperview()
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
             $0.centerY.equalTo(passwordTextField)
         }
         passwordPlaceholder.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
+            $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(passwordTextField)
         }
         nicknameTextFieldView.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(55)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
         nicknameTextField.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(8)
         }
         nicknamePlaceholder.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview().inset(8)
+            $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(nicknameTextField)
         }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
             $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.height.equalTo(50)
         }
     }
     
     private func drawUnderline(_ view: UIView) {
-        let underline = CALayer()
-        let borderWidth: CGFloat = 1
-        underline.borderColor = UIColor.lightGray.cgColor
-        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - borderWidth),
-                              size: CGSize(width: view.frame.size.width, height: view.frame.size.height))
-        underline.borderWidth = borderWidth
-        view.layer.addSublayer(underline)
-        view.layer.masksToBounds = true
+        let underline = UIView()
+        underline.backgroundColor = .lightGray
+        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - 8),
+                              size: CGSize(width: view.frame.size.width, height: 1))
+        view.addSubview(underline)
     }
     
     private func signUpButtonTapped() {
@@ -243,12 +254,50 @@ class SignUpViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Update UI
+
+    private func updateSignUpButton() {
+        if isLoginFormValid == true {
+            signUpButton.isEnabled = true
+        }
+        if isLoginFormValid == false {
+            signUpButton.isEnabled = false
+        }
+        signUpButton.backgroundColor = self.signUpButtonColor
+    }
     
+    // MARK: - Validation
+    func isValid(email: String?) -> Bool {
+        guard let email = email else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
+        return pred.evaluate(with: email)
+    }
+    
+    func isValid(password: String?) -> Bool {
+        guard let password = password else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
+        return pred.evaluate(with: password)
+    }
+    
+    func isValid(nickname: String?) -> Bool {
+        guard let nickname = nickname else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.nicknameRegex)
+        return pred.evaluate(with: nickname)
+    }
     
     // MARK: - Actions
     
-    @objc private func textDidChange(_ textField: UITextField) {
-        
+    @objc private func textDidChange(_ sender: UITextField) {
+        if sender == emailTextField {
+            self.email = sender.text
+        }
+        if sender == passwordTextField {
+            self.password = sender.text
+        }
+        if sender == nicknameTextField {
+            self.nickname = sender.text
+        }
+        self.updateSignUpButton()
     }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
@@ -266,17 +315,18 @@ class SignUpViewController: UIViewController {
         if sender.isSelected == true {
             sender.tintColor = .black
             agreeToTermsOfServiceLabel.textColor = .black
+            self.isAgree = true
         }
         if sender.isSelected == false {
             sender.tintColor = .lightGray
             agreeToTermsOfServiceLabel.textColor = .lightGray
+            self.isAgree = false
         }
+        self.updateSignUpButton()
     }
 
     @objc private func signUpButtonAction() {
-        let email = self.emailTextField.text ?? ""
-        let password = self.passwordTextField.text ?? ""
-        
+        guard let email = self.email, let password = self.password else { return }
         Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
             guard let self = self else { return }
             if let error = error {
@@ -288,8 +338,7 @@ class SignUpViewController: UIViewController {
                     print("아이디 생성 오류 : \(error.localizedDescription)")
                 }
             } else {
-                self.dismiss(animated: true)
-//                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -310,7 +359,7 @@ extension SignUpViewController: UITextFieldDelegate {
     
     func updateLayout(_ placeholder: UILabel, textField: UITextField) {
         placeholder.snp.updateConstraints {
-            $0.centerY.equalTo(textField).offset(-22)
+            $0.centerY.equalTo(textField).offset(-20)
         }
         UIView.animate(withDuration: 0.5) {
             placeholder.font = UIFont(name: Constants.fontRegular, size: 12)
