@@ -225,13 +225,13 @@ class LoginViewController: UIViewController {
         
     private func goToNextPage() {
         if let presentingVC = presentingViewController {
-            let tabBarCon = presentingVC as! UITabBarController
-            let nav = tabBarCon.viewControllers?[0] as! UINavigationController
-            let firstVC = nav.viewControllers[0] as! MainPageViewController
+            let tabBarController = presentingVC as! UITabBarController
+            let navi = tabBarController.viewControllers?[0] as! UINavigationController
+            let firstVC = navi.viewControllers[0] as! MainPageViewController
             
             //유효성 검사 (임시 나중에 계획 후 변경예정)
-            if emailTextField.text == "" && emailTextField.text == " "
-                && passwordTextField.text == "" && passwordTextField.text == " "{
+            if emailTextField.text == "" || emailTextField.text == " "
+                || passwordTextField.text == "" || passwordTextField.text == " "{
                 let alert = UIAlertController(title: "오류", message: "아이디와 비밀번호를 입력해 주세요.", preferredStyle: .alert)
                 //동작버튼 설정
                 let success = UIAlertAction(title: "확인", style: .default)
@@ -240,6 +240,7 @@ class LoginViewController: UIViewController {
                 return
             } else {
                 firstVC.userIdStatus.toggle()
+                tabBarController.selectedIndex = 0
                 dismiss(animated: true, completion: nil)
             }
             
