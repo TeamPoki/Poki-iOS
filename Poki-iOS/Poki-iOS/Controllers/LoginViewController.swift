@@ -65,10 +65,11 @@ class LoginViewController: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private let eyeButton = UIButton().then {
+    private var eyeButton = UIButton().then {
         $0.setImage(UIImage(systemName: "eye"), for: .normal)
         $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
         $0.tintColor = .lightGray
+//        $0.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
     }
     
     private let passwordStackView = UIStackView().then {
@@ -153,6 +154,7 @@ class LoginViewController: UIViewController {
     private func addSubviews() {
         headerView.addSubviews(logoLabel, commentLabel)
         emailStackView.addArrangedSubviews(emailTitleLabel, emailTextField)
+        passwordTextField.addSubview(eyeButton)
         passwordStackView.addArrangedSubviews(passwordTitleLabel, passwordTextField)
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
         bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
@@ -189,6 +191,10 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(headerView.snp.bottom).offset(60)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        eyeButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(10)
+            $0.centerY.equalToSuperview()
         }
         loginButton.snp.makeConstraints {
             $0.height.equalTo(50)
