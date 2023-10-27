@@ -13,15 +13,12 @@ struct Photo: Codable {
     var memo: String
     var date: String
     var tag: TagModel
-    
-    
-    enum CodingKeys: String, CodingKey {
-            case documentReference
-            case image
-            case memo
-            case date
-            case tag
-        }
-    
-}
 
+    enum CodingKeys: String, CodingKey {
+        case documentReference
+        case image
+        case memo
+        case date
+        case tag
+    }
+}
