@@ -16,9 +16,10 @@ class SignUpViewController: UIViewController {
     private var password: String?
     private var nickname: String?
     private var isAgree: Bool?
+    private let authManager = AuthManager.shared
     
     // MARK: - Validation
-    private var isLoginFormValid: Bool? {
+    private var isSignUpFormValid: Bool? {
         self.isValidEmail == true &&
         self.isValidPassword == true &&
         self.isValidNickname == true &&
@@ -37,7 +38,7 @@ class SignUpViewController: UIViewController {
         self.isValid(nickname: self.nickname)
     }
     private var signUpButtonColor: UIColor {
-        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
+        isSignUpFormValid == true ? UIColor.black : UIColor.lightGray
     }
 
     
@@ -245,7 +246,7 @@ class SignUpViewController: UIViewController {
     }
     
     private func verifyingDuplicationAlert(text: String) {
-        let alert = UIAlertController(title: "중복", message: "\(text)는 이미 존재하는 ID 입니다.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "중복된 이메일", message: "\(text)는 이미 존재하는 이메일입니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "종료", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
@@ -253,10 +254,10 @@ class SignUpViewController: UIViewController {
     // MARK: - Update UI
 
     private func updateSignUpButton() {
-        if isLoginFormValid == true {
+        if isSignUpFormValid == true {
             signUpButton.isEnabled = true
         }
-        if isLoginFormValid == false {
+        if isSignUpFormValid == false {
             signUpButton.isEnabled = false
         }
         signUpButton.backgroundColor = self.signUpButtonColor
@@ -320,22 +321,21 @@ class SignUpViewController: UIViewController {
         }
         self.updateSignUpButton()
     }
-
+    
     @objc private func signUpButtonTapped() {
         guard let email = self.email, let password = self.password else { return }
-        Auth.auth().createUser(withEmail: email, password: password) {[weak self] authResult, error in
-            guard let self = self else { return }
+        authManager.signUpUser(email: email, password: password) { result, error in
             if let error = error {
                 let code = (error as NSError).code
                 switch code {
-                case 17007: //이미 가입한 계정일 때
+                case 17007:
                     self.verifyingDuplicationAlert(text: email)
                 default:
-                    print("아이디 생성 오류 : \(error.localizedDescription)")
+                    print("계정 생성 오류 : \(error.localizedDescription)")
                 }
-            } else {
-                self.navigationController?.popViewController(animated: true)
+                return
             }
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

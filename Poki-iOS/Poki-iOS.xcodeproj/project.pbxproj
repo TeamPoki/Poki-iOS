@@ -14,6 +14,7 @@
 		051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E32AE90B5C00597886 /* FirestoreManager.swift */; };
 		051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E62AE90BAF00597886 /* FirebaseError.swift */; };
 		051A60E92AE91F3400597886 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E82AE91F3400597886 /* StorageManager.swift */; };
+		05E7F1DD2AEB42A700F4CD31 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */; };
 		26CC4B0F2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift */; };
 		EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C02ADCC0B000B73A89 /* Photo.swift */; };
 		EB5255C32ADCC2B700B73A89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5255C22ADCC2B700B73A89 /* User.swift */; };
@@ -71,6 +72,7 @@
 		051A60E32AE90B5C00597886 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		051A60E62AE90BAF00597886 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		051A60E82AE91F3400597886 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPoseImageDetailViewController.swift; sourceTree = "<group>"; };
 		EB5255C02ADCC0B000B73A89 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		EB5255C22ADCC2B700B73A89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				EBE4FA9D2ADA7DCB00EFFE54 /* PoseImageManager.swift */,
 				051A60E32AE90B5C00597886 /* FirestoreManager.swift */,
 				051A60E82AE91F3400597886 /* StorageManager.swift */,
+				05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				26CC4B0F2AEA53C900D8D07A /* LikedPoseImageDetailViewController.swift in Sources */,
 				051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */,
 				EBF75BDA2AE24B6B00A11652 /* Notice.swift in Sources */,
+				05E7F1DD2AEB42A700F4CD31 /* AuthManager.swift in Sources */,
 				EB98AF252ADB93CA008586BC /* PoseSuggestionViewController.swift in Sources */,
 				EB98AF402ADBDF6B008586BC /* AddPhotoViewController.swift in Sources */,
 				F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */,
