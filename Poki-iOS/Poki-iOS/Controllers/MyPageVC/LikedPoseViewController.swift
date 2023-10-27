@@ -83,6 +83,7 @@ final class LikedPoseViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
+        loadProfileData()
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -183,19 +184,42 @@ final class LikedPoseViewController: UIViewController {
         }
     }
     
+    private func loadProfileData() {
+        if let data = UserDefaults.standard.data(forKey: "userData"),
+           let userData = try? JSONDecoder().decode(User.self, from: data) {
+            UserDataManager.userData = userData
+        }
+    }
+    
     func updateCollectionViewForCategory(_ category: PoseCategory) {
             var categoryImages: [UIImage?] = []
             
             switch category {
             case .alone:
-                categoryImages = poseImageManager.getAlonePoseImages()
+                if UserDataManager.userData.likedPose.firstPose.count == 0 {
+                    self.photos = []
+                } else {
+                    categoryImages = UserDataManager.userData.likedPose.firstPose.map {UIImage(data: $0)}
+                    self.photos = categoryImages
+                }
             case .two:
-                categoryImages = poseImageManager.getTwoPoseImages()
+                if UserDataManager.userData.likedPose.secondPose.count == 0 {
+                    self.photos = []
+                } else {
+                    categoryImages = UserDataManager.userData.likedPose.secondPose.map {UIImage(data: $0)}
+                    self.photos = categoryImages
+                }
             case .many:
-                categoryImages = poseImageManager.getManyPoseImages()
+                if  UserDataManager.userData.likedPose.thirdPose.count == 0 {
+                    self.photos = []
+                } else {
+                    categoryImages = UserDataManager.userData.likedPose.thirdPose.map {UIImage(data: $0)}
+                    self.photos = categoryImages
+                }
             }
         
-        self.photos = categoryImages
+        
+        
             likedPoseCollectionView.reloadData()
         }
     

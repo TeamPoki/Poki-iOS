@@ -20,6 +20,13 @@ class AuthManager {
         Auth.auth().createUser(withEmail: email, password: password, completion: completion)
     }
     
+    func CurrentUserID() -> String? {
+        if let user = Auth.auth().currentUser {
+            return user.email
+        }
+        return nil
+    }
+    
     func userDelete() {
         if let user = Auth.auth().currentUser {
             user.delete { error in

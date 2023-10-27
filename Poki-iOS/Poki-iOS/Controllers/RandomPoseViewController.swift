@@ -5,8 +5,12 @@
 //  Created by playhong on 2023/10/17
 
 import UIKit
+import SnapKit
+import Then
 
 final class RandomPoseViewController: UIViewController {
+    
+    var selectedButton = false
     
     enum Category {
         case alone, twoPeople, manyPeople
@@ -16,7 +20,7 @@ final class RandomPoseViewController: UIViewController {
     private let poseImageName = "alone-pose1"
     private let refreshButtonTitle = "다른 포즈보기"
     private let bookmarkButtonImageName = "star"
-
+    
     // MARK: - Properties
     
     private var selectedCategory: Category?
@@ -38,6 +42,8 @@ final class RandomPoseViewController: UIViewController {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
         $0.setImage(UIImage(systemName: self.bookmarkButtonImageName, withConfiguration: imageConfig), for: .normal)
         $0.layer.cornerRadius = 55 / 2
+        $0.tintColor = UIColor.yellow
+        $0.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
     }
     
     private lazy var buttonStackView = UIStackView().then {
@@ -53,7 +59,7 @@ final class RandomPoseViewController: UIViewController {
         $0.distribution = .fill
         $0.spacing = 40
     }
-
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -61,6 +67,21 @@ final class RandomPoseViewController: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadProfileData()
+        loadButtonData()
+        //        UserDataManager.userData.likedPose.firstPose.removeAll()
+        //        UserDataManager.userData.likedPose.secondPose.removeAll()
+        //        do {
+        //              let userData = try JSONEncoder().encode(UserDataManager.userData)
+        //              UserDefaults.standard.set(userData, forKey: "userData")
+        //          } catch {
+        //              print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
+        //          }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -124,10 +145,103 @@ final class RandomPoseViewController: UIViewController {
         self.poseImageView.image = poseImages.randomElement() ?? UIImage()
     }
     
+    private func loadProfileData() {
+        if let data = UserDefaults.standard.data(forKey: "userData"),
+           let userData = try? JSONDecoder().decode(User.self, from: data) {
+            UserDataManager.userData = userData
+        }
+    }
+    
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
         guard let randomPose = poseImages.randomElement() else { return }
         poseImageView.image = randomPose
+        loadButtonData()
     }
+    
+    @objc private func bookmarkButtonTapped() {
+        guard let imageData = poseImageView.image?.pngData() else { return }
+        
+        if selectedButton == false {
+            bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            switch selectedCategory {
+            case .alone:
+                UserDataManager.userData.likedPose.firstPose.append((imageData))
+            case .twoPeople:
+                UserDataManager.userData.likedPose.secondPose.append((imageData))
+            case .manyPeople:
+                UserDataManager.userData.likedPose.thirdPose.append((imageData))
+            case .none:
+                break
+            }
+            do {
+                let userData = try JSONEncoder().encode(UserDataManager.userData)
+                UserDefaults.standard.set(userData, forKey: "userData")
+            } catch {
+                print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
+            }
+            selectedButton.toggle()
+        } else {
+            bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
+            switch selectedCategory {
+            case .alone:
+                if let index = UserDataManager.userData.likedPose.firstPose.firstIndex(of: imageData) {
+                    UserDataManager.userData.likedPose.firstPose.remove(at: index)
+                }
+            case .twoPeople:
+                if let index = UserDataManager.userData.likedPose.secondPose.firstIndex(of: imageData) {
+                    UserDataManager.userData.likedPose.secondPose.remove(at: index)
+                }
+            case .manyPeople:
+                if let index = UserDataManager.userData.likedPose.thirdPose.firstIndex(of: imageData) {
+                    UserDataManager.userData.likedPose.thirdPose.remove(at: index)
+                }
+            case .none:
+                break
+            }
+            do {
+                let userData = try JSONEncoder().encode(UserDataManager.userData)
+                UserDefaults.standard.set(userData, forKey: "userData")
+                print("저장 완료")
+            } catch {
+                print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
+            }
+            selectedButton.toggle()
+        }
+    }
+    
+    private func loadButtonData() {
+        guard let imageData = poseImageView.image?.pngData() else { return }
+        switch selectedCategory {
+        case .alone:
+            if UserDataManager.userData.likedPose.firstPose.contains(imageData) {
+                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                selectedButton = true
+            } else {
+                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
+                selectedButton = false
+            }
+        case .twoPeople:
+            if UserDataManager.userData.likedPose.secondPose.contains(imageData) {
+                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                selectedButton = true
+            } else {
+                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
+                selectedButton = false
+            }
+        case .manyPeople:
+            if UserDataManager.userData.likedPose.thirdPose.contains(imageData) {
+                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                selectedButton = true
+            } else {
+                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
+                selectedButton = false
+            }
+        case .none:
+            break
+        }
+    }
+    
+ 
 }
