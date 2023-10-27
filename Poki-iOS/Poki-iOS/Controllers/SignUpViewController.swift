@@ -85,7 +85,7 @@ class SignUpViewController: UIViewController {
     }
     
     private let nicknameTextField = UITextField().then {
-        $0.keyboardType = .alphabet
+        $0.keyboardType = .default
     }
     
     private let nicknameTextFieldView = UIView().then {
@@ -241,7 +241,7 @@ class SignUpViewController: UIViewController {
         let underline = UIView()
         underline.backgroundColor = .lightGray
         underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - 8),
-                              size: CGSize(width: view.frame.size.width, height: 1))
+                                 size: CGSize(width: view.frame.size.width, height: 0.5))
         view.addSubview(underline)
     }
     
