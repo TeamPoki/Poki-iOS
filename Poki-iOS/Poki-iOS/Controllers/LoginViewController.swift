@@ -226,9 +226,6 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
         }
-        emailSaveButton.snp.makeConstraints {
-            $0.width.equalTo(25)
-        }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
             $0.centerY.equalTo(passwordTextField)
@@ -244,6 +241,8 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
         }
+        emailSaveTextLabel.snp.contentHuggingHorizontalPriority = 249
+        emailSaveTextLabel.snp.contentCompressionResistanceHorizontalPriority = 249
     }
     
     // MARK: - Update UI
