@@ -305,7 +305,7 @@ class LoginViewController: UIViewController {
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
         guard let email = self.email, let password = self.password else { return }
-        authManager.loginUser(withEmail: email, password: password) { user, error in
+        authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("로그인 에러 : \(error.localizedDescription)")
                 return
