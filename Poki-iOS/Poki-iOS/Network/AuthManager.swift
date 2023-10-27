@@ -19,4 +19,16 @@ class AuthManager {
     func signUpUser(email: String, password: String, completion: @escaping (AuthDataResult?, Error?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password, completion: completion)
     }
+    
+    func userDelete() {
+        if let user = Auth.auth().currentUser {
+            user.delete { error in
+                if let error = error {
+                    print("계정 삭제 실패 \(error.localizedDescription)")
+                } else {
+                    print("계정 삭제 성공")
+                }
+            }
+        }
+    }
 }

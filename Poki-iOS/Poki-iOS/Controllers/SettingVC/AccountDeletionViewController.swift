@@ -13,6 +13,8 @@ final class AccountDeletionViewController: UIViewController {
     
     // MARK: - Properties
     
+    let authManager = AuthManager.shared
+    
     private let infoTexts = [
         "탈퇴 후에는 저장한 인생네컷을 수정, 삭제하실 수 없습니다. 탈퇴 하시기 전에 확인해주세요!",
         "탈퇴 하시게 되면 등록, 저장했던 모든 정보는 삭제되어 복구할 수 없습니다.",
@@ -222,7 +224,11 @@ final class AccountDeletionViewController: UIViewController {
     }
     
     @objc func withdrawButtonTapped() {
-        print("이거 누르면 회원탈퇴가 되지롱~")
+        authManager.userDelete()
+        let rootVC = LoginViewController()
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+        sceneDelegate.changeRootViewController(rootVC)
+        UserDefaults.standard.set(false, forKey: "LoginStatus")
     }
     
     @objc func dismissKeyboard() {
