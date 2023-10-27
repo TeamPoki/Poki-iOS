@@ -20,7 +20,7 @@ final class NoticeListViewController: UIViewController {
         $0.register(NoticeListTableViewCell.self, forCellReuseIdentifier: "NoticeListTableViewCell")
     }
     
-    private var noticeItems: [Notice] = NoticeData.noticeItems
+    private var noticeItems: [NoticeList] = []
     
     // MARK: - Life Cycle
     
@@ -34,6 +34,12 @@ final class NoticeListViewController: UIViewController {
         super.viewWillAppear(animated)
         configureNav()
         self.tabBarController?.tabBar.isHidden = true
+        FirestoreManager.shared.loadNotices { [weak self] notices in
+            DispatchQueue.main.async {
+                self?.noticeItems = notices
+                self?.noticeTableView.reloadData()
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

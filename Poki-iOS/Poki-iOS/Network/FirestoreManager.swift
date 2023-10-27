@@ -123,6 +123,34 @@ class FirestoreManager {
             }
         }
     }
-        
-        
+    
+    // MARK: - Notice
+    
+    func loadNotices(completion: @escaping ([NoticeList]) -> Void) {
+        db.collection("Notices").order(by: "date", descending: true).getDocuments { querySnapshot, error in
+            if let error = error {
+                print("Error fetching Photos: \(error.localizedDescription)")
+                completion([])
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion([])
+                return
+            }
+            let notices = documents.compactMap { document -> NoticeList? in
+                let data = document.data()
+                do {
+                    let decoder = JSONDecoder()
+                    let jsonData = try JSONSerialization.data(withJSONObject: data)
+                    let notice = try decoder.decode(NoticeList.self, from: jsonData)
+                    return notice
+                } catch {
+                    print("Error decoding house: \(error.localizedDescription)")
+                    return nil
+                }
+            }
+            completion(notices)
+            print(notices)
+        }
+    }
 }
