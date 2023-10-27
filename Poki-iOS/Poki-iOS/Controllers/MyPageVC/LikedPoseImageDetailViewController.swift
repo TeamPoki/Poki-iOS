@@ -43,6 +43,9 @@ final class LikedPoseImageDetailViewController: UIViewController {
             $0.shadowColor = nil
         }
         
+        let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(handleCloseButton))
+        navigationItem.leftBarButtonItem = closeButton
+        
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
@@ -55,5 +58,11 @@ final class LikedPoseImageDetailViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.frame = view.bounds
         view.addSubview(imageView)
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func handleCloseButton() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

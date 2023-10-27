@@ -9,8 +9,16 @@ import UIKit
 import SnapKit
 import Then
 
-class LikedPoseViewController: UIViewController {
+enum PoseCategory: String {
+    case alone
+    case two
+    case many
+}
+
+final class LikedPoseViewController: UIViewController {
+    
     // MARK: - Properties
+    
     let poseImageManager = PoseImageManager.shared
     
     private var photos: [UIImage?] = []
@@ -58,6 +66,7 @@ class LikedPoseViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(poseManyTapped))
         $0.addGestureRecognizer(tapGesture)
     }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -84,6 +93,7 @@ class LikedPoseViewController: UIViewController {
     
     
     // MARK: - Helpers
+    
     private func configureNav() {
         navigationItem.title = "찜 한 포즈"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -99,24 +109,6 @@ class LikedPoseViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
-    
-    @objc private func poseOneTapped() {
-        print("포즈1눌렀을때")
-        showBarColorForLabel(poseOne)
-        updateCollectionViewForCategory(.alone)
-    }
-    
-    @objc private func poseTwoTapped() {
-        print("포즈2눌렀을때")
-        showBarColorForLabel(poseTwo)
-        updateCollectionViewForCategory(.two)
-    }
-    
-    @objc private func poseManyTapped() {
-        print("포즈3눌렀을때")
-        showBarColorForLabel(poseThree)
-        updateCollectionViewForCategory(.many)
     }
     
     private func showBarColorForLabel(_ label: UILabel) {
@@ -208,12 +200,26 @@ class LikedPoseViewController: UIViewController {
         }
     
     // MARK: - Actions
+    
+    @objc private func poseOneTapped() {
+        showBarColorForLabel(poseOne)
+        updateCollectionViewForCategory(.alone)
+    }
+    
+    @objc private func poseTwoTapped() {
+        showBarColorForLabel(poseTwo)
+        updateCollectionViewForCategory(.two)
+    }
+    
+    @objc private func poseManyTapped() {
+        showBarColorForLabel(poseThree)
+        updateCollectionViewForCategory(.many)
+    }
 }
 
-// MARK: - Extention
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension LikedPoseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+extension LikedPoseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -226,10 +232,24 @@ extension LikedPoseViewController: UICollectionViewDelegate, UICollectionViewDat
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedImage = photos[indexPath.item]
+        let detailViewController = LikedPoseImageDetailViewController()
+        detailViewController.image = selectedImage
+        
+        let navController = UINavigationController(rootViewController: detailViewController)
+        navController.modalPresentationStyle = .fullScreen
+        self.present(navController, animated: true, completion: nil)
+    }
+
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension LikedPoseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSpacing: CGFloat = 5
         let leftRightSpacing: CGFloat = 10
@@ -241,17 +261,4 @@ extension LikedPoseViewController: UICollectionViewDelegate, UICollectionViewDat
         
         return CGSize(width: width, height: height)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedImage = photos[indexPath.item]
-        let detailViewController = LikedPoseImageDetailViewController()
-        detailViewController.image = selectedImage
-        navigationController?.pushViewController(detailViewController, animated: true)
-    }
-}
-
-enum PoseCategory: String {
-    case alone
-    case two
-    case many
 }
