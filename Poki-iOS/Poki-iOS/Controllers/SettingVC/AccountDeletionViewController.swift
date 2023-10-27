@@ -229,6 +229,7 @@ final class AccountDeletionViewController: UIViewController {
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         sceneDelegate.changeRootViewController(rootVC)
         UserDefaults.standard.set(false, forKey: "LoginStatus")
+        UserDefaults.standard.removeObject(forKey: "userData")
     }
     
     @objc func dismissKeyboard() {

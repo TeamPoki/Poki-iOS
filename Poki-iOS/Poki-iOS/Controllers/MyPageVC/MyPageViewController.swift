@@ -14,6 +14,9 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
+    let userDataManager = UserDataManager.shared
+    let authManager = AuthManager.shared
+    
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorColor = Constants.d9GrayColor
@@ -40,8 +43,7 @@ final class MyPageViewController: UIViewController {
         $0.addTarget(self, action: #selector(modifyProfileButtonTapped), for: .touchUpInside)
     }
     
-    private let userImage = UIImageView().then {
-        $0.image = UIImage(named: "image")
+    private var userImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.systemGray5.cgColor
@@ -122,6 +124,12 @@ final class MyPageViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadProfileData()
+        profileDataBinding()
+    }
+    
     // MARK: - Helpers
     
     private func configureNav() {
@@ -183,6 +191,26 @@ final class MyPageViewController: UIViewController {
             $0.width.equalTo(120)
             $0.height.equalTo(120)
         }
+    }
+    
+    private func loadProfileData() {
+        if let data = UserDefaults.standard.data(forKey: "userData"),
+           let userData = try? JSONDecoder().decode(User.self, from: data) {
+            UserDataManager.userData = userData
+        }
+        emailLabel.text = authManager.CurrentUserID()
+    }
+    
+    private func profileDataBinding() {
+        
+        //이미지 변경
+        if UIImage(data: UserDataManager.userData.userImage) == nil {
+            self.userImage.image = UIImage()
+        } else {
+            self.userImage.image = UIImage(data: UserDataManager.userData.userImage)
+        }
+        
+        self.nameLabel.text = UserDataManager.userData.userName
     }
     
     private func retrieveAppVersion() -> String? {

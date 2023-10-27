@@ -62,6 +62,7 @@
 		F9030B252ADE0E28007C5043 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B242ADE0E28007C5043 /* TagViewController.swift */; };
 		F9030B2A2ADE1EEE007C5043 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */; };
 		F92D584D2AE770B000147255 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F92D584C2AE770B000147255 /* FirebaseFirestoreSwift */; };
+		F9B1AED12AEB87B600745C4A /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B1AED02AEB87B600745C4A /* UserDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		F9030B222ADD0CD4007C5043 /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		F9030B242ADE0E28007C5043 /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		F9030B292ADE1EEE007C5043 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		F9B1AED02AEB87B600745C4A /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 				051A60E32AE90B5C00597886 /* FirestoreManager.swift */,
 				051A60E82AE91F3400597886 /* StorageManager.swift */,
 				05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */,
+				F9B1AED02AEB87B600745C4A /* UserDataManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */,
 				EB7119032ADC5B2200CD19D6 /* AccountDeletionViewController.swift in Sources */,
 				EB98AF212ADB92A9008586BC /* CustomTabBarController.swift in Sources */,
+				F9B1AED12AEB87B600745C4A /* UserDataManager.swift in Sources */,
 				EBD4B6AA2AE94174007CDFD7 /* QRCodeViewController.swift in Sources */,
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
 				051A60D62AE69B9200597886 /* SignUpViewController.swift in Sources */,

@@ -17,7 +17,7 @@ class SignUpViewController: UIViewController {
     private var nickname: String?
     private var isAgree: Bool?
     private let authManager = AuthManager.shared
-    
+    private let userDataManager = UserDataManager.shared
     // MARK: - Validation
     private var isSignUpFormValid: Bool? {
         self.isValidEmail == true &&
@@ -324,7 +324,8 @@ class SignUpViewController: UIViewController {
     
     @objc private func signUpButtonTapped() {
         guard let email = self.email, let password = self.password else { return }
-        authManager.signUpUser(email: email, password: password) { result, error in
+        authManager.signUpUser(email: email, password: password) { [weak self] result, error in
+            guard let self = self else { return }
             if let error = error {
                 let code = (error as NSError).code
                 switch code {
@@ -335,9 +336,12 @@ class SignUpViewController: UIViewController {
                 }
                 return
             }
-            self.navigationController?.popViewController(animated: true)
+            
+            navigationController?.popViewController(animated: true)
         }
     }
+    
+    
 }
 
 // MARK: - UITextFieldDelegate

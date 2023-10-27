@@ -8,3 +8,14 @@
 import UIKit
 
 
+struct User: Codable {
+    let userName: String
+    let userImage: Data
+    var likedPose: likePose
+}
+
+struct likePose: Codable {
+    var firstPose: [Data]
+    var secondPose: [Data]
+    var thirdPose: [Data]
+}
