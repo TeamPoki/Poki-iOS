@@ -184,6 +184,7 @@ class LoginViewController: UIViewController {
         textField.leftViewMode = .always
         textField.delegate = self
         textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        textField.tintColor = .black
     }
     
     // MARK: - Helpers
