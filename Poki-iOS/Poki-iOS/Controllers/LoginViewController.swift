@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     private var email: String?
     private var password: String?
+    private let authManager = AuthManager.shared
     
     // MARK: - Validation
     private var isLoginFormValid: Bool? {
@@ -243,19 +244,6 @@ class LoginViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
         }
     }
-     
-   private func loginUser(withEmail email: String, password: String) {
-       Auth.auth().signIn(withEmail: email, password: password) { _, error in
-           if let error = error {
-               print("로그인 에러 : \(error.localizedDescription)")
-               return
-           }
-           let rootVC = CustomTabBarController()
-           guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-           sceneDelegate.changeRootViewController(rootVC)
-           UserDefaults.standard.set(true, forKey: "LoginStatus")
-       }
-    }
     
     // MARK: - Update UI
     private func updateLoginButton() {
@@ -316,10 +304,17 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
-        guard let email = self.email,
-              let password = self.password
-        else { return }
-        loginUser(withEmail: email, password: password)
+        guard let email = self.email, let password = self.password else { return }
+        authManager.loginUser(withEmail: email, password: password) { user, error in
+            if let error = error {
+                print("로그인 에러 : \(error.localizedDescription)")
+                return
+            }
+            let rootVC = CustomTabBarController()
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.changeRootViewController(rootVC)
+            UserDefaults.standard.set(true, forKey: "LoginStatus")
+        }
     }
     
     @objc private func signUpButtonTapped(_ sender: UIButton) {
