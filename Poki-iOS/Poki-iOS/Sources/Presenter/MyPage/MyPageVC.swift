@@ -13,8 +13,6 @@ import Then
 final class MyPageVC: UIViewController {
     
     // MARK: - Properties
-    
-    let userDataManager = UserDataManager.shared
     let authManager = AuthManager.shared
     
     private let myPageTableView = UITableView().then {
@@ -126,7 +124,7 @@ final class MyPageVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadProfileData()
+        UserDataManager.loadUserData()
         profileDataBinding()
     }
     
@@ -193,15 +191,9 @@ final class MyPageVC: UIViewController {
         }
     }
     
-    private func loadProfileData() {
-        if let data = UserDefaults.standard.data(forKey: "userData"),
-           let userData = try? JSONDecoder().decode(User.self, from: data) {
-            UserDataManager.userData = userData
-        }
-        emailLabel.text = authManager.CurrentUserID()
-    }
-    
     private func profileDataBinding() {
+        self.nameLabel.text = UserDataManager.userData.userName
+        emailLabel.text = authManager.CurrentUserID()
         
         //이미지 변경
         if UIImage(data: UserDataManager.userData.userImage) == nil {
@@ -209,8 +201,6 @@ final class MyPageVC: UIViewController {
         } else {
             self.userImage.image = UIImage(data: UserDataManager.userData.userImage)
         }
-        
-        self.nameLabel.text = UserDataManager.userData.userName
     }
     
     private func retrieveAppVersion() -> String? {

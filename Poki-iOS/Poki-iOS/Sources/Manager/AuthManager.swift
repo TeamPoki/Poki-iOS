@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class AuthManager {
+final class AuthManager {
     static let shared = AuthManager()
     private init() {}
     

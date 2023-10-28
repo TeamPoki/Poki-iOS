@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-class FirestoreManager {
+final class FirestoreManager {
     static let shared = FirestoreManager()
     
     private init() {}
