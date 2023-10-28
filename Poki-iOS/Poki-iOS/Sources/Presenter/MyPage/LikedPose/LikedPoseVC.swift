@@ -83,7 +83,7 @@ final class LikedPoseVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
-        loadProfileData()
+        UserDataManager.loadUserData()
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -181,13 +181,6 @@ final class LikedPoseVC: UIViewController {
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.bottom.equalToSuperview()
-        }
-    }
-    
-    private func loadProfileData() {
-        if let data = UserDefaults.standard.data(forKey: "userData"),
-           let userData = try? JSONDecoder().decode(User.self, from: data) {
-            UserDataManager.userData = userData
         }
     }
     

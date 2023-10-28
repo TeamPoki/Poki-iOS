@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PoseImageManager {
+final class PoseImageManager {
     static let shared = PoseImageManager()
     
     private init() {}

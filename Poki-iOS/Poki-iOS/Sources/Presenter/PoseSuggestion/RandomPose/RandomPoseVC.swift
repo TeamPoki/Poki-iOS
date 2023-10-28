@@ -72,16 +72,9 @@ final class RandomPoseVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadProfileData()
+        UserDataManager.loadUserData()
         loadButtonData()
-        //        UserDataManager.userData.likedPose.firstPose.removeAll()
-        //        UserDataManager.userData.likedPose.secondPose.removeAll()
-        //        do {
-        //              let userData = try JSONEncoder().encode(UserDataManager.userData)
-        //              UserDefaults.standard.set(userData, forKey: "userData")
-        //          } catch {
-        //              print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
-        //          }
+//        UserDataManager.removeUserData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -145,12 +138,7 @@ final class RandomPoseVC: UIViewController {
         self.poseImageView.image = poseImages.randomElement() ?? UIImage()
     }
     
-    private func loadProfileData() {
-        if let data = UserDefaults.standard.data(forKey: "userData"),
-           let userData = try? JSONDecoder().decode(User.self, from: data) {
-            UserDataManager.userData = userData
-        }
-    }
+
     
     // MARK: - Actions
     
@@ -175,12 +163,7 @@ final class RandomPoseVC: UIViewController {
             case .none:
                 break
             }
-            do {
-                let userData = try JSONEncoder().encode(UserDataManager.userData)
-                UserDefaults.standard.set(userData, forKey: "userData")
-            } catch {
-                print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
-            }
+            UserDataManager.saveUserData()
             selectedButton.toggle()
         } else {
             bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
@@ -200,13 +183,7 @@ final class RandomPoseVC: UIViewController {
             case .none:
                 break
             }
-            do {
-                let userData = try JSONEncoder().encode(UserDataManager.userData)
-                UserDefaults.standard.set(userData, forKey: "userData")
-                print("저장 완료")
-            } catch {
-                print("데이터를 저장하는 중 오류 발생: \(error.localizedDescription)")
-            }
+            UserDataManager.saveUserData()
             selectedButton.toggle()
         }
     }

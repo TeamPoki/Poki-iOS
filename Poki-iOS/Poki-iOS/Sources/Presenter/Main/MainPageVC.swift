@@ -105,11 +105,6 @@ final class MainPageVC: UIViewController {
     }
 
     // MARK: - Actions
-
-//    @objc private func handleLogout() {
-//        UserDefaults.standard.removeObject(forKey: "userIdStatus")
-//        self.userIdStatus.toggle()
-//    }
     
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
         let maxSizeInBytes: Int = 4 * 1024 * 1024

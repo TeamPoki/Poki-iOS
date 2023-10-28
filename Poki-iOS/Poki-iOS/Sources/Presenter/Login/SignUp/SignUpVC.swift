@@ -17,7 +17,6 @@ final class SignUpVC: UIViewController {
     private var nickname: String?
     private var isAgree: Bool?
     private let authManager = AuthManager.shared
-    private let userDataManager = UserDataManager.shared
     // MARK: - Validation
     private var isSignUpFormValid: Bool? {
         self.isValidEmail == true &&
