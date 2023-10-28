@@ -20,7 +20,7 @@ final class AuthManager {
         Auth.auth().createUser(withEmail: email, password: password, completion: completion)
     }
     
-    func CurrentUserID() -> String? {
+    func currentUserID() -> String? {
         if let user = Auth.auth().currentUser {
             return user.email
         }
