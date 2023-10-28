@@ -304,6 +304,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
             let loginVC = UINavigationController(rootViewController: LoginVC())
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(loginVC)
+            authManager.logoutUser()
             UserDefaults.standard.set(false, forKey: "LoginStatus")
         case 3:
             break

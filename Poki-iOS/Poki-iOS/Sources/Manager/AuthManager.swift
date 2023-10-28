@@ -30,9 +30,10 @@ final class AuthManager {
         Auth.auth().createUser(withEmail: email, password: password, completion: completion)
     }
     
-    func signOutUser() {
+    func logoutUser() {
         do {
             try Auth.auth().signOut()
+            print("로그아웃 성공!")
         } catch {
             print("로그아웃 실패: \(error.localizedDescription)")
         }
