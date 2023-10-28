@@ -12,6 +12,16 @@ final class AuthManager {
     static let shared = AuthManager()
     private init() {}
     
+    var currentUserUID: String? {
+        let uid = Auth.auth().currentUser?.uid
+        return uid
+    }
+    
+    var currentUserEmail: String? {
+        let email = Auth.auth().currentUser?.email
+        return email
+    }
+    
     func loginUser(withEmail email: String, password: String, completion: @escaping (AuthDataResult?, Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
      }
@@ -20,22 +30,14 @@ final class AuthManager {
         Auth.auth().createUser(withEmail: email, password: password, completion: completion)
     }
     
-    func CurrentUserID() -> String? {
-        if let user = Auth.auth().currentUser {
-            return user.email
-        }
-        return nil
-    }
-    
     func userDelete() {
-        if let user = Auth.auth().currentUser {
-            user.delete { error in
-                if let error = error {
-                    print("계정 삭제 실패 \(error.localizedDescription)")
-                } else {
-                    print("계정 삭제 성공")
-                }
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+            if let error = error {
+                print("계정 삭제 실패 \(error.localizedDescription)")
+                return
             }
+            print("계정 삭제 성공")
         }
     }
 }
