@@ -193,7 +193,7 @@ final class MyPageVC: UIViewController {
     
     private func profileDataBinding() {
         self.nameLabel.text = UserDataManager.userData.userName
-        emailLabel.text = authManager.currentUserID()
+        emailLabel.text = authManager.currentUserEmail
         
         //이미지 변경
         if UIImage(data: UserDataManager.userData.userImage) == nil {
