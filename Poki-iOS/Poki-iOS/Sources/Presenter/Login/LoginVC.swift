@@ -252,6 +252,7 @@ final class LoginVC: UIViewController {
     
     private func setupEmail() {
         guard let email = UserDataManager.savedEmail else { return }
+        self.email = email
         self.emailTextField.text = email
         self.emailSaveButton.isSelected = true
         self.emailSaveButton.tintColor = .black
@@ -325,6 +326,9 @@ final class LoginVC: UIViewController {
             }
             if self.emailSaveButton.isSelected == true {
                 UserDataManager.saveUserEmail(email)
+            }
+            if self.emailSaveButton.isSelected == false {
+                UserDataManager.deleteUserEmail()
             }
             let rootVC = CustomTabBarController()
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }

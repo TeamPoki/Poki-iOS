@@ -51,4 +51,8 @@ final class UserDataManager {
     static func saveUserEmail(_ email: String) {
         UserDefaults.standard.set(email, forKey: "savedEmail")
     }
+    
+    static func deleteUserEmail() {
+        UserDefaults.standard.removeObject(forKey: "savedEmail")
+    }
 }
