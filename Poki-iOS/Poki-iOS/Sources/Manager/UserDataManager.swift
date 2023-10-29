@@ -49,11 +49,6 @@ final class UserDataManager {
     
     // MARK: - 이메일 저장
     static func saveUserEmail(_ email: String) {
-        do {
-            let email = try JSONEncoder().encode(email)
-            UserDefaults.standard.set(email, forKey: "savedEmail")
-        } catch {
-            print("이메일 저장 실패: \(error.localizedDescription)")
-        }
+        UserDefaults.standard.set(email, forKey: "savedEmail")
     }
 }
