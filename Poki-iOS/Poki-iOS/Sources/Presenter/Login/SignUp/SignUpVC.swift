@@ -16,7 +16,9 @@ final class SignUpVC: UIViewController {
     private var password: String?
     private var nickname: String?
     private var isAgree: Bool?
+    
     private let authManager = AuthManager.shared
+    
     // MARK: - Validation
     private var isSignUpFormValid: Bool? {
         self.isValidEmail == true &&
@@ -135,6 +137,7 @@ final class SignUpVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barStyle = .default
     }
     
     override func viewDidLayoutSubviews() {
@@ -335,7 +338,6 @@ final class SignUpVC: UIViewController {
                 }
                 return
             }
-            
             navigationController?.popViewController(animated: true)
         }
     }

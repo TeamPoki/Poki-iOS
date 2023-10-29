@@ -57,8 +57,6 @@ final class AddPhotoView: UIView {
         $0.addArrangedSubviews(dateLabel, dateTextField)
     }
     
-  
-    
     let memoLabel = UILabel().then {
         $0.textColor = .black
         $0.text = "한 줄 메모"
@@ -97,7 +95,6 @@ final class AddPhotoView: UIView {
         $0.image = UIImage(named: "addButton")
     }
     
-    
     let tagAddButton = UIButton(type: .custom).then {
         $0.setTitleColor(.black, for: .normal)
         $0.backgroundColor = .clear
@@ -113,7 +110,6 @@ final class AddPhotoView: UIView {
         $0.addArrangedSubviews(tagImageView, tagAddButton)
     }
     
-    
     lazy var tagStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution  = .equalSpacing
@@ -127,7 +123,6 @@ final class AddPhotoView: UIView {
         $0.setTitle("작성완료", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 7
-        
     }
     
     
@@ -203,8 +198,6 @@ final class AddPhotoView: UIView {
             $0.bottom.equalToSuperview().inset(60)
             $0.height.equalTo(40)
         }
-
-        
     }
     
     //datePicker done 버튼

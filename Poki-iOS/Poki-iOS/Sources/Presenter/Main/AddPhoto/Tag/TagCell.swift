@@ -47,12 +47,9 @@ final class TagCell: UICollectionViewCell {
             $0.width.equalTo(30)
         }
         
-        
         tagLabel.snp.makeConstraints {
             $0.centerX.equalTo(tagImageView)
             $0.centerY.equalToSuperview().offset(30)
         }
     }
-    
-    
 }
