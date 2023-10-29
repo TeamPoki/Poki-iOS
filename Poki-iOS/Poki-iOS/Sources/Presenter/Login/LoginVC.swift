@@ -253,6 +253,9 @@ final class LoginVC: UIViewController {
     private func setupEmail() {
         guard let email = UserDataManager.savedEmail else { return }
         self.emailTextField.text = email
+        self.emailSaveButton.isSelected = true
+        self.emailSaveButton.tintColor = .black
+        self.emailSaveTextLabel.textColor = .black
     }
     
     // MARK: - Update UI
