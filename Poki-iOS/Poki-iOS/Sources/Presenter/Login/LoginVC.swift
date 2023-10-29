@@ -172,10 +172,15 @@ final class LoginVC: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    deinit {
+        print("로그인 페이지 사라집니다.!")
+    }
+    
     // MARK: - Configure
     private func configureUI() {
         configure(emailTextField)
         configure(passwordTextField)
+        setupEmail()
     }
     
     private func configure(_ textField: UITextField) {
@@ -245,6 +250,24 @@ final class LoginVC: UIViewController {
         emailSaveTextLabel.snp.contentCompressionResistanceHorizontalPriority = 249
     }
     
+    private func setupEmail() {
+        guard let email = UserDataManager.savedEmail else { return }
+        self.email = email
+        self.emailTextField.text = email
+        self.emailSaveButton.isSelected = true
+        self.emailSaveButton.tintColor = .black
+        self.emailSaveTextLabel.textColor = .black
+    }
+    
+    private func saveUserEmail(_ email: String) {
+        if self.emailSaveButton.isSelected == true {
+            UserDataManager.saveUserEmail(email)
+        }
+        if self.emailSaveButton.isSelected == false {
+            UserDataManager.deleteUserEmail()
+        }
+    }
+    
     // MARK: - Update UI
     private func updateLoginButton() {
         if isLoginFormValid == true {
@@ -310,6 +333,7 @@ final class LoginVC: UIViewController {
                 print("로그인 에러 : \(error.localizedDescription)")
                 return
             }
+            self.saveUserEmail(email)
             let rootVC = CustomTabBarController()
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(rootVC)
