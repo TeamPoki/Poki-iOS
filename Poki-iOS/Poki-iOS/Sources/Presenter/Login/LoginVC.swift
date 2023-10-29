@@ -259,6 +259,15 @@ final class LoginVC: UIViewController {
         self.emailSaveTextLabel.textColor = .black
     }
     
+    private func saveUserEmail(_ email: String) {
+        if self.emailSaveButton.isSelected == true {
+            UserDataManager.saveUserEmail(email)
+        }
+        if self.emailSaveButton.isSelected == false {
+            UserDataManager.deleteUserEmail()
+        }
+    }
+    
     // MARK: - Update UI
     private func updateLoginButton() {
         if isLoginFormValid == true {
@@ -324,12 +333,7 @@ final class LoginVC: UIViewController {
                 print("로그인 에러 : \(error.localizedDescription)")
                 return
             }
-            if self.emailSaveButton.isSelected == true {
-                UserDataManager.saveUserEmail(email)
-            }
-            if self.emailSaveButton.isSelected == false {
-                UserDataManager.deleteUserEmail()
-            }
+            self.saveUserEmail(email)
             let rootVC = CustomTabBarController()
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(rootVC)
