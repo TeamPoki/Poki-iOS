@@ -12,6 +12,10 @@ import UIKit
 final class UserDataManager {
     
     static var userData = User(userName: "", userImage: Data(), likedPose: likePose(firstPose: [], secondPose: [], thirdPose: []))
+    
+    static var savedEmail: String? {
+        UserDefaults.standard.string(forKey: "savedEmail")
+    }
    
 //유저디폴트 값 불러오기
     static func loadUserData() {
@@ -43,5 +47,13 @@ final class UserDataManager {
           }
     }
     
-    
+    // MARK: - 이메일 저장
+    static func saveUserEmail(_ email: String) {
+        do {
+            let email = try JSONEncoder().encode(email)
+            UserDefaults.standard.set(email, forKey: "savedEmail")
+        } catch {
+            print("이메일 저장 실패: \(error.localizedDescription)")
+        }
+    }
 }
