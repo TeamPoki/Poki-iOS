@@ -131,30 +131,30 @@ final class AddPhotoVC: UIViewController {
     }
     
     private func tagImageSetupTapGestures() {
-           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tagImageTapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tagImageTapped))
         addPhotoView.tagImageView.addGestureRecognizer(tapGesture)
         addPhotoView.tagImageView.isUserInteractionEnabled = true
        }
     
     private func mainImageSetupTapGestures() {
-           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpImageView))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpImageView))
         addPhotoView.photoImageView.addGestureRecognizer(tapGesture)
         addPhotoView.photoImageView.isUserInteractionEnabled = true
-       }
+    }
     
     @objc private func touchUpImageView() {
             print("이미지뷰 터치")
         self.setupImagePicker()
-        }
+    }
     
     private func setupImagePicker() {
-            var configuration = PHPickerConfiguration()
-            configuration.selectionLimit = 1
-            configuration.filter = .any(of: [.images, .videos])
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            self.present(picker, animated: true, completion: nil)
-        }
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images, .videos])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        self.present(picker, animated: true, completion: nil)
+    }
     
     @objc private func tagButtonAction() {
         let tagViewController = TagVC()
@@ -203,7 +203,6 @@ final class AddPhotoVC: UIViewController {
             case .success((let photoURL, let tagURL)):
                 // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
                 self.updateImageData(documentPath: documentPath, photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
-                
             case .failure(let error):
                 print("Error uploading images: \(error.localizedDescription)")
                 // 오류 처리
@@ -338,14 +337,14 @@ extension AddPhotoVC: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
          animateViewMoving(up: true)
-     }
+    }
      
-     func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
          animateViewMoving(up: false)
-     }
+    }
      
-     // 키보드가 나타날 때 뷰를 이동시키는 메서드
-     func animateViewMoving(up: Bool) {
+    // 키보드가 나타날 때 뷰를 이동시키는 메서드
+    func animateViewMoving(up: Bool) {
          let movement: CGFloat = (up ? -keyboardOffset() : keyboardOffset())
          
          UIView.animate(withDuration: 0.3) {

@@ -219,6 +219,4 @@ final class RandomPoseVC: UIViewController {
             break
         }
     }
-    
- 
 }
