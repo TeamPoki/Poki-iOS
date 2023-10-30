@@ -21,6 +21,7 @@ final class NoticeListVC: UIViewController {
     }
     
     private var noticeItems: [NoticeList] = []
+    private var expandedIndexPath: IndexPath?
     
     // MARK: - Life Cycle
     
@@ -86,8 +87,22 @@ extension NoticeListVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeListTableViewCell", for: indexPath) as! NoticeListCell
         let noticeItem = noticeItems[indexPath.row]
-        cell.configure(title: noticeItem.title, date: noticeItem.date)
+        let isExpanded = expandedIndexPath == indexPath
+        cell.configure(notice: noticeItem, isExpanded: isExpanded)
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let currentExpandedIndexPath = expandedIndexPath {
+            if currentExpandedIndexPath == indexPath {
+                expandedIndexPath = nil
+            } else {
+                expandedIndexPath = indexPath
+            }
+        } else {
+            expandedIndexPath = indexPath
+        }
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
