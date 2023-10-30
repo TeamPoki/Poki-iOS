@@ -21,22 +21,22 @@ final class MainPhotoListCell: UICollectionViewCell {
     
     var titleLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont(name: Constants.fontExtraBold, size: 32)
+        $0.font = UIFont(name: Constants.fontBold, size: 24)
     }
     
     var dateLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont(name: Constants.fontRegular, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
     }
     
-    var tagImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
+    var separatorLabel = UILabel().then {
+        $0.textColor = .white
+        $0.text = "•"
     }
     
     var tagLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = UIFont(name: Constants.fontRegular, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.textAlignment = .right
     }
     
@@ -54,7 +54,7 @@ final class MainPhotoListCell: UICollectionViewCell {
     // MARK: - Helpers
     
     private func configureCell() {
-        addSubviews(photoImage, titleLabel, dateLabel, tagImage, tagLabel)
+        addSubviews(photoImage, titleLabel, dateLabel, separatorLabel, tagLabel)
         self.backgroundColor = UIColor.clear
         
         photoImage.snp.makeConstraints {
@@ -71,15 +71,15 @@ final class MainPhotoListCell: UICollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(5)
         }
         
-        tagImage.snp.makeConstraints {
-            $0.trailing.equalTo(tagLabel.snp.leading).offset(-10)
-            $0.centerY.equalTo(tagLabel)
-            $0.width.height.equalTo(20)
+        separatorLabel.snp.makeConstraints {
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(5)
+            $0.centerY.equalTo(dateLabel)
         }
         
         tagLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalToSuperview().offset(10)
+            $0.leading.equalTo(separatorLabel.snp.trailing).offset(5)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+            $0.centerY.equalTo(dateLabel)
         }
     }
 }

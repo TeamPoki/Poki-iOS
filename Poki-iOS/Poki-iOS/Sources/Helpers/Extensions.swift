@@ -14,7 +14,7 @@ extension UIView {
     func addSubviews(_ views: UIView...) {
         for view in views { addSubview(view) }
     }
-    
+
     static func createSeparatorLine() -> UIView {
         let separator = UIView()
         separator.backgroundColor = .systemGray5
@@ -26,7 +26,7 @@ extension UIView {
 
 extension UIStackView {
     func addArrangedSubviews(_ views: UIView...) {
-        for view in views {addArrangedSubview(view)}
+        for view in views { addArrangedSubview(view) }
     }
 }
 
@@ -40,8 +40,8 @@ extension UILabel {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = spacing
         attributeString.addAttribute(.paragraphStyle,
-                                        value: style,
-                                        range: NSRange(location: 0, length: attributeString.length))
+                                     value: style,
+                                     range: NSRange(location: 0, length: attributeString.length))
         attributedText = attributeString
     }
 }
@@ -61,7 +61,7 @@ extension UINavigationController {
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
     }
-    
+
     // 포즈 추천 페이지, 랜덤 포즈 페이지에서 사용하는 UINavigationBarAppearance
     func configureLineAppearance() {
         let appearance = UINavigationBarAppearance().then {
