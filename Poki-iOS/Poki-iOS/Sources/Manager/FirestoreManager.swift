@@ -130,12 +130,22 @@ final class FirestoreManager {
                     let notice = try decoder.decode(NoticeList.self, from: jsonData)
                     return notice
                 } catch {
-                    print("Error decoding house: \(error.localizedDescription)")
+                    print("Error decoding Photos: \(error.localizedDescription)")
                     return nil
                 }
             }
             completion(notices)
             print(notices)
+        }
+    }
+    
+    // MARK: - saveDeletionReason
+    
+    func saveDeletionReason(reason: String, completion: @escaping (Error?) -> Void) {
+        let collectionRef = db.collection("DeletionReasons")
+        let data = ["content": reason]
+        collectionRef.addDocument(data: data) { error in
+            completion(error)
         }
     }
 }
