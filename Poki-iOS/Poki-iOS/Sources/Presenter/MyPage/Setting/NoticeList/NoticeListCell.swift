@@ -35,7 +35,7 @@ final class NoticeListCell: UITableViewCell {
     }
     
     private lazy var contentLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 16)
+        $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.numberOfLines = 0
         $0.isHidden = true
     }

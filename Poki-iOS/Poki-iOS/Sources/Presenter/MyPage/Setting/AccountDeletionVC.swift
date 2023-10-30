@@ -26,32 +26,30 @@ final class AccountDeletionVC: UIViewController {
         $0.font = UIFont(name: Constants.fontSemiBold, size: 24)
     }
     
-    private lazy var infoViews: [UIStackView] = {
-        return infoTexts.map { text in
-            let icon = UIImageView().then {
-                $0.image = UIImage(systemName: "exclamationmark.triangle")
-                $0.tintColor = Constants.d9GrayColor
-            }
-            
-            let label = UILabel().then {
-                $0.text = text
-                $0.numberOfLines = 0
-                $0.lineBreakMode = .byWordWrapping
-                $0.font = UIFont(name: Constants.fontRegular, size: 14)
-            }
-            
-            let stackView = UIStackView(arrangedSubviews: [icon, label]).then {
-                $0.axis = .horizontal
-                $0.spacing = 8
-                $0.alignment = .leading
-                $0.distribution = .fill
-            }
-            label.snp.makeConstraints {
-                $0.width.lessThanOrEqualTo(UIScreen.main.bounds.width - (icon.frame.width + 8 + 20 * 2) - 20)
-            }
-            return stackView
+    private lazy var infoViews: [UIStackView] = infoTexts.map { text in
+        let icon = UIImageView().then {
+            $0.image = UIImage(systemName: "exclamationmark.triangle")
+            $0.tintColor = Constants.d9GrayColor
         }
-    }()
+            
+        let label = UILabel().then {
+            $0.text = text
+            $0.numberOfLines = 0
+            $0.lineBreakMode = .byWordWrapping
+            $0.font = UIFont(name: Constants.fontRegular, size: 14)
+        }
+            
+        let stackView = UIStackView(arrangedSubviews: [icon, label]).then {
+            $0.axis = .horizontal
+            $0.spacing = 8
+            $0.alignment = .leading
+            $0.distribution = .fill
+        }
+        label.snp.makeConstraints {
+            $0.width.lessThanOrEqualTo(UIScreen.main.bounds.width - (icon.frame.width + 8 + 20 * 2) - 20)
+        }
+        return stackView
+    }
     
     private lazy var checkBoxButton = UIButton().then {
         $0.setImage(UIImage(systemName: "square"), for: .normal)
@@ -224,6 +222,17 @@ final class AccountDeletionVC: UIViewController {
     }
     
     @objc func withdrawButtonTapped() {
+        let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
+            FirestoreManager.shared.saveDeletionReason(reason: reasonText) { error in
+                if let error = error {
+                    print("회원탈퇴 사유를 서버에 전송하지 못했습니다.:", error.localizedDescription)
+                    return
+                }
+                print("회원탈퇴 사유를 서버에 전송했습니다.")
+            }
+        }
+        
         authManager.userDelete()
         let rootVC = LoginVC()
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
