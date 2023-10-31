@@ -165,6 +165,7 @@ final class LoginVC: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
+        authManager.sendPasswordReset(with: "playhong16@gmail.com")
     }
     
     override func viewWillAppear(_ animated: Bool) {
