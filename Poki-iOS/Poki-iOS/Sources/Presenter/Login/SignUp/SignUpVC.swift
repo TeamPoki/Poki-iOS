@@ -68,6 +68,10 @@ final class SignUpVC: UIViewController {
         $0.isSecureTextEntry = true
     }
     
+    private let passwordTextFieldView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private lazy var eyeButton = UIButton().then {
         $0.setImage(UIImage(systemName: "eye"), for: .normal)
         $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
@@ -75,8 +79,10 @@ final class SignUpVC: UIViewController {
         $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
     }
     
-    private let passwordTextFieldView = UIView().then {
-        $0.backgroundColor = .clear
+    private let passwordHintLabel = UILabel().then {
+        $0.text = "8~20자, 영문, 숫자, 특수문자를 포함해주세요."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
     }
     
     private let nicknamePlaceholder = UILabel().then {
@@ -181,7 +187,7 @@ final class SignUpVC: UIViewController {
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         passwordTextFieldView.addSubview(eyeButton)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -199,13 +205,17 @@ final class SignUpVC: UIViewController {
             $0.centerY.equalTo(emailTextField)
         }
         passwordTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
         passwordTextField.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalToSuperview()
+        }
+        passwordHintLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(5)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
@@ -216,7 +226,7 @@ final class SignUpVC: UIViewController {
             $0.centerY.equalTo(passwordTextField)
         }
         nicknameTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
@@ -229,7 +239,7 @@ final class SignUpVC: UIViewController {
             $0.centerY.equalTo(nicknameTextField)
         }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {
