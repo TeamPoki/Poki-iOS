@@ -239,6 +239,7 @@ final class AccountDeletionVC: UIViewController {
             sceneDelegate.changeRootViewController(rootVC)
             UserDefaults.standard.set(false, forKey: "LoginStatus")
             UserDefaults.standard.removeObject(forKey: "userData")
+            UserDataManager.deleteUserEmail()
         }
     }
     
