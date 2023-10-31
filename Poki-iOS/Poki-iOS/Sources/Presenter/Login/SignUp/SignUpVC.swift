@@ -41,8 +41,15 @@ final class SignUpVC: UIViewController {
     private var signUpButtonColor: UIColor {
         isSignUpFormValid == true ? UIColor.black : UIColor.lightGray
     }
-
     
+    // MARK: - Size
+    private var toastSize: CGRect {
+        let width = view.frame.size.width - 60
+        let height = view.frame.size.height / 18
+        let frame = CGRect(x: 30, y: 680, width: width, height: height)
+        return frame
+    }
+
     // MARK: - Components
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
@@ -57,6 +64,11 @@ final class SignUpVC: UIViewController {
     private let emailTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
+    private let emailHintLabel = UILabel().then {
+        $0.text = "이메일 형식으로 입력해주세요."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
+    }
     
     private let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
@@ -68,6 +80,10 @@ final class SignUpVC: UIViewController {
         $0.isSecureTextEntry = true
     }
     
+    private let passwordTextFieldView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private lazy var eyeButton = UIButton().then {
         $0.setImage(UIImage(systemName: "eye"), for: .normal)
         $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
@@ -75,8 +91,10 @@ final class SignUpVC: UIViewController {
         $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
     }
     
-    private let passwordTextFieldView = UIView().then {
-        $0.backgroundColor = .clear
+    private let passwordHintLabel = UILabel().then {
+        $0.text = "8~20자, 영문, 숫자, 특수문자를 포함해주세요."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
     }
     
     private let nicknamePlaceholder = UILabel().then {
@@ -91,6 +109,12 @@ final class SignUpVC: UIViewController {
     
     private let nicknameTextFieldView = UIView().then {
         $0.backgroundColor = .clear
+    }
+    
+    private let nicknameHintLabel = UILabel().then {
+        $0.text = "2~8자, 영문, 한글만 입력할 수 있습니다."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
     }
     
     private lazy var signUpButton = UIButton().then {
@@ -137,7 +161,6 @@ final class SignUpVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.barStyle = .default
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,6 +181,7 @@ final class SignUpVC: UIViewController {
     }
     
     private func configureNav() {
+        navigationController?.configureLineAppearance()
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "회원가입"
@@ -181,7 +205,7 @@ final class SignUpVC: UIViewController {
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         passwordTextFieldView.addSubview(eyeButton)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
+        view.addSubviews(emailTextFieldView, emailHintLabel, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, nicknameHintLabel, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -198,14 +222,22 @@ final class SignUpVC: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(emailTextField)
         }
+        emailHintLabel.snp.makeConstraints {
+            $0.top.equalTo(emailTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
+        }
         passwordTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
         passwordTextField.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalToSuperview()
+        }
+        passwordHintLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
@@ -216,7 +248,7 @@ final class SignUpVC: UIViewController {
             $0.centerY.equalTo(passwordTextField)
         }
         nicknameTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
@@ -228,8 +260,12 @@ final class SignUpVC: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(nicknameTextField)
         }
+        nicknameHintLabel.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
+        }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(30)
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {
@@ -250,6 +286,13 @@ final class SignUpVC: UIViewController {
     private func verifyingDuplicationAlert(text: String) {
         let alert = UIAlertController(title: "중복된 이메일", message: "\(text)는 이미 존재하는 이메일입니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "종료", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showAlert(title: String?, message: String?, completion: (() -> Void)?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in completion?() }
+        alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
     
@@ -338,7 +381,9 @@ final class SignUpVC: UIViewController {
                 }
                 return
             }
-            navigationController?.popViewController(animated: true)
+            self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

@@ -32,6 +32,14 @@ final class LoginVC: UIViewController {
     private var loginButtonColor: UIColor {
         isLoginFormValid == true ? UIColor.black : UIColor.lightGray
     }
+    
+    // MARK: - Size
+    private var toastSize: CGRect {
+        let width = view.frame.size.width - 60
+        let height = view.frame.size.height / 18
+        let frame = CGRect(x: 30, y: 620, width: width, height: height)
+        return frame
+    }
 
     // MARK: - Components
     private let headerView = UIView().then {
@@ -171,7 +179,6 @@ final class LoginVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.barStyle = .black
     }
     
     deinit {
@@ -247,9 +254,9 @@ final class LoginVC: UIViewController {
             $0.height.equalTo(50)
         }
         bottomStackView.snp.makeConstraints {
-            $0.top.equalTo(emailSaveTextLabel.snp.bottom).offset(110)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
         emailSaveTextLabel.snp.contentHuggingHorizontalPriority = 249
         emailSaveTextLabel.snp.contentCompressionResistanceHorizontalPriority = 249
@@ -335,7 +342,9 @@ final class LoginVC: UIViewController {
         guard let email = self.email, let password = self.password else { return }
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
-                print("로그인 에러 : \(error.localizedDescription)")
+                self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
+                    print("로그인 에러 : \(error.localizedDescription)")
+                }
                 return
             }
             self.saveUserEmail(email)
