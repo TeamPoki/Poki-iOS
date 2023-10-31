@@ -173,14 +173,12 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         stoageManager.downloadImage(urlString: photo.image) {  image in
             DispatchQueue.main.async {
                 cell.photoImage.image = image
+                if let unwrappedImage = image {
+                    cell.setGradient(image: unwrappedImage)
+                }
             }
         }
-            
-        stoageManager.downloadImage(urlString: photo.tag.tagImage) {  image in
-            DispatchQueue.main.async {
-                cell.tagImage.image = image
-            }
-        }
+        
         cell.titleLabel.text = photo.memo
         cell.dateLabel.text = photo.date
         cell.tagLabel.text = photo.tag.tagLabel

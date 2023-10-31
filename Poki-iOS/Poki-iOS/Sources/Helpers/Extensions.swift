@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreImage
 import Then
 
 // MARK: - UIView
@@ -14,7 +15,7 @@ extension UIView {
     func addSubviews(_ views: UIView...) {
         for view in views { addSubview(view) }
     }
-    
+
     static func createSeparatorLine() -> UIView {
         let separator = UIView()
         separator.backgroundColor = .systemGray5
@@ -26,7 +27,7 @@ extension UIView {
 
 extension UIStackView {
     func addArrangedSubviews(_ views: UIView...) {
-        for view in views {addArrangedSubview(view)}
+        for view in views { addArrangedSubview(view) }
     }
 }
 
@@ -40,9 +41,28 @@ extension UILabel {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = spacing
         attributeString.addAttribute(.paragraphStyle,
-                                        value: style,
-                                        range: NSRange(location: 0, length: attributeString.length))
+                                     value: style,
+                                     range: NSRange(location: 0, length: attributeString.length))
         attributedText = attributeString
+    }
+}
+
+// MARK: - UIImage
+
+extension UIImage {
+    func dominantColor() -> UIColor? {
+        guard let cgImage = self.cgImage else { return nil }
+
+        let inputImage = CIImage(cgImage: cgImage)
+        let extentVector = CIVector(x: inputImage.extent.origin.x, y: inputImage.extent.origin.y, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
+        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let outputImage = filter.outputImage else { return nil }
+
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        let context = CIContext(options: [.workingColorSpace: kCFNull!])
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+
+        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
     }
 }
 
@@ -61,7 +81,7 @@ extension UINavigationController {
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
     }
-    
+
     // 포즈 추천 페이지, 랜덤 포즈 페이지에서 사용하는 UINavigationBarAppearance
     func configureLineAppearance() {
         let appearance = UINavigationBarAppearance().then {
