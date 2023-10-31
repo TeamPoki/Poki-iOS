@@ -56,7 +56,7 @@ final class PoseSuggestionVC: UIViewController {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fill
-        $0.spacing = 60
+        $0.spacing = 40
     }
 
     // MARK: - Life Cycle
@@ -89,11 +89,10 @@ final class PoseSuggestionVC: UIViewController {
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.imagePadding = 10
         button.configuration = buttonConfig
-        button.backgroundColor = .white
-        button.tintColor = .black
+        button.backgroundColor = .black
+        button.tintColor = .white
         button.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.borderWidth = 0.5
+        button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(numberOfPeopleButtonTapped), for: .touchUpInside)
     }
