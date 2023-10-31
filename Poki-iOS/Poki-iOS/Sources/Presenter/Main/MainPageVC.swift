@@ -62,11 +62,11 @@ final class MainPageVC: UIViewController {
 
     private func createFilterButton() -> UIBarButtonItem {
         let recentDateAction = UIAction(title: "최근 날짜순", image: nil, handler: { _ in
-            // 최근 날짜순 필터 기능 구현예정
+            self.sortByDate(ascending: false)
         })
 
         let oldDateAction = UIAction(title: "오래된 날짜순", image: nil, handler: { _ in
-            // 오래된 날짜순 필터 기능 구현예정
+            self.sortByDate(ascending: true)
         })
 
         let dateSubMenu = UIMenu(title: "날짜", image: UIImage(systemName: "calendar"), identifier: nil, options: [], children: [recentDateAction, oldDateAction])
@@ -87,6 +87,20 @@ final class MainPageVC: UIViewController {
         })
         let menu = UIMenu(title: "", children: [galleryAction, cameraAction])
         return UIBarButtonItem(image: UIImage(systemName: "plus"), primaryAction: nil, menu: menu)
+    }
+    
+    private func stringToDate(_ dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        return dateFormatter.date(from: dateString)
+    }
+    
+    private func sortByDate(ascending: Bool) {
+        firestoreManager.photoList.sort {
+            guard let date1 = stringToDate($0.date), let date2 = stringToDate($1.date) else { return false }
+            return ascending ? date1 < date2 : date1 > date2
+        }
+        photoListCollectionView.reloadData()
     }
     
     private func setupCollectionView() {
