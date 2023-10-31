@@ -160,6 +160,13 @@ final class LoginVC: UIViewController {
         $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
+    private lazy var findPasswordButton = UIButton().then {
+        $0.setTitle("비밀번호 찾기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = UIFont(name: Constants.fontRegular, size: 14)
+        $0.addTarget(self, action: #selector(findPasswordButtonTapped), for: .touchUpInside)
+    }
+    
     private let bottomStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fill
@@ -213,7 +220,7 @@ final class LoginVC: UIViewController {
         passwordStackView.addArrangedSubviews(passwordTitleLabel, passwordTextField)
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
         bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
-        bottomStackView.addArrangedSubviews(loginButton, signUpButton)
+        bottomStackView.addArrangedSubviews(loginButton, signUpButton, findPasswordButton)
         passwordStackView.addSubview(eyeButton)
         view.addSubviews(headerView, bodyStackView, bottomStackView)
     }
@@ -293,16 +300,30 @@ final class LoginVC: UIViewController {
     }
     
     // MARK: - Validation
-    func isValid(email: String?) -> Bool {
+    private func isValid(email: String?) -> Bool {
         guard let email = email else { return false }
         let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
         return pred.evaluate(with: email)
     }
     
-    func isValid(password: String?) -> Bool {
+    private func isValid(password: String?) -> Bool {
         guard let password = password else { return false }
         let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
         return pred.evaluate(with: password)
+    }
+    
+    // MARK: - Helpers
+    private func showAlertToFindPassword(completion: @escaping (String?) -> Void) {
+        let alert = UIAlertController(title: "비밀번호 찾기", message: "이메일을 입력해주세요.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            let email = alert.textFields?[0].text
+            completion(email)
+        }
+        alert.addTextField()
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
     
     // MARK: - Actions
@@ -365,6 +386,11 @@ final class LoginVC: UIViewController {
         view.endEditing(true)
     }
     
+    @objc private func findPasswordButtonTapped(_ sender: UIButton) {
+        showAlertToFindPassword { email in
+            self.authManager.sendPasswordReset(with: email)
+        }
+    }
 }
 
 // MARK: - UITextFieldDelegate
