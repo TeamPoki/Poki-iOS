@@ -57,6 +57,11 @@ final class SignUpVC: UIViewController {
     private let emailTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
+    private let emailHintLabel = UILabel().then {
+        $0.text = "이메일 형식으로 입력해주세요."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
+    }
     
     private let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
@@ -193,7 +198,7 @@ final class SignUpVC: UIViewController {
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         passwordTextFieldView.addSubview(eyeButton)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, nicknameHintLabel, agreeToTermsOfServiceStackView, signUpButton)
+        view.addSubviews(emailTextFieldView, emailHintLabel, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, nicknameHintLabel, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -209,6 +214,10 @@ final class SignUpVC: UIViewController {
         emailPlaceholder.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(emailTextField)
+        }
+        emailHintLabel.snp.makeConstraints {
+            $0.top.equalTo(emailTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         passwordTextFieldView.snp.makeConstraints {
             $0.top.equalTo(emailTextFieldView.snp.bottom).offset(40)
