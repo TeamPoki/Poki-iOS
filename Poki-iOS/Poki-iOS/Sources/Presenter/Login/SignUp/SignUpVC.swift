@@ -99,6 +99,12 @@ final class SignUpVC: UIViewController {
         $0.backgroundColor = .clear
     }
     
+    private let nicknameHintLabel = UILabel().then {
+        $0.text = "2~8자, 영문, 한글만 입력할 수 있습니다."
+        $0.font = UIFont(name: Constants.fontRegular, size: 12)
+        $0.textColor = .black
+    }
+    
     private lazy var signUpButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -187,7 +193,7 @@ final class SignUpVC: UIViewController {
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         passwordTextFieldView.addSubview(eyeButton)
-        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, agreeToTermsOfServiceStackView, signUpButton)
+        view.addSubviews(emailTextFieldView, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, nicknameHintLabel, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -214,8 +220,8 @@ final class SignUpVC: UIViewController {
             $0.centerY.equalToSuperview()
         }
         passwordHintLabel.snp.makeConstraints {
-            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(5)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalTo(passwordTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
@@ -237,6 +243,10 @@ final class SignUpVC: UIViewController {
         nicknamePlaceholder.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(nicknameTextField)
+        }
+        nicknameHintLabel.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(30)
         }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
             $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(40)
