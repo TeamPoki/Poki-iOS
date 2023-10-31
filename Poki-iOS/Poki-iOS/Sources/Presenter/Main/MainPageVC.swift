@@ -44,16 +44,25 @@ final class MainPageVC: UIViewController {
     // MARK: - Helpers
     
     private func configureNav() {
+        configureLogoLabel()
+        configureNavigationBarAppearance()
+        let filterButton = createFilterButton()
+        let plusButton = createPlusButton()
+        navigationItem.rightBarButtonItems = [plusButton, filterButton]
+    }
+
+    private func configureLogoLabel() {
         let logoLabel = UILabel().then {
             $0.text = "POKI"
             $0.font = UIFont(name: Constants.fontHeavy, size: 32)
             $0.textColor = .black
             $0.sizeToFit()
         }
-        
         let logoBarButton = UIBarButtonItem(customView: logoLabel)
         navigationItem.leftBarButtonItem = logoBarButton
+    }
 
+    private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
@@ -64,7 +73,28 @@ final class MainPageVC: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.tintColor = .black
+    }
 
+    private func createFilterButton() -> UIBarButtonItem {
+        let recentDateAction = UIAction(title: "최근 날짜순", image: nil, handler: { _ in
+            // 최근 날짜순 필터 기능 구현예정
+        })
+
+        let oldDateAction = UIAction(title: "오래된 날짜순", image: nil, handler: { _ in
+            // 오래된 날짜순 필터 기능 구현예정
+        })
+
+        let dateSubMenu = UIMenu(title: "날짜", image: UIImage(systemName: "calendar"), identifier: nil, options: [], children: [recentDateAction, oldDateAction])
+
+        let tagFilterAction = UIAction(title: "태그 이름별", image: UIImage(systemName: "tag"), handler: { _ in
+            // 태그 이름별 필터 기능 구현
+        })
+
+        let filterMenu = UIMenu(title: "", children: [dateSubMenu, tagFilterAction])
+        return UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), primaryAction: nil, menu: filterMenu)
+    }
+
+    private func createPlusButton() -> UIBarButtonItem {
         let galleryAction = UIAction(title: "갤러리에서 추가하기", image: UIImage(systemName: "photo"), handler: { _ in
             self.requestPhotoLibraryAccess()
         })
@@ -74,13 +104,10 @@ final class MainPageVC: UIViewController {
             navController.modalPresentationStyle = .fullScreen
             self.present(navController, animated: true, completion: nil)
         })
-
         let menu = UIMenu(title: "", children: [galleryAction, cameraAction])
-
-        let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), primaryAction: nil, menu: menu)
-        navigationItem.rightBarButtonItem = plusButton
+        return UIBarButtonItem(image: UIImage(systemName: "plus"), primaryAction: nil, menu: menu)
     }
-
+    
     private func setupCollectionView() {
         view.addSubview(photoListCollectionView)
 
