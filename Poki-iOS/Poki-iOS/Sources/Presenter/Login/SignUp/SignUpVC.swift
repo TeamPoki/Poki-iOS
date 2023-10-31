@@ -268,7 +268,7 @@ final class SignUpVC: UIViewController {
         }
         signUpButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-10)
             $0.height.equalTo(50)
         }
     }
@@ -385,7 +385,11 @@ final class SignUpVC: UIViewController {
         }
     }
     
+    // MARK: - Keyboard
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - UITextFieldDelegate
