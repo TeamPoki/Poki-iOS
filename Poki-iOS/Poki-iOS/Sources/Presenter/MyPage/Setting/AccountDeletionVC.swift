@@ -75,6 +75,7 @@ final class AccountDeletionVC: UIViewController {
         $0.text = "떠나는 이유를 50자 이내로 입력해주세요."
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.textColor = .lightGray
+        $0.tintColor = .black
     }
 
     private lazy var withdrawButton = UIButton().then {

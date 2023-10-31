@@ -37,8 +37,8 @@ final class MainPageVC: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        photoListCollectionView.reloadData()
         firestoreManager.realTimebinding(collectionView: photoListCollectionView)
+        navigationController?.navigationBar.tintColor = .black
     }
 
     // MARK: - Helpers
@@ -72,7 +72,6 @@ final class MainPageVC: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.tintColor = .black
     }
 
     private func createFilterButton() -> UIBarButtonItem {
