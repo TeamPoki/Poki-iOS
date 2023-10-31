@@ -282,6 +282,13 @@ final class SignUpVC: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    private func showAlert(title: String?, message: String?, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in completion() }
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Update UI
 
     private func updateSignUpButton() {
@@ -367,7 +374,9 @@ final class SignUpVC: UIViewController {
                 }
                 return
             }
-            navigationController?.popViewController(animated: true)
+            showAlert(title: "회원가입 완료", message: "회원가입이 완료되었습니다.") {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
