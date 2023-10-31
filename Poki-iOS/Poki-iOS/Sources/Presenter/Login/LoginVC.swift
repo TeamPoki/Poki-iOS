@@ -36,7 +36,7 @@ final class LoginVC: UIViewController {
     // MARK: - Size
     private var toastSize: CGRect {
         let width = view.frame.size.width - 60
-        let height = view.frame.size.height / 17
+        let height = view.frame.size.height / 18
         let frame = CGRect(x: 30, y: 620, width: width, height: height)
         return frame
     }
