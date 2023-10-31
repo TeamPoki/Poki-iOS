@@ -131,10 +131,7 @@ class SignUpView: UIView {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
-//        textField.delegate = self
         textField.layer.masksToBounds = true
-//        textField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        textField.sizeToFit()
     }
     
     private func addSubviews() {

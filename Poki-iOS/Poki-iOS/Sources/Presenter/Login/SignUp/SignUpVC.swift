@@ -59,6 +59,8 @@ final class SignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupButtonAction()
+        setupTextField()
         updateSignUpButton()
     }
     
@@ -87,6 +89,17 @@ final class SignUpVC: UIViewController {
         self.signUpView.eyeButton.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
         self.signUpView.agreeToTermsOfServiceButton.addTarget(self, action: #selector(agreeToTermsOfServiceButtonTapped), for: .touchUpInside)
         self.signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+    }
+    
+    private func setupTextField() {
+        self.signUpView.emailTextField.delegate = self
+        self.signUpView.emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        
+        self.signUpView.passwordTextField.delegate = self
+        self.signUpView.passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        
+        self.signUpView.nicknameTextField.delegate = self
+        self.signUpView.nicknameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func drawUnderline(_ view: UIView) {
