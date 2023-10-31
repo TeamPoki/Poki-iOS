@@ -173,6 +173,9 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         stoageManager.downloadImage(urlString: photo.image) {  image in
             DispatchQueue.main.async {
                 cell.photoImage.image = image
+                if let unwrappedImage = image {
+                    cell.setGradient(image: unwrappedImage)
+                }
             }
         }
         
