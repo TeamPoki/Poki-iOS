@@ -83,14 +83,15 @@ extension UIImage {
 
 // MARK: - UIViewController
 extension UIViewController {
-    func showToast(message: String, frame: CGRect) {
+    func showToast(message: String, frame: CGRect, completion: (() -> Void)?) {
         let toast = UILabel(frame: frame)
         toast.setupToast()
         toast.text = message
         view.addSubview(toast)
-        UIView.animate(withDuration: 2.5, delay: 0.2) {
+        UIView.animate(withDuration: 1.2, delay: 0.25) {
             toast.alpha = 0
         } completion: { _ in
+            completion?()
             toast.removeFromSuperview()
         }
     }
