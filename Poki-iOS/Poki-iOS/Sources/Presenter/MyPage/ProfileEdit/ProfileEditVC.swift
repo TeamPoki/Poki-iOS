@@ -5,8 +5,8 @@
 //
 
 import UIKit
-import Then
 import SnapKit
+import Then
 
 final class ProfileEditVC: UIViewController {
     
@@ -78,19 +78,7 @@ final class ProfileEditVC: UIViewController {
     
     private func configureNav() {
         navigationItem.title = "프로필 수정"
-        
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
-            $0.shadowColor = nil
-        }
-        
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
+        navigationController?.configureBasicAppearance()
         let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonTapped))
         navigationItem.rightBarButtonItem = doneButton
     }

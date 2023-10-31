@@ -56,20 +56,9 @@ final class AddPhotoVC: UIViewController {
     
     private func configureNav() {
         navigationItem.title = "추가하기"
-        
-        let appearance = UINavigationBarAppearance().then {
-            $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
-            $0.shadowColor = nil
-        }
-        
         let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(handleCloseButton))
         navigationItem.leftBarButtonItem = closeButton
-        
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.configureBasicAppearance()
     }
     
     private func setup() {

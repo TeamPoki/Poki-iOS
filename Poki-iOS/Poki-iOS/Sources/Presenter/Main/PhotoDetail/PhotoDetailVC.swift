@@ -76,16 +76,8 @@ final class PhotoDetailVC: UIViewController {
     // MARK: - Helper
     private func configureNav() {
         navigationItem.rightBarButtonItem = self.menuButton
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .clear
-            $0.shadowColor = nil
-        }
-        
+        navigationController?.configureClearAppearance()
         navigationController?.navigationBar.topItem?.title = ""
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func addSubViews() {

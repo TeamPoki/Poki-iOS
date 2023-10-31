@@ -195,6 +195,7 @@ final class LoginVC: UIViewController {
     
     // MARK: - Configure
     private func configureUI() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         configure(emailTextField)
         configure(passwordTextField)
         setupEmail()

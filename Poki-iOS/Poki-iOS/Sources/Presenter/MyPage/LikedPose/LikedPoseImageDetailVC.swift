@@ -36,20 +36,9 @@ final class LikedPoseImageDetailVC: UIViewController {
     // MARK: - Helpers
     
     private func configureNav() {
-        
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .black
-            $0.shadowColor = nil
-        }
-        
         let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(handleCloseButton))
         navigationItem.leftBarButtonItem = closeButton
-        
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.configureBlackAppearance()
     }
     
     private func imageSetup() {

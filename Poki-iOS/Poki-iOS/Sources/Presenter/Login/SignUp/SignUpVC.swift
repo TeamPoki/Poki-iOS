@@ -181,10 +181,8 @@ final class SignUpVC: UIViewController {
     }
     
     private func configureNav() {
-        navigationController?.configureLineAppearance()
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "회원가입"
+        navigationController?.configureBasicAppearance()
     }
     
     private func configure(_ textField: UITextField) {

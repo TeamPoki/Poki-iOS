@@ -97,8 +97,20 @@ extension UIViewController {
 // MARK: - UINavgationController
 
 extension UINavigationController {
-    // UINavigationBarAppearance 공통 적용을 위해 구현
-    func configureAppearance() {
+    func configureBasicAppearance() {
+        let appearance = UINavigationBarAppearance().then {
+            $0.configureWithOpaqueBackground()
+            $0.backgroundColor = .white
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
+            $0.shadowColor = nil
+        }
+        self.navigationBar.tintColor = .black
+        self.navigationBar.standardAppearance = appearance
+        self.navigationBar.compactAppearance = appearance
+        self.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    func configureClearAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .clear
@@ -109,8 +121,19 @@ extension UINavigationController {
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
     }
+    
+    func configureBlackAppearance() {
+        let appearance = UINavigationBarAppearance().then {
+            $0.configureWithOpaqueBackground()
+            $0.backgroundColor = .black
+            $0.shadowColor = nil
+        }
+        self.navigationBar.tintColor = .white
+        self.navigationBar.standardAppearance = appearance
+        self.navigationBar.compactAppearance = appearance
+        self.navigationBar.scrollEdgeAppearance = appearance
+    }
 
-    // 포즈 추천 페이지, 랜덤 포즈 페이지에서 사용하는 UINavigationBarAppearance
     func configureLineAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
