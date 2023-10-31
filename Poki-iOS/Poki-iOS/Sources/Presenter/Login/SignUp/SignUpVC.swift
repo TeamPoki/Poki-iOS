@@ -41,8 +41,15 @@ final class SignUpVC: UIViewController {
     private var signUpButtonColor: UIColor {
         isSignUpFormValid == true ? UIColor.black : UIColor.lightGray
     }
-
     
+    // MARK: - Size
+    private var toastSize: CGRect {
+        let width = view.frame.size.width - 60
+        let height = view.frame.size.height / 17
+        let frame = CGRect(x: 30, y: 680, width: width, height: height)
+        return frame
+    }
+
     // MARK: - Components
     private let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
@@ -374,9 +381,7 @@ final class SignUpVC: UIViewController {
                 }
                 return
             }
-            showAlert(title: "회원가입 완료", message: "회원가입이 완료되었습니다.") {
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize)
         }
     }
     
