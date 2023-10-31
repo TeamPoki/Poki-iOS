@@ -55,7 +55,6 @@ final class PhotoDetailVC: UIViewController {
                                                   style: .done,
                                                   target: self,
                                                   action: nil).then {
-        $0.tintColor = .white
         $0.menu = self.detailMenu
     }
     
@@ -69,17 +68,24 @@ final class PhotoDetailVC: UIViewController {
         setupLayout()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.tintColor = .black
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = .white
     }
     
     // MARK: - Helper
     private func configureNav() {
         navigationItem.rightBarButtonItem = self.menuButton
-        navigationController?.configureAppearance()
-        navigationController?.navigationBar.tintColor = .white
+        let appearance = UINavigationBarAppearance().then {
+            $0.configureWithOpaqueBackground()
+            $0.backgroundColor = .clear
+            $0.shadowColor = nil
+        }
+        
         navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func addSubViews() {
@@ -114,10 +120,34 @@ final class PhotoDetailVC: UIViewController {
     private func setupPhotoData() {
         guard let photoData = photoData else { return }
         guard let photoURL = URL(string: photoData.image) else { return }
+        
         self.mainImageView.kf.setImage(with: photoURL)
-        self.backgroundImageView.kf.setImage(with: photoURL)
+        self.backgroundImageView.kf.setImage(with: photoURL) { [weak self] result in
+            switch result {
+            case .success(let value):
+                if let dominantColor = value.image.dominantColor() {
+                    self?.setGradientBackground(dominantColor: dominantColor)
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
         self.titleLabel.text = photoData.memo
         self.dateLabel.text = photoData.date
+    }
+
+    private func setGradientBackground(dominantColor: UIColor) {
+        let adjustedColor = dominantColor.withAlphaComponent(1.5)
+        
+        if let existingGradient = backgroundImageView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) {
+            existingGradient.removeFromSuperlayer()
+        }
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 200)
+        gradient.colors = [adjustedColor.cgColor, dominantColor.withAlphaComponent(0).cgColor]
+        gradient.locations = [0, 1]
+        backgroundImageView.layer.insertSublayer(gradient, at: 0)
     }
     
     private func setupDetailMenuAction() -> [UIAction] {
