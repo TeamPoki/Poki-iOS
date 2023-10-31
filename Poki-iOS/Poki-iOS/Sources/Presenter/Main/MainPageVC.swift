@@ -44,34 +44,20 @@ final class MainPageVC: UIViewController {
     // MARK: - Helpers
     
     private func configureNav() {
-        configureLogoLabel()
-        configureNavigationBarAppearance()
-        let filterButton = createFilterButton()
-        let plusButton = createPlusButton()
-        navigationItem.rightBarButtonItems = [plusButton, filterButton]
-    }
-
-    private func configureLogoLabel() {
         let logoLabel = UILabel().then {
             $0.text = "POKI"
             $0.font = UIFont(name: Constants.fontHeavy, size: 32)
             $0.textColor = .black
             $0.sizeToFit()
         }
+        navigationController?.configureBasicAppearance()
+        
         let logoBarButton = UIBarButtonItem(customView: logoLabel)
         navigationItem.leftBarButtonItem = logoBarButton
-    }
-
-    private func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .white
-            $0.shadowColor = nil
-        }
-
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        let filterButton = createFilterButton()
+        let plusButton = createPlusButton()
+        navigationItem.rightBarButtonItems = [plusButton, filterButton]
     }
 
     private func createFilterButton() -> UIBarButtonItem {

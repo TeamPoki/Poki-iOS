@@ -46,18 +46,7 @@ final class SettingsVC: UIViewController {
     private func configureNav() {
         navigationItem.title = "설정"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-        let appearance = UINavigationBarAppearance().then {
-            $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
-            $0.shadowColor = nil
-        }
-        
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.configureBasicAppearance()
     }
     
     private func setupTableView() {
