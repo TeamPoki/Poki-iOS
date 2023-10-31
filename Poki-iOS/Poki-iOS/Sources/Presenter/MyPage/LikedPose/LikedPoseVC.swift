@@ -18,7 +18,7 @@ enum PoseCategory: String {
 final class LikedPoseVC: UIViewController {
     
     // MARK: - Properties
-    
+    let emptyView = EmptyLikedPoseView()
     let poseImageManager = PoseImageManager.shared
     
     private var photos: [UIImage?] = []
@@ -91,7 +91,6 @@ final class LikedPoseVC: UIViewController {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
-    
     
     // MARK: - Helpers
     
@@ -169,6 +168,15 @@ final class LikedPoseVC: UIViewController {
         poseOne.textAlignment = .center
         poseTwo.textAlignment = .center
         poseThree.textAlignment = .center
+        
+        view.addSubview(emptyView)
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview()
+            
+        }
     }
     
     private func likedPoseCollectionViewUI() {
@@ -185,36 +193,45 @@ final class LikedPoseVC: UIViewController {
     }
     
     func updateCollectionViewForCategory(_ category: PoseCategory) {
-            var categoryImages: [UIImage?] = []
-            
-            switch category {
-            case .alone:
-                if UserDataManager.userData.likedPose.firstPose.count == 0 {
-                    self.photos = []
-                } else {
-                    categoryImages = UserDataManager.userData.likedPose.firstPose.map {UIImage(data: $0)}
-                    self.photos = categoryImages
-                }
-            case .two:
-                if UserDataManager.userData.likedPose.secondPose.count == 0 {
-                    self.photos = []
-                } else {
-                    categoryImages = UserDataManager.userData.likedPose.secondPose.map {UIImage(data: $0)}
-                    self.photos = categoryImages
-                }
-            case .many:
-                if  UserDataManager.userData.likedPose.thirdPose.count == 0 {
-                    self.photos = []
-                } else {
-                    categoryImages = UserDataManager.userData.likedPose.thirdPose.map {UIImage(data: $0)}
-                    self.photos = categoryImages
-                }
+        var categoryImages: [UIImage?] = []
+        
+        switch category {
+        case .alone:
+            if UserDataManager.userData.likedPose.firstPose.count == 0 {
+                self.photos = []
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                categoryImages = UserDataManager.userData.likedPose.firstPose.map {UIImage(data: $0)}
+                self.photos = categoryImages
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
             }
-        
-        
-        
-            likedPoseCollectionView.reloadData()
+        case .two:
+            if UserDataManager.userData.likedPose.secondPose.count == 0 {
+                self.photos = []
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                categoryImages = UserDataManager.userData.likedPose.secondPose.map {UIImage(data: $0)}
+                self.photos = categoryImages
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
+            }
+        case .many:
+            if  UserDataManager.userData.likedPose.thirdPose.count == 0 {
+                self.photos = []
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                categoryImages = UserDataManager.userData.likedPose.thirdPose.map {UIImage(data: $0)}
+                self.photos = categoryImages
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
+            }
         }
+        likedPoseCollectionView.reloadData()
+    }
     
     // MARK: - Actions
     
@@ -261,7 +278,6 @@ extension LikedPoseVC: UICollectionViewDelegate, UICollectionViewDataSource {
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true, completion: nil)
     }
-
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
