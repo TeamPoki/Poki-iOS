@@ -1,4 +1,3 @@
-//
 //  ProfileEditViewController.swift
 //  Poki-iOS
 //
@@ -11,11 +10,6 @@ import Then
 final class ProfileEditVC: UIViewController {
     
     // MARK: - Properties
-    private var backGroundImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = .white
-        $0.clipsToBounds = true
-    }
     
     private var userImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -50,14 +44,33 @@ final class ProfileEditVC: UIViewController {
         $0.spacing = 10
     }
     
+    private var customButton = UIButton().then {
+        $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = .white
+        $0.tintColor = .lightGray
+        $0.clipsToBounds = true
+        
+        $0.setImage(UIImage(systemName: "camera"), for: .normal)
+        
+        $0.layer.shadowColor = UIColor.systemGray5.cgColor
+        $0.layer.shadowOpacity = 0.3
+        $0.layer.shadowOffset = CGSize(width: 0, height: 5)
+        $0.layer.shadowRadius = 10
+        $0.layer.masksToBounds = false
+        
+        $0.addTarget(ProfileEditVC.self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNav()
         view.backgroundColor = .white
-        
         configureUserImageView()
+        configureCameraButton()
         configureStackView()
         configureRightBarButton()
         
@@ -73,7 +86,7 @@ final class ProfileEditVC: UIViewController {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
             $0.backgroundColor = .white
-            $0.titleTextAttributes = [.foregroundColor: UIColor.black, .font: UIFont(name: Constants.fontMedium, size: 17)]
+            $0.titleTextAttributes = [.foregroundColor: UIColor.black]
             $0.shadowColor = nil
         }
         
@@ -84,44 +97,27 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func configureUserImageView() {
-        view.addSubview(backGroundImageView)
-        
-        backGroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            backGroundImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            backGroundImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),// 네비게이션 바와의 간격을 30으로 설정
-            backGroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20), // 왼쪽 간격을 20으로 설정
-            backGroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20), // 오른쪽 간격을 20으로 설정
-        ])
-        
         view.addSubview(userImageView)
-        
         userImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            userImageView.centerXAnchor.constraint(equalTo: backGroundImageView.centerXAnchor), // 가로 가운데에 위치
-            userImageView.centerYAnchor.constraint(equalTo: backGroundImageView.centerYAnchor),
+            userImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            userImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             userImageView.widthAnchor.constraint(equalToConstant: 120),
             userImageView.heightAnchor.constraint(equalToConstant: 120)
         ])
         
-        // 버튼 생성
-        let button = UIButton(type: .system)
-        button.setTitle("버튼", for: .normal)
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.layer.borderWidth = 1.0
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = 10.0
-        
-        userImageView.addSubview(button)
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            button.trailingAnchor.constraint(equalTo: userImageView.trailingAnchor),
-            button.bottomAnchor.constraint(equalTo: userImageView.bottomAnchor)
-        ])
     }
-    
+    private func configureCameraButton() {
+        view.addSubview(customButton)
+        customButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            customButton.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 235),
+            customButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 215),
+            customButton.widthAnchor.constraint(equalToConstant: 30),
+            customButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+    }
     private func configureStackView() {
         stackView.addArrangedSubview(nicknameLabel)
         stackView.addArrangedSubview(nicknameTextField)
@@ -163,7 +159,6 @@ final class ProfileEditVC: UIViewController {
             target: self,
             action: #selector(doneButtonTapped)
         )
-        doneButton.setTitleTextAttributes([.font: UIFont(name: Constants.fontMedium, size: 17)], for: .normal)
         navigationItem.rightBarButtonItem = doneButton
     }
     
@@ -178,11 +173,11 @@ final class ProfileEditVC: UIViewController {
     
     // MARK: - Actions
     @objc private func buttonTapped() {
-        //유저 이미지 변경하는 메서드
+        
     }
     
     @objc private func doneButtonTapped() {
-        //닉네임이 수정되고 저장되는 메서드
+        
     }
     
     @objc private func textFieldEditingChanged() {

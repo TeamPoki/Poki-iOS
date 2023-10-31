@@ -94,7 +94,6 @@ final class MainPhotoListCell: UICollectionViewCell {
         // 새로운 그라데이션 추가
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: self.bounds.height - 150, width: self.bounds.width, height: 150)
-        
         gradient.colors = [color.withAlphaComponent(0).cgColor, adjustedColor.cgColor]
         gradient.locations = [0, 1]
         self.photoImage.layer.insertSublayer(gradient, at: 0)

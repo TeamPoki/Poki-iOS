@@ -21,21 +21,6 @@ extension UIView {
         separator.backgroundColor = .systemGray5
         return separator
     }
-    
-    
-}
-
-extension UILabel {
-    func setupToast() {
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        self.textColor = UIColor.white
-        self.font = UIFont.systemFont(ofSize: 16)
-        self.textAlignment = .center
-        self.alpha = 1.0
-        self.layer.cornerRadius = 15
-        self.clipsToBounds = true
-        self.numberOfLines = 2
-    }
 }
 
 // MARK: - UIStackView
@@ -60,6 +45,17 @@ extension UILabel {
                                      range: NSRange(location: 0, length: attributeString.length))
         attributedText = attributeString
     }
+
+    func setupToast() {
+        self.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        self.textColor = UIColor.white
+        self.font = UIFont.systemFont(ofSize: 16)
+        self.textAlignment = .center
+        self.alpha = 1.0
+        self.layer.cornerRadius = 15
+        self.clipsToBounds = true
+        self.numberOfLines = 2
+    }
 }
 
 // MARK: - UIImage
@@ -82,6 +78,7 @@ extension UIImage {
 }
 
 // MARK: - UIViewController
+
 extension UIViewController {
     func showToast(message: String, frame: CGRect, completion: (() -> Void)?) {
         let toast = UILabel(frame: frame)
@@ -96,7 +93,6 @@ extension UIViewController {
         }
     }
 }
-
 
 // MARK: - UINavgationController
 
