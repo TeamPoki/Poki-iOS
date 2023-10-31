@@ -85,11 +85,7 @@ final class MainPageVC: UIViewController {
 
         let dateSubMenu = UIMenu(title: "날짜", image: UIImage(systemName: "calendar"), identifier: nil, options: [], children: [recentDateAction, oldDateAction])
 
-        let tagFilterAction = UIAction(title: "태그 이름별", image: UIImage(systemName: "tag"), handler: { _ in
-            // 태그 이름별 필터 기능 구현
-        })
-
-        let filterMenu = UIMenu(title: "", children: [dateSubMenu, tagFilterAction])
+        let filterMenu = UIMenu(title: "", children: [dateSubMenu])
         return UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3"), primaryAction: nil, menu: filterMenu)
     }
 

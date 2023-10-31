@@ -6,6 +6,7 @@
 
 import UIKit
 import Then
+import SnapKit
 
 final class ProfileEditVC: UIViewController {
     
@@ -15,7 +16,7 @@ final class ProfileEditVC: UIViewController {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.systemGray5.cgColor
-        $0.layer.cornerRadius = 60
+        $0.layer.cornerRadius = 75
         $0.clipsToBounds = true
     }
     
@@ -26,16 +27,17 @@ final class ProfileEditVC: UIViewController {
         $0.textAlignment = .left
     }
     
-    private var nicknameTextField = UITextField().then {
+    private lazy var nicknameTextField = UITextField().then {
         $0.placeholder = "닉네임을 입력하세요"
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.borderStyle = .roundedRect
+        $0.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
     
     private var hintLabel = UILabel().then {
         $0.text = "닉네임을 입력해주세요!"
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        $0.textColor = .red
+        $0.textColor = .systemRed
         $0.isHidden = false
     }
     
@@ -44,22 +46,21 @@ final class ProfileEditVC: UIViewController {
         $0.spacing = 10
     }
     
-    private var customButton = UIButton().then {
+    private lazy var selectImageButton = UIButton().then {
         $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 15
         $0.backgroundColor = .white
         $0.tintColor = .lightGray
         $0.clipsToBounds = true
-        
         $0.setImage(UIImage(systemName: "camera"), for: .normal)
         
-        $0.layer.shadowColor = UIColor.systemGray5.cgColor
-        $0.layer.shadowOpacity = 0.3
-        $0.layer.shadowOffset = CGSize(width: 0, height: 5)
-        $0.layer.shadowRadius = 10
+        $0.layer.shadowColor = UIColor.lightGray.cgColor
+        $0.layer.shadowOpacity = 0.5
+        $0.layer.shadowOffset = CGSize(width: 2, height: 4)
+        $0.layer.shadowRadius = 2
         $0.layer.masksToBounds = false
         
-        $0.addTarget(ProfileEditVC.self, action: #selector(buttonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(selectImageButtonTapped), for: .touchUpInside)
     }
 
     
@@ -67,14 +68,9 @@ final class ProfileEditVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNav()
         view.backgroundColor = .white
-        configureUserImageView()
-        configureCameraButton()
-        configureStackView()
-        configureRightBarButton()
-        
-        nicknameTextField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
+        configureNav()
+        configureUI()
     }
     
     
@@ -94,86 +90,42 @@ final class ProfileEditVC: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
-    
-    private func configureUserImageView() {
-        view.addSubview(userImageView)
-        userImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            userImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            userImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            userImageView.widthAnchor.constraint(equalToConstant: 120),
-            userImageView.heightAnchor.constraint(equalToConstant: 120)
-        ])
         
-    }
-    private func configureCameraButton() {
-        view.addSubview(customButton)
-        customButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            customButton.centerXAnchor.constraint(equalTo: view.leadingAnchor, constant: 235),
-            customButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 215),
-            customButton.widthAnchor.constraint(equalToConstant: 30),
-            customButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-    }
-    private func configureStackView() {
-        stackView.addArrangedSubview(nicknameLabel)
-        stackView.addArrangedSubview(nicknameTextField)
-        stackView.addArrangedSubview(hintLabel)
-        
-        nicknameTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        view.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 50),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    private func configureNicknameLabel() {
-        view.addSubview(nicknameLabel)
-        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            nicknameLabel.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 30),
-            nicknameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
-        ])
-    }
-    
-    private func configureNicknameTextField() {
-        view.addSubview(nicknameTextField)
-        nicknameTextField.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            nicknameTextField.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 10),
-            nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    private func configureRightBarButton() {
-        let doneButton = UIBarButtonItem(
-            title: "완료",
-            style: .done,
-            target: self,
-            action: #selector(doneButtonTapped)
-        )
+        let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonTapped))
         navigationItem.rightBarButtonItem = doneButton
     }
     
-    private func configureHintLabel() {
-        view.addSubview(hintLabel)
-        hintLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            hintLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 5),
-            hintLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
-        ])
+    private func configureUI() {
+        view.addSubviews(userImageView, selectImageButton, stackView)
+        stackView.addArrangedSubviews(nicknameLabel, nicknameTextField, hintLabel)
+        
+        userImageView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            $0.centerX.equalTo(view)
+            $0.width.height.equalTo(150)
+        }
+        
+        selectImageButton.snp.makeConstraints {
+            $0.centerX.equalTo(view.snp.leading).offset(245)
+            $0.top.equalTo(view.snp.top).offset(230)
+            $0.width.height.equalTo(30)
+        }
+        
+        nicknameTextField.snp.makeConstraints {
+            $0.height.equalTo(50)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(userImageView.snp.bottom).offset(50)
+            $0.leading.equalTo(view).offset(20)
+            $0.trailing.equalTo(view).offset(-20)
+        }
     }
     
     // MARK: - Actions
-    @objc private func buttonTapped() {
-        
+    
+    @objc private func selectImageButtonTapped() {
+        print("카메라 버튼 눌림")
     }
     
     @objc private func doneButtonTapped() {
@@ -187,5 +139,4 @@ final class ProfileEditVC: UIViewController {
             hintLabel.isHidden = true
         }
     }
-    
 }
