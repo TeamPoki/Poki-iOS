@@ -102,14 +102,6 @@ final class SignUpVC: UIViewController {
         self.signUpView.nicknameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
-    private func drawUnderline(_ view: UIView) {
-        let underline = UIView()
-        underline.backgroundColor = .lightGray
-        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - 8),
-                                 size: CGSize(width: view.frame.size.width, height: 0.5))
-        view.addSubview(underline)
-    }
-    
     private func verifyingDuplicationAlert(text: String) {
         let alert = UIAlertController(title: "중복된 이메일", message: "\(text)는 이미 존재하는 이메일입니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "종료", style: .cancel, handler: nil))

@@ -116,6 +116,12 @@ class SignUpView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func draw(_ rect: CGRect) {
+        drawUnderline(emailTextFieldView)
+        drawUnderline(passwordTextFieldView)
+        drawUnderline(nicknameTextFieldView)
+    }
+    
     // MARK: - Helpers
     
     private func configureUI() {
@@ -132,6 +138,14 @@ class SignUpView: UIView {
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         textField.layer.masksToBounds = true
+    }
+    
+    private func drawUnderline(_ view: UIView) {
+        let underline = UIView()
+        underline.backgroundColor = .lightGray
+        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - 8),
+                                 size: CGSize(width: view.frame.size.width, height: 0.5))
+        view.addSubview(underline)
     }
     
     private func addSubviews() {
