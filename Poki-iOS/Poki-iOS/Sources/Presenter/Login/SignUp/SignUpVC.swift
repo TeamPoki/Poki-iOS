@@ -437,4 +437,17 @@ extension SignUpVC: UITextFieldDelegate {
             placeholder.superview?.layoutIfNeeded()
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        if textField == passwordTextField {
+            nicknameTextField.becomeFirstResponder()
+        }
+        if textField == nicknameTextField {
+            nicknameTextField.resignFirstResponder()
+        }
+        return false
+    }
 }
