@@ -282,9 +282,9 @@ final class SignUpVC: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func showAlert(title: String?, message: String?, completion: @escaping () -> Void) {
+    private func showAlert(title: String?, message: String?, completion: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _ in completion() }
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in completion?() }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
