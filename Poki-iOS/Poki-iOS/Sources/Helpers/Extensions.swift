@@ -88,7 +88,7 @@ extension UIViewController {
         toast.setupToast()
         toast.text = message
         view.addSubview(toast)
-        UIView.animate(withDuration: 1.2, delay: 0.25) {
+        UIView.animate(withDuration: 1.2, delay: 0.3) {
             toast.alpha = 0
         } completion: { _ in
             completion?()
