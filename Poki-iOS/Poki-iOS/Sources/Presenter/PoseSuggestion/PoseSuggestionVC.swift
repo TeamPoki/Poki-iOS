@@ -94,7 +94,7 @@ final class PoseSuggestionVC: UIViewController {
         button.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 0.5
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(numberOfPeopleButtonTapped), for: .touchUpInside)
     }
     
@@ -105,7 +105,7 @@ final class PoseSuggestionVC: UIViewController {
     
     private func setupLayout() {
         commentLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(90)
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
         }
@@ -119,7 +119,7 @@ final class PoseSuggestionVC: UIViewController {
             $0.height.equalTo(60)
         }
         mainStackView.snp.makeConstraints {
-            $0.top.equalTo(commentLabel.snp.bottom).offset(140)
+            $0.top.equalTo(commentLabel.snp.bottom).offset(90)
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
         }
