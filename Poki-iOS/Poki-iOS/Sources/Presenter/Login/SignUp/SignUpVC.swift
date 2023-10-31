@@ -137,7 +137,6 @@ final class SignUpVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.barStyle = .default
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,6 +157,7 @@ final class SignUpVC: UIViewController {
     }
     
     private func configureNav() {
+        navigationController?.configureLineAppearance()
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "회원가입"
