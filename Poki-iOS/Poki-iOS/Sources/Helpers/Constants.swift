@@ -8,13 +8,13 @@
 import UIKit
 
 struct Constants {
-    
+
     // MARK: - Custom Color
-    
+
     static let d9GrayColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.00)
-    
+
     // MARK: - Custom Font
-    
+
     static let fontRegular = "SUIT-Regular"
     static let fontBold = "SUIT-Bold"
     static let fontExtraLight = "SUIT-ExtraLight"

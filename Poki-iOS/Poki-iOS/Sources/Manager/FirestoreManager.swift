@@ -12,7 +12,6 @@ import FirebaseAuth
 
 final class FirestoreManager {
     static let shared = FirestoreManager()
-    
     private init() {}
     
     private let authManager = AuthManager.shared
@@ -56,11 +55,11 @@ final class FirestoreManager {
         _ = documentComponents[0]
         let documentID = documentComponents[3]
         let docRef = db.collection("users/\(userUID)/Photo").document(documentID)
-        let data: [String : Any] = [
-            "image" : image,
-            "date" : date,
-            "memo" : memo,
-            "tag" : [
+        let data: [String: Any] = [
+            "image": image,
+            "date": date,
+            "memo": memo,
+            "tag": [
                 "tagLabel": tagText,
                 "tagImage": tagImage
             ]
@@ -87,8 +86,8 @@ final class FirestoreManager {
         }
     }
     
-    //실시간반영
-    func realTimebinding(collectionView : UICollectionView) {
+    // 실시간반영
+    func realTimebinding(collectionView: UICollectionView) {
         guard let userUID = authManager.currentUserUID else { return }
         let docRef = db.collection("users/\(userUID)/Photo")
         docRef.addSnapshotListener { (snapshot, error) in

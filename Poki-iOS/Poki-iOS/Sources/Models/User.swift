@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct User: Codable {
     let userName: String
     let userImage: Data
