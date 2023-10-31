@@ -21,6 +21,14 @@ final class AccountDeletionVC: UIViewController {
         "이상의 내용에 동의하여 탈퇴를 원하실 경우, 아래의 동의 체크박스 버튼을 클릭하고 탈퇴하기 버튼을 눌러주세요."
     ]
     
+    // MARK: - Size
+    private var toastSize: CGRect {
+        let width = view.frame.size.width - 60
+        let height = view.frame.size.height / 18
+        let frame = CGRect(x: 30, y: 680, width: width, height: height)
+        return frame
+    }
+    
     private let titleLabel = UILabel().then {
         $0.text = "정말 떠나시는 건가요?"
         $0.font = UIFont(name: Constants.fontSemiBold, size: 24)
@@ -224,12 +232,15 @@ final class AccountDeletionVC: UIViewController {
             }
         }
         
-        authManager.userDelete()
-        let rootVC = UINavigationController(rootViewController: LoginVC()) 
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-        sceneDelegate.changeRootViewController(rootVC)
-        UserDefaults.standard.set(false, forKey: "LoginStatus")
-        UserDefaults.standard.removeObject(forKey: "userData")
+        self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
+            self.authManager.userDelete()
+            let rootVC = UINavigationController(rootViewController: LoginVC())
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.changeRootViewController(rootVC)
+            UserDefaults.standard.set(false, forKey: "LoginStatus")
+            UserDefaults.standard.removeObject(forKey: "userData")
+            UserDataManager.deleteUserEmail()
+        }
     }
     
     @objc func dismissKeyboard() {
