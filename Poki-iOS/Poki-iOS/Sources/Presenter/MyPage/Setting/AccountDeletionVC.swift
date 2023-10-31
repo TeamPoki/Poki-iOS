@@ -234,7 +234,7 @@ final class AccountDeletionVC: UIViewController {
         }
         
         authManager.userDelete()
-        let rootVC = LoginVC()
+        let rootVC = UINavigationController(rootViewController: LoginVC()) 
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         sceneDelegate.changeRootViewController(rootVC)
         UserDefaults.standard.set(false, forKey: "LoginStatus")
