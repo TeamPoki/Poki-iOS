@@ -396,5 +396,13 @@ final class LoginVC: UIViewController {
 
 // MARK: - UITextFieldDelegate
 extension LoginVC: UITextFieldDelegate {
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        if textField == passwordTextField {
+            passwordTextField.resignFirstResponder()
+        }
+        return false
+    }
 }
