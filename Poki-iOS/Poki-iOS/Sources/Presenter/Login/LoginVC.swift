@@ -70,6 +70,7 @@ final class LoginVC: UIViewController {
     }
     
     private let emailTextField = UITextField().then {
+        $0.placeholder = "이메일을 입력해주세요."
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.cornerRadius = 8
@@ -89,6 +90,7 @@ final class LoginVC: UIViewController {
     }
     
     private let passwordTextField = UITextField().then {
+        $0.placeholder = "비밀번호를 입력해주세요."
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.cornerRadius = 8
@@ -173,7 +175,6 @@ final class LoginVC: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
-        authManager.sendPasswordReset(with: "playhong16@gmail.com")
     }
     
     override func viewWillAppear(_ animated: Bool) {
