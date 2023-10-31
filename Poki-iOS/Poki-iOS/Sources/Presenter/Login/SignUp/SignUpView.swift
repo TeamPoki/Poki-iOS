@@ -47,7 +47,6 @@ class SignUpView: UIView {
         $0.setImage(UIImage(systemName: "eye"), for: .normal)
         $0.setImage(UIImage(systemName: "eye.slash"), for: .selected)
         $0.tintColor = .lightGray
-//        $0.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
     }
     
     let passwordHintLabel = UILabel().then {
@@ -81,7 +80,6 @@ class SignUpView: UIView {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
-//        $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     lazy var agreeToTermsOfServiceButton = UIButton().then {
@@ -90,7 +88,6 @@ class SignUpView: UIView {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
         $0.setImage(UIImage(systemName: "square", withConfiguration: imageConfig), for: .normal)
         $0.setImage(UIImage(systemName: "checkmark.square.fill", withConfiguration: imageConfig), for: .selected)
-//        $0.addTarget(self, action: #selector(agreeToTermsOfServiceButtonTapped), for: .touchUpInside)
         $0.clipsToBounds = true
     }
     

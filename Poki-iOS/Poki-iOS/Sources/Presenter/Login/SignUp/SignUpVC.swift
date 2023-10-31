@@ -83,6 +83,12 @@ final class SignUpVC: UIViewController {
         navigationController?.configureBasicAppearance()
     }
     
+    private func setupButtonAction() {
+        self.signUpView.eyeButton.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
+        self.signUpView.agreeToTermsOfServiceButton.addTarget(self, action: #selector(agreeToTermsOfServiceButtonTapped), for: .touchUpInside)
+        self.signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+    }
+    
     private func drawUnderline(_ view: UIView) {
         let underline = UIView()
         underline.backgroundColor = .lightGray
