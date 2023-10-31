@@ -47,14 +47,12 @@ extension UILabel {
     }
 
     func setupToast() {
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        self.textColor = UIColor.white
-        self.font = UIFont.systemFont(ofSize: 16)
+        self.backgroundColor = .black.withAlphaComponent(0.8)
+        self.textColor = .white
+        self.font = UIFont.systemFont(ofSize: 14)
         self.textAlignment = .center
-        self.alpha = 1.0
-        self.layer.cornerRadius = 15
-        self.clipsToBounds = true
-        self.numberOfLines = 2
+        self.layer.cornerRadius = 8
+        self.layer.masksToBounds = true
     }
 }
 
