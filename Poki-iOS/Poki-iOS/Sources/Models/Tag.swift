@@ -17,7 +17,7 @@ struct TagModel: Codable {
     }
 }
 
-enum TagData {
+struct TagData {
     static let data: [TagModel] = [
         TagModel(tagLabel: "인생네컷", tagImage: "gs://poki-ios-87d7e.appspot.com/Frame 61138.png"),
         TagModel(tagLabel: "하루필름", tagImage: "gs://poki-ios-87d7e.appspot.com/Frame 61147.png"),
