@@ -14,6 +14,7 @@
 		051A60E42AE90B5C00597886 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E32AE90B5C00597886 /* FirestoreManager.swift */; };
 		051A60E72AE90BAF00597886 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E62AE90BAF00597886 /* FirebaseError.swift */; };
 		051A60E92AE91F3400597886 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051A60E82AE91F3400597886 /* StorageManager.swift */; };
+		0592E0132AF16308003A9E42 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E0122AF16308003A9E42 /* SignUpView.swift */; };
 		05E7F1DD2AEB42A700F4CD31 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */; };
 		26CC4B0F2AEA53C900D8D07A /* LikedPoseImageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailVC.swift */; };
 		26F0482D2AF12E150050E27B /* EmptyLikedPoseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F0482C2AF12E150050E27B /* EmptyLikedPoseView.swift */; };
@@ -74,6 +75,7 @@
 		051A60E32AE90B5C00597886 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		051A60E62AE90BAF00597886 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		051A60E82AE91F3400597886 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		0592E0122AF16308003A9E42 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		05E7F1DC2AEB42A700F4CD31 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		26CC4B0E2AEA53C900D8D07A /* LikedPoseImageDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPoseImageDetailVC.swift; sourceTree = "<group>"; };
 		26F0482C2AF12E150050E27B /* EmptyLikedPoseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyLikedPoseView.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		EB962A452AEBCCFF00F2FA42 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				0592E0122AF16308003A9E42 /* SignUpView.swift */,
 				051A60D52AE69B9200597886 /* SignUpVC.swift */,
 			);
 			path = SignUp;
@@ -524,6 +527,7 @@
 				F9B1AED12AEB87B600745C4A /* UserDataManager.swift in Sources */,
 				EBD4B6AA2AE94174007CDFD7 /* QRCodeVC.swift in Sources */,
 				EBE4FA872ADA7D1200EFFE54 /* AppDelegate.swift in Sources */,
+				0592E0132AF16308003A9E42 /* SignUpView.swift in Sources */,
 				051A60D62AE69B9200597886 /* SignUpVC.swift in Sources */,
 				EB5255C12ADCC0B000B73A89 /* Photo.swift in Sources */,
 				051A60E92AE91F3400597886 /* StorageManager.swift in Sources */,
