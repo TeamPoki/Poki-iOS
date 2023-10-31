@@ -9,10 +9,10 @@ import UIKit
 
 final class PoseImageManager {
     static let shared = PoseImageManager()
-    
     private init() {}
-    
+
     // MARK: - 포즈 추천 사진 불러오기
+
     func getAlonePoseImages() -> [UIImage?] {
         let images = [
             UIImage(named: "alone-pose1"),
@@ -23,7 +23,7 @@ final class PoseImageManager {
         ]
         return images
     }
-    
+
     func getTwoPoseImages() -> [UIImage?] {
         let images = [
             UIImage(named: "two-pose1"),
@@ -34,7 +34,7 @@ final class PoseImageManager {
         ]
         return images
     }
-    
+
     func getManyPoseImages() -> [UIImage?] {
         let images = [
             UIImage(named: "many-pose1"),
@@ -45,6 +45,4 @@ final class PoseImageManager {
         ]
         return images
     }
-
-
 }
