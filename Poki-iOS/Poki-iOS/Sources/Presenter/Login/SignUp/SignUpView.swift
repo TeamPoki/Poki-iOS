@@ -219,8 +219,10 @@ class SignUpView: UIView {
         }
         signUpButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top).offset(-10)
+            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(10)
             $0.height.equalTo(50)
         }
+        agreeToTermsOfServiceLabel.snp.contentHuggingHorizontalPriority = 249
+        agreeToTermsOfServiceLabel.snp.contentCompressionResistanceHorizontalPriority = 249
     }
 }
