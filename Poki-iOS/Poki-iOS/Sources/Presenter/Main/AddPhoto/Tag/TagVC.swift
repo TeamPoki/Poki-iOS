@@ -11,17 +11,16 @@ import Then
 import Kingfisher
 
 class TagVC: UIViewController {
+    
     // MARK: - Properties
     
     let dataArray = TagData.data
-    
-    weak var delegate: TagSelectionDelegate?
-    
     let dataManager = PoseImageManager.shared
     let stoageManager = StorageManager.shared
+    weak var delegate: TagSelectionDelegate?
     
     let tagTitleLabel = UILabel().then {
-        $0.font = UIFont.boldSystemFont(ofSize: 25)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 20)
         $0.textColor = .black
         $0.text = "태그 선택"
         $0.backgroundColor = UIColor.systemBackground
@@ -41,9 +40,8 @@ class TagVC: UIViewController {
         return collectionView
     }()
     
-    
-    
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         [tagTitleLabel, collectionView].forEach { self.view.addSubview($0) }
@@ -72,25 +70,19 @@ class TagVC: UIViewController {
             $0.bottom.equalToSuperview()
         }
     }
-    
-    
-    
-    // MARK: - Actions
-    
-
 }
 
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension TagVC: UICollectionViewDataSource, UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         dataArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCollectionViewCell", for: indexPath) as? TagCell else { return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCollectionViewCell", for: indexPath) as? TagCell else { return UICollectionViewCell() }
         let data = dataArray[indexPath.row]
-        stoageManager.downloadImage(urlString: data.tagImage) {  image in
+        stoageManager.downloadImage(urlString: data.tagImage) { image in
             DispatchQueue.main.async {
                 cell.tagImageView.image = image
             }
@@ -105,6 +97,8 @@ extension TagVC: UICollectionViewDataSource, UICollectionViewDelegate {
         dismiss(animated: true)
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension TagVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
