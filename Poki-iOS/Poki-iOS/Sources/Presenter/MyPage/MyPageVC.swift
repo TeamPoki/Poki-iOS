@@ -17,7 +17,7 @@ final class MyPageVC: UIViewController {
     
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
-        $0.separatorColor = Constants.d9GrayColor
+        $0.separatorColor = Constants.separatorGrayColor
         $0.register(MyPageMenuCell.self, forCellReuseIdentifier: "CellIdentifier")
         $0.register(MyPageMenuCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
         $0.isScrollEnabled = false
