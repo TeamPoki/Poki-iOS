@@ -226,7 +226,7 @@ final class FirestoreManager {
         }
     }
     
-    func userProfileUpdate(documentPath: String, name: String, image: String) {
+    func userProfileUpdate(documentPath: String, name: String, image: String, vc: UIViewController) {
         guard let userUID = authManager.currentUserUID else { return }
         let documentComponents = documentPath.components(separatedBy: "/")
         _ = documentComponents[0]
@@ -241,6 +241,7 @@ final class FirestoreManager {
                 print("Error updating document: \(error)")
             }
             print("Document updated successfully.")
+            vc.navigationController?.popViewController(animated: true)
         }
     }
     

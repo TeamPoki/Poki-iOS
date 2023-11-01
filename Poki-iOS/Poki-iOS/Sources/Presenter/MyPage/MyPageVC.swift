@@ -17,6 +17,7 @@ final class MyPageVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
+  
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorColor = Constants.separatorGrayColor
@@ -43,7 +44,7 @@ final class MyPageVC: UIViewController {
         $0.addTarget(self, action: #selector(modifyProfileButtonTapped), for: .touchUpInside)
     }
     
-    private var userImage = UIImageView().then {
+    var userImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.systemGray5.cgColor
@@ -123,6 +124,7 @@ final class MyPageVC: UIViewController {
         configureNav()
         configureUI()
         firestoreManager.poseRealTimebinding()
+        print("1")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -183,7 +185,7 @@ final class MyPageVC: UIViewController {
         }
     }
     
-    private func profileDataBinding() {
+     func profileDataBinding() {
         firestoreManager.userRealTimebinding()
         if firestoreManager.userData[0].userName == "" {
             self.nameLabel.text = ""

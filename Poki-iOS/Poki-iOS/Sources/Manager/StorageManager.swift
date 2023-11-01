@@ -115,6 +115,39 @@ final class StorageManager {
             completion(images)
         }
     }
+    
+    func userImageUpload(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let ImageData = image.jpegData(compressionQuality: 0.4)
 
+        guard let photoData = ImageData else {
+            completion(.failure(FirebaseError.imageDataError))
+            return
+        }
+        
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpeg"
+        
+        let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
+        
+        let firebaseReference = Storage.storage().reference().child(imageName)
+
+        // Upload the first image.
+        firebaseReference.child("photo.jpg").putData(photoData, metadata: metaData) { _, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+                firebaseReference.child("photo.jpg").downloadURL { photoURL, _ in
+                        if let photoURL = photoURL {
+                            completion(.success(photoURL))
+                        } else {
+                            completion(.failure(FirebaseError.downloadURLError))
+                        }
+                   
+                }
+            }
+        }
+   
     
 }

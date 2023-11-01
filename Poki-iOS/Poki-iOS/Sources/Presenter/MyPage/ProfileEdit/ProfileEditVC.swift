@@ -14,6 +14,7 @@ final class ProfileEditVC: UIViewController {
     // MARK: - Properties
     
     let firestoreManager = FirestoreManager.shared
+    let storageManager = StorageManager.shared
     
     private var userImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -74,7 +75,12 @@ final class ProfileEditVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        configureTextField()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        configureUserName()
+        configureUserImage()
     }
     
     
@@ -115,7 +121,7 @@ final class ProfileEditVC: UIViewController {
         
     }
     
-    private func configureTextField() {
+    private func configureUserName() {
         nicknameTextField.text = firestoreManager.userData[0].userName
         if nicknameTextField.text == "" {
             hintLabel.isHidden = false
@@ -124,22 +130,50 @@ final class ProfileEditVC: UIViewController {
         }
     }
     
+    private func configureUserImage() {
+        let imageData = firestoreManager.userData[0].userImage
+        if imageData == "" {
+            userImageView.image = UIImage()
+        } else {
+            storageManager.downloadImage(urlString: imageData) { image in
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    userImageView.image = image }
+            }
+        }
+        
+        
+    }
+    
     // MARK: - Actions
     
     @objc private func selectImageButtonTapped() {
+        
         let action = UIAction(title: "갤러리에서 선택하기", image: UIImage(systemName: "photo.on.rectangle")) { _ in
             self.requestPhotoLibraryAccess()
         }
         
-        let menu = UIMenu(title: "", children: [action])
         
+        let menu = UIMenu(title: "", children: [action])
         selectImageButton.menu = menu
         selectImageButton.showsMenuAsPrimaryAction = true
     }
     
     @objc private func doneButtonTapped() {
         let userData = firestoreManager.userData[0].documentReference
-        firestoreManager.userProfileUpdate(documentPath:  userData, name: nicknameTextField.text ?? "", image: "")
+        storageManager.userImageUpload(image: userImageView.image ?? UIImage()) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success((let photoURL)):
+                firestoreManager.userProfileUpdate(documentPath: userData, name: nicknameTextField.text ?? "", image: photoURL.absoluteString, vc: self)
+                firestoreManager.photoDelete(documentPath: userData)
+                firestoreManager.userRealTimebinding()
+            case .failure(let error):
+                print("Error uploading images: \(error.localizedDescription)")
+                // 오류 처리
+            }
+        }
+     
     }
     
     @objc private func textFieldEditingChanged() {
