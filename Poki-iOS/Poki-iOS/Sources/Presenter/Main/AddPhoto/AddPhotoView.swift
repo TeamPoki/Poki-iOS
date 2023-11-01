@@ -205,26 +205,6 @@ final class AddPhotoView: UIView {
         }
     }
     
-    //datePicker done 버튼
-//    private func creatToolBar() -> UIToolbar {
-//        let toolbar = UIToolbar()
-//        toolbar.sizeToFit()
-//        
-//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-//        toolbar.setItems([doneButton], animated: true)
-//        
-//        return toolbar
-//    }
-//    
-//    @objc private func donePressed() {
-//        let formmater = DateFormatter()
-//        formmater.dateFormat = "yyyy년 MM월 dd일"
-//        formmater.locale = Locale(identifier: "ko_KR")
-//        //데이터를 넣을 곳
-//        self.dateTextField.text = formmater.string(from: datePicker.date)
-//        self.endEditing(true)
-//    }
-    
 }
 
 

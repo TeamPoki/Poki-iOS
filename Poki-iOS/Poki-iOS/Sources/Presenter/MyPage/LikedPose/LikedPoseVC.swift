@@ -19,9 +19,11 @@ final class LikedPoseVC: UIViewController {
     
     // MARK: - Properties
     let emptyView = EmptyLikedPoseView()
-    let poseImageManager = PoseImageManager.shared
+    let firestoreManager = FirestoreManager.shared
+    let storageManager = StorageManager.shared
     
     private var photos: [UIImage?] = []
+    private var imageDatas:[ImageData] = []
     
     private let barColor = UIView()
     private let contentView = UIView().then {
@@ -75,7 +77,7 @@ final class LikedPoseVC: UIViewController {
         contentsViewUI()
         likedPoseCollectionViewUI()
         configureNav()
-        
+        firestoreManager.poseRealTimebinding()
         updateCollectionViewForCategory(.alone)
         showBarColorForLabel(poseOne)
     }
@@ -83,7 +85,7 @@ final class LikedPoseVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
-        UserDataManager.loadUserData()
+        likedPoseCollectionView.reloadData()
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -182,42 +184,54 @@ final class LikedPoseVC: UIViewController {
     }
     
     func updateCollectionViewForCategory(_ category: PoseCategory) {
-        var categoryImages: [UIImage?] = []
-        
-        switch category {
-        case .alone:
-            if UserDataManager.userData.likedPose.firstPose.count == 0 {
-                self.photos = []
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                categoryImages = UserDataManager.userData.likedPose.firstPose.map {UIImage(data: $0)}
-                self.photos = categoryImages
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-            }
-        case .two:
-            if UserDataManager.userData.likedPose.secondPose.count == 0 {
-                self.photos = []
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                categoryImages = UserDataManager.userData.likedPose.secondPose.map {UIImage(data: $0)}
-                self.photos = categoryImages
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-            }
-        case .many:
-            if  UserDataManager.userData.likedPose.thirdPose.count == 0 {
-                self.photos = []
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                categoryImages = UserDataManager.userData.likedPose.thirdPose.map {UIImage(data: $0)}
-                self.photos = categoryImages
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-            }
+        self.likedPoseCollectionView.reloadData()
+        self.likedPoseCollectionView.reloadData()
+            switch category {
+            case .alone:
+                if firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true }).count == 0 {
+                    emptyView.isHidden = false
+                    likedPoseCollectionView.isHidden = true
+                } else {
+                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "alone" }.filter { $0.isSelected == true }
+                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
+                        guard let self = self else { return}
+                        photos = images
+                        emptyView.isHidden = true
+                        likedPoseCollectionView.isHidden = false
+                        likedPoseCollectionView.reloadData()
+                    }
+                }
+               
+            case .two:
+                if firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true }).count == 0 {
+                    emptyView.isHidden = false
+                    likedPoseCollectionView.isHidden = true
+                } else {
+                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "twoPose" }.filter { $0.isSelected == true }
+                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
+                        guard let self = self else { return}
+                        photos = images
+                        emptyView.isHidden = true
+                        likedPoseCollectionView.isHidden = false
+                        likedPoseCollectionView.reloadData()
+                    }
+                }
+                
+            case .many:
+                if firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true }).count == 0 {
+                    emptyView.isHidden = false
+                    likedPoseCollectionView.isHidden = true
+                } else {
+                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "manyPose" }.filter { $0.isSelected == true }
+                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
+                        guard let self = self else { return}
+                        photos = images
+                        emptyView.isHidden = true
+                        likedPoseCollectionView.isHidden = false
+                        likedPoseCollectionView.reloadData()
+                    }
+                }
+                
         }
         likedPoseCollectionView.reloadData()
     }

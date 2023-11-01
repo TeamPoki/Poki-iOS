@@ -14,6 +14,7 @@ final class AccountDeletionVC: UIViewController {
     // MARK: - Properties
     
     let authManager = AuthManager.shared
+    let firestoreManager = FirestoreManager.shared
     
     private let infoTexts = [
         "탈퇴 후에는 저장한 인생네컷을 수정, 삭제하실 수 없습니다. 탈퇴 하시기 전에 확인해주세요!",
@@ -239,7 +240,8 @@ final class AccountDeletionVC: UIViewController {
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(rootVC)
             UserDefaults.standard.set(false, forKey: "LoginStatus")
-            UserDefaults.standard.removeObject(forKey: "userData")
+            self.firestoreManager.deleteAllPoseData()
+            self.firestoreManager.deleteAllPhotoData()
             UserDataManager.deleteUserEmail()
         }
     }

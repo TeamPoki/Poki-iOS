@@ -12,7 +12,7 @@ final class StorageManager {
     static let shared = StorageManager()
     private init() {}
     
-    func uploadImage(image: [UIImage], date: String, memo: String, tagText: String, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+    func photoUploadImage(image: [UIImage], date: String, memo: String, tagText: String, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
         guard image.count >= 2 else {
             completion(.failure(FirebaseError.imageCountError))
             return
@@ -88,4 +88,33 @@ final class StorageManager {
             }
         }
     }
+    
+    // MARK: - PoseData
+    
+    func poseDownloadImages(fromURLs urls: [String], completion: @escaping ([UIImage?]) -> Void) {
+        let storage = Storage.storage()
+        let group = DispatchGroup()
+        var images: [UIImage?] = Array(repeating: nil, count: urls.count)
+
+        for (index, urlString) in urls.enumerated() {
+            group.enter()
+
+            let storageReference = storage.reference(forURL: urlString)
+            let megaByte = Int64(4.9 * 1024 * 1024)
+
+            storageReference.getData(maxSize: megaByte) { data, error in
+                if let imageData = data {
+                    images[index] = UIImage(data: imageData)
+                }
+
+                group.leave()
+            }
+        }
+
+        group.notify(queue: .main) {
+            completion(images)
+        }
+    }
+
+    
 }

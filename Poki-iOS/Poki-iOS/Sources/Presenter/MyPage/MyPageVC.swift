@@ -14,6 +14,8 @@ final class MyPageVC: UIViewController {
     
     // MARK: - Properties
     let authManager = AuthManager.shared
+    let firestoreManager = FirestoreManager.shared
+    let storageManager = StorageManager.shared
     
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
@@ -120,11 +122,11 @@ final class MyPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
+        firestoreManager.poseRealTimebinding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UserDataManager.loadUserData()
         profileDataBinding()
     }
     
@@ -182,14 +184,23 @@ final class MyPageVC: UIViewController {
     }
     
     private func profileDataBinding() {
-        self.nameLabel.text = UserDataManager.userData.userName
-        emailLabel.text = authManager.currentUserEmail
-        
+        firestoreManager.userRealTimebinding()
+        if firestoreManager.userData[0].userName == "" {
+            self.nameLabel.text = ""
+        } else {
+            self.nameLabel.text = firestoreManager.userData[0].userName
+            emailLabel.text = authManager.currentUserEmail
+        }
         //이미지 변경
-        if UIImage(data: UserDataManager.userData.userImage) == nil {
+        if firestoreManager.userData[0].userImage == "" {
             self.userImage.image = UIImage()
         } else {
-            self.userImage.image = UIImage(data: UserDataManager.userData.userImage)
+            storageManager.downloadImage(urlString: firestoreManager.userData[0].userImage) { [weak self] image in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.userImage.image = image
+                }
+            }
         }
     }
     
