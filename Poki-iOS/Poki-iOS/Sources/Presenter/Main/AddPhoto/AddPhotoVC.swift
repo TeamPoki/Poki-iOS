@@ -26,10 +26,8 @@ final class AddPhotoVC: UIViewController {
     
     // MARK: - Properties
     
-     let addPhotoView = AddPhotoView()
-
+    let addPhotoView = AddPhotoView()
     var viewSeperated: ViewSeperated = .new
-    
     var photoData: Photo?
     var indexPath: IndexPath?
     
@@ -50,12 +48,13 @@ final class AddPhotoVC: UIViewController {
         datePickerTapped()
         tagImageSetupTapGestures()
         addButtonTapped()
+        keyboardLayoutSetting()
     }
     
     // MARK: - Helpers
     
     private func configureNav() {
-        navigationItem.title = "추가하기"
+        navigationItem.title = "추억 저장하기"
         let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(handleCloseButton))
         navigationItem.leftBarButtonItem = closeButton
         navigationController?.configureBasicAppearance()
@@ -68,8 +67,6 @@ final class AddPhotoVC: UIViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        addPhotoView.memoTextField.delegate = self
     }
     
     private func configuration() {
@@ -78,7 +75,7 @@ final class AddPhotoVC: UIViewController {
         let tagImageURL = URL(string: photoData.tag.tagImage)
         switch self.viewSeperated {
         case .edit:
-            navigationItem.title = "수정하기"
+            navigationItem.title = "추억 수정하기"
             addPhotoView.photoImageView.kf.setImage(with: photoImageURL)
             addPhotoView.dateTextField.text = photoData.date
             addPhotoView.memoTextField.text = photoData.memo
@@ -101,8 +98,11 @@ final class AddPhotoVC: UIViewController {
         addPhotoView.addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
     }
     
-   
-
+    private func keyboardLayoutSetting() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     
     // MARK: - Actions
     
@@ -123,7 +123,7 @@ final class AddPhotoVC: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tagImageTapped))
         addPhotoView.tagImageView.addGestureRecognizer(tapGesture)
         addPhotoView.tagImageView.isUserInteractionEnabled = true
-       }
+    }
     
     private func mainImageSetupTapGestures() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpImageView))
@@ -132,7 +132,7 @@ final class AddPhotoVC: UIViewController {
     }
     
     @objc private func touchUpImageView() {
-            print("이미지뷰 터치")
+        print("이미지뷰 터치")
         self.setupImagePicker()
     }
     
@@ -161,6 +161,33 @@ final class AddPhotoVC: UIViewController {
         self.view.endEditing(true)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if addPhotoView.dateTextField.isFirstResponder {
+            return
+        }
+        
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+
+        let memoTextFieldFrame = addPhotoView.memoTextField.convert(addPhotoView.memoTextField.bounds, to: self.view)
+        let memoTextFieldBottom = memoTextFieldFrame.origin.y + memoTextFieldFrame.size.height
+        let spaceBetweenTextFieldAndKeyboard = 20.0
+        
+        let offsetY = memoTextFieldBottom + spaceBetweenTextFieldAndKeyboard - (self.view.frame.height - keyboardSize.height)
+
+        if offsetY > 0 {
+            self.view.frame.origin.y = 0 - offsetY
+        }
+    }
+
+    @objc func keyboardWillHide() {
+        self.view.frame.origin.y = 0
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     func uploadAndCreateImageData(image: [UIImage], date: String, memo: String, tagText: String) {
         storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
@@ -185,7 +212,6 @@ final class AddPhotoVC: UIViewController {
         firestoreManager.photoCreate(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
-    
     func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
         storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
@@ -209,13 +235,11 @@ final class AddPhotoVC: UIViewController {
         firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
- 
-    
-    //Creat 메서드
+    // Creat 메서드
     @objc private func addButtonAction() {
         if addPhotoView.photoImageView.image != nil {
             guard let image = addPhotoView.photoImageView.image else { return }
-            guard  let date = addPhotoView.dateTextField.text else { return }
+            guard let date = addPhotoView.dateTextField.text else { return }
             guard let memo = addPhotoView.memoTextField.text else { return }
             guard let tagImage = addPhotoView.tagImageView.image else { return }
             guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
@@ -224,18 +248,16 @@ final class AddPhotoVC: UIViewController {
                 
                 uploadAndCreateImageData(image: [image, tagImage], date: date, memo: memo, tagText: tagText)
                 
-                //Update 메서드
+            // Update 메서드
             case .edit:
                 guard let photoData = photoData else { return }
-                updateData(documentPath: photoData.documentReference , image: [image, tagImage], date: date, memo: memo, tagText: tagText)
+                updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
                 storageManager.deleteImage(imageURL: photoData.image) { _ in
                     print("이미지 삭제 완료")
                 }
                 storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
                     print("이미지 삭제 완료")
                 }
-              
-
             }
         } else {
             let alertController = UIAlertController(title: "경고", message: "이미지를 반드시 입력해주세요.", preferredStyle: .alert)
@@ -246,12 +268,11 @@ final class AddPhotoVC: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    
     @objc private func tagImageTapped() {
         tagButtonAction()
     }
     
-    //이미지 제한 함수
+    // 이미지 제한 함수
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
         let maxSizeInBytes: Int = 4 * 1024 * 1024
         if let imageData = image.jpegData(compressionQuality: 1.0) {
@@ -267,14 +288,13 @@ final class AddPhotoVC: UIViewController {
         }
     }
     
-    //키보드 관련
+    // 키보드 관련
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
- 
 }
 
+// MARK: - PHPickerViewControllerDelegate
 
 extension AddPhotoVC: PHPickerViewControllerDelegate {
     // 사진이 선택이 된 후에 호출되는 메서드
@@ -282,7 +302,7 @@ extension AddPhotoVC: PHPickerViewControllerDelegate {
         picker.dismiss(animated: true)
         let itemProvider = results.first?.itemProvider
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+            itemProvider.loadObject(ofClass: UIImage.self) { image, _ in
                 DispatchQueue.main.async {
                     guard let dataImage = image as? UIImage else { return }
                     self.limitedImageUpload(image: dataImage, picker: picker)
@@ -294,11 +314,11 @@ extension AddPhotoVC: PHPickerViewControllerDelegate {
     }
 }
 
+//MARK: - UIViewControllerTransitioningDelegate
+
 extension AddPhotoVC: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        // UISheetPresentationController를 사용하여 커스텀 프레
-
-let sheetPresentationController = UISheetPresentationController(presentedViewController: presented, presenting: presenting)
+        let sheetPresentationController = UISheetPresentationController(presentedViewController: presented, presenting: presenting)
         sheetPresentationController.detents = [.medium()]
         sheetPresentationController.prefersGrabberVisible = true
         sheetPresentationController.prefersScrollingExpandsWhenScrolledToEdge = true
@@ -306,43 +326,17 @@ let sheetPresentationController = UISheetPresentationController(presentedViewCon
     }
 }
 
+//MARK: - TagSelectionDelegate
 
 extension AddPhotoVC: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
-        storageManager.downloadImage(urlString: tag.tagImage) {  image in
+        addPhotoView.tagAddButton.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 14)
+        storageManager.downloadImage(urlString: tag.tagImage) { image in
             DispatchQueue.main.async {
                 self.addPhotoView.tagImageView.image = image
+                self.addPhotoView.setTagStackViewBorder(show: true)
             }
         }
     }
-}
-
-extension AddPhotoVC: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        addPhotoView.memoTextField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-         animateViewMoving(up: true)
-    }
-     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-         animateViewMoving(up: false)
-    }
-     
-    // 키보드가 나타날 때 뷰를 이동시키는 메서드
-    func animateViewMoving(up: Bool) {
-         let movement: CGFloat = (up ? -keyboardOffset() : keyboardOffset())
-         
-         UIView.animate(withDuration: 0.3) {
-             self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-         }
-     }
-     
-     // 키보드의 높이 반환
-     func keyboardOffset() -> CGFloat {
-         return addPhotoView.memoTextField.frame.origin.y + addPhotoView.memoTextField.frame.height
-     }
 }

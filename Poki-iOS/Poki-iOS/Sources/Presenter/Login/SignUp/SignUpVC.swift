@@ -46,7 +46,7 @@ final class SignUpVC: UIViewController {
     // MARK: - Size
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
+        let frame = CGRect(x: 60, y: 710, width: width, height: Constants.toastHeight)
         return frame
     }
 
