@@ -14,9 +14,8 @@ final class MainPageVC: UIViewController {
 
     // MARK: - Properties
     
-    private let dataManager = PoseImageManager.shared
     private let firestoreManager = FirestoreManager.shared
-    private  let stoageManager = StorageManager.shared
+    private let stoageManager = StorageManager.shared
 
     private var photoListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
