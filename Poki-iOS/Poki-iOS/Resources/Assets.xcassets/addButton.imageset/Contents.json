@@ -1,16 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "addButton.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group 61102.png",
+      "filename" : "addButton 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group 61102@2x.png",
+      "filename" : "addButton 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

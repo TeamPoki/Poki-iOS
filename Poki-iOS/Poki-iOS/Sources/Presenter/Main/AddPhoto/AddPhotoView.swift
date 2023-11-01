@@ -32,14 +32,16 @@ final class AddPhotoView: UIView {
     
     let dateTextField = UITextField().then {
         $0.textColor = .gray
-        $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
-        $0.borderStyle = .roundedRect
+        $0.backgroundColor = Constants.textFieldBackgroundColor
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
         $0.clearsOnBeginEditing = false
         $0.placeholder = "날짜를 선택해 주세요"
         $0.layer.cornerRadius = 7
+        $0.tintColor = .clear
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftViewMode = .always
     }
     
     let datePicker = UIDatePicker().then {
@@ -65,14 +67,16 @@ final class AddPhotoView: UIView {
     
     let memoTextField = UITextField().then {
         $0.textColor = .gray
-        $0.backgroundColor = #colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1)
-        $0.borderStyle = .roundedRect
+        $0.backgroundColor = Constants.textFieldBackgroundColor
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
         $0.clearsOnBeginEditing = false
         $0.placeholder = "메모를 입력해 주세요"
         $0.layer.cornerRadius = 7
+        $0.tintColor = .black
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftViewMode = .always
     }
     
     lazy var memoStackView = UIStackView().then {
@@ -122,7 +126,8 @@ final class AddPhotoView: UIView {
         $0.backgroundColor = .black
         $0.setTitle("작성완료", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 7
+        $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
+        $0.layer.cornerRadius = 25
     }
     
     
@@ -162,13 +167,13 @@ final class AddPhotoView: UIView {
         
         photoImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(100)
+            $0.leading.trailing.equalToSuperview().inset(80)
             $0.bottom.equalToSuperview()
         }
         
         tagImageView.snp.makeConstraints {
-            $0.height.equalTo(30)
-            $0.width.equalTo(30)
+            $0.height.equalTo(40)
+            $0.width.equalTo(40)
         }
         
         dateStackView.snp.makeConstraints {
@@ -177,7 +182,7 @@ final class AddPhotoView: UIView {
         }
         
         memoStackView.snp.makeConstraints {
-            $0.top.equalTo(dateStackView.snp.bottom).offset(10)
+            $0.top.equalTo(dateStackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(65)
         }
@@ -187,7 +192,7 @@ final class AddPhotoView: UIView {
         }
         
         tagStackView.snp.makeConstraints {
-            $0.top.equalTo(memoStackView.snp.bottom).offset(10)
+            $0.top.equalTo(memoStackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(65)
         }
@@ -196,7 +201,7 @@ final class AddPhotoView: UIView {
             $0.top.equalTo(tagStackView.snp.bottom).offset(80)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(60)
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
         }
     }
     

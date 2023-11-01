@@ -15,7 +15,7 @@ final class SettingsVC: UIViewController {
     // MARK: - Properties
     
     private var settingTableView = UITableView().then {
-        $0.separatorColor = Constants.d9GrayColor
+        $0.separatorColor = Constants.separatorGrayColor
         $0.register(UITableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
     }
     

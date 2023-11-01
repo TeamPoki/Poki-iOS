@@ -16,7 +16,7 @@ final class NoticeListVC: UIViewController {
     private let noticeTableView = UITableView().then {
         $0.estimatedRowHeight = 110
         $0.rowHeight = UITableView.automaticDimension
-        $0.separatorColor = Constants.d9GrayColor
+        $0.separatorColor = Constants.separatorGrayColor
         $0.register(NoticeListCell.self, forCellReuseIdentifier: "NoticeListTableViewCell")
     }
     

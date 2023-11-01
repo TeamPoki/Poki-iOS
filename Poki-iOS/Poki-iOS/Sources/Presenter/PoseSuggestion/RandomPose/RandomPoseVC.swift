@@ -35,7 +35,7 @@ final class RandomPoseVC: UIViewController {
         $0.setTitle(self.refreshButtonTitle, for: .normal)
         $0.setTitleColor( .black, for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 25
     }
     
     private lazy var bookmarkButton = UIButton().then {
@@ -100,7 +100,7 @@ final class RandomPoseVC: UIViewController {
         button.backgroundColor = .white
         button.tintColor = .black
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = Constants.separatorGrayColor.cgColor
     }
     
     private func addSubviews() {
@@ -121,7 +121,7 @@ final class RandomPoseVC: UIViewController {
             $0.width.equalTo(55)
         }
         refreshButton.snp.makeConstraints {
-            $0.height.equalTo(55)
+            $0.height.equalTo(50)
         }
     }
     

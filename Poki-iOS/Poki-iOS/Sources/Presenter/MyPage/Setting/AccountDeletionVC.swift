@@ -36,7 +36,7 @@ final class AccountDeletionVC: UIViewController {
     private lazy var infoViews: [UIStackView] = infoTexts.map { text in
         let icon = UIImageView().then {
             $0.image = UIImage(systemName: "exclamationmark.triangle")
-            $0.tintColor = Constants.d9GrayColor
+            $0.tintColor = Constants.separatorGrayColor
         }
             
         let label = UILabel().then {
@@ -87,9 +87,9 @@ final class AccountDeletionVC: UIViewController {
 
     private lazy var withdrawButton = UIButton().then {
         $0.setTitle("탈퇴 하기", for: .normal)
-        $0.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 18)
+        $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
-        $0.layer.cornerRadius = 5
+        $0.layer.cornerRadius = 25
         $0.addTarget(self, action: #selector(withdrawButtonTapped), for: .touchUpInside)
     }
 
@@ -190,15 +190,15 @@ final class AccountDeletionVC: UIViewController {
             $0.top.equalTo(reasonLabel.snp.bottom).offset(20)
             $0.left.equalTo(contentView).offset(20)
             $0.right.equalTo(contentView).offset(-20)
-            $0.height.equalTo(180)
+            $0.height.equalTo(200)
         }
 
         withdrawButton.snp.makeConstraints {
-            $0.top.equalTo(reasonTextView.snp.bottom).offset(80)
+            $0.top.equalTo(reasonTextView.snp.bottom).offset(60)
             $0.left.equalTo(contentView).offset(20)
             $0.right.equalTo(contentView).offset(-20)
             $0.centerX.equalTo(contentView)
-            $0.height.equalTo(60)
+            $0.height.equalTo(50)
             $0.bottom.equalTo(contentView).offset(-20)
         }
     }
