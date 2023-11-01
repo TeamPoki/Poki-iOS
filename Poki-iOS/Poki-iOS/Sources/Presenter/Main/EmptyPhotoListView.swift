@@ -14,13 +14,14 @@ class EmptyPhotoListView: UIView {
     // MARK: - Properties
     private let emptyImageView: UIImageView = {
         let imageView = UIImageView()
-        let image = UIImage(named: "rectangle.portrait.on.rectangle.portrait.slash.fill")
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-        
-        imageView.snp.makeConstraints { make in
-            make.width.equalTo(80)
-            make.height.equalTo(80)
+        if let image = UIImage(systemName: "rectangle.portrait.on.rectangle.portrait.slash.fill") {
+            let systemImage = image.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+            imageView.image = systemImage
+            imageView.contentMode = .scaleAspectFit
+            imageView.snp.makeConstraints { make in
+                make.width.equalTo(80)
+                make.height.equalTo(80)
+            }
         }
         return imageView
     }()

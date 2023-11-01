@@ -13,10 +13,9 @@ class EmptyLikedPoseView: UIView {
     // MARK: - Properties
     private let emptyImageView: UIImageView = {
         let imageView = UIImageView()
+        let image = UIImage(named: "star-slash")
         imageView.contentMode = .scaleAspectFit
-        if let image = UIImage(named: "star-slash") {
-            imageView.image = image
-        }
+        imageView.image = image
         return imageView
     }()
     

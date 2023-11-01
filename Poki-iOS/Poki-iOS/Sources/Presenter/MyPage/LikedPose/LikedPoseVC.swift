@@ -43,7 +43,7 @@ final class LikedPoseVC: UIViewController {
     }()
     
     private lazy var poseOne = UILabel().then {
-        $0.text = "1번포즈"
+        $0.text = "한 명 포즈"
         $0.textColor = .black
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.isUserInteractionEnabled = true
@@ -52,7 +52,7 @@ final class LikedPoseVC: UIViewController {
     }
     
     private lazy var poseTwo = UILabel().then {
-        $0.text = "2번포즈"
+        $0.text = "두 명 포즈"
         $0.textColor = .black
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.isUserInteractionEnabled = true
@@ -61,7 +61,7 @@ final class LikedPoseVC: UIViewController {
     }
     
     private lazy var poseThree = UILabel().then {
-        $0.text = "3번포즈"
+        $0.text = "여러명 포즈"
         $0.textColor = .black
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.isUserInteractionEnabled = true
