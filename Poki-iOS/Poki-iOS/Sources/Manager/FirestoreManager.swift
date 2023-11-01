@@ -180,13 +180,14 @@ final class FirestoreManager {
     // MARK: - UserData
     private func createUserFromData(_ data: [String: Any]) -> User? {
         guard
+            let documentReference = data["documentReference"] as? String,
             let userName = data["userName"] as? String,
             let userImage = data["userImage"] as? String
         else {
             return nil
         }
 
-        return User(userName: userName, userImage: userImage)
+        return User(documentReference: documentReference, userName: userName, userImage: userImage)
     }
 
     private func createImageFromData(_ data: [String: Any]) -> ImageData? {
@@ -203,7 +204,7 @@ final class FirestoreManager {
     func userCreate(name: String, image: String) {
         guard let userUID = authManager.currentUserUID else { return }
         let newDocumentRef = db.collection("users/\(userUID)/User").document()
-        let userData = User(userName: name, userImage: image)
+        let userData = User(documentReference: newDocumentRef.path, userName: name, userImage: image)
         do {
             try newDocumentRef.setData(from: userData)
             print("Document added successfully.")
@@ -225,18 +226,22 @@ final class FirestoreManager {
         }
     }
     
-    func userProfileUpdate(name: String, image: String) {
+    func userProfileUpdate(documentPath: String, name: String, image: String, vc: UIViewController) {
         guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/User").document()
+        let documentComponents = documentPath.components(separatedBy: "/")
+        _ = documentComponents[0]
+        let documentID = documentComponents[3]
+        let docRef = db.collection("users/\(userUID)/User").document(documentID)
         let data: [String : Any] = [
-            "image" : image,
-            "name" : name
+            "userImage" : image,
+            "userName" : name
         ]
         docRef.updateData(data) { error in
             if let error = error {
                 print("Error updating document: \(error)")
             }
             print("Document updated successfully.")
+            vc.navigationController?.popViewController(animated: true)
         }
     }
     
