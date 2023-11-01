@@ -8,6 +8,7 @@
 import UIKit
 
 struct User: Codable {
+    var documentReference: String
     let userName: String
     let userImage: String
 }
