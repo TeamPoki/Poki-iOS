@@ -9,12 +9,11 @@ import UIKit
 
 struct User: Codable {
     let userName: String
-    let userImage: Data
-    var likedPose: likePose
+    let userImage: String
 }
 
-struct likePose: Codable {
-    var firstPose: [Data]
-    var secondPose: [Data]
-    var thirdPose: [Data]
+struct ImageData: Codable {
+    var imageUrl: String
+    var category: String
+    var isSelected: Bool
 }

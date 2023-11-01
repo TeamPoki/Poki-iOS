@@ -8,13 +8,11 @@ import UIKit
 import SnapKit
 import Then
 
+enum Category {
+    case alone, twoPeople, manyPeople
+}
+
 final class RandomPoseVC: UIViewController {
-    
-    var selectedButton = false
-    
-    enum Category {
-        case alone, twoPeople, manyPeople
-    }
     
     // MARK: - Constants
     private let poseImageName = "alone-pose1"
@@ -25,6 +23,10 @@ final class RandomPoseVC: UIViewController {
     
     private var selectedCategory: Category?
     private var poseImages: [UIImage?] = []
+    private  var imageDatas: [ImageData] = []
+    private var imageData:ImageData?
+    let firestoreManager = FirestoreManager.shared
+    let storageManager = StorageManager.shared
     
     private lazy var poseImageView = UIImageView().then {
         $0.image = UIImage(named: poseImageName)
@@ -67,14 +69,13 @@ final class RandomPoseVC: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
+        firestoreManager.poseRealTimebinding()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UserDataManager.loadUserData()
         loadButtonData()
-//        UserDataManager.removeUserData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -127,15 +128,23 @@ final class RandomPoseVC: UIViewController {
     
     func setup(selectCategory: Category) {
         self.selectedCategory = selectCategory
-        switch selectCategory {
-        case .alone:
-            self.poseImages = PoseImageManager.shared.getAlonePoseImages()
-        case .twoPeople:
-            self.poseImages = PoseImageManager.shared.getTwoPoseImages()
-        case .manyPeople:
-            self.poseImages = PoseImageManager.shared.getManyPoseImages()
-        }
-        self.poseImageView.image = poseImages.randomElement() ?? UIImage()
+           switch selectCategory {
+           case .alone:
+               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "alone" }
+               self.imageData = imageDatas.randomElement()
+           case .twoPeople:
+               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "twoPose" }
+               self.imageData = imageDatas.randomElement()
+           case .manyPeople:
+               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "manyPose" }
+               self.imageData = imageDatas.randomElement()
+           }
+        guard let imageData = imageData else { return }
+        storageManager.downloadImage(urlString: imageData.imageUrl) { [weak self] image in
+               DispatchQueue.main.async {
+                   self?.poseImageView.image = image
+               }
+           }
     }
     
 
@@ -143,79 +152,61 @@ final class RandomPoseVC: UIViewController {
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        guard let randomPose = poseImages.randomElement() else { return }
-        poseImageView.image = randomPose
-        loadButtonData()
+        self.imageData = self.imageDatas.randomElement()
+        guard let imageData = imageData else { return }
+        storageManager.downloadImage(urlString: imageData.imageUrl) { [weak self] image in
+               DispatchQueue.main.async {
+                   self?.poseImageView.image = image
+                   self?.loadButtonData()
+               }
+           }
     }
     
     @objc private func bookmarkButtonTapped() {
-        guard let imageData = poseImageView.image?.pngData() else { return }
-        
-        if selectedButton == false {
-            bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            switch selectedCategory {
-            case .alone:
-                UserDataManager.userData.likedPose.firstPose.append((imageData))
-            case .twoPeople:
-                UserDataManager.userData.likedPose.secondPose.append((imageData))
-            case .manyPeople:
-                UserDataManager.userData.likedPose.thirdPose.append((imageData))
-            case .none:
-                break
+        guard let imageData = imageData else { return }
+        switch selectedCategory {
+        case .alone:
+            if imageData.isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+                self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            } else {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
             }
-            UserDataManager.saveUserData()
-            selectedButton.toggle()
-        } else {
-            bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
-            switch selectedCategory {
-            case .alone:
-                if let index = UserDataManager.userData.likedPose.firstPose.firstIndex(of: imageData) {
-                    UserDataManager.userData.likedPose.firstPose.remove(at: index)
-                }
-            case .twoPeople:
-                if let index = UserDataManager.userData.likedPose.secondPose.firstIndex(of: imageData) {
-                    UserDataManager.userData.likedPose.secondPose.remove(at: index)
-                }
-            case .manyPeople:
-                if let index = UserDataManager.userData.likedPose.thirdPose.firstIndex(of: imageData) {
-                    UserDataManager.userData.likedPose.thirdPose.remove(at: index)
-                }
-            case .none:
-                break
+        case .twoPeople:
+            if imageData.isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+                self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            } else {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
             }
-            UserDataManager.saveUserData()
-            selectedButton.toggle()
+        case .manyPeople:
+            if imageData.isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+                self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            } else {
+                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+            }
+        case .none:
+            print("category 미분류 데이터")
+            break
         }
     }
     
     private func loadButtonData() {
-        guard let imageData = poseImageView.image?.pngData() else { return }
+        firestoreManager.poseRealTimebinding()
+        guard let imageData = imageData else { return }
         switch selectedCategory {
-        case .alone:
-            if UserDataManager.userData.likedPose.firstPose.contains(imageData) {
-                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                selectedButton = true
+        case .alone, .twoPeople, .manyPeople:
+            if imageData.isSelected {
+                self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             } else {
-                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
-                selectedButton = false
-            }
-        case .twoPeople:
-            if UserDataManager.userData.likedPose.secondPose.contains(imageData) {
-                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                selectedButton = true
-            } else {
-                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
-                selectedButton = false
-            }
-        case .manyPeople:
-            if UserDataManager.userData.likedPose.thirdPose.contains(imageData) {
-                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                selectedButton = true
-            } else {
-                bookmarkButton.setImage(UIImage(systemName: bookmarkButtonImageName), for: .normal)
-                selectedButton = false
+                self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
             }
         case .none:
+            print("category 미분류 데이터")
             break
         }
     }

@@ -18,6 +18,7 @@ final class SignUpVC: UIViewController {
     private var isAgree: Bool?
     
     private let authManager = AuthManager.shared
+    private let firestoreManager = FirestoreManager.shared
     
     // MARK: - Validation
     private var isSignUpFormValid: Bool? {
@@ -201,6 +202,8 @@ final class SignUpVC: UIViewController {
                 self.hideLoadingIndicator()
                 return
             }
+            firestoreManager.userCreate(name: signUpView.nicknameTextField.text!, image: "")
+            firestoreManager.makePoseData()
             self.hideLoadingIndicator()
             self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
                 self.navigationController?.popViewController(animated: true)

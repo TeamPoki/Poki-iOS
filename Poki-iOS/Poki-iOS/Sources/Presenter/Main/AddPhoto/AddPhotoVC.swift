@@ -162,7 +162,7 @@ final class AddPhotoVC: UIViewController {
     }
     
     func uploadAndCreateImageData(image: [UIImage], date: String, memo: String, tagText: String) {
-        storageManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
             case .success((let photoURL, let tagURL)):
                 // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
@@ -182,12 +182,12 @@ final class AddPhotoVC: UIViewController {
         let tagURLString = tagURL.absoluteString
         
         // Firestore에 데이터 생성
-        firestoreManager.create(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+        firestoreManager.photoCreate(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
     
     func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
-        storageManager.uploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
             switch result {
             case .success((let photoURL, let tagURL)):
                 // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
@@ -206,7 +206,7 @@ final class AddPhotoVC: UIViewController {
         let tagURLString = tagURL.absoluteString
         
         // Firestore에 데이터 생성
-        firestoreManager.update(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+        firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
  

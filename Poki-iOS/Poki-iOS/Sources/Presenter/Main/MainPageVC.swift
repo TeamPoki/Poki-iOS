@@ -34,10 +34,11 @@ final class MainPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
+        firestoreManager.userRealTimebinding()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        firestoreManager.realTimebinding(collectionView: photoListCollectionView)
+        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
         navigationController?.navigationBar.tintColor = .black
     }
 
