@@ -90,6 +90,30 @@ extension UIViewController {
             toast.removeFromSuperview()
         }
     }
+    
+    func showLoadingIndicator() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.firstKeyWindowForConnectedScenes else { return }
+            let indicatorView: UIActivityIndicatorView
+            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
+                indicatorView = existedView
+            } else {
+                indicatorView = UIActivityIndicatorView(style: .large)
+                indicatorView.frame = window.frame
+                indicatorView.color = .black
+                window.addSubview(indicatorView)
+            }
+            indicatorView.startAnimating()
+        }
+    }
+    
+    func hideLoadingIndicator() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.firstKeyWindowForConnectedScenes else { return }
+            window.subviews.filter({ $0 is UIActivityIndicatorView })
+                .forEach { $0.removeFromSuperview() }
+        }
+    }
 }
 
 // MARK: - UINavgationController
@@ -141,5 +165,18 @@ extension UINavigationController {
         self.navigationBar.standardAppearance = appearance
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
+    }
+}
+
+extension UIApplication {
+    static var firstKeyWindowForConnectedScenes: UIWindow? {
+        UIApplication.shared
+            .connectedScenes.lazy
+        
+            .compactMap { $0.activationState == .foregroundActive ? ($0 as? UIWindowScene) : nil }
+        
+            .first(where: { $0.keyWindow != nil })?
+        
+            .keyWindow
     }
 }
