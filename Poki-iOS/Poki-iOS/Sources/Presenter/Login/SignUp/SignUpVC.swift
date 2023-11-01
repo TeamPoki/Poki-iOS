@@ -45,7 +45,7 @@ final class SignUpVC: UIViewController {
     // MARK: - Size
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 590, width: width, height: 35)
+        let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
         return frame
     }
 
@@ -187,6 +187,7 @@ final class SignUpVC: UIViewController {
     
     @objc private func signUpButtonTapped() {
         guard let email = self.email, let password = self.password else { return }
+        self.showLoadingIndicator()
         authManager.signUpUser(email: email, password: password) { [weak self] result, error in
             guard let self = self else { return }
             if let error = error {
@@ -197,8 +198,10 @@ final class SignUpVC: UIViewController {
                 default:
                     print("계정 생성 오류 : \(error.localizedDescription)")
                 }
+                self.hideLoadingIndicator()
                 return
             }
+            self.hideLoadingIndicator()
             self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
                 self.navigationController?.popViewController(animated: true)
             }

@@ -36,7 +36,7 @@ final class LoginVC: UIViewController {
     // MARK: - Size
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 590, width: width, height: 35)
+        let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
         return frame
     }
 
@@ -161,7 +161,7 @@ final class LoginVC: UIViewController {
     
     private lazy var findPasswordButton = UIButton().then {
         $0.setTitle("비밀번호 찾기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.lightGray, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.addTarget(self, action: #selector(findPasswordButtonTapped), for: .touchUpInside)
     }
@@ -362,13 +362,16 @@ final class LoginVC: UIViewController {
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
         guard let email = self.email, let password = self.password else { return }
+        self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
                     print("로그인 에러 : \(error.localizedDescription)")
                 }
+                self.hideLoadingIndicator()
                 return
             }
+            self.hideLoadingIndicator()
             self.saveUserEmail(email)
             let rootVC = CustomTabBarController()
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }

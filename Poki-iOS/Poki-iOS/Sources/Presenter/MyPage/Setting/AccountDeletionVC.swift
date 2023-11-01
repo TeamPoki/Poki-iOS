@@ -24,7 +24,7 @@ final class AccountDeletionVC: UIViewController {
     // MARK: - Size
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 590, width: width, height: 35)
+        let frame = CGRect(x: 60, y: 710, width: width, height: Constants.toastHeight)
         return frame
     }
     
@@ -220,17 +220,19 @@ final class AccountDeletionVC: UIViewController {
     }
     
     @objc func withdrawButtonTapped() {
+        self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
             FirestoreManager.shared.saveDeletionReason(reason: reasonText) { error in
                 if let error = error {
                     print("회원탈퇴 사유를 서버에 전송하지 못했습니다.:", error.localizedDescription)
+                    self.hideLoadingIndicator()
                     return
                 }
                 print("회원탈퇴 사유를 서버에 전송했습니다.")
             }
         }
-        
+        self.hideLoadingIndicator()
         self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
             self.authManager.userDelete()
             let rootVC = UINavigationController(rootViewController: LoginVC())
