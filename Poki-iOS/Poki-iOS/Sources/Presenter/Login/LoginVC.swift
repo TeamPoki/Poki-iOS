@@ -368,6 +368,7 @@ final class LoginVC: UIViewController {
                 self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
                     print("로그인 에러 : \(error.localizedDescription)")
                 }
+                self.hideLoadingIndicator()
                 return
             }
             self.hideLoadingIndicator()

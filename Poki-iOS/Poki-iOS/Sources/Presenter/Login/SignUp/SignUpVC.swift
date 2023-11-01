@@ -198,6 +198,7 @@ final class SignUpVC: UIViewController {
                 default:
                     print("계정 생성 오류 : \(error.localizedDescription)")
                 }
+                self.hideLoadingIndicator()
                 return
             }
             self.hideLoadingIndicator()

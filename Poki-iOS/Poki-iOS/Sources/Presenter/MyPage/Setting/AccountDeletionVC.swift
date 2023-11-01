@@ -226,6 +226,7 @@ final class AccountDeletionVC: UIViewController {
             FirestoreManager.shared.saveDeletionReason(reason: reasonText) { error in
                 if let error = error {
                     print("회원탈퇴 사유를 서버에 전송하지 못했습니다.:", error.localizedDescription)
+                    self.hideLoadingIndicator()
                     return
                 }
                 print("회원탈퇴 사유를 서버에 전송했습니다.")
