@@ -161,7 +161,7 @@ final class LoginVC: UIViewController {
     
     private lazy var findPasswordButton = UIButton().then {
         $0.setTitle("비밀번호 찾기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.lightGray, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.addTarget(self, action: #selector(findPasswordButtonTapped), for: .touchUpInside)
     }
