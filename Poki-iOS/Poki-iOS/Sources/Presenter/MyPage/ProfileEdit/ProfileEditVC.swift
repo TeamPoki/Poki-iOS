@@ -113,7 +113,14 @@ final class ProfileEditVC: UIViewController {
     // MARK: - Actions
     
     @objc private func selectImageButtonTapped() {
-        print("카메라 버튼 눌림")
+        let action = UIAction(title: "갤러리에서 선택하기", image: UIImage(systemName: "photo.on.rectangle")) { _ in
+            print("갤러리에서 이미지 선택")
+        }
+        
+        let menu = UIMenu(title: "", children: [action])
+        
+        selectImageButton.menu = menu
+        selectImageButton.showsMenuAsPrimaryAction = true
     }
     
     @objc private func doneButtonTapped() {
