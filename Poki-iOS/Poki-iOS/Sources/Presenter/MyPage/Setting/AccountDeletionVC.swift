@@ -220,6 +220,7 @@ final class AccountDeletionVC: UIViewController {
     }
     
     @objc func withdrawButtonTapped() {
+        self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
             FirestoreManager.shared.saveDeletionReason(reason: reasonText) { error in
@@ -230,7 +231,7 @@ final class AccountDeletionVC: UIViewController {
                 print("회원탈퇴 사유를 서버에 전송했습니다.")
             }
         }
-        
+        self.hideLoadingIndicator()
         self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
             self.authManager.userDelete()
             let rootVC = UINavigationController(rootViewController: LoginVC())

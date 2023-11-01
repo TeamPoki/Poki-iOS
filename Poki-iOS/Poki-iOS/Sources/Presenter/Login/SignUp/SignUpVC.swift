@@ -187,6 +187,7 @@ final class SignUpVC: UIViewController {
     
     @objc private func signUpButtonTapped() {
         guard let email = self.email, let password = self.password else { return }
+        self.showLoadingIndicator()
         authManager.signUpUser(email: email, password: password) { [weak self] result, error in
             guard let self = self else { return }
             if let error = error {
@@ -199,6 +200,7 @@ final class SignUpVC: UIViewController {
                 }
                 return
             }
+            self.hideLoadingIndicator()
             self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
                 self.navigationController?.popViewController(animated: true)
             }

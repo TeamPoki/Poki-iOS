@@ -362,6 +362,7 @@ final class LoginVC: UIViewController {
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
         guard let email = self.email, let password = self.password else { return }
+        self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
@@ -369,6 +370,7 @@ final class LoginVC: UIViewController {
                 }
                 return
             }
+            self.hideLoadingIndicator()
             self.saveUserEmail(email)
             let rootVC = CustomTabBarController()
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
