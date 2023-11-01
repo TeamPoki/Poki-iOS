@@ -15,7 +15,6 @@ class TagVC: UIViewController {
     // MARK: - Properties
     
     let dataArray = TagData.data
-    let dataManager = PoseImageManager.shared
     let stoageManager = StorageManager.shared
     weak var delegate: TagSelectionDelegate?
     
