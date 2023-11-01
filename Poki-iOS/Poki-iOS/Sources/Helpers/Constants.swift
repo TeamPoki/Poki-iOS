@@ -33,4 +33,7 @@ struct Constants {
     /// 영대/소문자 1개, 숫자 1개, 특수문자 1개를 포함한 8 ~ 16 자리 비밀번호를 사용할 수 있습니다.
     static let passwordRegex = "(?=.*[a-zA-Z])(?=.*\\d)(?=.*[$@$!%*?&#^().,])[A-Za-z\\d$@$!%*?&#^().,]{8,20}"
     static let nicknameRegex = "[가-힣A-Za-z0-9]{2,8}"
+    
+    // MARK: - Toast Size
+    static let toastHeight: CGFloat = 40
 }
