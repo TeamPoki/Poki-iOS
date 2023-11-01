@@ -215,6 +215,7 @@ final class MyPageVC: UIViewController {
     
     @objc private func modifyProfileButtonTapped() {
         let modifyProfileViewController = ProfileEditVC()
+        modifyProfileViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(modifyProfileViewController, animated: true)
     }
 
