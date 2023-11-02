@@ -50,6 +50,7 @@ final class MyPageVC: UIViewController {
         $0.layer.borderColor = UIColor.systemGray5.cgColor
         $0.layer.cornerRadius = 120 / 2
         $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
     }
     
     private let nameLabel = UILabel().then {

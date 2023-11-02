@@ -22,6 +22,7 @@ final class ProfileEditVC: UIViewController {
         $0.layer.borderColor = UIColor.systemGray5.cgColor
         $0.layer.cornerRadius = 75
         $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
     }
     
     private var nicknameLabel = UILabel().then {
@@ -235,20 +236,6 @@ extension ProfileEditVC {
         present(picker, animated: true, completion: nil)
     }
     
-    private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
-        let maxSizeInBytes: Int = 4 * 1024 * 1024
-        if let imageData = image.jpegData(compressionQuality: 1.0) {
-            if imageData.count > maxSizeInBytes {
-                let alertController = UIAlertController(title: "경고", message: "이미지 파일이 너무 큽니다.", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                picker.dismiss(animated: true, completion: nil)
-                present(alertController, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    
 }
 
 extension ProfileEditVC: PHPickerViewControllerDelegate {
@@ -260,7 +247,6 @@ extension ProfileEditVC: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                 DispatchQueue.main.async {
                     let dataImage = image as? UIImage
-                    self.limitedImageUpload(image: dataImage!, picker: picker)
                     self.userImageView.image  = dataImage
                 }
             }
