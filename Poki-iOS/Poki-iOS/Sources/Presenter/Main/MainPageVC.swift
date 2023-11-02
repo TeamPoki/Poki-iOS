@@ -13,7 +13,7 @@ import PhotosUI
 final class MainPageVC: UIViewController {
 
     // MARK: - Properties
-    
+
     private let firestoreManager = FirestoreManager.shared
     private let stoageManager = StorageManager.shared
     private let emptyPhotoListView = EmptyPhotoListView()
@@ -21,16 +21,16 @@ final class MainPageVC: UIViewController {
     private var photoListCollectionView: UICollectionView = {
         let layout = CarouselFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.7)
-        layout.sideItemScale = 175/251
+        layout.sideItemScale = 175 / 251
         layout.spacing = -190
         layout.sideItemAlpha = 0.5
-        
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    
+
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ final class MainPageVC: UIViewController {
     }
 
     // MARK: - Helpers
-    
+
     private func configureNav() {
         let logoLabel = UILabel().then {
             $0.text = "POKI"
@@ -56,10 +56,10 @@ final class MainPageVC: UIViewController {
             $0.sizeToFit()
         }
         navigationController?.configureBasicAppearance()
-        
+
         let logoBarButton = UIBarButtonItem(customView: logoLabel)
         navigationItem.leftBarButtonItem = logoBarButton
-        
+
         let filterButton = createFilterButton()
         let plusButton = createPlusButton()
         navigationItem.rightBarButtonItems = [plusButton, filterButton]
@@ -93,13 +93,13 @@ final class MainPageVC: UIViewController {
         let menu = UIMenu(title: "", children: [galleryAction, cameraAction])
         return UIBarButtonItem(image: UIImage(systemName: "plus"), primaryAction: nil, menu: menu)
     }
-    
+
     private func stringToDate(_ dateString: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         return dateFormatter.date(from: dateString)
     }
-    
+
     private func sortByDate(ascending: Bool) {
         firestoreManager.photoList.sort {
             guard let date1 = stringToDate($0.date), let date2 = stringToDate($1.date) else { return false }
@@ -107,7 +107,7 @@ final class MainPageVC: UIViewController {
         }
         photoListCollectionView.reloadData()
     }
-    
+
     private func setupCollectionView() {
         view.addSubview(photoListCollectionView)
 
@@ -129,7 +129,7 @@ final class MainPageVC: UIViewController {
         picker.delegate = self
         present(picker, animated: true, completion: nil)
     }
-    
+
     func updateEmptyPhotoListViewVisibility() {
         if firestoreManager.photoList.isEmpty {
             view.addSubview(emptyPhotoListView)
@@ -144,7 +144,7 @@ final class MainPageVC: UIViewController {
     }
 
     // MARK: - Actions
-    
+
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
         let maxSizeInBytes: Int = 4 * 1024 * 1024
         if let imageData = image.jpegData(compressionQuality: 1.0) {
@@ -157,7 +157,7 @@ final class MainPageVC: UIViewController {
             }
         }
     }
-    
+
     func requestPhotoLibraryAccess() {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
@@ -191,7 +191,7 @@ final class MainPageVC: UIViewController {
                 let fetchOptions = PHFetchOptions()
                 fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 fetchOptions.fetchLimit = 30 // 최신 30장만 가져옴
-                @unknown default:
+            @unknown default:
                 break
             }
         }
@@ -209,7 +209,7 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! MainPhotoListCell
         let photo = firestoreManager.photoList[indexPath.row]
         self.showLoadingIndicator()
-        stoageManager.downloadImage(urlString: photo.image) {  image in
+        stoageManager.downloadImage(urlString: photo.image) { image in
             DispatchQueue.main.async {
                 cell.photoImage.image = image
                 if let unwrappedImage = image {
@@ -221,10 +221,10 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             self.hideLoadingIndicator()
         }
-        
+
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailVC()
         photoDetailVC.photoData = firestoreManager.photoList[indexPath.row]

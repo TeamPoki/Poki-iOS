@@ -223,14 +223,15 @@ final class MyPageVC: UIViewController {
     }
     
     @objc private func bookMarkButtonTapped() {
-        let bookMarkViewController = LikedPoseVC()
-        navigationController?.pushViewController(bookMarkViewController, animated: true)
+        let likedPoseVC = LikedPoseVC()
+        likedPoseVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(likedPoseVC, animated: true)
     }
     
     @objc private func modifyProfileButtonTapped() {
-        let modifyProfileViewController = ProfileEditVC()
-        modifyProfileViewController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(modifyProfileViewController, animated: true)
+        let profileEditVC = ProfileEditVC()
+        profileEditVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(profileEditVC, animated: true)
     }
 }
 
@@ -290,6 +291,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let settingsVC = SettingsVC()
+                settingsVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(settingsVC, animated: true)
         case 1:
             if MFMailComposeViewController.canSendMail() {

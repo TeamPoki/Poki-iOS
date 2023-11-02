@@ -16,11 +16,11 @@ final class LikedPoseImageDetailVC: UIViewController {
         $0.contentMode = .scaleAspectFit
         $0.frame = self.view.bounds
         view.addSubview($0)
-        }
+    }
     
     var isSelected = true
     
-    var bookmarkButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(customBarButtonTapped))
+    lazy var bookmarkButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(customBarButtonTapped))
  
     var url: String? {
         didSet {
@@ -43,14 +43,8 @@ final class LikedPoseImageDetailVC: UIViewController {
         configureNav()
         bookmarkButton = UIBarButtonItem(image: isSelected ? UIImage(systemName: "star.fill") : UIImage(systemName: "star"), style: .plain, target: self, action: #selector(customBarButtonTapped))
         navigationItem.rightBarButtonItem = bookmarkButton
-        self.tabBarController?.tabBar.isHidden = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
+
     // MARK: - Helpers
     
     private func configureNav() {
@@ -64,7 +58,6 @@ final class LikedPoseImageDetailVC: UIViewController {
         storageManager.downloadImage(urlString: url) { [weak self] image in
             self?.poseImageView.image = image
         }
-        
     }
     
     // MARK: - Actions
@@ -86,5 +79,4 @@ final class LikedPoseImageDetailVC: UIViewController {
             self.isSelected = true
         }
     }
-    
 }

@@ -76,6 +76,7 @@ final class ProfileEditVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
+        dissmissKeyboardGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -142,8 +143,11 @@ final class ProfileEditVC: UIViewController {
                     userImageView.image = image }
             }
         }
-        
-        
+    }
+    
+    private func dissmissKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     // MARK: - Actions
@@ -165,16 +169,15 @@ final class ProfileEditVC: UIViewController {
         storageManager.userImageUpload(image: userImageView.image ?? UIImage()) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success((let photoURL)):
-                firestoreManager.userProfileUpdate(documentPath: userData, name: nicknameTextField.text ?? "", image: photoURL.absoluteString, vc: self)
-                firestoreManager.photoDelete(documentPath: userData)
-                firestoreManager.userRealTimebinding()
-            case .failure(let error):
-                print("Error uploading images: \(error.localizedDescription)")
-                // 오류 처리
+                case .success((let photoURL)):
+                    firestoreManager.userProfileUpdate(documentPath: userData, name: nicknameTextField.text ?? "", image: photoURL.absoluteString, vc: self)
+                    firestoreManager.photoDelete(documentPath: userData)
+                    firestoreManager.userRealTimebinding()
+                case .failure(let error):
+                    print("Error uploading images: \(error.localizedDescription)")
+                    // 오류 처리
             }
         }
-     
     }
     
     @objc private func textFieldEditingChanged() {
@@ -183,6 +186,10 @@ final class ProfileEditVC: UIViewController {
         } else {
             hintLabel.isHidden = true
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 

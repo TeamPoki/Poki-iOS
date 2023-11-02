@@ -87,7 +87,8 @@ final class CarouselFlowLayout: UICollectionViewFlowLayout {
     
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         guard let collectionView = self.collectionView,
-              let nearestAttribute = findNearestAttribute(toX: proposedContentOffset.x) else {
+              let nearestAttribute = findNearestAttribute(toX: proposedContentOffset.x)
+        else {
             return super.targetContentOffset(forProposedContentOffset: proposedContentOffset, withScrollingVelocity: velocity)
         }
         

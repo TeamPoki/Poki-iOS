@@ -33,12 +33,6 @@ final class SettingsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - Helpers
@@ -73,6 +67,7 @@ final class SettingsVC: UIViewController {
         }
     }
 }
+
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
@@ -105,11 +100,13 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedData = data[indexPath.row]
         if selectedData == "공지사항" {
-            let noticeListViewController = NoticeListVC()
-            navigationController?.pushViewController(noticeListViewController, animated: true)
+            let noticeListVC = NoticeListVC()
+            navigationController?.pushViewController(noticeListVC, animated: true)
+            noticeListVC.hidesBottomBarWhenPushed = true
         } else if selectedData == "탈퇴하기" {
-            let accountDeletionViewController = AccountDeletionVC()
-            navigationController?.pushViewController(accountDeletionViewController, animated: true)
+            let accountDeletionVC = AccountDeletionVC()
+            navigationController?.pushViewController(accountDeletionVC, animated: true)
+            accountDeletionVC.hidesBottomBarWhenPushed = true
         } else if selectedData == "개인정보 처리방침" {
             openSFSafariPrivacyPolicy()
         } else if selectedData == "서비스 이용약관" {

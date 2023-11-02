@@ -10,43 +10,44 @@ import Then
 import SnapKit
 
 final class AccountDeletionVC: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     let authManager = AuthManager.shared
     let firestoreManager = FirestoreManager.shared
-    
+
     private let infoTexts = [
         "탈퇴 후에는 저장한 인생네컷을 수정, 삭제하실 수 없습니다. 탈퇴 하시기 전에 확인해주세요!",
         "탈퇴 하시게 되면 등록, 저장했던 모든 정보는 삭제되어 복구할 수 없습니다.",
         "이상의 내용에 동의하여 탈퇴를 원하실 경우, 아래의 동의 체크박스 버튼을 클릭하고 탈퇴하기 버튼을 눌러주세요."
     ]
-    
+
     // MARK: - Size
+
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
         let frame = CGRect(x: 60, y: 710, width: width, height: Constants.toastHeight)
         return frame
     }
-    
+
     private let titleLabel = UILabel().then {
         $0.text = "정말 떠나시는 건가요?"
         $0.font = UIFont(name: Constants.fontSemiBold, size: 24)
     }
-    
+
     private lazy var infoViews: [UIStackView] = infoTexts.map { text in
         let icon = UIImageView().then {
             $0.image = UIImage(systemName: "exclamationmark.triangle")
             $0.tintColor = Constants.separatorGrayColor
         }
-            
+
         let label = UILabel().then {
             $0.text = text
             $0.numberOfLines = 0
             $0.lineBreakMode = .byWordWrapping
             $0.font = UIFont(name: Constants.fontRegular, size: 14)
         }
-            
+
         let stackView = UIStackView(arrangedSubviews: [icon, label]).then {
             $0.axis = .horizontal
             $0.spacing = 8
@@ -58,7 +59,7 @@ final class AccountDeletionVC: UIViewController {
         }
         return stackView
     }
-    
+
     private lazy var checkBoxButton = UIButton().then {
         $0.setImage(UIImage(systemName: "square"), for: .normal)
         $0.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
@@ -103,54 +104,41 @@ final class AccountDeletionVC: UIViewController {
     private let scrollView = UIScrollView().then {
         $0.isScrollEnabled = true
     }
-    
+
     private let contentView = UIView()
-    
+
     // MARK: - Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
+        dissmissKeyboardGesture()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+
         self.extendedLayoutIncludesOpaqueBars = true
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
+
     // MARK: - Helpers
-    
+
     private func configureNav() {
         navigationItem.title = "회원탈퇴"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.configureBasicAppearance()
     }
-    
+
     private func configureUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubviews(titleLabel, checkBoxStackView, reasonLabel, reasonTextView, withdrawButton)
         infoViews.forEach(contentView.addSubview)
-        
+
         reasonTextView.delegate = self
         reasonTextView.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 0)
-        
+
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
@@ -204,6 +192,11 @@ final class AccountDeletionVC: UIViewController {
         }
     }
 
+    private func dissmissKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
     // MARK: - Actions
 
     @objc private func handleCheckBox(button: UIButton) {
@@ -219,7 +212,7 @@ final class AccountDeletionVC: UIViewController {
             checkBoxLabel.textColor = .lightGray
         }
     }
-    
+
     @objc func withdrawButtonTapped() {
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
@@ -245,14 +238,13 @@ final class AccountDeletionVC: UIViewController {
             sceneDelegate.changeRootViewController(rootVC)
             UserDefaults.standard.set(false, forKey: "LoginStatus")
             UserDataManager.deleteUserEmail()
-           
         }
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
@@ -268,7 +260,7 @@ final class AccountDeletionVC: UIViewController {
 
         let activeTextFieldRect: CGRect = reasonTextView.convert(reasonTextView.bounds, to: scrollView)
         let activeTextFieldBottom = activeTextFieldRect.origin.y + activeTextFieldRect.size.height
-        
+
         if !aRect.contains(CGPoint(x: 0, y: activeTextFieldBottom)) {
             scrollView.scrollRectToVisible(activeTextFieldRect, animated: true)
         }
@@ -294,14 +286,14 @@ extension AccountDeletionVC: UITextViewDelegate {
             textView.textColor = UIColor.black
         }
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "떠나는 이유를 50자 이내로 입력해주세요."
             textView.textColor = UIColor.lightGray
         }
     }
-    
+
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }

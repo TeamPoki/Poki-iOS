@@ -80,6 +80,7 @@ final class AddPhotoVC: UIViewController {
             addPhotoView.memoTextField.text = photoData.memo
             addPhotoView.tagImageView.kf.setImage(with: tagImageURL)
             addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
+            addPhotoView.addButton.setTitle("수정하기", for: .normal)
         default:
             break
         }
@@ -102,11 +103,10 @@ final class AddPhotoVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    
     // MARK: - Actions
     
     @objc private func handleCloseButton() {
-        let alert = UIAlertController(title: nil, message: "페이지 나가기", preferredStyle: .alert)
+        let alert = UIAlertController(title: "페이지 나가기", message: "정말로 페이지를 나가시겠습니까?\n입력된 정보는 사라집니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "종료", style: .destructive, handler: { _ in
             if let navigationController = self.navigationController, let mainPageVC = navigationController.viewControllers.first(where: { $0 is MainPageVC }) {
@@ -273,7 +273,7 @@ final class AddPhotoVC: UIViewController {
     
     // 이미지 제한 함수
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
-        let maxSizeInBytes: Int = 4 * 1024 * 1024
+        let maxSizeInBytes = 4 * 1024 * 1024
         if let imageData = image.jpegData(compressionQuality: 1.0) {
             if imageData.count > maxSizeInBytes {
                 let alertController = UIAlertController(title: "경고", message: "이미지 파일이 너무 큽니다.", preferredStyle: .alert)
@@ -313,7 +313,7 @@ extension AddPhotoVC: PHPickerViewControllerDelegate {
     }
 }
 
-//MARK: - UIViewControllerTransitioningDelegate
+// MARK: - UIViewControllerTransitioningDelegate
 
 extension AddPhotoVC: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
@@ -325,7 +325,7 @@ extension AddPhotoVC: UIViewControllerTransitioningDelegate {
     }
 }
 
-//MARK: - TagSelectionDelegate
+// MARK: - TagSelectionDelegate
 
 extension AddPhotoVC: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
