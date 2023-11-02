@@ -198,12 +198,12 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 if let unwrappedImage = image {
                     cell.setGradient(image: unwrappedImage)
                 }
+                cell.titleLabel.text = photo.memo
+                cell.dateLabel.text = photo.date
+                cell.tagLabel.text = photo.tag.tagLabel
             }
         }
         
-        cell.titleLabel.text = photo.memo
-        cell.dateLabel.text = photo.date
-        cell.tagLabel.text = photo.tag.tagLabel
         return cell
     }
     
