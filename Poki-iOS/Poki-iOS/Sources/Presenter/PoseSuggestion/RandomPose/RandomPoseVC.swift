@@ -42,7 +42,7 @@ final class RandomPoseVC: UIViewController {
     private lazy var bookmarkButton = UIButton().then {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 25)
         $0.setImage(UIImage(systemName: self.bookmarkButtonImageName, withConfiguration: imageConfig), for: .normal)
-        $0.layer.cornerRadius = 55 / 2
+        $0.layer.cornerRadius = 25
         $0.tintColor = UIColor.yellow
         $0.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
     }
@@ -116,8 +116,8 @@ final class RandomPoseVC: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
         bookmarkButton.snp.makeConstraints {
-            $0.height.equalTo(55)
-            $0.width.equalTo(55)
+            $0.height.equalTo(50)
+            $0.width.equalTo(50)
         }
         refreshButton.snp.makeConstraints {
             $0.height.equalTo(50)

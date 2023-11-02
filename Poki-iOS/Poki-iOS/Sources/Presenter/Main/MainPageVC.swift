@@ -18,10 +18,14 @@ final class MainPageVC: UIViewController {
     private let stoageManager = StorageManager.shared
 
     private var photoListCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        let layout = CarouselFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.7)
+        layout.sideItemScale = 175/251
+        layout.spacing = -190
+        layout.sideItemAlpha = 0.5
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
@@ -112,7 +116,6 @@ final class MainPageVC: UIViewController {
 
         photoListCollectionView.delegate = self
         photoListCollectionView.dataSource = self
-        photoListCollectionView.isPagingEnabled = true
 
         photoListCollectionView.register(MainPhotoListCell.self, forCellWithReuseIdentifier: "PhotoCell")
     }
@@ -214,51 +217,6 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         photoDetailVC.indexPath = indexPath
         photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension MainPageVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width * 0.8, height: collectionView.frame.height * 0.7)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: collectionView.frame.width * 0.1, bottom: 20, right: collectionView.frame.width * 0.1)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return -collectionView.frame.width * 0.2
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        updateCellAppearance(cell: cell, in: collectionView)
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        for cell in photoListCollectionView.visibleCells {
-            updateCellAppearance(cell: cell, in: photoListCollectionView)
-        }
-    }
-
-    private func updateCellAppearance(cell: UICollectionViewCell, in collectionView: UICollectionView) {
-        let distanceFromCenter = abs(collectionView.frame.width / 2 - cell.center.x + collectionView.contentOffset.x)
-        let scale = max(0.75, 1 - distanceFromCenter / collectionView.frame.width)
-
-        cell.transform = CGAffineTransform(scaleX: scale, y: scale)
-        // 셀의 중앙 위치에서 얼마나 떨어져 있는지에 따라 알파 값을 조절
-        if distanceFromCenter > collectionView.frame.width / 2 {
-            cell.alpha = 0
-        } else {
-            cell.alpha = 1 - (distanceFromCenter / (collectionView.frame.width / 2))
-        }
-
-        cell.layer.shadowColor = UIColor.black.cgColor
-        cell.layer.shadowOpacity = 0.3
-        cell.layer.shadowOffset = CGSize(width: 0, height: 5)
-        cell.layer.shadowRadius = 10
-        cell.layer.masksToBounds = false
     }
 }
 

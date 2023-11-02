@@ -39,6 +39,7 @@
 		EB98AF3B2ADBC4D9008586BC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3A2ADBC4D9008586BC /* Extensions.swift */; };
 		EB98AF402ADBDF6B008586BC /* AddPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF3F2ADBDF6B008586BC /* AddPhotoVC.swift */; };
 		EB98AF422ADBDF7D008586BC /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB98AF412ADBDF7D008586BC /* SettingsVC.swift */; };
+		EBC0AA682AF358100003CC31 /* CarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC0AA672AF358100003CC31 /* CarouselFlowLayout.swift */; };
 		EBC495E52ADF7E2E001EE564 /* MainPhotoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495E42ADF7E2E001EE564 /* MainPhotoListCell.swift */; };
 		EBC495ED2AE0111D001EE564 /* MyPageMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC495EC2AE0111D001EE564 /* MyPageMenuCell.swift */; };
 		EBD4B6AA2AE94174007CDFD7 /* QRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD4B6A92AE94174007CDFD7 /* QRCodeVC.swift */; };
@@ -100,6 +101,7 @@
 		EB98AF3A2ADBC4D9008586BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EB98AF3F2ADBDF6B008586BC /* AddPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoVC.swift; sourceTree = "<group>"; };
 		EB98AF412ADBDF7D008586BC /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		EBC0AA672AF358100003CC31 /* CarouselFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselFlowLayout.swift; sourceTree = "<group>"; };
 		EBC495E42ADF7E2E001EE564 /* MainPhotoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainPhotoListCell.swift; path = "Poki-iOS/Sources/Presenter/Main/MainPhotoListCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBC495EC2AE0111D001EE564 /* MyPageMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MyPageMenuCell.swift; path = "Poki-iOS/Sources/Presenter/MyPage/MyPageMenuCell.swift"; sourceTree = SOURCE_ROOT; };
 		EBD4B6A92AE94174007CDFD7 /* QRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeVC.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				EB98AF262ADB93D7008586BC /* MainPageVC.swift */,
+				EBC0AA672AF358100003CC31 /* CarouselFlowLayout.swift */,
 				EBD4B6A92AE94174007CDFD7 /* QRCodeVC.swift */,
 				EBC495E42ADF7E2E001EE564 /* MainPhotoListCell.swift */,
 				26F0482E2AF1EEE60050E27B /* EmptyPhotoListView.swift */,
@@ -511,6 +514,7 @@
 				26F0482D2AF12E150050E27B /* EmptyLikedPoseView.swift in Sources */,
 				F9030B2A2ADE1EEE007C5043 /* TagCell.swift in Sources */,
 				EBC495E52ADF7E2E001EE564 /* MainPhotoListCell.swift in Sources */,
+				EBC0AA682AF358100003CC31 /* CarouselFlowLayout.swift in Sources */,
 				EB98AF422ADBDF7D008586BC /* SettingsVC.swift in Sources */,
 				EBF75BDE2AE24C7F00A11652 /* ProfileEditVC.swift in Sources */,
 				EB98AF232ADB9390008586BC /* MyPageVC.swift in Sources */,
