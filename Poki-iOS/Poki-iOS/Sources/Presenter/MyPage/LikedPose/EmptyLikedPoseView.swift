@@ -31,12 +31,11 @@ class EmptyLikedPoseView: UIView {
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
     }
     
-    private let poseRecommendButton = UIButton().then {
+    let poseRecommendButton = UIButton().then {
         $0.setTitle("포즈 추천 하러가기", for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontRegular, size: 16)
         $0.setTitleColor(.lightGray, for: .normal)
         $0.backgroundColor = .white
-        $0.addTarget(EmptyLikedPoseView.self, action: #selector(poseRecommendButtonTapped), for: .touchUpInside)
         
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.lightGray.cgColor
@@ -76,7 +75,4 @@ class EmptyLikedPoseView: UIView {
     }
     
     // MARK: - Actions
-    @objc private func poseRecommendButtonTapped() {
-        // 포즈 추천 페이지 이동 메서드
-    }
 }
