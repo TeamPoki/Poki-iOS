@@ -90,8 +90,7 @@ final class LikedPoseVC: UIViewController {
         super.viewWillAppear(animated)
         print(11)
         configureNav()
-        self.imageDatas = bookmarkImageData(category: poseCategory)
-        likedPoseCollectionView.reloadData()
+        updateCollectionViewForCategory(poseCategory)
         self.tabBarController?.tabBar.isHidden = true
     }
     
