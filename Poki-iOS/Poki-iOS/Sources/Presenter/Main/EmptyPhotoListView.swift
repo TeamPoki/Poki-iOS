@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class EmptyPhotoListView: UIView {
+final class EmptyPhotoListView: UIView {
     
     // MARK: - Properties
 
