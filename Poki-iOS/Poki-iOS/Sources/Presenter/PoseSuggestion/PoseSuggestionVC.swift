@@ -24,6 +24,8 @@ final class PoseSuggestionVC: UIViewController {
     
     // MARK: - Properties
     
+    let firestoreManager =  FirestoreManager.shared
+    
     private lazy var commentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont(name: Constants.fontSemiBold, size: 26)
@@ -67,6 +69,7 @@ final class PoseSuggestionVC: UIViewController {
         configure()
         addSubviews()
         setupLayout()
+        firestoreManager.poseRealTimebinding { _ in }
     }
     
     override func viewWillAppear(_ animated: Bool) {

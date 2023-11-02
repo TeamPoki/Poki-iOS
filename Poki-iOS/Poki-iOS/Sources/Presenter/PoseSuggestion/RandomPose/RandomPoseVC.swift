@@ -22,9 +22,8 @@ final class RandomPoseVC: UIViewController {
     // MARK: - Properties
     
     private var selectedCategory: Category?
-    private var poseImages: [UIImage?] = []
-    private  var imageDatas: [ImageData] = []
-    private var imageData:ImageData?
+    var isSelected = false
+    var urlData = ""
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
@@ -69,7 +68,6 @@ final class RandomPoseVC: UIViewController {
         configureUI()
         addSubviews()
         setupLayout()
-        firestoreManager.poseRealTimebinding()
     }
     
     
@@ -130,21 +128,43 @@ final class RandomPoseVC: UIViewController {
         self.selectedCategory = selectCategory
            switch selectCategory {
            case .alone:
-               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "alone" }
-               self.imageData = imageDatas.randomElement()
+               guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "alone" }).randomElement() else { return }
+               let url = Arraydata.imageUrl
+               let isSelected = Arraydata.isSelected
+               storageManager.downloadImage(urlString: url) { [weak self] image in
+                      DispatchQueue.main.async {
+                          self?.poseImageView.image = image
+                          self?.isSelected = isSelected
+                          self?.urlData = url
+                          self?.loadButtonData()
+                      }
+                  }
            case .twoPeople:
-               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "twoPose" }
-               self.imageData = imageDatas.randomElement()
+               guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "twoPose" }).randomElement() else { return }
+               let url = Arraydata.imageUrl
+               let isSelected = Arraydata.isSelected
+               storageManager.downloadImage(urlString: url) { [weak self] image in
+                      DispatchQueue.main.async {
+                          self?.poseImageView.image = image
+                          self?.isSelected = isSelected
+                          self?.urlData = url
+                          self?.loadButtonData()
+                      }
+                  }
            case .manyPeople:
-               self.imageDatas = firestoreManager.poseData.filter{ $0.category == "manyPose" }
-               self.imageData = imageDatas.randomElement()
+               guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "manyPose" }).randomElement() else { return }
+               let url = Arraydata.imageUrl
+               let isSelected = Arraydata.isSelected
+               storageManager.downloadImage(urlString: url) { [weak self] image in
+                      DispatchQueue.main.async {
+                          self?.poseImageView.image = image
+                          self?.isSelected = isSelected
+                          self?.urlData = url
+                          self?.loadButtonData()
+                      }
+                  }
            }
-        guard let imageData = imageData else { return }
-        storageManager.downloadImage(urlString: imageData.imageUrl) { [weak self] image in
-               DispatchQueue.main.async {
-                   self?.poseImageView.image = image
-               }
-           }
+
     }
     
 
@@ -152,42 +172,80 @@ final class RandomPoseVC: UIViewController {
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        self.imageData = self.imageDatas.randomElement()
-        guard let imageData = imageData else { return }
-        storageManager.downloadImage(urlString: imageData.imageUrl) { [weak self] image in
-               DispatchQueue.main.async {
-                   self?.poseImageView.image = image
-                   self?.loadButtonData()
+        switch selectedCategory {
+        case .alone:
+            guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "alone" }).randomElement() else { return }
+            let url = Arraydata.imageUrl
+            let isSelected = Arraydata.isSelected
+            storageManager.downloadImage(urlString: url) { [weak self] image in
+                   DispatchQueue.main.async {
+                       self?.poseImageView.image = image
+                       self?.isSelected = isSelected
+                       self?.urlData = url
+                       self?.loadButtonData()
+                   }
                }
-           }
+        case .twoPeople:
+            guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "twoPose" }).randomElement() else { return }
+            let url = Arraydata.imageUrl
+            let isSelected = Arraydata.isSelected
+            storageManager.downloadImage(urlString: url) { [weak self] image in
+                   DispatchQueue.main.async {
+                       self?.poseImageView.image = image
+                       self?.isSelected = isSelected
+                       self?.urlData = url
+                       self?.loadButtonData()
+                   }
+               }
+        case .manyPeople:
+            guard let Arraydata = firestoreManager.poseData.filter({ $0.category == "manyPose" }).randomElement() else { return }
+            let url = Arraydata.imageUrl
+            let isSelected = Arraydata.isSelected
+            storageManager.downloadImage(urlString: url) { [weak self] image in
+                   DispatchQueue.main.async {
+                       self?.poseImageView.image = image
+                       self?.isSelected = isSelected
+                       self?.urlData = url
+                       self?.loadButtonData()
+                   }
+               }
+        case .none:
+            break
+        }
+        
     }
     
     @objc private func bookmarkButtonTapped() {
-        guard let imageData = imageData else { return }
         switch selectedCategory {
         case .alone:
-            if imageData.isSelected == false {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+            if isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: true)
                 self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                isSelected = true
             } else {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: false)
                 self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+                isSelected = false
             }
         case .twoPeople:
-            if imageData.isSelected == false {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+            if isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: true)
                 self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                isSelected = true
             } else {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: false)
                 self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+                isSelected = false
             }
         case .manyPeople:
-            if imageData.isSelected == false {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: true)
+            if isSelected == false {
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: true)
                 self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                isSelected = true
             } else {
-                firestoreManager.poseImageUpdate(imageUrl: imageData.imageUrl, isSelected: false)
+                firestoreManager.poseImageUpdate(imageUrl: urlData, isSelected: false)
                 self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+                isSelected = false
             }
         case .none:
             print("category 미분류 데이터")
@@ -196,18 +254,22 @@ final class RandomPoseVC: UIViewController {
     }
     
     private func loadButtonData() {
-        firestoreManager.poseRealTimebinding()
-        guard let imageData = imageData else { return }
-        switch selectedCategory {
-        case .alone, .twoPeople, .manyPeople:
-            if imageData.isSelected {
-                self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            } else {
-                self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+        firestoreManager.poseRealTimebinding { [weak self] images in
+            guard let self = self else { return }
+            
+            switch selectedCategory {
+            case .alone, .twoPeople, .manyPeople:
+                if isSelected {
+                    self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                } else {
+                    self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
+                }
+            case .none:
+                print("category 미분류 데이터")
+                break
             }
-        case .none:
-            print("category 미분류 데이터")
-            break
         }
     }
+    
+    
 }

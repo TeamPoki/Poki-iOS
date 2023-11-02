@@ -101,7 +101,6 @@ final class FirestoreManager {
                 // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
                 let data = doc.data()
                 if let photo = self.createPhotoFromData(data) {
-                    print("photo data load 완료")
                     return photo
                 }
                 return nil
@@ -245,9 +244,11 @@ final class FirestoreManager {
                     print("Error updating document: \(error)")
                 } else {
                     print("Document updated successfully.")
+                    
                 }
             }
         }
+        poseRealTimebinding { _ in}
     }
     
     
@@ -264,7 +265,6 @@ final class FirestoreManager {
                 // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
                 let data = doc.data()
                 if let userData = self.createUserFromData(data) {
-                    print("photo data load 완료")
                     return userData
                 }
                 return nil
@@ -272,7 +272,26 @@ final class FirestoreManager {
         }
     }
     
-    func poseRealTimebinding() {
+//    func poseRealTimebinding() {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let docRef = db.collection("users/\(userUID)/Image")
+//        docRef.addSnapshotListener { (snapshot, error) in
+//            guard let documents = snapshot?.documents else {
+//                print("Error Firestore fetching document: \(String(describing: error))")
+//                return
+//            }
+//            self.poseData = documents.compactMap { doc -> ImageData? in
+//                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
+//                let data = doc.data()
+//                if let poseData = self.createImageFromData(data) {
+//                    return poseData
+//                }
+//                return nil
+//            }
+//        }
+//    }
+    
+    func poseRealTimebinding(completion: @escaping ([ImageData]) -> Void) {
         guard let userUID = authManager.currentUserUID else { return }
         let docRef = db.collection("users/\(userUID)/Image")
         docRef.addSnapshotListener { (snapshot, error) in
@@ -281,18 +300,19 @@ final class FirestoreManager {
                 return
             }
             self.poseData = documents.compactMap { doc -> ImageData? in
-                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
+                // Firestore 스냅샷에서 필요한 데이터를 가져와 ImageData 모델에 직접 할당
                 let data = doc.data()
                 if let poseData = self.createImageFromData(data) {
-                    print("photo data load 완료")
                     return poseData
                 }
                 return nil
             }
+            
+            // 업데이트된 데이터를 completion 핸들러를 통해 전달
+            completion(self.poseData)
         }
     }
-    
-    
+
     
    
     
