@@ -30,18 +30,18 @@ final class AddPhotoView: UIView {
         $0.text = "날짜"
     }
     
-    let dateTextField = UITextField().then {
+    lazy var dateTextField = UITextField().then {
         $0.textColor = .gray
         $0.backgroundColor = Constants.textFieldBackgroundColor
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
         $0.clearsOnBeginEditing = false
-        $0.placeholder = "날짜를 선택해 주세요"
         $0.layer.cornerRadius = 7
         $0.tintColor = .clear
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
         $0.leftViewMode = .always
+        $0.text = getCurrentDate()
     }
     
     let datePicker = UIDatePicker().then {
@@ -229,4 +229,13 @@ final class AddPhotoView: UIView {
             imageStackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
+    
+    private func getCurrentDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: Date())
+    }
+
+    
 }
