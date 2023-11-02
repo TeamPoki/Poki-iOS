@@ -34,6 +34,8 @@ final class AddPhotoVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
+    var addPhotoCompletionHandler: (Photo) -> Void = { photo in }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
