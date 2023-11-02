@@ -39,18 +39,6 @@ final class FirestoreManager {
         return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
     }
     
-    func photoCreate(image: String, date: String, memo: String, tagText: String, tagImage: String) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let newDocumentRef = db.collection("users/\(userUID)/Photo").document()
-        let phothData = Photo(documentReference: newDocumentRef.path, image: image, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagImage))
-        do {
-            try newDocumentRef.setData(from: phothData)
-            print("Document added successfully.")
-        } catch let error {
-            print("Error adding document: \(error)")
-        }
-    }
-    
     func photoUpdate(documentPath: String, image: String, date: String, memo: String, tagText: String, tagImage: String) {
         guard let userUID = authManager.currentUserUID else { return }
         let documentComponents = documentPath.components(separatedBy: "/")

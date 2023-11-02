@@ -13,6 +13,7 @@ final class StorageManager {
     static let shared = StorageManager()
     private init() {}
     
+    // 아직 다른곳에서 사용하고 있어서 삭제 안했습니다. 추후 메서드 리팩토링 시 삭제 예정
     func photoUploadImage(image: [UIImage], date: String, memo: String, tagText: String, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
         guard let userUID = authManager.currentUserUID else { return }
         guard image.count >= 2 else {

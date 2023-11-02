@@ -189,26 +189,6 @@ final class AddPhotoVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func uploadAndCreateImageData(image: [UIImage], date: String, memo: String, tagText: String) {
-        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
-            switch result {
-            case .success((let photoURL, let tagURL)):
-                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
-                self.createImageData(photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
-                
-            case .failure(let error):
-                print("Error uploading images: \(error.localizedDescription)")
-                // 오류 처리
-            }
-        }
-    }
-    
-    func uploadPhoto(images: [UIImage], completion: @escaping (Result<(URL, URL), Error>) -> Void) {
-        storageManager.uploadPhotoImage(image: images) { result in
-            completion(result)
-        }
-    }
-    
     func createPhoto(photoImageURL: URL, date: String, memo: String, tagImageURL: URL, tagText: String, completion: (DocumentReference, Photo) -> Void) {
         let photoStringURL = photoImageURL.absoluteString
         let tagStringURL = tagImageURL.absoluteString
@@ -217,14 +197,10 @@ final class AddPhotoVC: UIViewController {
         }
     }
     
-    // Firestore에 데이터 생성 및 저장
-    private func createImageData(photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
-        // URL을 문자열로 변환
-        let photoURLString = photoURL.absoluteString
-        let tagURLString = tagURL.absoluteString
-        
-        // Firestore에 데이터 생성
-        firestoreManager.photoCreate(image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+    func uploadPhoto(images: [UIImage], completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+        storageManager.uploadPhotoImage(image: images) { result in
+            completion(result)
+        }
     }
     
     func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
