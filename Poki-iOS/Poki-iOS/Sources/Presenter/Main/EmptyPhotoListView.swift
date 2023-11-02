@@ -12,6 +12,7 @@ import Then
 class EmptyPhotoListView: UIView {
     
     // MARK: - Properties
+
     private let emptyImageView: UIImageView = {
         let imageView = UIImageView()
         if let image = UIImage(systemName: "rectangle.portrait.on.rectangle.portrait.slash.fill") {
@@ -51,19 +52,19 @@ class EmptyPhotoListView: UIView {
         super.init(frame: frame)
         setupViews()
     }
+
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupViews()
+        fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: - Helpers
     
     private func setupViews() {
-        addSubviews(stackView)
+        addSubview(stackView)
         
-        stackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-50)
+        stackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-10)
         }
     }
-    
 }

@@ -16,6 +16,7 @@ final class MainPageVC: UIViewController {
     
     private let firestoreManager = FirestoreManager.shared
     private let stoageManager = StorageManager.shared
+    private let emptyPhotoListView = EmptyPhotoListView()
 
     private var photoListCollectionView: UICollectionView = {
         let layout = CarouselFlowLayout()
@@ -42,6 +43,7 @@ final class MainPageVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
+        updateEmptyPhotoListViewVisibility()
         navigationController?.navigationBar.tintColor = .black
     }
 
@@ -127,6 +129,19 @@ final class MainPageVC: UIViewController {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true, completion: nil)
+    }
+    
+    private func updateEmptyPhotoListViewVisibility() {
+        if firestoreManager.photoList.isEmpty {
+            view.addSubview(emptyPhotoListView)
+            emptyPhotoListView.snp.makeConstraints {
+                $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+                $0.left.right.equalToSuperview()
+            }
+        } else {
+            emptyPhotoListView.removeFromSuperview()
+        }
     }
 
     // MARK: - Actions

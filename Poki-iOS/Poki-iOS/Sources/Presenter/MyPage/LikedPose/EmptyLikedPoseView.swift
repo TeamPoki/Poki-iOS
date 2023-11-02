@@ -60,8 +60,7 @@ class EmptyLikedPoseView: UIView {
         setupViews()
     }
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupViews()
+        fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Helpers
     
