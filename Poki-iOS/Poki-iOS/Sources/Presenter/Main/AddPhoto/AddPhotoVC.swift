@@ -203,6 +203,20 @@ final class AddPhotoVC: UIViewController {
         }
     }
     
+    func uploadPhoto(images: [UIImage], completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+        storageManager.uploadPhotoImage(image: images) { result in
+            completion(result)
+        }
+    }
+    
+    func createPhoto(photoImageURL: URL, date: String, memo: String, tagImageURL: URL, tagText: String, completion: (DocumentReference, Photo) -> Void) {
+        let photoStringURL = photoImageURL.absoluteString
+        let tagStringURL = tagImageURL.absoluteString
+        firestoreManager.createPhotoData(photoURL: photoStringURL, date: date, memo: memo, tagURL: tagStringURL, tagText: tagText) { docRef, photo in
+            completion(docRef, photo)
+        }
+    }
+    
     // Firestore에 데이터 생성 및 저장
     private func createImageData(photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
         // URL을 문자열로 변환
