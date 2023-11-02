@@ -260,9 +260,16 @@ final class AddPhotoVC: UIViewController {
             guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
             switch self.viewSeperated {
             case .new:
-                
-                uploadAndCreateImageData(image: [image, tagImage], date: date, memo: memo, tagText: tagText)
-                
+                self.uploadPhoto(images: [image, tagImage]) { result in
+                    switch result {
+                    case .success((let photoURL, let tagURL)):
+                        self.createPhoto(photoImageURL: photoURL, date: date, memo: memo, tagImageURL: tagURL, tagText: tagText) { docRef, photo in
+                            self.addPhotoCompletionHandler(photo)
+                        }
+                    case .failure(let error):
+                        print("AddPageVC - 포토, 태그 이미지 업로드 실패 \(error)")
+                    }
+                }
             // Update 메서드
             case .edit:
                 guard let photoData = photoData else { return }
