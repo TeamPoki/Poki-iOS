@@ -43,7 +43,6 @@ final class MainPageVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
-        updateEmptyPhotoListViewVisibility()
         navigationController?.navigationBar.tintColor = .black
     }
 
@@ -131,7 +130,7 @@ final class MainPageVC: UIViewController {
         present(picker, animated: true, completion: nil)
     }
     
-    private func updateEmptyPhotoListViewVisibility() {
+    func updateEmptyPhotoListViewVisibility() {
         if firestoreManager.photoList.isEmpty {
             view.addSubview(emptyPhotoListView)
             emptyPhotoListView.snp.makeConstraints {

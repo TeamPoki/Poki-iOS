@@ -106,6 +106,8 @@ final class FirestoreManager {
                 return nil
             }
             collectionView.reloadData()
+            guard let updateMainVC = collectionView.delegate as? MainPageVC else { return }
+            updateMainVC.updateEmptyPhotoListViewVisibility()
         }
     }
     

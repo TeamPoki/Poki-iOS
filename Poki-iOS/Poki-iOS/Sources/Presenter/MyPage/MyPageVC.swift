@@ -231,11 +231,9 @@ final class MyPageVC: UIViewController {
         modifyProfileViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(modifyProfileViewController, animated: true)
     }
-
-    
 }
 
-// MARK: - Extension
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
