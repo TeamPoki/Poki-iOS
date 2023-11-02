@@ -191,19 +191,20 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! MainPhotoListCell
         let photo = firestoreManager.photoList[indexPath.row]
-        
+        self.showLoadingIndicator()
         stoageManager.downloadImage(urlString: photo.image) {  image in
             DispatchQueue.main.async {
                 cell.photoImage.image = image
                 if let unwrappedImage = image {
                     cell.setGradient(image: unwrappedImage)
                 }
+                cell.titleLabel.text = photo.memo
+                cell.dateLabel.text = photo.date
+                cell.tagLabel.text = photo.tag.tagLabel
             }
+            self.hideLoadingIndicator()
         }
         
-        cell.titleLabel.text = photo.memo
-        cell.dateLabel.text = photo.date
-        cell.tagLabel.text = photo.tag.tagLabel
         return cell
     }
     
