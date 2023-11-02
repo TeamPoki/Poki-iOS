@@ -43,7 +43,8 @@ final class PhotoDetailVC: UIViewController {
         $0.distribution = .fill
         $0.alignment = .fill
     }
-    
+   
+
     private let backgroundImageView = UIImageView()
     
     private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
@@ -193,4 +194,7 @@ final class PhotoDetailVC: UIViewController {
     private func deleteMenuTapped() {
         showAlertMessage()
     }
+    
+ 
+    
 }

@@ -25,6 +25,9 @@ final class LikedPoseVC: UIViewController {
     private var photos: [UIImage?] = []
     private var imageDatas:[ImageData] = []
     
+    var urlData = ""
+    var poseCategory: PoseCategory = .alone
+    
     private let barColor = UIView()
     private let contentView = UIView().then {
         $0.backgroundColor = .white
@@ -79,14 +82,15 @@ final class LikedPoseVC: UIViewController {
         likedPoseCollectionViewUI()
         configureNav()
         firestoreManager.poseRealTimebinding { _ in }
-        updateCollectionViewForCategory(.alone)
         showBarColorForLabel(poseOne)
+        self.imageDatas = bookmarkImageData(category: .alone)
     }
-    // 데이터의 근원
-    // 레이아웃 , 뷰, - 데이터 - 액션
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(11)
         configureNav()
+        self.imageDatas = bookmarkImageData(category: poseCategory)
         likedPoseCollectionView.reloadData()
         self.tabBarController?.tabBar.isHidden = true
     }
@@ -187,52 +191,42 @@ final class LikedPoseVC: UIViewController {
     
     func updateCollectionViewForCategory(_ category: PoseCategory) {
         self.likedPoseCollectionView.reloadData()
-            switch category {
-            case .alone:
-                if firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true }).count == 0 {
-                    emptyView.isHidden = false
-                    likedPoseCollectionView.isHidden = true
-                } else {
-                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "alone" }.filter { $0.isSelected == true }
-                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
-                        guard let self = self else { return}
-                        photos = images
-                        emptyView.isHidden = true
-                        likedPoseCollectionView.isHidden = false
-                        likedPoseCollectionView.reloadData()
-                    }
-                }
-               
-            case .two:
-                if firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true }).count == 0 {
-                    emptyView.isHidden = false
-                    likedPoseCollectionView.isHidden = true
-                } else {
-                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "twoPose" }.filter { $0.isSelected == true }
-                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
-                        guard let self = self else { return}
-                        photos = images
-                        emptyView.isHidden = true
-                        likedPoseCollectionView.isHidden = false
-                        likedPoseCollectionView.reloadData()
-                    }
-                }
-                
-            case .many:
-                if firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true }).count == 0 {
-                    emptyView.isHidden = false
-                    likedPoseCollectionView.isHidden = true
-                } else {
-                    self.imageDatas = firestoreManager.poseData.filter { $0.category == "manyPose" }.filter { $0.isSelected == true }
-                    storageManager.poseDownloadImages(fromURLs: imageDatas.map{ $0.imageUrl }) { [weak self] images in
-                        guard let self = self else { return}
-                        photos = images
-                        emptyView.isHidden = true
-                        likedPoseCollectionView.isHidden = false
-                        likedPoseCollectionView.reloadData()
-                    }
-                }
-                
+        switch category {
+        case .alone:
+            if firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true }).count == 0 {
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
+                self.poseCategory = category
+                self.imageDatas = bookmarkImageData(category: category)
+                self.likedPoseCollectionView.reloadData()
+            }
+        case .two:
+            if firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true }).count == 0 {
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
+                self.poseCategory = category
+                self.imageDatas = bookmarkImageData(category: category)
+                self.likedPoseCollectionView.reloadData()
+            }
+            
+        case .many:
+            if firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true }).count == 0 {
+                emptyView.isHidden = false
+                likedPoseCollectionView.isHidden = true
+            } else {
+                emptyView.isHidden = true
+                likedPoseCollectionView.isHidden = false
+                self.poseCategory = category
+                self.imageDatas = bookmarkImageData(category: category)
+                self.likedPoseCollectionView.reloadData()
+            }
+            
         }
         likedPoseCollectionView.reloadData()
     }
@@ -241,47 +235,86 @@ final class LikedPoseVC: UIViewController {
     
     @objc private func poseOneTapped() {
         showBarColorForLabel(poseOne)
+        poseCategory = .alone
         updateCollectionViewForCategory(.alone)
     }
     
     @objc private func poseTwoTapped() {
         showBarColorForLabel(poseTwo)
+        poseCategory = .two
         updateCollectionViewForCategory(.two)
     }
     
     @objc private func poseManyTapped() {
         showBarColorForLabel(poseThree)
+        poseCategory = .many
         updateCollectionViewForCategory(.many)
     }
+    
+    
+    private func bookmarkImageData(category: PoseCategory) -> [ImageData] {
+        switch category {
+        case .alone:
+            return firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true })
+        case .two:
+            return firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true })
+        case .many:
+            return firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true })
+        }
+    }
+    
+    private func imageDataBinding(imageData: [ImageData], indexpath: IndexPath) {
+        let imageData = imageData[indexpath.row]
+        self.urlData = imageData.imageUrl
+        self.likedPoseCollectionView.reloadData()
+    }
+    
+    func collectionViewDataBinding(collectionView: UICollectionView, indexPath: IndexPath, category: PoseCategory) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        let imageView = UIImageView()
+        cell.contentView.addSubview(imageView)
+        
+        let imageData = imageDatas[indexPath.row]
+        let urlData = imageData.imageUrl
+        
+        storageManager.downloadImage(urlString: urlData) { [weak self] image in
+            guard self != nil else { return }
+            imageView.image = image
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        return cell
+    }
+    
+    
+    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension LikedPoseVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return imageDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        let imageView = UIImageView()
-        imageView.image = photos[indexPath.item]
-        cell.contentView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        return cell
+        collectionViewDataBinding(collectionView: likedPoseCollectionView, indexPath: indexPath, category: poseCategory)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedImage = photos[indexPath.item]
         let detailViewController = LikedPoseImageDetailVC()
-        detailViewController.image = selectedImage
+        let imageData = imageDatas[indexPath.row]
+        let urlData = imageData.imageUrl
+        detailViewController.url = urlData
         
         let navController = UINavigationController(rootViewController: detailViewController)
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true, completion: nil)
     }
+    
     private func emptyViewButtonTap() {
         emptyView.poseRecommendButton.addTarget(self, action: #selector(poseRecommendButtonTapped), for: .touchUpInside)
     }

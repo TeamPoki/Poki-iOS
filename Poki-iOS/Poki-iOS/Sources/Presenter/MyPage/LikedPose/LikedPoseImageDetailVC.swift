@@ -12,19 +12,37 @@ final class LikedPoseImageDetailVC: UIViewController {
     
     // MARK: - Properties
     
-    var image: UIImage?
+    lazy var poseImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.frame = self.view.bounds
+        view.addSubview($0)
+        }
+    
+    var isSelected = true
+    
+    var bookmarkButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(customBarButtonTapped))
+ 
+    var url: String? {
+        didSet {
+            imageSetup()
+        }
+    }
+    
+    let storageManager = StorageManager.shared
+    let firestoreManager = FirestoreManager.shared
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageSetup()
         view.backgroundColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
+        bookmarkButton = UIBarButtonItem(image: isSelected ? UIImage(systemName: "star.fill") : UIImage(systemName: "star"), style: .plain, target: self, action: #selector(customBarButtonTapped))
+        navigationItem.rightBarButtonItem = bookmarkButton
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -42,16 +60,31 @@ final class LikedPoseImageDetailVC: UIViewController {
     }
     
     private func imageSetup() {
-        let imageView = UIImageView()
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFit
-        imageView.frame = view.bounds
-        view.addSubview(imageView)
+        guard let url = url else { return }
+        storageManager.downloadImage(urlString: url) { [weak self] image in
+            self?.poseImageView.image = image
+        }
+        
     }
     
     // MARK: - Actions
     
     @objc private func handleCloseButton() {
-        self.dismiss(animated: true, completion: nil)
+        firestoreManager.poseRealTimebinding { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
     }
+    
+    @objc private func customBarButtonTapped() {
+        if isSelected {
+            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: false)
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star")
+            self.isSelected = false
+        } else {
+            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: true)
+            navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
+            self.isSelected = true
+        }
+    }
+    
 }
