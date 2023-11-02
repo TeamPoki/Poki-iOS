@@ -218,7 +218,7 @@ final class MyPageVC: UIViewController {
     // MARK: - Actions
     
     @objc private func addButtonTapped() {
-        
+        firestoreManager.deleteAllPhotoData()
     }
     
     @objc private func bookMarkButtonTapped() {

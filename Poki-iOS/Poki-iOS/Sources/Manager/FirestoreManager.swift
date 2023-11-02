@@ -34,7 +34,7 @@ final class FirestoreManager {
             // 필수 필드가 누락되었거나 형식이 맞지 않는 경우 nil 반환
             return nil
         }
-
+        
         let tag = TagModel(tagLabel: tagLabel, tagImage: tagImage)
         return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
     }
@@ -140,32 +140,6 @@ final class FirestoreManager {
         }
     }
     
-    //회원탈퇴 포토 데이터 삭제
-    func deleteAllPhotoData() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let photoCollectionRef = db.collection("users/\(userUID)/Photo")
-        
-        // 1. 해당 사용자의 모든 사진 데이터 조회
-        photoCollectionRef.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error querying user's photo data: \(error)")
-                return
-            }
-            
-            // 2. 조회된 모든 문서를 삭제
-            for document in querySnapshot!.documents {
-                let documentID = document.documentID
-                let documentRef = photoCollectionRef.document(documentID)
-                
-                documentRef.delete { error in
-                    if let error = error {
-                        print("Error deleting document: \(error)")
-                    }
-                }
-            }
-        }
-    }
-
     
     // MARK: - saveDeletionReason
     
@@ -186,10 +160,10 @@ final class FirestoreManager {
         else {
             return nil
         }
-
+        
         return User(documentReference: documentReference, userName: userName, userImage: userImage)
     }
-
+    
     private func createImageFromData(_ data: [String: Any]) -> ImageData? {
         guard
             let category = data["category"] as? String,
@@ -248,15 +222,15 @@ final class FirestoreManager {
     
     func poseImageUpdate(imageUrl: String, isSelected: Bool) {
         guard let userUID = authManager.currentUserUID else { return }
-
+        
         let imageCollectionRef = db.collection("users/\(userUID)/Image")
-
+        
         imageCollectionRef.whereField("imageUrl", isEqualTo: imageUrl).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching documents: \(error)")
                 return
             }
-        
+            
             guard let documents = querySnapshot?.documents, !documents.isEmpty else {
                 print("No matching documents found.")
                 return
@@ -275,7 +249,7 @@ final class FirestoreManager {
             }
         }
     }
-
+    
     
     //실시간반영
     func userRealTimebinding() {
@@ -318,53 +292,12 @@ final class FirestoreManager {
         }
     }
     
-    //회원탈퇴 포즈 데이터 삭제
-    func deleteAllPoseData() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let poseCollectionRef = db.collection("users/\(userUID)/Image")
-        let poseCollectionRef1 = db.collection("users/\(userUID)/User")
-        // 1. 해당 사용자의 모든 사진 데이터 조회
-        poseCollectionRef.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error querying user's photo data: \(error)")
-                return
-            }
-            
-            // 2. 조회된 모든 문서를 삭제
-            for document in querySnapshot!.documents {
-                let documentID = document.documentID
-                let documentRef = poseCollectionRef.document(documentID)
-                
-                documentRef.delete { error in
-                    if let error = error {
-                        print("Error deleting document: \(error)")
-                    }
-                }
-            }
-        }
-        poseCollectionRef1.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error querying user's photo data: \(error)")
-                return
-            }
-            
-            // 2. 조회된 모든 문서를 삭제
-            for document in querySnapshot!.documents {
-                let documentID = document.documentID
-                let documentRef = poseCollectionRef.document(documentID)
-                
-                documentRef.delete { error in
-                    if let error = error {
-                        print("Error deleting document: \(error)")
-                    }
-                }
-            }
-        }
-        
-    }
+    
+    
+   
+    
     
 }
-
 
 extension FirestoreManager {
     func makePoseData() {
@@ -391,5 +324,157 @@ extension FirestoreManager {
         imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose5.jpeg", category: "manyPose")
         imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose6.jpeg", category: "manyPose")
         imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose7.jpeg", category: "manyPose")
+    }
+}
+
+
+
+//회원탈퇴 전용 메서드
+extension FirestoreManager {
+    
+    
+    //회원탈퇴 포토 데이터 삭제
+    func deleteAllPhotoData() {
+        guard let userUID = authManager.currentUserUID else { return }
+        let collectionRef = db.collection("users/\(userUID)/Photo")
+        
+        collectionRef.getDocuments { (querySnapshot, error) in
+              if let error = error {
+                  print("Error querying documents in collection: \(error)")
+                  return
+              }
+
+              for document in querySnapshot!.documents {
+                  document.reference.delete { error in
+                      if let error = error {
+                          print("Error deleting document: \(error)")
+                      } else {
+                          print("Document deleted successfully.")
+                      }
+                  }
+              }
+
+              collectionRef.getDocuments { (querySnapshot, error) in
+                  if let error = error {
+                      print("Error querying collection: \(error)")
+                      return
+                  }
+
+                  for document in querySnapshot!.documents {
+                      document.reference.delete { error in
+                          if let error = error {
+                              print("Error deleting collection: \(error)")
+                          } else {
+                              print("Collection deleted successfully.")
+                          }
+                      }
+                  }
+              }
+          }
+        
+    }
+    
+    
+    //회원탈퇴 포즈 데이터 삭제
+    func deleteAllPoseData() {
+        guard let userUID = authManager.currentUserUID else { return }
+        let collectionRef = db.collection("users/\(userUID)/Image")
+        
+        collectionRef.getDocuments { (querySnapshot, error) in
+              if let error = error {
+                  print("Error querying documents in collection: \(error)")
+                  return
+              }
+
+              for document in querySnapshot!.documents {
+                  document.reference.delete { error in
+                      if let error = error {
+                          print("Error deleting document: \(error)")
+                      } else {
+                          print("Document deleted successfully.")
+                      }
+                  }
+              }
+
+              collectionRef.getDocuments { (querySnapshot, error) in
+                  if let error = error {
+                      print("Error querying collection: \(error)")
+                      return
+                  }
+
+                  for document in querySnapshot!.documents {
+                      document.reference.delete { error in
+                          if let error = error {
+                              print("Error deleting collection: \(error)")
+                          } else {
+                              print("Collection deleted successfully.")
+                          }
+                      }
+                  }
+              }
+          }
+        
+    }
+    
+    
+    //유저데이터 삭제
+    func deleteAllUserData() {
+        guard let userUID = authManager.currentUserUID else { return }
+        let collectionRef = db.collection("users/\(userUID)/User")
+        
+        collectionRef.getDocuments { (querySnapshot, error) in
+              if let error = error {
+                  print("Error querying documents in collection: \(error)")
+                  return
+              }
+
+              for document in querySnapshot!.documents {
+                  document.reference.delete { error in
+                      if let error = error {
+                          print("Error deleting document: \(error)")
+                      } else {
+                          print("Document deleted successfully.")
+                      }
+                  }
+              }
+
+              collectionRef.getDocuments { (querySnapshot, error) in
+                  if let error = error {
+                      print("Error querying collection: \(error)")
+                      return
+                  }
+
+                  for document in querySnapshot!.documents {
+                      document.reference.delete { error in
+                          if let error = error {
+                              print("Error deleting collection: \(error)")
+                          } else {
+                              print("Collection deleted successfully.")
+                          }
+                      }
+                  }
+              }
+          }
+    }
+    
+
+
+
+    
+    
+    //상위 문서 삭제
+    func deleteUserDocument() {
+        guard let userUID = authManager.currentUserUID else { return }
+        
+        // 사용자의 userUID에 해당하는 문서를 삭제
+        let userDocumentRef = db.collection("users").document(userUID)
+        
+        userDocumentRef.delete { error in
+            if let error = error {
+                print("Error deleting user document: \(error)")
+            } else {
+                print("User document with userUID \(userUID) deleted successfully.")
+            }
+        }
     }
 }

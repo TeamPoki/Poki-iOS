@@ -7,10 +7,16 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 final class AuthManager {
+    
+    
     static let shared = AuthManager()
+    
     private init() {}
+    
     
     var currentUserUID: String? {
         let uid = Auth.auth().currentUser?.uid

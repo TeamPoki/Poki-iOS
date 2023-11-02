@@ -221,6 +221,10 @@ final class AccountDeletionVC: UIViewController {
     }
     
     @objc func withdrawButtonTapped() {
+        firestoreManager.deleteAllPhotoData()
+        firestoreManager.deleteAllPoseData()
+        firestoreManager.deleteAllUserData()
+        firestoreManager.deleteUserDocument()
         self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
@@ -240,9 +244,8 @@ final class AccountDeletionVC: UIViewController {
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(rootVC)
             UserDefaults.standard.set(false, forKey: "LoginStatus")
-            self.firestoreManager.deleteAllPoseData()
-            self.firestoreManager.deleteAllPhotoData()
             UserDataManager.deleteUserEmail()
+           
         }
     }
     
