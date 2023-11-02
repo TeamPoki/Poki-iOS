@@ -93,15 +93,14 @@ extension UIViewController {
     
     func showLoadingIndicator() {
         DispatchQueue.main.async {
-            guard let window = UIApplication.firstKeyWindowForConnectedScenes else { return }
             let indicatorView: UIActivityIndicatorView
-            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
+            if let existedView = self.view.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
                 indicatorView = existedView
             } else {
                 indicatorView = UIActivityIndicatorView(style: .large)
-                indicatorView.frame = window.frame
+                indicatorView.frame = self.view.frame
                 indicatorView.color = .black
-                window.addSubview(indicatorView)
+                self.view.addSubview(indicatorView)
             }
             indicatorView.startAnimating()
         }
@@ -109,8 +108,7 @@ extension UIViewController {
     
     func hideLoadingIndicator() {
         DispatchQueue.main.async {
-            guard let window = UIApplication.firstKeyWindowForConnectedScenes else { return }
-            window.subviews.filter({ $0 is UIActivityIndicatorView })
+            self.view.subviews.filter({ $0 is UIActivityIndicatorView })
                 .forEach { $0.removeFromSuperview() }
         }
     }
