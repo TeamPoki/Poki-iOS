@@ -11,6 +11,7 @@ import Then
 
 class EmptyLikedPoseView: UIView {
     // MARK: - Properties
+
     private let emptyImageView: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "star-slash")
@@ -46,6 +47,7 @@ class EmptyLikedPoseView: UIView {
             make.height.equalTo(50)
         }
     }
+
     private lazy var stackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 20
@@ -59,9 +61,11 @@ class EmptyLikedPoseView: UIView {
         super.init(frame: frame)
         setupViews()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: - Helpers
     
     private func setupViews() {
@@ -72,6 +76,4 @@ class EmptyLikedPoseView: UIView {
             make.centerY.equalToSuperview().offset(-50)
         }
     }
-    
-    // MARK: - Actions
 }

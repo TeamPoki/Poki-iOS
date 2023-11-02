@@ -70,16 +70,11 @@ final class RandomPoseVC: UIViewController {
         setupLayout()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadButtonData()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
+
     // MARK: - Helpers
     
     private func configureUI() {

@@ -18,12 +18,13 @@ enum PoseCategory: String {
 final class LikedPoseVC: UIViewController {
     
     // MARK: - Properties
+
     let emptyView = EmptyLikedPoseView()
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
     private var photos: [UIImage?] = []
-    private var imageDatas:[ImageData] = []
+    private var imageDatas: [ImageData] = []
     
     var urlData = ""
     var poseCategory: PoseCategory = .alone
@@ -91,14 +92,8 @@ final class LikedPoseVC: UIViewController {
         print(11)
         configureNav()
         updateCollectionViewForCategory(poseCategory)
-        self.tabBarController?.tabBar.isHidden = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
+
     // MARK: - Helpers
     
     private func configureNav() {
@@ -171,7 +166,6 @@ final class LikedPoseVC: UIViewController {
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.bottom.equalToSuperview()
-            
         }
     }
     
@@ -225,7 +219,6 @@ final class LikedPoseVC: UIViewController {
                 self.imageDatas = bookmarkImageData(category: category)
                 self.likedPoseCollectionView.reloadData()
             }
-            
         }
         likedPoseCollectionView.reloadData()
     }
@@ -250,15 +243,14 @@ final class LikedPoseVC: UIViewController {
         updateCollectionViewForCategory(.many)
     }
     
-    
     private func bookmarkImageData(category: PoseCategory) -> [ImageData] {
         switch category {
         case .alone:
-            return firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true })
+            return firestoreManager.poseData.filter { $0.category == "alone" }.filter { $0.isSelected == true }
         case .two:
-            return firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true })
+            return firestoreManager.poseData.filter { $0.category == "twoPose" }.filter { $0.isSelected == true }
         case .many:
-            return firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true })
+            return firestoreManager.poseData.filter { $0.category == "manyPose" }.filter { $0.isSelected == true }
         }
     }
     
@@ -287,9 +279,6 @@ final class LikedPoseVC: UIViewController {
         
         return cell
     }
-    
-    
-    
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -311,6 +300,7 @@ extension LikedPoseVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         let navController = UINavigationController(rootViewController: detailViewController)
         navController.modalPresentationStyle = .fullScreen
+        navController.hidesBottomBarWhenPushed = true
         self.present(navController, animated: true, completion: nil)
     }
     

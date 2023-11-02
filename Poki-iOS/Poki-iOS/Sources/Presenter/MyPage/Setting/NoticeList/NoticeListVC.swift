@@ -34,18 +34,12 @@ final class NoticeListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
-        self.tabBarController?.tabBar.isHidden = true
         FirestoreManager.shared.loadNotices { [weak self] notices in
             DispatchQueue.main.async {
                 self?.noticeItems = notices
                 self?.noticeTableView.reloadData()
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - Helpers
