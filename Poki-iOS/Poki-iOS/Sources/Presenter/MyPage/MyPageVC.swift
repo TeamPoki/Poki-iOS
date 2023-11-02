@@ -123,7 +123,7 @@ final class MyPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        firestoreManager.poseRealTimebinding()
+        firestoreManager.poseRealTimebinding { _ in }
         print("1")
     }
     

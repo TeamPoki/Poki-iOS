@@ -78,7 +78,7 @@ final class LikedPoseVC: UIViewController {
         contentsViewUI()
         likedPoseCollectionViewUI()
         configureNav()
-        firestoreManager.poseRealTimebinding()
+        firestoreManager.poseRealTimebinding { _ in }
         updateCollectionViewForCategory(.alone)
         showBarColorForLabel(poseOne)
     }
@@ -186,7 +186,6 @@ final class LikedPoseVC: UIViewController {
     }
     
     func updateCollectionViewForCategory(_ category: PoseCategory) {
-        self.likedPoseCollectionView.reloadData()
         self.likedPoseCollectionView.reloadData()
             switch category {
             case .alone:
