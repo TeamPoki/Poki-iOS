@@ -39,10 +39,10 @@ final class MainPageVC: UIViewController {
         configureNav()
         setupCollectionView()
         firestoreManager.userRealTimebinding()
+        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
         navigationController?.navigationBar.tintColor = .black
     }
 
@@ -248,8 +248,16 @@ extension MainPageVC: PHPickerViewControllerDelegate {
                     self.limitedImageUpload(image: dataImage!, picker: picker)
                     let addPhotoVC = AddPhotoVC()
                     addPhotoVC.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(addPhotoVC, animated: true)
                     addPhotoVC.addPhotoView.photoImageView.image = dataImage
+                    addPhotoVC.addPhotoCompletionHandler = { photo in
+                        self.photoListCollectionView.performBatchUpdates {
+                            self.firestoreManager.photoList.insert(photo, at: 0)
+                            self.photoListCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+                        }
+                    }
+                    self.navigationController?.pushViewController(addPhotoVC, animated: true)
+                    
+                    
                 }
             }
         } else {
