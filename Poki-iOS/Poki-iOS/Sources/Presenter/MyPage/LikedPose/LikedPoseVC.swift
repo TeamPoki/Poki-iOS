@@ -74,6 +74,7 @@ final class LikedPoseVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        emptyViewButtonTap()
         contentsViewUI()
         likedPoseCollectionViewUI()
         configureNav()
@@ -81,7 +82,8 @@ final class LikedPoseVC: UIViewController {
         updateCollectionViewForCategory(.alone)
         showBarColorForLabel(poseOne)
     }
-    
+    // 데이터의 근원
+    // 레이아웃 , 뷰, - 데이터 - 액션
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
@@ -280,6 +282,14 @@ extension LikedPoseVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let navController = UINavigationController(rootViewController: detailViewController)
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true, completion: nil)
+    }
+    private func emptyViewButtonTap() {
+        emptyView.poseRecommendButton.addTarget(self, action: #selector(poseRecommendButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func poseRecommendButtonTapped() {
+        let poseSuggestionVC = PoseSuggestionVC()
+        self.navigationController?.pushViewController(poseSuggestionVC, animated: true)
     }
 }
 
