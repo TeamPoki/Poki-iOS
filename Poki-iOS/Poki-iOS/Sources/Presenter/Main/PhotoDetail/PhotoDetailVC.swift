@@ -63,13 +63,13 @@ final class PhotoDetailVC: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNav()
         addSubViews()
         setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureNav()
         navigationController?.navigationBar.tintColor = .white
     }
     

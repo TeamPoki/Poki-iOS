@@ -12,6 +12,7 @@ import Then
 class SignUpView: UIView {
 
     // MARK: - Components
+
     let emailPlaceholder = UILabel().then {
         $0.text = "이메일"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
@@ -25,6 +26,7 @@ class SignUpView: UIView {
     let emailTextFieldView = UIView().then {
         $0.backgroundColor = .clear
     }
+
     let emailHintLabel = UILabel().then {
         $0.text = "이메일 형식으로 입력해주세요."
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
@@ -95,10 +97,14 @@ class SignUpView: UIView {
     
     let agreeToTermsOfServiceLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        $0.text = "서비스 이용약관에 동의합니다."
+        let text = "서비스 이용약관에 동의합니다."
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: text.count))
+        $0.attributedText = attributedString
         $0.textColor = .lightGray
+        $0.isUserInteractionEnabled = true
     }
-    
+
     let agreeToTermsOfServiceStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fill
@@ -107,6 +113,7 @@ class SignUpView: UIView {
     }
     
     // MARK: - Life Cycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -145,7 +152,7 @@ class SignUpView: UIView {
     private func drawUnderline(_ view: UIView) {
         let underline = UIView()
         underline.backgroundColor = .lightGray
-        underline.frame = CGRect(origin: CGPoint(x: 0, y : view.frame.size.height - 8),
+        underline.frame = CGRect(origin: CGPoint(x: 0, y: view.frame.size.height - 8),
                                  size: CGSize(width: view.frame.size.width, height: 0.5))
         view.addSubview(underline)
     }

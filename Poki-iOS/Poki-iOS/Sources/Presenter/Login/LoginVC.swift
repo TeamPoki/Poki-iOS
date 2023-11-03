@@ -401,6 +401,7 @@ final class LoginVC: UIViewController {
 }
 
 // MARK: - UITextFieldDelegate
+
 extension LoginVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
