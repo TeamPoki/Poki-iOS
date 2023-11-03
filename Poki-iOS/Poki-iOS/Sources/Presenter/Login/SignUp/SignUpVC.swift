@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 import SnapKit
 import Then
 
@@ -63,6 +64,7 @@ final class SignUpVC: UIViewController {
         setupButtonAction()
         setupTextField()
         updateSignUpButton()
+        openTermsOfServiceUrl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +116,12 @@ final class SignUpVC: UIViewController {
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in completion?() }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func openTermsOfServiceUrl() {
+        let termsOfServiceTap = UITapGestureRecognizer(target: self, action: #selector(termsOfServiceTapped))
+        self.signUpView.agreeToTermsOfServiceLabel.isUserInteractionEnabled = true
+        self.signUpView.agreeToTermsOfServiceLabel.addGestureRecognizer(termsOfServiceTap)
     }
     
     // MARK: - Update UI
@@ -193,6 +201,15 @@ final class SignUpVC: UIViewController {
         }
     }
     
+    @objc private func termsOfServiceTapped() {
+        guard let url = URL(string: "https://poki-project.notion.site/edab5f4b388545cd91a63665fc3b64dc?pvs=4") else {
+            return
+        }
+        let svc = SFSafariViewController(url: url)
+        svc.modalPresentationStyle = .automatic
+        self.present(svc, animated: true, completion: nil)
+    }
+
     // MARK: - Keyboard
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -201,6 +218,7 @@ final class SignUpVC: UIViewController {
 }
 
 // MARK: - UITextFieldDelegate
+
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == self.signUpView.emailTextField {

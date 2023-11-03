@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import PhotosUI
+import Kingfisher
 
 final class MainPageVC: UIViewController {
 
@@ -209,9 +210,10 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.titleLabel.text = photo.memo
         cell.dateLabel.text = photo.date
         cell.tagLabel.text = photo.tag.tagLabel
-        if let subImage = cell.photoImage.image {
-            cell.setGradient(image: subImage)
+        guard let subImage = cell.photoImage.image else {
+            return cell
         }
+        cell.setGradient(image: subImage)
         return cell
     }
 
