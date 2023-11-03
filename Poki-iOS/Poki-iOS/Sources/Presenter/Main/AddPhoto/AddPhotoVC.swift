@@ -23,7 +23,6 @@ enum ViewSeperated {
 }
 
 final class AddPhotoVC: UIViewController {
-    
     // MARK: - Properties
     
     let addPhotoView = AddPhotoView()
@@ -37,7 +36,6 @@ final class AddPhotoVC: UIViewController {
     var addPhotoCompletionHandler: (Photo) -> Void = { photo in }
     
     // MARK: - Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -133,7 +131,6 @@ final class AddPhotoVC: UIViewController {
     }
     
     @objc private func touchUpImageView() {
-        print("이미지뷰 터치")
         self.setupImagePicker()
     }
     

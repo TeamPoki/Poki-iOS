@@ -167,14 +167,12 @@ final class AddPhotoView: UIView {
         }
         
         photoImageView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(80)
-            $0.bottom.equalToSuperview()
         }
         
         tagImageView.snp.makeConstraints {
-            $0.height.equalTo(30)
-            $0.width.equalTo(30)
+            $0.height.width.equalTo(30)
         }
         
         dateStackView.snp.makeConstraints {

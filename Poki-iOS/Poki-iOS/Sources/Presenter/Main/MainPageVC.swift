@@ -162,10 +162,6 @@ final class MainPageVC: UIViewController {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
-                // 사용자가 권한을 허용한 경우
-                // 여기에서 사진 라이브러리에 접근할 수 있습니다.
-                let fetchOptions = PHFetchOptions()
-                let allPhotos = PHAsset.fetchAssets(with: fetchOptions)
                 DispatchQueue.main.async {
                     self.setupImagePicker()
                     // 사진에 접근하여 무엇인가 작업 수행
