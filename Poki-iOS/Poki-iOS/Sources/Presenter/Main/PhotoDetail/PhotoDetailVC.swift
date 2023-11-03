@@ -179,9 +179,11 @@ final class PhotoDetailVC: UIViewController {
     }
     
     private func shareMenuTapped() {
-        let title = "네컷 공유하기"
-        let activityVC = UIActivityViewController(activityItems: [title], applicationActivities: nil)
-        present(activityVC, animated: true)
+        guard let imageUrl = self.photoData?.image else { return }
+        storageManager.downloadImage(urlString: imageUrl) { image in
+            let activityVC = UIActivityViewController(activityItems: [image ?? UIImage()], applicationActivities: nil)
+            self.present(activityVC, animated: true)
+        }
     }
     
     private func deleteMenuTapped() {
