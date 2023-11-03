@@ -92,7 +92,7 @@ final class PoseSuggestionVC: UIViewController {
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.imagePadding = 10
         button.configuration = buttonConfig
-        button.backgroundColor = .black
+        button.backgroundColor = Constants.appBlackColor
         button.tintColor = .white
         button.titleLabel?.font = UIFont(name: Constants.fontExtraBold, size: 16)
         button.setTitleColor(.white, for: .normal)

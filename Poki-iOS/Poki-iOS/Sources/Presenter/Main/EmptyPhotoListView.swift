@@ -19,9 +19,9 @@ final class EmptyPhotoListView: UIView {
             let systemImage = image.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
             imageView.image = systemImage
             imageView.contentMode = .scaleAspectFit
-            imageView.snp.makeConstraints { make in
-                make.width.equalTo(80)
-                make.height.equalTo(80)
+            imageView.snp.makeConstraints {
+                $0.width.equalTo(80)
+                $0.height.equalTo(80)
             }
         }
         return imageView
@@ -63,8 +63,7 @@ final class EmptyPhotoListView: UIView {
         addSubview(stackView)
         
         stackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-10)
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 }

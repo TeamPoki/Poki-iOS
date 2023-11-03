@@ -148,8 +148,7 @@ final class AccountDeletionVC: UIViewController {
         }
 
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(contentView).offset(30)
-            $0.left.equalTo(contentView).offset(20)
+            $0.top.left.equalTo(contentView).offset(30)
             $0.right.equalTo(contentView).offset(-20)
         }
 
@@ -184,10 +183,9 @@ final class AccountDeletionVC: UIViewController {
         withdrawButton.snp.makeConstraints {
             $0.top.equalTo(reasonTextView.snp.bottom).offset(60)
             $0.left.equalTo(contentView).offset(20)
-            $0.right.equalTo(contentView).offset(-20)
+            $0.right.bottom.equalTo(contentView).offset(-20)
             $0.centerX.equalTo(contentView)
             $0.height.equalTo(50)
-            $0.bottom.equalTo(contentView).offset(-20)
         }
     }
     
@@ -201,8 +199,8 @@ final class AccountDeletionVC: UIViewController {
         button.isSelected = !button.isSelected
 
         if button.isSelected {
-            withdrawButton.backgroundColor = .black
-            checkBoxButton.tintColor = .black
+            withdrawButton.backgroundColor = Constants.appBlackColor
+            checkBoxButton.tintColor = Constants.appBlackColor
             checkBoxLabel.textColor = .black
         } else {
             withdrawButton.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)

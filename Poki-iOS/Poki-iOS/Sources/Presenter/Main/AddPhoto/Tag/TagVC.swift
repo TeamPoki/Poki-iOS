@@ -60,7 +60,7 @@ class TagVC: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalToSuperview().inset(20)
         }
-        
+
         collectionView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.top.equalTo(tagTitleLabel).offset(50)

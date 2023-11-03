@@ -41,7 +41,7 @@ final class SignUpVC: UIViewController {
         authManager.isValid(form: self.nickname, regex: Constants.nicknameRegex)
     }
     private var signUpButtonColor: UIColor {
-        isSignUpFormValid == true ? UIColor.black : UIColor.lightGray
+        isSignUpFormValid == true ? Constants.appBlackColor : UIColor.lightGray
     }
     
     // MARK: - Size
@@ -156,7 +156,7 @@ final class SignUpVC: UIViewController {
     @objc func agreeToTermsOfServiceButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         if sender.isSelected == true {
-            sender.tintColor = .black
+            sender.tintColor = Constants.appBlackColor
             self.signUpView.agreeToTermsOfServiceLabel.textColor = .black
             self.isAgree = true
         }
