@@ -11,14 +11,14 @@ import Then
 
 enum PoseCategory: String {
     case alone
-    case two
-    case many
+    case twoPose
+    case manyPose
 }
 
 final class LikedPoseVC: UIViewController {
     
     // MARK: - Properties
-
+    
     let emptyView = EmptyLikedPoseView()
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
@@ -93,7 +93,7 @@ final class LikedPoseVC: UIViewController {
         configureNav()
         updateCollectionViewForCategory(poseCategory)
     }
-
+    
     // MARK: - Helpers
     
     private func configureNav() {
@@ -108,11 +108,11 @@ final class LikedPoseVC: UIViewController {
         contentView.addSubview(barColor)
         barColor.backgroundColor = UIColor.black
         
-        barColor.snp.makeConstraints { make in
-            make.bottom.equalTo(contentView.snp.bottom)
-            make.height.equalTo(2)
-            make.leading.equalTo(label.snp.leading)
-            make.trailing.equalTo(label.snp.trailing)
+        barColor.snp.makeConstraints {
+            $0.bottom.equalTo(contentView.snp.bottom)
+            $0.height.equalTo(2)
+            $0.leading.equalTo(label.snp.leading)
+            $0.trailing.equalTo(label.snp.trailing)
         }
         UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
@@ -121,10 +121,10 @@ final class LikedPoseVC: UIViewController {
     
     private func contentsViewUI() {
         view.addSubview(contentView)
-        contentView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(50)
         }
         
         let stackView = UIStackView()
@@ -134,26 +134,22 @@ final class LikedPoseVC: UIViewController {
         stackView.spacing = 2
         
         contentView.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.height.equalTo(contentView)
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(contentView)
         }
         
-        stackView.addArrangedSubview(poseOne)
-        stackView.addArrangedSubview(poseTwo)
-        stackView.addArrangedSubview(poseThree)
+        stackView.addArrangedSubviews(poseOne, poseTwo, poseThree)
         
-        poseOne.snp.makeConstraints { make in
-            make.height.equalTo(stackView)
+        poseOne.snp.makeConstraints {
+            $0.height.equalTo(stackView)
         }
-        poseTwo.snp.makeConstraints { make in
-            make.height.equalTo(stackView)
+        poseTwo.snp.makeConstraints {
+            $0.height.equalTo(stackView)
         }
-        poseThree.snp.makeConstraints { make in
-            make.height.equalTo(stackView)
+        poseThree.snp.makeConstraints {
+            $0.height.equalTo(stackView)
         }
         
         poseOne.textAlignment = .center
@@ -182,43 +178,28 @@ final class LikedPoseVC: UIViewController {
         }
     }
     
+    func updatePoseCategory(_ category: PoseCategory) {
+        if firestoreManager.poseData.filter({ $0.category == "\(category)" }).filter({ $0.isSelected == true }).count == 0 {
+            emptyView.isHidden = false
+            likedPoseCollectionView.isHidden = true
+        } else {
+            emptyView.isHidden = true
+            likedPoseCollectionView.isHidden = false
+            self.poseCategory = category
+            self.imageDatas = bookmarkImageData(category: category)
+            self.likedPoseCollectionView.reloadData()
+        }
+    }
+    
     func updateCollectionViewForCategory(_ category: PoseCategory) {
         self.likedPoseCollectionView.reloadData()
         switch category {
         case .alone:
-            if firestoreManager.poseData.filter({ $0.category == "alone" }).filter({ $0.isSelected == true }).count == 0 {
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-                self.poseCategory = category
-                self.imageDatas = bookmarkImageData(category: category)
-                self.likedPoseCollectionView.reloadData()
-            }
-        case .two:
-            if firestoreManager.poseData.filter({ $0.category == "twoPose" }).filter({ $0.isSelected == true }).count == 0 {
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-                self.poseCategory = category
-                self.imageDatas = bookmarkImageData(category: category)
-                self.likedPoseCollectionView.reloadData()
-            }
-            
-        case .many:
-            if firestoreManager.poseData.filter({ $0.category == "manyPose" }).filter({ $0.isSelected == true }).count == 0 {
-                emptyView.isHidden = false
-                likedPoseCollectionView.isHidden = true
-            } else {
-                emptyView.isHidden = true
-                likedPoseCollectionView.isHidden = false
-                self.poseCategory = category
-                self.imageDatas = bookmarkImageData(category: category)
-                self.likedPoseCollectionView.reloadData()
-            }
+            updatePoseCategory(category)
+        case .twoPose:
+            updatePoseCategory(category)
+        case .manyPose:
+            updatePoseCategory(category)
         }
         likedPoseCollectionView.reloadData()
     }
@@ -233,23 +214,23 @@ final class LikedPoseVC: UIViewController {
     
     @objc private func poseTwoTapped() {
         showBarColorForLabel(poseTwo)
-        poseCategory = .two
-        updateCollectionViewForCategory(.two)
+        poseCategory = .twoPose
+        updateCollectionViewForCategory(.twoPose)
     }
     
     @objc private func poseManyTapped() {
         showBarColorForLabel(poseThree)
-        poseCategory = .many
-        updateCollectionViewForCategory(.many)
+        poseCategory = .manyPose
+        updateCollectionViewForCategory(.manyPose)
     }
     
     private func bookmarkImageData(category: PoseCategory) -> [ImageData] {
         switch category {
         case .alone:
             return firestoreManager.poseData.filter { $0.category == "alone" }.filter { $0.isSelected == true }
-        case .two:
+        case .twoPose:
             return firestoreManager.poseData.filter { $0.category == "twoPose" }.filter { $0.isSelected == true }
-        case .many:
+        case .manyPose:
             return firestoreManager.poseData.filter { $0.category == "manyPose" }.filter { $0.isSelected == true }
         }
     }
@@ -273,8 +254,8 @@ final class LikedPoseVC: UIViewController {
             imageView.image = image
         }
         
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         return cell

@@ -216,6 +216,15 @@ final class MyPageVC: UIViewController {
         return "\(version).\(build)"
     }
     
+    func updateConfigureCell(_ title: String, cell: MyPageMenuCell) {
+        cell.cellTextLabel.text = title
+        cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
+        cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        cell.cellButton.tintColor = .black
+        cell.cellButton.isEnabled = false
+        cell.selectionStyle = .none
+    }
+    
     // MARK: - Actions
     
     @objc private func addButtonTapped() {
@@ -246,26 +255,11 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath) as! MyPageMenuCell
         switch indexPath.row {
         case 0:
-            cell.cellTextLabel.text = "APP 설정"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
-            cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            cell.cellButton.tintColor = .black
-            cell.cellButton.isEnabled = false
-            cell.selectionStyle = .none
+            updateConfigureCell("APP 설정", cell: cell)
         case 1:
-            cell.cellTextLabel.text = "문의하기"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
-            cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            cell.cellButton.tintColor = .black
-            cell.cellButton.isEnabled = false
-            cell.selectionStyle = .none
+            updateConfigureCell("문의하기", cell: cell)
         case 2:
-            cell.cellTextLabel.text = "로그아웃"
-            cell.cellTextLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
-            cell.cellButton.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            cell.cellButton.tintColor = .black
-            cell.cellButton.isEnabled = false
-            cell.selectionStyle = .none
+            updateConfigureCell("로그아웃", cell: cell)
         case 3:
             cell.appVersionLabel.text = "앱 버전"
             cell.appVersionLabel.font = UIFont(name: Constants.fontSemiBold, size: 14)
