@@ -64,4 +64,11 @@ final class AuthManager {
             print("비밀번호 초기화 메일 보내기 성공!")
         }
     }
+    
+    // 로그인, 회원가입 시 유효성 검사 메서드
+    func isValid(form: String?, regex: String) -> Bool {
+        guard let value = form else { return false }
+        let pred = NSPredicate(format: "SELF MATCHES %@", regex)
+        return pred.evaluate(with: value)
+    }
 }

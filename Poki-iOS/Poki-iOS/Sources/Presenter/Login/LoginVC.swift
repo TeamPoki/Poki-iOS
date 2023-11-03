@@ -15,7 +15,7 @@ final class LoginVC: UIViewController {
     // MARK: - Properties
     private var email: String?
     private var password: String?
-    private let authManager = AuthManager.shared
+    private var authManager = AuthManager.shared
     
     // MARK: - Validation
     private var isLoginFormValid: Bool? {
@@ -23,11 +23,11 @@ final class LoginVC: UIViewController {
     }
     private var isValidEmail: Bool? {
         self.email?.isEmpty == false &&
-        self.isValid(email: self.email)
+        authManager.isValid(form: self.email, regex: Constants.emailRegex)
     }
     private var isValidPassword: Bool? {
         self.password?.isEmpty == false &&
-        self.isValid(password: self.password)
+        authManager.isValid(form: self.password, regex: Constants.passwordRegex)
     }
     private var loginButtonColor: UIColor {
         isLoginFormValid == true ? UIColor.black : UIColor.lightGray
@@ -227,9 +227,7 @@ final class LoginVC: UIViewController {
     
     private func setupLayout() {
         headerView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(250)
         }
         logoLabel.snp.makeConstraints {
@@ -248,8 +246,7 @@ final class LoginVC: UIViewController {
         }
         bodyStackView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(60)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
@@ -262,8 +259,7 @@ final class LoginVC: UIViewController {
             $0.height.equalTo(50)
         }
         bottomStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
         emailSaveTextLabel.snp.contentHuggingHorizontalPriority = 249
@@ -297,19 +293,6 @@ final class LoginVC: UIViewController {
             loginButton.isEnabled = false
         }
         loginButton.backgroundColor = self.loginButtonColor
-    }
-    
-    // MARK: - Validation
-    private func isValid(email: String?) -> Bool {
-        guard let email = email else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
-        return pred.evaluate(with: email)
-    }
-    
-    private func isValid(password: String?) -> Bool {
-        guard let password = password else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
-        return pred.evaluate(with: password)
     }
     
     // MARK: - Helpers

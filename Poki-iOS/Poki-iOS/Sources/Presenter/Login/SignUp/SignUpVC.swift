@@ -29,15 +29,15 @@ final class SignUpVC: UIViewController {
     }
     private var isValidEmail: Bool? {
         self.email?.isEmpty == false &&
-        self.isValid(email: self.email)
+        authManager.isValid(form: self.email, regex: Constants.emailRegex)
     }
     private var isValidPassword: Bool? {
         self.password?.isEmpty == false &&
-        self.isValid(password: self.password)
+        authManager.isValid(form: self.password, regex: Constants.passwordRegex)
     }
     private var isValidNickname: Bool? {
         self.nickname?.isEmpty == false &&
-        self.isValid(nickname: self.nickname)
+        authManager.isValid(form: self.nickname, regex: Constants.nicknameRegex)
     }
     private var signUpButtonColor: UIColor {
         isSignUpFormValid == true ? UIColor.black : UIColor.lightGray
@@ -125,25 +125,6 @@ final class SignUpVC: UIViewController {
             self.signUpView.signUpButton.isEnabled = false
         }
         self.signUpView.signUpButton.backgroundColor = self.signUpButtonColor
-    }
-    
-    // MARK: - Validation
-    func isValid(email: String?) -> Bool {
-        guard let email = email else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.emailRegex)
-        return pred.evaluate(with: email)
-    }
-    
-    func isValid(password: String?) -> Bool {
-        guard let password = password else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.passwordRegex)
-        return pred.evaluate(with: password)
-    }
-    
-    func isValid(nickname: String?) -> Bool {
-        guard let nickname = nickname else { return false }
-        let pred = NSPredicate(format: "SELF MATCHES %@", Constants.nicknameRegex)
-        return pred.evaluate(with: nickname)
     }
     
     // MARK: - Actions
