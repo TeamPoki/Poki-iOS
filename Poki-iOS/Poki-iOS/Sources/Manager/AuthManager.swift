@@ -58,7 +58,7 @@ final class AuthManager {
         guard let email = email else { return }
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
-                print("비밀번호 초기화 메일 보내기 실패!!!")
+                print("ERROR: 비밀번호 초기화 메일 보내기 실패! \(error)")
             }
             // 이메일이 존재하는지 검증하는 로직이 필요할까요..?
             print("비밀번호 초기화 메일 보내기 성공!")
