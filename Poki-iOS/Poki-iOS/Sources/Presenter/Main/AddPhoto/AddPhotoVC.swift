@@ -233,6 +233,7 @@ final class AddPhotoVC: UIViewController {
             guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
             switch self.viewSeperated {
             case .new:
+                self.showLoadingIndicator()
                 self.uploadPhoto(images: [image, tagImage]) { result in
                     switch result {
                     case .success((let photoURL, let tagURL)):
@@ -242,9 +243,12 @@ final class AddPhotoVC: UIViewController {
                     case .failure(let error):
                         print("AddPageVC - 포토, 태그 이미지 업로드 실패 \(error)")
                     }
+                    self.hideLoadingIndicator()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             // Update 메서드
             case .edit:
+                self.showLoadingIndicator()
                 guard let photoData = photoData else { return }
                 updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
                 storageManager.deleteImage(imageURL: photoData.image) { _ in
@@ -253,6 +257,8 @@ final class AddPhotoVC: UIViewController {
                 storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
                     print("이미지 삭제 완료")
                 }
+                self.hideLoadingIndicator()
+                self.navigationController?.popToRootViewController(animated: true)
             }
         } else {
             let alertController = UIAlertController(title: "경고", message: "이미지를 반드시 입력해주세요.", preferredStyle: .alert)
@@ -260,7 +266,6 @@ final class AddPhotoVC: UIViewController {
             alertController.addAction(okAction)
             present(alertController, animated: true, completion: nil)
         }
-        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func tagImageTapped() {
