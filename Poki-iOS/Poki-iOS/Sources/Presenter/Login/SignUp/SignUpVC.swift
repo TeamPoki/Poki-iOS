@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import FirebaseAuth
+import SnapKit
+import Then
 
 
 final class SignUpVC: UIViewController {
