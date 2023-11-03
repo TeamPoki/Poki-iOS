@@ -41,7 +41,7 @@ class CustomTabBarController: UITabBarController {
         let myPageVC = MyPageVC()
         myPageVC.tabBarItem = UITabBarItem(title: "마이 페이지", image: UIImage(systemName: "person.fill"), tag: 2)
 
-        tabBar.tintColor = .black
+        tabBar.tintColor = Constants.appBlackColor
         tabBar.unselectedItemTintColor = .gray
 
         let controllers = [mainPageVC, poseSuggestionVC, myPageVC]

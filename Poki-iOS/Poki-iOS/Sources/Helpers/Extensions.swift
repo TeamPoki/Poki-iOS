@@ -145,7 +145,7 @@ extension UINavigationController {
     func configureBlackAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
-            $0.backgroundColor = .black
+            $0.backgroundColor = Constants.appBlackColor
             $0.shadowColor = nil
         }
         self.navigationBar.tintColor = .white

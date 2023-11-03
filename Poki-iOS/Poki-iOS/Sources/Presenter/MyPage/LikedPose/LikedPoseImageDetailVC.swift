@@ -35,7 +35,7 @@ final class LikedPoseImageDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Constants.appBlackColor
     }
     
     override func viewWillAppear(_ animated: Bool) {

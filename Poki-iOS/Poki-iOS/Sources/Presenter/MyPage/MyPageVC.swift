@@ -27,13 +27,13 @@ final class MyPageVC: UIViewController {
     }
     
     private lazy var addButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "photo")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(systemName: "photo")?.withTintColor(Constants.appBlackColor, renderingMode: .alwaysOriginal), for: .normal)
         $0.backgroundColor = .white
         $0.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
     
     private lazy var bookMarkButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "star")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(systemName: "star")?.withTintColor(Constants.appBlackColor, renderingMode: .alwaysOriginal), for: .normal)
         $0.backgroundColor = .white
         $0.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchUpInside)
     }
@@ -54,13 +54,11 @@ final class MyPageVC: UIViewController {
     }
     
     private let nameLabel = UILabel().then {
-        $0.text = "포키"
         $0.textColor = .black
         $0.font = UIFont(name: Constants.fontBold, size: 20)
     }
     
     private let emailLabel = UILabel().then {
-        $0.text = "pokopoki@gmail.com"
         $0.textColor = .lightGray
         $0.font = UIFont(name: Constants.fontLight, size: 14)
     }
