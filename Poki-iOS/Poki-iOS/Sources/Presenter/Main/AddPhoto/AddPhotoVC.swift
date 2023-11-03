@@ -325,13 +325,10 @@ extension AddPhotoVC: UIViewControllerTransitioningDelegate {
 
 extension AddPhotoVC: TagSelectionDelegate {
     func didSelectTag(_ tag: TagModel) {
+        let url = URL(string: tag.tagImage)
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
         addPhotoView.tagAddButton.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 14)
-        storageManager.downloadImage(urlString: tag.tagImage) { image in
-            DispatchQueue.main.async {
-                self.addPhotoView.tagImageView.image = image
-                self.addPhotoView.setTagStackViewBorder(show: true)
-            }
-        }
+        addPhotoView.tagImageView.kf.setImage(with: url)
+        addPhotoView.setTagStackViewBorder(show: true)
     }
 }
