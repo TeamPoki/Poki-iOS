@@ -64,6 +64,7 @@ class TagVC: UIViewController {
         collectionView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.top.equalTo(tagTitleLabel).offset(50)
+            $0.bottom.equalToSuperview()
         }
     }
 }
@@ -77,12 +78,9 @@ extension TagVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCollectionViewCell", for: indexPath) as? TagCell else { return UICollectionViewCell() }
-        let data = dataArray[indexPath.row]
-        stoageManager.downloadImage(urlString: data.tagImage) { image in
-            DispatchQueue.main.async {
-                cell.tagImageView.image = image
-            }
-        }
+        let data = self.dataArray[indexPath.row]
+        let url = URL(string: data.tagImage)
+        cell.tagImageView.kf.setImage(with: url)
         cell.tagLabel.text = data.tagLabel
         return cell
     }
