@@ -115,7 +115,6 @@ final class AccountDeletionVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        dissmissKeyboardGesture()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
@@ -191,10 +190,9 @@ final class AccountDeletionVC: UIViewController {
             $0.bottom.equalTo(contentView).offset(-20)
         }
     }
-
-    private func dissmissKeyboardGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
     // MARK: - Actions
@@ -239,10 +237,6 @@ final class AccountDeletionVC: UIViewController {
             UserDefaults.standard.set(false, forKey: "LoginStatus")
             UserDataManager.deleteUserEmail()
         }
-    }
-
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {

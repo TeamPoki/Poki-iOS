@@ -8,23 +8,26 @@
 import UIKit
 
 final class CarouselFlowLayout: UICollectionViewFlowLayout {
+    
+    // MARK: - Properties
+    
     public var sideItemScale: CGFloat = 0.5
     public var sideItemAlpha: CGFloat = 0.5
     public var spacing: CGFloat = 10
-
     public var isPagingEnabled: Bool = true
-    
     private var isSetup: Bool = false
+    
+    // MARK: - Helpers
     
     override public func prepare() {
         super.prepare()
         if isSetup == false {
-            setupLayout()
+            configureUI()
             isSetup = true
         }
     }
     
-    private func setupLayout() {
+    private func configureUI() {
         guard let collectionView = self.collectionView else { return }
                 
         let collectionViewSize = collectionView.bounds.size

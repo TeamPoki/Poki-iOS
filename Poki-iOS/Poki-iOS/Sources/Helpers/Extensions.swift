@@ -90,7 +90,7 @@ extension UIViewController {
             toast.removeFromSuperview()
         }
     }
-    
+
     func showLoadingIndicator() {
         DispatchQueue.main.async {
             let indicatorView: UIActivityIndicatorView
@@ -105,10 +105,10 @@ extension UIViewController {
             indicatorView.startAnimating()
         }
     }
-    
+
     func hideLoadingIndicator() {
         DispatchQueue.main.async {
-            self.view.subviews.filter({ $0 is UIActivityIndicatorView })
+            self.view.subviews.filter { $0 is UIActivityIndicatorView }
                 .forEach { $0.removeFromSuperview() }
         }
     }
@@ -129,7 +129,7 @@ extension UINavigationController {
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
     }
-    
+
     func configureClearAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
@@ -141,7 +141,7 @@ extension UINavigationController {
         self.navigationBar.compactAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
     }
-    
+
     func configureBlackAppearance() {
         let appearance = UINavigationBarAppearance().then {
             $0.configureWithOpaqueBackground()
@@ -170,11 +170,11 @@ extension UIApplication {
     static var firstKeyWindowForConnectedScenes: UIWindow? {
         UIApplication.shared
             .connectedScenes.lazy
-        
+
             .compactMap { $0.activationState == .foregroundActive ? ($0 as? UIWindowScene) : nil }
-        
+
             .first(where: { $0.keyWindow != nil })?
-        
+
             .keyWindow
     }
 }

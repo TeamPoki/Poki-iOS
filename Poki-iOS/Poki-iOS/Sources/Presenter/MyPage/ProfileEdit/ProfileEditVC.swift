@@ -76,7 +76,6 @@ final class ProfileEditVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        dissmissKeyboardGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,15 +144,13 @@ final class ProfileEditVC: UIViewController {
         }
     }
     
-    private func dissmissKeyboardGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
-    
+
     // MARK: - Actions
     
     @objc private func selectImageButtonTapped() {
-        
         let action = UIAction(title: "갤러리에서 선택하기", image: UIImage(systemName: "photo.on.rectangle")) { _ in
             self.requestPhotoLibraryAccess()
         }
@@ -186,10 +183,6 @@ final class ProfileEditVC: UIViewController {
         } else {
             hintLabel.isHidden = true
         }
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 }
 
