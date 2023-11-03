@@ -17,7 +17,7 @@ final class MyPageVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
-  
+    
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorColor = Constants.separatorGrayColor
@@ -29,7 +29,7 @@ final class MyPageVC: UIViewController {
     private lazy var addButton = UIButton().then {
         $0.setImage(UIImage(systemName: "photo")?.withTintColor(Constants.appBlackColor, renderingMode: .alwaysOriginal), for: .normal)
         $0.backgroundColor = .white
-        $0.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
     }
     
     private lazy var bookMarkButton = UIButton().then {
@@ -184,7 +184,7 @@ final class MyPageVC: UIViewController {
         }
     }
     
-     func profileDataBinding() {
+    func profileDataBinding() {
         firestoreManager.userRealTimebinding()
         if firestoreManager.userData[0].userName == "" {
             self.nameLabel.text = ""
@@ -224,9 +224,39 @@ final class MyPageVC: UIViewController {
     }
     
     // MARK: - Actions
-    
-    @objc private func addButtonTapped() {
-        firestoreManager.deleteAllPhotoData()
+    @objc private func addPhotoButtonTapped() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let galleryAction = UIAlertAction(title: "갤러리에 추가하기", style: .destructive) { (action) in
+            let mainPageVCInstance = MainPageVC()
+            mainPageVCInstance.requestPhotoLibraryAccess()
+        }
+        
+        let qrCodeAction = UIAlertAction(title: "QR코드로 추가하기", style: .destructive) { (action) in
+            let qrCodeVC = QRCodeVC()
+            let navController = UINavigationController(rootViewController: qrCodeVC)
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true, completion: nil)
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        let systemBlueColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
+        let systemRedColor = UIColor(red: 255/255, green: 59/255, blue: 48/255, alpha: 1.0)
+        
+        galleryAction.setValue(systemBlueColor, forKey: "titleTextColor")
+        qrCodeAction.setValue(systemBlueColor, forKey: "titleTextColor")
+        cancelAction.setValue(systemRedColor, forKey: "titleTextColor")
+        
+        alertController.addAction(galleryAction)
+        alertController.addAction(qrCodeAction)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc private func bookMarkButtonTapped() {
@@ -283,7 +313,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let settingsVC = SettingsVC()
-                settingsVC.hidesBottomBarWhenPushed = true
+            settingsVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(settingsVC, animated: true)
         case 1:
             if MFMailComposeViewController.canSendMail() {
@@ -313,7 +343,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let separatorView = UIView()
@@ -323,7 +353,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 1
