@@ -147,7 +147,7 @@ final class MainPageVC: UIViewController {
     // MARK: - Actions
 
     private func limitedImageUpload(image: UIImage, picker: PHPickerViewController) {
-        let maxSizeInBytes: Int = 4 * 1024 * 1024
+        let maxSizeInBytes = 4 * 1024 * 1024
         if let imageData = image.jpegData(compressionQuality: 1.0) {
             if imageData.count > maxSizeInBytes {
                 let alertController = UIAlertController(title: "경고", message: "이미지 파일이 너무 큽니다.", preferredStyle: .alert)
@@ -206,14 +206,26 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! MainPhotoListCell
         let photo = firestoreManager.photoList[indexPath.row]
         let url = URL(string: photo.image)
-        cell.photoImage.kf.setImage(with: url)
         cell.titleLabel.text = photo.memo
         cell.dateLabel.text = photo.date
         cell.tagLabel.text = photo.tag.tagLabel
-        guard let subImage = cell.photoImage.image else {
-            return cell
+        
+        // Kingfisher를 사용하여 비동기적으로 이미지를 다운로드하고 셀에 그라데이션 설정
+        cell.photoImage.kf.setImage(
+            with: url,
+            placeholder: nil,
+            options: nil,
+            progressBlock: nil)
+        { result in
+            switch result {
+            case .success(let value):
+                let image = value.image
+                cell.setGradient(image: image)
+            case .failure(let error):
+                print(error)
+            }
         }
-        cell.setGradient(image: subImage)
+
         return cell
     }
 
@@ -248,8 +260,6 @@ extension MainPageVC: PHPickerViewControllerDelegate {
                         }
                     }
                     self.navigationController?.pushViewController(addPhotoVC, animated: true)
-                    
-                    
                 }
             }
         } else {
