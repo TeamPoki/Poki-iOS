@@ -57,16 +57,13 @@ class TagVC: UIViewController {
     
     private func layoutSetup() {
         tagTitleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalToSuperview().inset(20)
         }
         
         collectionView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(30)
-            $0.trailing.equalToSuperview().inset(30)
+            $0.leading.trailing.equalToSuperview().inset(30)
             $0.top.equalTo(tagTitleLabel).offset(50)
-            $0.bottom.equalToSuperview()
         }
     }
 }

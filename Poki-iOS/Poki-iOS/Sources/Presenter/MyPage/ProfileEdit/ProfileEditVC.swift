@@ -186,19 +186,29 @@ final class ProfileEditVC: UIViewController {
     }
 }
 
-
-extension ProfileEditVC {
+extension ProfileEditVC: PHPickerViewControllerDelegate {
+    // 사진이 선택이 된 후에 호출되는 메서드
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        let itemProvider = results.first?.itemProvider
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                DispatchQueue.main.async {
+                    let dataImage = image as? UIImage
+                    self.userImageView.image  = dataImage
+                }
+            }
+        } else {
+            print("이미지 로드 실패")
+        }
+    }
+    
     func requestPhotoLibraryAccess() {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
-                // 사용자가 권한을 허용한 경우
-                // 여기에서 사진 라이브러리에 접근할 수 있습니다.
-                let fetchOptions = PHFetchOptions()
-                let allPhotos = PHAsset.fetchAssets(with: fetchOptions)
                 DispatchQueue.main.async {
                     self.setupImagePicker()
-                    // 사진에 접근하여 무엇인가 작업 수행
                 }
             case .denied, .restricted:
                 DispatchQueue.main.async {
@@ -236,22 +246,4 @@ extension ProfileEditVC {
         present(picker, animated: true, completion: nil)
     }
     
-}
-
-extension ProfileEditVC: PHPickerViewControllerDelegate {
-    // 사진이 선택이 된 후에 호출되는 메서드
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        let itemProvider = results.first?.itemProvider
-        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                DispatchQueue.main.async {
-                    let dataImage = image as? UIImage
-                    self.userImageView.image  = dataImage
-                }
-            }
-        } else {
-            print("이미지 로드 실패")
-        }
-    }
 }

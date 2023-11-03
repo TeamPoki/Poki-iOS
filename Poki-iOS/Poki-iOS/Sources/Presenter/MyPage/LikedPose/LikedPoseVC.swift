@@ -235,12 +235,6 @@ final class LikedPoseVC: UIViewController {
         }
     }
     
-    private func imageDataBinding(imageData: [ImageData], indexpath: IndexPath) {
-        let imageData = imageData[indexpath.row]
-        self.urlData = imageData.imageUrl
-        self.likedPoseCollectionView.reloadData()
-    }
-    
     func collectionViewDataBinding(collectionView: UICollectionView, indexPath: IndexPath, category: PoseCategory) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         let imageView = UIImageView()
