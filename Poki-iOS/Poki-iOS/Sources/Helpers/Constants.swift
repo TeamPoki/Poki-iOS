@@ -11,6 +11,7 @@ struct Constants {
 
     // MARK: - Custom Color
 
+    static let appBlackColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
     static let separatorGrayColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.00)
     static let textFieldBackgroundColor = UIColor(red: 0.97, green: 0.97, blue: 0.97, alpha: 1.00)
 

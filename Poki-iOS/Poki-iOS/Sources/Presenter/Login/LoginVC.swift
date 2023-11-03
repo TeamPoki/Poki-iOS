@@ -12,11 +12,13 @@ import Then
 final class LoginVC: UIViewController {
     
     // MARK: - Properties
+    
     private var email: String?
     private var password: String?
     private var authManager = AuthManager.shared
     
     // MARK: - Validation
+    
     private var isLoginFormValid: Bool? {
         isValidEmail == true && isValidPassword == true
     }
@@ -29,10 +31,11 @@ final class LoginVC: UIViewController {
         authManager.isValid(form: self.password, regex: Constants.passwordRegex)
     }
     private var loginButtonColor: UIColor {
-        isLoginFormValid == true ? UIColor.black : UIColor.lightGray
+        isLoginFormValid == true ? Constants.appBlackColor : UIColor.lightGray
     }
     
     // MARK: - Size
+    
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
         let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
@@ -40,8 +43,9 @@ final class LoginVC: UIViewController {
     }
 
     // MARK: - Components
+    
     private let headerView = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = Constants.appBlackColor
     }
     
     private let logoLabel = UILabel().then {
@@ -70,7 +74,7 @@ final class LoginVC: UIViewController {
     private let emailTextField = UITextField().then {
         $0.placeholder = "이메일을 입력해주세요."
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderColor = Constants.separatorGrayColor.cgColor
         $0.layer.cornerRadius = 8
     }
     
@@ -90,7 +94,7 @@ final class LoginVC: UIViewController {
     private let passwordTextField = UITextField().then {
         $0.placeholder = "비밀번호를 입력해주세요."
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderColor = Constants.separatorGrayColor.cgColor
         $0.layer.cornerRadius = 8
         $0.isSecureTextEntry = true
     }
@@ -154,7 +158,7 @@ final class LoginVC: UIViewController {
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
         $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.black.cgColor
+        $0.layer.borderColor = Constants.appBlackColor.cgColor
         $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
@@ -192,6 +196,7 @@ final class LoginVC: UIViewController {
     }
     
     // MARK: - Configure
+    
     private func configureUI() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         configure(emailTextField)
@@ -218,10 +223,10 @@ final class LoginVC: UIViewController {
         emailStackView.addArrangedSubviews(emailTitleLabel, emailTextField)
         passwordStackView.addArrangedSubviews(passwordTitleLabel, passwordTextField)
         emailSaveStackView.addArrangedSubviews(emailSaveButton, emailSaveTextLabel)
-        bodyStackView.addArrangedSubviews(emailStackView, passwordStackView, emailSaveStackView)
+        bodyStackView.addArrangedSubviews(emailStackView, passwordStackView)
         bottomStackView.addArrangedSubviews(loginButton, signUpButton, findPasswordButton)
         passwordStackView.addSubview(eyeButton)
-        view.addSubviews(headerView, bodyStackView, bottomStackView)
+        view.addSubviews(headerView, bodyStackView, emailSaveStackView, bottomStackView)
     }
     
     private func setupLayout() {
@@ -229,38 +234,53 @@ final class LoginVC: UIViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(250)
         }
+        
         logoLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(60)
             $0.leading.equalToSuperview().inset(20)
         }
+        
         commentLabel.snp.makeConstraints {
             $0.top.equalTo(logoLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(20)
         }
+        
         emailTextField.snp.makeConstraints {
             $0.height.equalTo(50)
         }
+        
         passwordTextField.snp.makeConstraints {
             $0.height.equalTo(50)
         }
-        bodyStackView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom).offset(60)
+        
+        emailSaveStackView.snp.makeConstraints {
+            $0.top.equalTo(passwordStackView.snp.bottom).offset(18)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
+        
+        bodyStackView.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(30)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        
         eyeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(10)
             $0.centerY.equalTo(passwordTextField)
         }
+        
         loginButton.snp.makeConstraints {
             $0.height.equalTo(50)
         }
+        
         signUpButton.snp.makeConstraints {
             $0.height.equalTo(50)
         }
+        
         bottomStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
+        
         emailSaveTextLabel.snp.contentHuggingHorizontalPriority = 249
         emailSaveTextLabel.snp.contentCompressionResistanceHorizontalPriority = 249
     }
@@ -270,8 +290,8 @@ final class LoginVC: UIViewController {
         self.email = email
         self.emailTextField.text = email
         self.emailSaveButton.isSelected = true
-        self.emailSaveButton.tintColor = .black
-        self.emailSaveTextLabel.textColor = .black
+        self.emailSaveButton.tintColor = Constants.appBlackColor
+        self.emailSaveTextLabel.textColor = Constants.appBlackColor
     }
     
     private func saveUserEmail(_ email: String) {
@@ -284,6 +304,7 @@ final class LoginVC: UIViewController {
     }
     
     // MARK: - Update UI
+    
     private func updateLoginButton() {
         if isLoginFormValid == true {
             loginButton.isEnabled = true
@@ -295,6 +316,7 @@ final class LoginVC: UIViewController {
     }
     
     // MARK: - Helpers
+    
     private func showAlertToFindPassword(completion: @escaping (String?) -> Void) {
         let alert = UIAlertController(title: "비밀번호 찾기", message: "이메일을 입력해주세요.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .destructive)
@@ -333,8 +355,8 @@ final class LoginVC: UIViewController {
     @objc private func emailSaveButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         if sender.isSelected == true {
-            sender.tintColor = .black
-            emailSaveTextLabel.textColor = .black
+            sender.tintColor = Constants.appBlackColor
+            emailSaveTextLabel.textColor = Constants.appBlackColor
         }
         if sender.isSelected == false {
             sender.tintColor = .lightGray

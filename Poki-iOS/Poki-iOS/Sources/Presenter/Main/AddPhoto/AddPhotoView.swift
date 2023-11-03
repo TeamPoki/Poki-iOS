@@ -19,7 +19,7 @@ final class AddPhotoView: UIView {
     }
     
     lazy var imageBackgroundView = UIView().then {
-        $0.backgroundColor = UIColor.black
+        $0.backgroundColor = Constants.appBlackColor
         $0.layer.masksToBounds = true
         $0.addSubview(photoImageView)
     }
@@ -125,7 +125,7 @@ final class AddPhotoView: UIView {
     }
     
     let addButton = UIButton(type: .custom).then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = Constants.appBlackColor
         $0.setTitle("추가하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
