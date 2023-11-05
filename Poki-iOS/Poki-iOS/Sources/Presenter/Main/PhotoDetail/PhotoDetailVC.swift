@@ -150,12 +150,11 @@ final class PhotoDetailVC: UIViewController {
         let alert = UIAlertController(title: "사진 삭제하기", message: "선택한 사진을 삭제하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: nil))
         alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            /// 이거는 왜 들어가야하는건지 궁금합니다.
             guard let self = self else { return }
-            guard let indexPath = indexPath else { return}
+            guard let indexPath = indexPath else { return }
             let photoData = firestoreManager.photoList[indexPath.row]
-          
-//            firestoreManager.photoDelete(documentPath: photoData.documentReference)
-            
+            firestoreManager.deletePhotoDocument(id: photoData.id)
             self.storageManager.deleteImage(imageURL: photoData.image) { _ in
                 print("이미지 삭제 완료")
             }
