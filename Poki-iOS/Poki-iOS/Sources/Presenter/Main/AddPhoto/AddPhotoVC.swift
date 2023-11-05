@@ -34,6 +34,7 @@ final class AddPhotoVC: UIViewController {
     let storageManager = StorageManager.shared
     
     var addPhotoCompletionHandler: ((Photo?) -> Void)?
+    var updateCompletionHandler: (() -> Void)?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -202,16 +203,16 @@ final class AddPhotoVC: UIViewController {
         }
     }
     
-    private func createPhotoDocument(completion: @escaping (Photo?, Error?) -> Void) {
+    private func createPhotoDocument(id: String?, completion: @escaping (Photo?, Error?) -> Void) {
         guard let tagText = addPhotoView.tagAddButton.currentTitle,
               let memo = addPhotoView.memoTextField.text,
               let date = addPhotoView.dateTextField.text else { return }
         self.uploadPhoto { [weak self] result in
             switch result {
             case .success((let photoURL, let tagURL)):
-                guard let id = self?.firestoreManager.photoList.count else { return }
+                guard let newID = self?.firestoreManager.photoList.count else { return }
                 let tag = TagModel(tagLabel: tagText, tagImage: tagURL.absoluteString)
-                let newPhoto = Photo(id: String(id), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
+                let newPhoto = Photo(id: id ?? String(newID), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
                 self?.firestoreManager.createPhotoDocument(photo: newPhoto) { error in
                     if let error = error {
                         completion(nil, error)
@@ -253,7 +254,7 @@ final class AddPhotoVC: UIViewController {
             switch self.viewSeperated {
             case .new:
                 self.showLoadingIndicator()
-                self.createPhotoDocument { [weak self] (newPhoto, error) in
+                self.createPhotoDocument(id: nil) { [weak self] (newPhoto, error) in
                     if let error = error {
                         print("ERROR: AddPhotoVC - 포토 문서 생성 실패 \(error.localizedDescription)")
                     }
@@ -265,16 +266,17 @@ final class AddPhotoVC: UIViewController {
             case .edit:
                 guard let photoData = photoData else { return }
                 storageManager.deleteImage(imageURL: photoData.image) { _ in
-                    print("이미지 삭제 완료")
+                    print("포토 이미지 삭제 완료")
                 }
                 storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
-                    print("이미지 삭제 완료")
+                    print("태그 이미지 삭제 완료")
                 }
                 self.showLoadingIndicator()
-                self.createPhotoDocument { [weak self] (_, error) in
+                self.createPhotoDocument(id: photoData.id) { [weak self] (_, error) in
                     if let error = error {
                         print("ERROR: AddPhotoVC - 포토 문서 생성 실패 \(error.localizedDescription)")
                     }
+                    self?.updateCompletionHandler?()
                     self?.hideLoadingIndicator()
                     self?.navigationController?.popToRootViewController(animated: true)
                 }

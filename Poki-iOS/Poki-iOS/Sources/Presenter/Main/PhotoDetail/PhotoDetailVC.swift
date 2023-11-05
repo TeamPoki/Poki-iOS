@@ -17,6 +17,7 @@ final class PhotoDetailVC: UIViewController {
         }
     }
     var indexPath: IndexPath?
+    var updatePhotoCompletionHandler: (() -> Void)?
     
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
@@ -174,6 +175,7 @@ final class PhotoDetailVC: UIViewController {
         moveVC.viewSeperated = .edit
         moveVC.photoData = self.photoData
         moveVC.indexPath = self.indexPath
+        moveVC.updateCompletionHandler = self.updatePhotoCompletionHandler
         navigationController?.pushViewController(moveVC, animated: true)
     }
     

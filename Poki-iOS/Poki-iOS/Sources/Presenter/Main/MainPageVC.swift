@@ -245,6 +245,9 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let photoDetailVC = PhotoDetailVC()
         photoDetailVC.photoData = firestoreManager.photoList[indexPath.row]
         photoDetailVC.indexPath = indexPath
+        photoDetailVC.updatePhotoCompletionHandler = { [weak self] in
+            self?.photoListCollectionView.reloadData()
+        }
         photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
     }
