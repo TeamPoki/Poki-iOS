@@ -51,7 +51,6 @@ final class FirestoreManager {
             guard let documents = snapshot?.documents else { return }
             self.photoList = documents.compactMap { document -> Photo? in
                 let photoData = try? document.data(as: Photo.self)
-                print("\(photoData?.memo) 포토이미지를 만드는 순서입니다! ")
                 return photoData
             }
             self.photoList.reverse()
