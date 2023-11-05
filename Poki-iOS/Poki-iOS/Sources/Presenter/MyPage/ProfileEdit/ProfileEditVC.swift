@@ -123,7 +123,8 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func configureUserName() {
-        nicknameTextField.text = firestoreManager.userData[0].userName
+        guard let nickname = self.firestoreManager.userData?.nickname else { return }
+        nicknameTextField.text = nickname
         if nicknameTextField.text == "" {
             hintLabel.isHidden = false
         } else {
@@ -132,7 +133,8 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func configureUserImage() {
-        let imageData = firestoreManager.userData[0].userImage
+        guard let nickname = self.firestoreManager.userData?.nickname else { return }
+        let imageData = nickname
         if imageData == "" {
             userImageView.image = UIImage()
         } else {
@@ -162,14 +164,13 @@ final class ProfileEditVC: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
-        let userData = firestoreManager.userData[0].documentReference
         storageManager.userImageUpload(image: userImageView.image ?? UIImage()) { [weak self] result in
             guard let self = self else { return }
             switch result {
                 case .success((let photoURL)):
-                    firestoreManager.userProfileUpdate(documentPath: userData, name: nicknameTextField.text ?? "", image: photoURL.absoluteString, vc: self)
-                    firestoreManager.photoDelete(documentPath: userData)
-                    firestoreManager.userRealTimebinding()
+                guard let nickname = self.nicknameTextField.text else { return }
+                firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: photoURL.absoluteString))
+                    firestoreManager.fetchUserDocumentFromFirestore()
                 case .failure(let error):
                     print("Error uploading images: \(error.localizedDescription)")
                     // 오류 처리

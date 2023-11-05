@@ -18,7 +18,7 @@ final class FirestoreManager {
     private let db = Firestore.firestore()
     private lazy var collectionReference = db.collection("Photo")
     var photoList: [Photo] = []
-    var userData:[User] = []
+    var userData: User?
     var poseData:[ImageData] = []
     
     var newPhotoDocumentID: String? {
@@ -209,17 +209,17 @@ final class FirestoreManager {
     }
     
     // MARK: - UserData
-    private func createUserFromData(_ data: [String: Any]) -> User? {
-        guard
-            let documentReference = data["documentReference"] as? String,
-            let userName = data["userName"] as? String,
-            let userImage = data["userImage"] as? String
-        else {
-            return nil
-        }
-        
-        return User(documentReference: documentReference, userName: userName, userImage: userImage)
-    }
+//    private func createUserFromData(_ data: [String: Any]) -> User? {
+//        guard
+//            let documentReference = data["documentReference"] as? String,
+//            let userName = data["userName"] as? String,
+//            let userImage = data["userImage"] as? String
+//        else {
+//            return nil
+//        }
+//
+//        return User(documentReference: documentReference, userName: userName, userImage: userImage)
+//    }
     
     private func createImageFromData(_ data: [String: Any]) -> ImageData? {
         guard
@@ -244,9 +244,43 @@ final class FirestoreManager {
 //        }
 //    }
     
+    //실시간반영
+//    func userRealTimebinding() {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let docRef = db.collection("users/\(userUID)/User")
+//        docRef.addSnapshotListener { (snapshot, error) in
+//            guard let documents = snapshot?.documents else {
+//                print("Error Firestore fetching document: \(String(describing: error))")
+//                return
+//            }
+//            self.userData = documents.compactMap { doc -> User? in
+//                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
+//                let data = doc.data()
+//                if let userData = self.createUserFromData(data) {
+//                    return userData
+//                }
+//                return nil
+//            }
+//        }
+//    }
+    
+    func fetchUserDocumentFromFirestore() {
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users").document(userEmail)
+        
+        docRef.getDocument { (snapshot, error) in
+            if let error = error {
+                print("ERROR: 파이어 스토어에서 유저 문서를 가져오지 못했습니다! \(error.localizedDescription)")
+                return
+            }
+            let userData = try? snapshot?.data(as: User.self)
+            self.userData = userData
+        }
+    }
+    
     func createUserDocument(email: String, user: User) {
-        let docRef = db.collection("users/\(email)/User").document()
         do {
+            let docRef = db.collection("users").document(email)
             try docRef.setData(from: user)
             print("SUCCESS: 유저 문서 생성 성공!!")
         } catch let error {
@@ -254,37 +288,59 @@ final class FirestoreManager {
         }
     }
     
-    
-    func imageCreate(imageUrl: String, category: String)  {
-        guard let userUID = authManager.currentUserUID else { return  }
-        let newDocumentRef = db.collection("users/\(userUID)/Image").document()
-        let imageData = ImageData(imageUrl: imageUrl, category: category, isSelected: false)
+    func updateUserDocument(user: User) {
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users").document(userEmail)
         do {
-            try newDocumentRef.setData(from: imageData)
-            print("Document added successfully.")
+            try docRef.setData(from: user)
+            print("SUCCESS: 유저 문서 업데이트 성공!!")
         } catch let error {
-            print("Error adding document: \(error)")
+            print("ERROR: 유저 문서 업데이트 실패 ㅠㅠ!!! \(error)")
         }
     }
     
-    func userProfileUpdate(documentPath: String, name: String, image: String, vc: UIViewController) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let documentComponents = documentPath.components(separatedBy: "/")
-        _ = documentComponents[0]
-        let documentID = documentComponents[3]
-        let docRef = db.collection("users/\(userUID)/User").document(documentID)
-        let data: [String : Any] = [
-            "userImage" : image,
-            "userName" : name
-        ]
-        docRef.updateData(data) { error in
-            if let error = error {
-                print("Error updating document: \(error)")
-            }
-            print("Document updated successfully.")
-            vc.navigationController?.popViewController(animated: true)
+//    func userProfileUpdate(documentPath: String, name: String, image: String, vc: UIViewController) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let documentComponents = documentPath.components(separatedBy: "/")
+//        _ = documentComponents[0]
+//        let documentID = documentComponents[3]
+//        let docRef = db.collection("users/\(userUID)/User").document(documentID)
+//        let data: [String : Any] = [
+//            "userImage" : image,
+//            "userName" : name
+//        ]
+//        docRef.updateData(data) { error in
+//            if let error = error {
+//                print("Error updating document: \(error)")
+//            }
+//            print("Document updated successfully.")
+//            vc.navigationController?.popViewController(animated: true)
+//        }
+//    }
+    
+    func createRecommendPose(imageData: ImageData) {
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users/\(userEmail)/Image").document()
+        do {
+            try docRef.setData(from: imageData)
+            print("SUCCESS: 추천 포즈 문서 생성 성공 !!")
+        } catch let error {
+            print("ERROR: 추천 포즈 문서 생성 실패 ㅠㅠ!!! \(error)")
         }
     }
+    
+    
+//    func imageCreate(imageUrl: String, category: String)  {
+//        guard let userUID = authManager.currentUserUID else { return  }
+//        let newDocumentRef = db.collection("users/\(userUID)/Image").document()
+//        let imageData = ImageData(imageUrl: imageUrl, category: category, isSelected: false)
+//        do {
+//            try newDocumentRef.setData(from: imageData)
+//            print("Document added successfully.")
+//        } catch let error {
+//            print("Error adding document: \(error)")
+//        }
+//    }
     
     
     func poseImageUpdate(imageUrl: String, isSelected: Bool) {
@@ -320,25 +376,7 @@ final class FirestoreManager {
     }
     
     
-    //실시간반영
-    func userRealTimebinding() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/User")
-        docRef.addSnapshotListener { (snapshot, error) in
-            guard let documents = snapshot?.documents else {
-                print("Error Firestore fetching document: \(String(describing: error))")
-                return
-            }
-            self.userData = documents.compactMap { doc -> User? in
-                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
-                let data = doc.data()
-                if let userData = self.createUserFromData(data) {
-                    return userData
-                }
-                return nil
-            }
-        }
-    }
+    
     
 //    func poseRealTimebinding() {
 //        guard let userUID = authManager.currentUserUID else { return }
@@ -389,29 +427,49 @@ final class FirestoreManager {
 
 extension FirestoreManager {
     func makePoseData() {
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg", category: "alone")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpeg", category: "alone")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpeg", category: "alone")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpeg", category: "alone")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpeg", category: "alone")
+        // MARK: - alone
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg",
+                                             category: "alone", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpg",
+                                             category: "alone", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpg",
+                                             category: "alone", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpg",
+                                             category: "alone", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpg",
+                                             category: "alone", isSelected: false))
         
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose1.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose2.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose3.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose4.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose5.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose6.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose7.jpeg", category: "twoPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose8.jpeg", category: "twoPose")
+        // MARK: - two
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose1.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose2.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose3.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose4.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose5.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose6.jpeg",
+                                             category: "twoPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose7.jpeg",
+                                             category: "twoPose", isSelected: false))
         
-        
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose1.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose2.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose3.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose4.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose5.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose6.jpeg", category: "manyPose")
-        imageCreate(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose7.jpeg", category: "manyPose")
+        // MARK: - many
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose1.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose2.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose3.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose4.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose5.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose6.jpeg",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose7.jpeg",
+                                             category: "manyPose", isSelected: false))
     }
 }
 
@@ -419,8 +477,6 @@ extension FirestoreManager {
 
 //회원탈퇴 전용 메서드
 extension FirestoreManager {
-    
-    
     //회원탈퇴 포토 데이터 삭제
     func deleteAllPhotoData() {
         guard let userUID = authManager.currentUserUID else { return }
@@ -461,7 +517,6 @@ extension FirestoreManager {
           }
         
     }
-    
     
     //회원탈퇴 포즈 데이터 삭제
     func deleteAllPoseData() {

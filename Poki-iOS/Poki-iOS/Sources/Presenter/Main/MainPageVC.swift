@@ -39,7 +39,7 @@ final class MainPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
-        firestoreManager.userRealTimebinding()
+        firestoreManager.fetchUserDocumentFromFirestore()
         setupPhotoData()
     }
 

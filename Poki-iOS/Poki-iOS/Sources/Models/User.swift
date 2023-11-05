@@ -8,9 +8,8 @@
 import UIKit
 
 struct User: Codable {
-    var documentReference: String
-    let userName: String
-    let userImage: String
+    let nickname: String
+    let imageURL: String
 }
 
 struct ImageData: Codable {
