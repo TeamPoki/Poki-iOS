@@ -170,7 +170,8 @@ final class ProfileEditVC: UIViewController {
                 case .success((let photoURL)):
                 guard let nickname = self.nicknameTextField.text else { return }
                 firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: photoURL.absoluteString))
-                    firestoreManager.fetchUserDocumentFromFirestore()
+                firestoreManager.fetchUserDocumentFromFirestore()
+                self.navigationController?.popViewController(animated: true)
                 case .failure(let error):
                     print("Error uploading images: \(error.localizedDescription)")
                     // 오류 처리
