@@ -47,8 +47,8 @@ final class FirestoreManager {
 //    }
 
     func fetchPhotoFromFirestore(completion: @escaping (Error?) -> Void) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/Photo")
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users/\(userEmail)/Photo")
         docRef.addSnapshotListener { (snapshot, error) in
             if let error = error {
                 print("ERROR: 파이어 스토어에서 Photo 컬렉션의 문서를 가져오지 못했습니다! \(error.localizedDescription)")
@@ -68,8 +68,8 @@ final class FirestoreManager {
     /// 일부 문서만 업데이트 하는 경우 updateData() 메서드가 효율적이지만 현재 로직 상으로는 전체를 업데이트하기 때문에 해당 메서드를 호출해서 생성과 업데이트를 처리하는건 어떨까요?
     func createPhotoDocument(photo: Photo, completion: @escaping (Error?) -> Void) {
         do {
-            guard let userUID = authManager.currentUserUID else { return }
-            let docRef = db.collection("users/\(userUID)/Photo").document(photo.id)
+            guard let userEmail = authManager.currentUserEmail else { return }
+            let docRef = db.collection("users/\(userEmail)/Photo").document(photo.id)
             try docRef.setData(from: photo)
             print("Document added successfully.")
             completion(nil)
@@ -80,8 +80,8 @@ final class FirestoreManager {
     }
     
     func deletePhotoDocument(id: String) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/Photo").document(id)
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users/\(userEmail)/Photo").document(id)
         docRef.delete { error in
             if let error = error {
                 print("ERROR: Photo 컬렉션의 문서 삭제를 실패했습니다! \(error.localizedDescription)")
@@ -232,15 +232,25 @@ final class FirestoreManager {
         return ImageData(imageUrl: imageUrl, category: category, isSelected: isSelected)
     }
     
-    func userCreate(name: String, image: String) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let newDocumentRef = db.collection("users/\(userUID)/User").document()
-        let userData = User(documentReference: newDocumentRef.path, userName: name, userImage: image)
+//    func userCreate(name: String, image: String) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let newDocumentRef = db.collection("users/\(userUID)/User").document()
+//        let userData = User(documentReference: newDocumentRef.path, userName: name, userImage: image)
+//        do {
+//            try newDocumentRef.setData(from: userData)
+//            print("Document added successfully.")
+//        } catch let error {
+//            print("Error adding document: \(error)")
+//        }
+//    }
+    
+    func createUserDocument(email: String, user: User) {
+        let docRef = db.collection("users/\(email)/User").document()
         do {
-            try newDocumentRef.setData(from: userData)
-            print("Document added successfully.")
+            try docRef.setData(from: user)
+            print("SUCCESS: 유저 문서 생성 성공!!")
         } catch let error {
-            print("Error adding document: \(error)")
+            print("ERROR: 유저 문서 생성 실패 ㅠㅠ!!! \(error)")
         }
     }
     

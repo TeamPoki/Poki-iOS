@@ -192,7 +192,10 @@ final class SignUpVC: UIViewController {
                 self.hideLoadingIndicator()
                 return
             }
-            firestoreManager.userCreate(name: signUpView.nicknameTextField.text!, image: "")
+//            firestoreManager.userCreate(name: signUpView.nicknameTextField.text!, image: "")
+            guard let nickname = self.signUpView.nicknameTextField.text else { return }
+            let user = User(documentReference: UUID().uuidString, userName: nickname, userImage: "")
+            firestoreManager.createUserDocument(email: email,user: user)
             firestoreManager.makePoseData()
             self.hideLoadingIndicator()
             self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
