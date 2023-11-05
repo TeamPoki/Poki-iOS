@@ -39,19 +39,19 @@ final class FirestoreManager {
 //        let tag = TagModel(tagLabel: tagLabel, tagImage: tagImage)
 //        return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
 //    }
-    
+
     func fetchPhotoFromFirestore(completion: @escaping (Error?) -> Void) {
         guard let userUID = authManager.currentUserUID else { return }
         let docRef = db.collection("users/\(userUID)/Photo")
         docRef.addSnapshotListener { (snapshot, error) in
             if let error = error {
-                print("ERROR: 파이어스토어에서 포토 문서를 가져오지 못했습니다. \(error.localizedDescription)")
+                print("ERROR: 파이어 스토어에서 Photo 컬렉션의 문서를 가져오지 못했습니다! \(error.localizedDescription)")
                 completion(error)
             }
             guard let documents = snapshot?.documents else { return }
             self.photoList = documents.compactMap { document -> Photo? in
                 let photoData = try? document.data(as: Photo.self)
-                print("\(photoData?.memo) 포토이미지를 만든 순서입니다! ")
+                print("\(photoData?.memo) 포토이미지를 만드는 순서입니다! ")
                 return photoData
             }
             self.photoList.reverse()
@@ -71,6 +71,16 @@ final class FirestoreManager {
         } catch let error {
             print("Error adding document: \(error)")
             completion(error)
+        }
+    }
+    
+    func deletePhotoDocument(id: String) {
+        guard let userUID = authManager.currentUserUID else { return }
+        let docRef = db.collection("users/\(userUID)/Photo").document(id)
+        docRef.delete { error in
+            if let error = error {
+                print("ERROR: Photo 컬렉션의 문서 삭제를 실패했습니다! \(error.localizedDescription)")
+            }
         }
     }
     
