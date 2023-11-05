@@ -237,10 +237,14 @@ final class AddPhotoVC: UIViewController {
                 self.uploadPhoto(images: [image, tagImage]) { result in
                     switch result {
                     case .success((let photoURL, let tagURL)):
-//                        self.createPhoto(photoImageURL: photoURL, date: date, memo: memo, tagImageURL: tagURL, tagText: tagText) { docRef, photo in
-//                            self.addPhotoCompletionHandler(photo)
-//                        }
-                        print("")
+                        let tag = TagModel(tagLabel: tagText, tagImage: tagURL.absoluteString)
+                        let newPhoto = Photo(id: String(self.firestoreManager.photoList.count), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
+                        self.firestoreManager.createPhotoDocument(photo: newPhoto) { error in
+                            if let error = error {
+                                print("ERROR: AddPhotoVC - 포토 문서 생성 실패")
+                            }
+                            self.addPhotoCompletionHandler(newPhoto)
+                        }
                     case .failure(let error):
                         print("AddPageVC - 포토, 태그 이미지 업로드 실패 \(error)")
                     }

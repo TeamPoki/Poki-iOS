@@ -255,8 +255,9 @@ extension MainPageVC: PHPickerViewControllerDelegate {
                     addPhotoVC.addPhotoView.photoImageView.image = dataImage
                     addPhotoVC.addPhotoCompletionHandler = { photo in
                         self.photoListCollectionView.performBatchUpdates {
-                            self.firestoreManager.photoList.insert(photo, at: 0)
-                            self.photoListCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+                            let row = self.firestoreManager.photoList.count
+                            self.firestoreManager.photoList.insert(photo, at: row)
+                            self.photoListCollectionView.insertItems(at: [IndexPath(item: row, section: 0)])
                         }
                     }
                     self.navigationController?.pushViewController(addPhotoVC, animated: true)
