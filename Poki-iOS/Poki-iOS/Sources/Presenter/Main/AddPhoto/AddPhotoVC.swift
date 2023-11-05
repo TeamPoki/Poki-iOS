@@ -263,14 +263,13 @@ final class AddPhotoVC: UIViewController {
                 }
             // Update 메서드
             case .edit:
-//                updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
-//                storageManager.deleteImage(imageURL: photoData.image) { _ in
-//                    print("이미지 삭제 완료")
-//                }
-//                storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
-//                    print("이미지 삭제 완료")
-//                }
                 guard let photoData = photoData else { return }
+                storageManager.deleteImage(imageURL: photoData.image) { _ in
+                    print("이미지 삭제 완료")
+                }
+                storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+                    print("이미지 삭제 완료")
+                }
                 self.showLoadingIndicator()
                 self.createPhotoDocument { [weak self] (_, error) in
                     if let error = error {
