@@ -179,8 +179,8 @@ final class StorageManager {
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
         
-        let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
-        let firebaseReference = Storage.storage().reference().child(imageName)
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let firebaseReference = Storage.storage().reference().child(userEmail).child("Profile")
         
         // Upload the first image.
         firebaseReference.child("photo.jpg").putData(photoData, metadata: metaData) { _, error in
