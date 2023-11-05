@@ -237,7 +237,6 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 print(error)
             }
         }
-
         return cell
     }
 

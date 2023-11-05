@@ -21,6 +21,11 @@ final class FirestoreManager {
     var userData:[User] = []
     var poseData:[ImageData] = []
     
+    var newPhotoDocumentID: String? {
+        guard let id = self.photoList.first?.id,
+              let index = Int(id) else { return nil }
+        return String(index + 1)
+    }
     /// 파이어베이스에서 swift의 구조체나 클래스를 사용할 수 있도록 지원하기 때문에 [String: Any] 타입의 데이터를 Photo 로 변환하는 과정을 생략할 수 있기 때문에 해당 메서드를 사용하지 않을 수 있습니다.
 //    private func createPhotoFromData(_ data: [String: Any]) -> Photo? {
 //        guard

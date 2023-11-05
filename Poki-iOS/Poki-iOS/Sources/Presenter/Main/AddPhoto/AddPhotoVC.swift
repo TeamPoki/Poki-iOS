@@ -210,7 +210,7 @@ final class AddPhotoVC: UIViewController {
         self.uploadPhoto { [weak self] result in
             switch result {
             case .success((let photoURL, let tagURL)):
-                guard let newID = self?.firestoreManager.photoList.count else { return }
+                guard let newID = self?.firestoreManager.newPhotoDocumentID else { return }
                 let tag = TagModel(tagLabel: tagText, tagImage: tagURL.absoluteString)
                 let newPhoto = Photo(id: id ?? String(newID), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
                 self?.firestoreManager.createPhotoDocument(photo: newPhoto) { error in
