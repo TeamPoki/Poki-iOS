@@ -40,7 +40,7 @@ final class MainPageVC: UIViewController {
         configureNav()
         setupCollectionView()
         firestoreManager.userRealTimebinding()
-        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
+//        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
     }
 
     override func viewWillAppear(_ animated: Bool) {

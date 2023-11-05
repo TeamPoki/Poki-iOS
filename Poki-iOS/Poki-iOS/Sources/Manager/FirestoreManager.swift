@@ -21,63 +21,81 @@ final class FirestoreManager {
     var userData:[User] = []
     var poseData:[ImageData] = []
     
-    private func createPhotoFromData(_ data: [String: Any]) -> Photo? {
-        guard
-            let documentReference = data["documentReference"] as? String,
-            let image = data["image"] as? String,
-            let memo = data["memo"] as? String,
-            let date = data["date"] as? String,
-            let tagData = data["tag"] as? [String: Any],
-            let tagLabel = tagData["tagLabel"] as? String,
-            let tagImage = tagData["tagImage"] as? String
-        else {
-            // 필수 필드가 누락되었거나 형식이 맞지 않는 경우 nil 반환
-            return nil
-        }
-        
-        let tag = TagModel(tagLabel: tagLabel, tagImage: tagImage)
-        return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
-    }
+    /// 파이어베이스에서 swift의 구조체나 클래스를 사용할 수 있도록 지원하기 때문에 [String: Any] 타입의 데이터를 Photo 로 변환하는 과정을 생략할 수 있기 때문에 해당 메서드를 사용하지 않을 수 있습니다.
+//    private func createPhotoFromData(_ data: [String: Any]) -> Photo? {
+//        guard
+//            let documentReference = data["documentReference"] as? String,
+//            let image = data["image"] as? String,
+//            let memo = data["memo"] as? String,
+//            let date = data["date"] as? String,
+//            let tagData = data["tag"] as? [String: Any],
+//            let tagLabel = tagData["tagLabel"] as? String,
+//            let tagImage = tagData["tagImage"] as? String
+//        else {
+//            // 필수 필드가 누락되었거나 형식이 맞지 않는 경우 nil 반환
+//            return nil
+//        }
+//
+//        let tag = TagModel(tagLabel: tagLabel, tagImage: tagImage)
+//        return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
+//    }
     
-    func photoUpdate(documentPath: String, image: String, date: String, memo: String, tagText: String, tagImage: String) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let documentComponents = documentPath.components(separatedBy: "/")
-        _ = documentComponents[0]
-        let documentID = documentComponents[3]
-        let docRef = db.collection("users/\(userUID)/Photo").document(documentID)
-        let data: [String : Any] = [
-            "image" : image,
-            "date" : date,
-            "memo" : memo,
-            "tag" : [
-                "tagLabel": tagText,
-                "tagImage": tagImage
-            ]
-        ]
-        docRef.updateData(data) { error in
-            if let error = error {
-                print("Error updating document: \(error)")
-            }
-            print("Document updated successfully.")
-        }
-    }
     
-    func createPhotoData(photoURL: String, date: String, memo: String, tagURL: String, tagText: String, completion: (DocumentReference, Photo) -> Void) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let newDocumentRef = db.collection("users/\(userUID)/Photo").document()
-        let newPhoto = Photo(documentReference: newDocumentRef.path, image: photoURL, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagURL))
-        self.createPhotoDocument(new: newDocumentRef, photo: newPhoto)
-        completion(newDocumentRef, newPhoto)
-    }
-    
-    func createPhotoDocument(new reference: DocumentReference, photo: Photo) {
+    /// setData 메서드는 문서가 없는 경우 새로 만들고, 있는 경우 덮어쓰기 때문에 하나의 메서드로 생성과 업데이트를 처리할 수 있습니다.
+    /// 일부 문서만 업데이트 하는 경우 updateData() 메서드가 효율적이지만 현재 로직 상으로는 전체를 업데이트하기 때문에 해당 메서드를 호출해서 생성과 업데이트를 처리하는건 어떨까요?
+    func createPhotoDocument(photo: Photo, completion: @escaping (Error?) -> Void) {
         do {
-            try reference.setData(from: photo)
+            guard let userUID = authManager.currentUserUID else { return }
+            let docRef = db.collection("users/\(userUID)/Photo").document(photo.id)
+            try docRef.setData(from: photo)
             print("Document added successfully.")
+            completion(nil)
         } catch let error {
             print("Error adding document: \(error)")
+            completion(error)
         }
     }
+    
+//    func photoUpdate(documentPath: String, image: String, date: String, memo: String, tagText: String, tagImage: String) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let documentComponents = documentPath.components(separatedBy: "/")
+//        _ = documentComponents[0]
+//        let documentID = documentComponents[3]
+//        let docRef = db.collection("users/\(userUID)/Photo").document(documentID)
+//        let data: [String : Any] = [
+//            "image" : image,
+//            "date" : date,
+//            "memo" : memo,
+//            "tag" : [
+//                "tagLabel": tagText,
+//                "tagImage": tagImage
+//            ]
+//        ]
+//        docRef.updateData(data) { error in
+//            if let error = error {
+//                print("Error updating document: \(error)")
+//            }
+//            print("Document updated successfully.")
+//        }
+//    }
+    
+    
+//    func createPhotoData(photoURL: String, date: String, memo: String, tagURL: String, tagText: String, completion: (DocumentReference, Photo) -> Void) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let newDocumentRef = db.collection("users/\(userUID)/Photo").document()
+//        let newPhoto = Photo(documentReference: newDocumentRef.path, image: photoURL, memo: memo, date: date, tag: TagModel(tagLabel: tagText, tagImage: tagURL))
+//        self.createPhotoDocument(new: newDocumentRef, photo: newPhoto)
+//        completion(newDocumentRef, newPhoto)
+//    }
+//
+//    func createPhotoDocument(new reference: DocumentReference, photo: Photo) {
+//        do {
+//            try reference.setData(from: photo)
+//            print("Document added successfully.")
+//        } catch let error {
+//            print("Error adding document: \(error)")
+//        }
+//    }
     
     func photoDelete(documentPath: String) {
         guard let userUID = authManager.currentUserUID else { return }
@@ -94,27 +112,27 @@ final class FirestoreManager {
     }
     
     //실시간반영
-    func photoRealTimebinding(collectionView : UICollectionView) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/Photo")
-        docRef.addSnapshotListener { (snapshot, error) in
-            guard let documents = snapshot?.documents else {
-                print("Error Firestore fetching document: \(String(describing: error))")
-                return
-            }
-            self.photoList = documents.compactMap { doc -> Photo? in
-                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
-                let data = doc.data()
-                if let photo = self.createPhotoFromData(data) {
-                    return photo
-                }
-                return nil
-            }
-            collectionView.reloadData()
-            guard let updateMainVC = collectionView.delegate as? MainPageVC else { return }
-            updateMainVC.updateEmptyPhotoListViewVisibility()
-        }
-    }
+//    func photoRealTimebinding(collectionView : UICollectionView) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let docRef = db.collection("users/\(userUID)/Photo")
+//        docRef.addSnapshotListener { (snapshot, error) in
+//            guard let documents = snapshot?.documents else {
+//                print("Error Firestore fetching document: \(String(describing: error))")
+//                return
+//            }
+//            self.photoList = documents.compactMap { doc -> Photo? in
+//                // Firestore 스냅샷에서 필요한 데이터를 가져와 Photo 모델에 직접 할당
+//                let data = doc.data()
+//                if let photo = self.createPhotoFromData(data) {
+//                    return photo
+//                }
+//                return nil
+//            }
+//            collectionView.reloadData()
+//            guard let updateMainVC = collectionView.delegate as? MainPageVC else { return }
+//            updateMainVC.updateEmptyPhotoListViewVisibility()
+//        }
+//    }
     
     // MARK: - Notice
     

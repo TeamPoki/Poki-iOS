@@ -154,7 +154,7 @@ final class PhotoDetailVC: UIViewController {
             guard let indexPath = indexPath else { return}
             let photoData = firestoreManager.photoList[indexPath.row]
           
-            firestoreManager.photoDelete(documentPath: photoData.documentReference)
+//            firestoreManager.photoDelete(documentPath: photoData.documentReference)
             
             self.storageManager.deleteImage(imageURL: photoData.image) { _ in
                 print("이미지 삭제 완료")

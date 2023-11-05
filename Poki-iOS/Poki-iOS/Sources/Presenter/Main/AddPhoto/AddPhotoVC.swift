@@ -186,13 +186,13 @@ final class AddPhotoVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func createPhoto(photoImageURL: URL, date: String, memo: String, tagImageURL: URL, tagText: String, completion: (DocumentReference, Photo) -> Void) {
-        let photoStringURL = photoImageURL.absoluteString
-        let tagStringURL = tagImageURL.absoluteString
-        firestoreManager.createPhotoData(photoURL: photoStringURL, date: date, memo: memo, tagURL: tagStringURL, tagText: tagText) { docRef, photo in
-            completion(docRef, photo)
-        }
-    }
+//    func createPhoto(photoImageURL: URL, date: String, memo: String, tagImageURL: URL, tagText: String, completion: (DocumentReference, Photo) -> Void) {
+//        let photoStringURL = photoImageURL.absoluteString
+//        let tagStringURL = tagImageURL.absoluteString
+//        firestoreManager.createPhotoData(photoURL: photoStringURL, date: date, memo: memo, tagURL: tagStringURL, tagText: tagText) { docRef, photo in
+//            completion(docRef, photo)
+//        }
+//    }
     
     func uploadPhoto(images: [UIImage], completion: @escaping (Result<(URL, URL), Error>) -> Void) {
         storageManager.uploadPhotoImage(image: images) { result in
@@ -220,7 +220,7 @@ final class AddPhotoVC: UIViewController {
         let tagURLString = tagURL.absoluteString
         
         // Firestore에 데이터 생성
-        firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
+//        firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
     }
     
     // Creat 메서드
@@ -237,9 +237,10 @@ final class AddPhotoVC: UIViewController {
                 self.uploadPhoto(images: [image, tagImage]) { result in
                     switch result {
                     case .success((let photoURL, let tagURL)):
-                        self.createPhoto(photoImageURL: photoURL, date: date, memo: memo, tagImageURL: tagURL, tagText: tagText) { docRef, photo in
-                            self.addPhotoCompletionHandler(photo)
-                        }
+//                        self.createPhoto(photoImageURL: photoURL, date: date, memo: memo, tagImageURL: tagURL, tagText: tagText) { docRef, photo in
+//                            self.addPhotoCompletionHandler(photo)
+//                        }
+                        print("")
                     case .failure(let error):
                         print("AddPageVC - 포토, 태그 이미지 업로드 실패 \(error)")
                     }
@@ -250,7 +251,7 @@ final class AddPhotoVC: UIViewController {
             case .edit:
                 self.showLoadingIndicator()
                 guard let photoData = photoData else { return }
-                updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
+//                updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
                 storageManager.deleteImage(imageURL: photoData.image) { _ in
                     print("이미지 삭제 완료")
                 }
