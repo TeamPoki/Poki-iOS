@@ -54,6 +54,7 @@ final class FirestoreManager {
                 print("\(photoData?.memo) 포토이미지를 만든 순서입니다! ")
                 return photoData
             }
+            self.photoList.reverse()
             completion(nil)
         }
     }
