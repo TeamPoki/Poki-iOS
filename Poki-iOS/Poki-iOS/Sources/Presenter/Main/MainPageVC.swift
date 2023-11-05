@@ -40,7 +40,7 @@ final class MainPageVC: UIViewController {
         configureNav()
         setupCollectionView()
         firestoreManager.userRealTimebinding()
-//        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
+        setupPhotoData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +64,18 @@ final class MainPageVC: UIViewController {
         let filterButton = createFilterButton()
         let plusButton = createPlusButton()
         navigationItem.rightBarButtonItems = [plusButton, filterButton]
+    }
+    
+    private func setupPhotoData() {
+        self.showLoadingIndicator()
+        firestoreManager.fetchPhotoFromFirestore { [weak self] error in
+            if let error = error {
+                print("ERROR: MainPageVC - 파이어 스토어에서 포토 문서를 못가져왔습니다. \(error)")
+                return
+            }
+            self?.photoListCollectionView.reloadData()
+            self?.hideLoadingIndicator()
+        }
     }
 
     private func createFilterButton() -> UIBarButtonItem {
