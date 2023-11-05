@@ -193,11 +193,11 @@ final class MyPageVC: UIViewController {
             emailLabel.text = authManager.currentUserEmail
         }
         //이미지 변경
-//        guard let nickname = self.firestoreManager.userData?.nickname else { return }
+        guard let imageURL = self.firestoreManager.userData?.imageURL else { return }
         if self.userImage.image == nil {
             self.userImage.image = UIImage()
         } else {
-            storageManager.downloadImage(urlString: nickname) { [weak self] image in
+            storageManager.downloadImage(urlString: imageURL) { [weak self] image in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.userImage.image = image
