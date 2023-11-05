@@ -33,7 +33,7 @@ final class AddPhotoVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
-    var addPhotoCompletionHandler: (Photo) -> Void = { photo in }
+    var addPhotoCompletionHandler: ((Photo?) -> Void)?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -194,76 +194,91 @@ final class AddPhotoVC: UIViewController {
 //        }
 //    }
     
-    func uploadPhoto(images: [UIImage], completion: @escaping (Result<(URL, URL), Error>) -> Void) {
-        storageManager.uploadPhotoImage(image: images) { result in
+    private func uploadPhoto(completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+        guard let photoImage = addPhotoView.photoImageView.image else { return }
+        guard let tagImage = addPhotoView.tagImageView.image else { return }
+        storageManager.uploadPhotoImage(image: [photoImage, tagImage]) { result in
             completion(result)
         }
     }
     
-    func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
-        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+    private func createPhotoDocument(completion: @escaping (Photo?, Error?) -> Void) {
+        guard let tagText = addPhotoView.tagAddButton.currentTitle,
+              let memo = addPhotoView.memoTextField.text,
+              let date = addPhotoView.dateTextField.text else { return }
+        self.uploadPhoto { [weak self] result in
             switch result {
             case .success((let photoURL, let tagURL)):
-                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
-                self.updateImageData(documentPath: documentPath, photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
+                guard let id = self?.firestoreManager.photoList.count else { return }
+                let tag = TagModel(tagLabel: tagText, tagImage: tagURL.absoluteString)
+                let newPhoto = Photo(id: String(id), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
+                self?.firestoreManager.createPhotoDocument(photo: newPhoto) { error in
+                    if let error = error {
+                        completion(nil, error)
+                    }
+                    completion(newPhoto, nil)
+                }
             case .failure(let error):
-                print("Error uploading images: \(error.localizedDescription)")
-                // 오류 처리
+                print("ERROR: AddPhotoVC - 포토, 태그 이미지 업로드 실패 \(error)")
             }
         }
     }
     
+//    func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
+//        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
+//            switch result {
+//            case .success((let photoURL, let tagURL)):
+//                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
+//                self.updateImageData(documentPath: documentPath, photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
+//            case .failure(let error):
+//                print("Error uploading images: \(error.localizedDescription)")
+//                // 오류 처리
+//            }
+//        }
+//    }
+    
     // Firestore에 데이터 생성 및 저장
-    private func updateImageData(documentPath: String, photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
-        // URL을 문자열로 변환
-        let photoURLString = photoURL.absoluteString
-        let tagURLString = tagURL.absoluteString
-        
-        // Firestore에 데이터 생성
+//    private func updateImageData(documentPath: String, photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
+//        // URL을 문자열로 변환
+//        let photoURLString = photoURL.absoluteString
+//        let tagURLString = tagURL.absoluteString
+//
+//         Firestore에 데이터 생성
 //        firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
-    }
+//    }
     
     // Creat 메서드
     @objc private func addButtonAction() {
         if addPhotoView.photoImageView.image != nil {
-            guard let image = addPhotoView.photoImageView.image else { return }
-            guard let date = addPhotoView.dateTextField.text else { return }
-            guard let memo = addPhotoView.memoTextField.text else { return }
-            guard let tagImage = addPhotoView.tagImageView.image else { return }
-            guard let tagText = addPhotoView.tagAddButton.currentTitle else { return }
             switch self.viewSeperated {
             case .new:
                 self.showLoadingIndicator()
-                self.uploadPhoto(images: [image, tagImage]) { result in
-                    switch result {
-                    case .success((let photoURL, let tagURL)):
-                        let tag = TagModel(tagLabel: tagText, tagImage: tagURL.absoluteString)
-                        let newPhoto = Photo(id: String(self.firestoreManager.photoList.count), image: photoURL.absoluteString, memo: memo, date: date, tag: tag)
-                        self.firestoreManager.createPhotoDocument(photo: newPhoto) { error in
-                            if let error = error {
-                                print("ERROR: AddPhotoVC - 포토 문서 생성 실패")
-                            }
-                            self.addPhotoCompletionHandler(newPhoto)
-                        }
-                    case .failure(let error):
-                        print("AddPageVC - 포토, 태그 이미지 업로드 실패 \(error)")
+                self.createPhotoDocument { [weak self] (newPhoto, error) in
+                    if let error = error {
+                        print("ERROR: AddPhotoVC - 포토 문서 생성 실패 \(error.localizedDescription)")
                     }
-                    self.hideLoadingIndicator()
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self?.addPhotoCompletionHandler?(newPhoto)
+                    self?.hideLoadingIndicator()
+                    self?.navigationController?.popToRootViewController(animated: true)
                 }
             // Update 메서드
             case .edit:
-                self.showLoadingIndicator()
-                guard let photoData = photoData else { return }
 //                updateData(documentPath: photoData.documentReference, image: [image, tagImage], date: date, memo: memo, tagText: tagText)
-                storageManager.deleteImage(imageURL: photoData.image) { _ in
-                    print("이미지 삭제 완료")
+//                storageManager.deleteImage(imageURL: photoData.image) { _ in
+//                    print("이미지 삭제 완료")
+//                }
+//                storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
+//                    print("이미지 삭제 완료")
+//                }
+                guard let photoData = photoData else { return }
+                self.showLoadingIndicator()
+                self.createPhotoDocument { [weak self] (_, error) in
+                    if let error = error {
+                        print("ERROR: AddPhotoVC - 포토 문서 생성 실패 \(error.localizedDescription)")
+                    }
+                    self?.hideLoadingIndicator()
+                    self?.navigationController?.popToRootViewController(animated: true)
                 }
-                storageManager.deleteImage(imageURL: photoData.tag.tagImage) { _ in
-                    print("이미지 삭제 완료")
-                }
-                self.hideLoadingIndicator()
-                self.navigationController?.popToRootViewController(animated: true)
             }
         } else {
             let alertController = UIAlertController(title: "경고", message: "이미지를 반드시 입력해주세요.", preferredStyle: .alert)

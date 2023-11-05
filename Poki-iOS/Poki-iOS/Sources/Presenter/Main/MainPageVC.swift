@@ -266,6 +266,7 @@ extension MainPageVC: PHPickerViewControllerDelegate {
                     addPhotoVC.hidesBottomBarWhenPushed = true
                     addPhotoVC.addPhotoView.photoImageView.image = dataImage
                     addPhotoVC.addPhotoCompletionHandler = { photo in
+                        guard let photo = photo else { return }
                         self.firestoreManager.photoList.append(photo)
                         self.photoListCollectionView.reloadData()
                     }
