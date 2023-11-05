@@ -69,6 +69,7 @@ final class PoseSuggestionVC: UIViewController {
         configure()
         addSubviews()
         setupLayout()
+        firestoreManager.makePoseData()
         firestoreManager.poseRealTimebinding { _ in }
     }
     

@@ -196,6 +196,7 @@ final class SignUpVC: UIViewController {
             guard let nickname = self.signUpView.nicknameTextField.text else { return }
             let user = User(nickname: nickname, imageURL: "")
             firestoreManager.createUserDocument(email: email, user: user)
+            // 왜 회원가입할 때, 이것을 하나요?
 //            firestoreManager.makePoseData()
             self.hideLoadingIndicator()
             self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {

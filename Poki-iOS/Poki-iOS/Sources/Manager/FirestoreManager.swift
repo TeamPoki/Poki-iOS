@@ -344,10 +344,8 @@ final class FirestoreManager {
     
     
     func poseImageUpdate(imageUrl: String, isSelected: Bool) {
-        guard let userUID = authManager.currentUserUID else { return }
-        
-        let imageCollectionRef = db.collection("users/\(userUID)/Image")
-        
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let imageCollectionRef = db.collection("users/\(userEmail)/Image")
         imageCollectionRef.whereField("imageUrl", isEqualTo: imageUrl).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching documents: \(error)")
@@ -398,8 +396,8 @@ final class FirestoreManager {
 //    }
     
     func poseRealTimebinding(completion: @escaping ([ImageData]) -> Void) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let docRef = db.collection("users/\(userUID)/Image")
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users/\(userEmail)/Image")
         docRef.addSnapshotListener { (snapshot, error) in
             guard let documents = snapshot?.documents else {
                 print("Error Firestore fetching document: \(String(describing: error))")
@@ -430,13 +428,13 @@ extension FirestoreManager {
         // MARK: - alone
         createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpg",
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpg",
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpg",
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpg",
+        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpeg",
                                              category: "alone", isSelected: false))
         
         // MARK: - two
