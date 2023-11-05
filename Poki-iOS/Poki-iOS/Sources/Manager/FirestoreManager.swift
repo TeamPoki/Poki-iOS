@@ -40,6 +40,23 @@ final class FirestoreManager {
 //        return Photo(documentReference: documentReference, image: image, memo: memo, date: date, tag: tag)
 //    }
     
+    func fetchPhotoFromFirestore(completion: @escaping (Error?) -> Void) {
+        guard let userUID = authManager.currentUserUID else { return }
+        let docRef = db.collection("users/\(userUID)/Photo")
+        docRef.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print("ERROR: 파이어스토어에서 포토 문서를 가져오지 못했습니다. \(error.localizedDescription)")
+                completion(error)
+            }
+            guard let documents = snapshot?.documents else { return }
+            self.photoList = documents.compactMap { document -> Photo? in
+                let photoData = try? document.data(as: Photo.self)
+                print("\(photoData?.memo) 포토이미지를 만든 순서입니다! ")
+                return photoData
+            }
+            completion(nil)
+        }
+    }
     
     /// setData 메서드는 문서가 없는 경우 새로 만들고, 있는 경우 덮어쓰기 때문에 하나의 메서드로 생성과 업데이트를 처리할 수 있습니다.
     /// 일부 문서만 업데이트 하는 경우 updateData() 메서드가 효율적이지만 현재 로직 상으로는 전체를 업데이트하기 때문에 해당 메서드를 호출해서 생성과 업데이트를 처리하는건 어떨까요?
