@@ -75,6 +75,7 @@ final class MainPageVC: UIViewController {
             }
             self?.photoListCollectionView.reloadData()
             self?.hideLoadingIndicator()
+            self?.updateEmptyPhotoListViewVisibility()
         }
     }
 
