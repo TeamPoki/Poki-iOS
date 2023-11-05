@@ -133,8 +133,8 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func configureUserImage() {
-        guard let nickname = self.firestoreManager.userData?.nickname else { return }
-        let imageData = nickname
+        guard let imageURL = self.firestoreManager.userData?.imageURL else { return }
+        let imageData = imageURL
         if imageData == "" {
             userImageView.image = UIImage()
         } else {

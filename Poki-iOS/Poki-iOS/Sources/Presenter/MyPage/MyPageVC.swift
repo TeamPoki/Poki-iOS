@@ -123,7 +123,6 @@ final class MyPageVC: UIViewController {
         configureNav()
         configureUI()
         firestoreManager.poseRealTimebinding { _ in }
-        print("1")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -186,7 +185,7 @@ final class MyPageVC: UIViewController {
     
     func profileDataBinding() {
         guard let nickname = self.firestoreManager.userData?.nickname else { return }
-        firestoreManager.fetchUserDocumentFromFirestore()
+//        firestoreManager.fetchUserDocumentFromFirestore()
         if nickname == "" {
             self.nameLabel.text = ""
         } else {
@@ -194,8 +193,8 @@ final class MyPageVC: UIViewController {
             emailLabel.text = authManager.currentUserEmail
         }
         //이미지 변경
-        guard let nickname = self.firestoreManager.userData?.nickname else { return }
-        if nickname == "" {
+//        guard let nickname = self.firestoreManager.userData?.nickname else { return }
+        if self.userImage.image == nil {
             self.userImage.image = UIImage()
         } else {
             storageManager.downloadImage(urlString: nickname) { [weak self] image in
