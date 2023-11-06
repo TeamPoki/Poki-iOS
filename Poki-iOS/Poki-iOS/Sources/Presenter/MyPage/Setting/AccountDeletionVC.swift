@@ -212,7 +212,6 @@ final class AccountDeletionVC: UIViewController {
     @objc func withdrawButtonTapped() {
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
-        firestoreManager.deleteAllUserData()
         firestoreManager.deleteUserDocument()
         self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)

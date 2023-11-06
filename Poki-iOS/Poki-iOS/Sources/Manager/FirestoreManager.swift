@@ -477,15 +477,15 @@ extension FirestoreManager {
 extension FirestoreManager {
     //회원탈퇴 포토 데이터 삭제
     func deleteAllPhotoData() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let collectionRef = db.collection("users/\(userUID)/Photo")
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let collectionRef = db.collection("users/\(userEmail)/Photo")
         
         collectionRef.getDocuments { (querySnapshot, error) in
               if let error = error {
                   print("Error querying documents in collection: \(error)")
                   return
               }
-
+            
               for document in querySnapshot!.documents {
                   document.reference.delete { error in
                       if let error = error {
@@ -518,8 +518,8 @@ extension FirestoreManager {
     
     //회원탈퇴 포즈 데이터 삭제
     func deleteAllPoseData() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let collectionRef = db.collection("users/\(userUID)/Image")
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let collectionRef = db.collection("users/\(userEmail)/Image")
         
         collectionRef.getDocuments { (querySnapshot, error) in
               if let error = error {
@@ -559,62 +559,56 @@ extension FirestoreManager {
     
     
     //유저데이터 삭제
-    func deleteAllUserData() {
-        guard let userUID = authManager.currentUserUID else { return }
-        let collectionRef = db.collection("users/\(userUID)/User")
-        
-        collectionRef.getDocuments { (querySnapshot, error) in
-              if let error = error {
-                  print("Error querying documents in collection: \(error)")
-                  return
-              }
-
-              for document in querySnapshot!.documents {
-                  document.reference.delete { error in
-                      if let error = error {
-                          print("Error deleting document: \(error)")
-                      } else {
-                          print("Document deleted successfully.")
-                      }
-                  }
-              }
-
-              collectionRef.getDocuments { (querySnapshot, error) in
-                  if let error = error {
-                      print("Error querying collection: \(error)")
-                      return
-                  }
-
-                  for document in querySnapshot!.documents {
-                      document.reference.delete { error in
-                          if let error = error {
-                              print("Error deleting collection: \(error)")
-                          } else {
-                              print("Collection deleted successfully.")
-                          }
-                      }
-                  }
-              }
-          }
-    }
-    
-
-
-
-    
+//    func deleteAllUserData() {
+//        guard let userEmail = authManager.currentUserEmail else { return }
+//        let collectionRef = db.collection("users/\(userEmail)/User")
+//
+//        collectionRef.getDocuments { (querySnapshot, error) in
+//              if let error = error {
+//                  print("Error querying documents in collection: \(error)")
+//                  return
+//              }
+//
+//              for document in querySnapshot!.documents {
+//                  document.reference.delete { error in
+//                      if let error = error {
+//                          print("Error deleting document: \(error)")
+//                      } else {
+//                          print("Document deleted successfully.")
+//                      }
+//                  }
+//              }
+//
+//              collectionRef.getDocuments { (querySnapshot, error) in
+//                  if let error = error {
+//                      print("Error querying collection: \(error)")
+//                      return
+//                  }
+//
+//                  for document in querySnapshot!.documents {
+//                      document.reference.delete { error in
+//                          if let error = error {
+//                              print("Error deleting collection: \(error)")
+//                          } else {
+//                              print("Collection deleted successfully.")
+//                          }
+//                      }
+//                  }
+//              }
+//          }
+//    }
     
     //상위 문서 삭제
     func deleteUserDocument() {
-        guard let userUID = authManager.currentUserUID else { return }
-        
+        guard let userEmail = authManager.currentUserEmail else { return }
         // 사용자의 userUID에 해당하는 문서를 삭제
-        let userDocumentRef = db.collection("users").document(userUID)
+        let userDocumentRef = db.collection("users").document(userEmail)
         
         userDocumentRef.delete { error in
             if let error = error {
                 print("Error deleting user document: \(error)")
             } else {
-                print("User document with userUID \(userUID) deleted successfully.")
+                print("User document with userUID \(userEmail) deleted successfully.")
             }
         }
     }
