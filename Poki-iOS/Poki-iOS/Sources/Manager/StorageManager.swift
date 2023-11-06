@@ -199,4 +199,25 @@ final class StorageManager {
             }
         }
     }
+    
+    func deleteAllImagesFromStorage(photos: [Photo], completion: @escaping (Error?) -> Void) {
+        photos.forEach { photo in
+            StorageManager.shared.deleteImage(imageURL: photo.image) { error in
+                if let error = error {
+                    print("ERROR: 회원 탈퇴 과정에서 스토리지의 포토 이미지를 삭제할 수 없습니다. \(error)")
+                    return
+                }
+            }
+        }
+        photos.forEach { photo in
+            StorageManager.shared.deleteImage(imageURL: photo.tag.tagImage) { error in
+                if let error = error {
+                    print("ERROR: 회원 탈퇴 과정에서 스토리지의 태그 이미지를 삭제할 수 없습니다. \(error)")
+                    return
+                }
+                
+            }
+        }
+        print("SUCCESS: 회원 탈퇴 과정에서 스토리지의 이미지 모두를 삭제했습니다.")
+    }
 }

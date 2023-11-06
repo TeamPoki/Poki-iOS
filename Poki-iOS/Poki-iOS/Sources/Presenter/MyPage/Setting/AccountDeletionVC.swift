@@ -208,11 +208,21 @@ final class AccountDeletionVC: UIViewController {
             checkBoxLabel.textColor = .lightGray
         }
     }
-
-    @objc func withdrawButtonTapped() {
+    
+    func deleteAllDatas() {
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
         firestoreManager.deleteUserDocument()
+        let photos = self.firestoreManager.photoList
+        StorageManager.shared.deleteAllImagesFromStorage(photos: photos) { error in
+            if let error = error {
+                print("ERROR: 회원 탈퇴 과정에서 스토리지의 모든 이미지 삭제 실패 \(error)")
+            }
+        }
+    }
+
+    @objc func withdrawButtonTapped() {
+        self.deleteAllDatas()
         self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
