@@ -192,6 +192,27 @@ final class AccountDeletionVC: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    func showRecertificationAlert(completion: @escaping (Error?) -> Void) {
+        let alertController = UIAlertController(title: "필수 인증 정보", message: "계정의 비밀번호를 입력해주세요.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let password = alertController.textFields?[0].text else { return }
+            self?.authManager.recertification(password: password) { error in
+                if let error = error {
+                    completion(error)
+                }
+                completion(nil)
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.addTextField { textField in
+            textField.placeholder = "비밀번호를 입력해주세요."
+            textField.isSecureTextEntry = true
+        }
+        present(alertController, animated: true, completion: nil)
+    }
 
     // MARK: - Actions
 
@@ -237,14 +258,25 @@ final class AccountDeletionVC: UIViewController {
                 print("회원탈퇴 사유를 서버에 전송했습니다.")
             }
         }
-        self.hideLoadingIndicator()
-        self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
-            self.authManager.userDelete()
-            let rootVC = UINavigationController(rootViewController: LoginVC())
-            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-            sceneDelegate.changeRootViewController(rootVC)
-            UserDefaults.standard.set(false, forKey: "LoginStatus")
-            UserDataManager.deleteUserEmail()
+        self.showRecertificationAlert { error in
+            if let error = error {
+                print("ERROR: 사용자 재인증을 실패했습니다. \(error)")
+                return
+            }
+            self.authManager.userDelete { error in
+                if let error = error {
+                    print("ERROR: 회원 탈퇴를 실패했습니다. \(error)")
+                    return
+                }
+            }
+            self.hideLoadingIndicator()
+            self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
+                let rootVC = UINavigationController(rootViewController: LoginVC())
+                guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+                sceneDelegate.changeRootViewController(rootVC)
+                UserDefaults.standard.set(false, forKey: "LoginStatus")
+                UserDataManager.deleteUserEmail()
+            }
         }
     }
 

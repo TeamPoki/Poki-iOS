@@ -43,14 +43,25 @@ final class AuthManager {
         }
     }
     
-    func userDelete() {
+    func userDelete(completion: @escaping (Error?) -> Void) {
         let user = Auth.auth().currentUser
         user?.delete { error in
             if let error = error {
-                print("계정 삭제 실패 \(error.localizedDescription)")
-                return
+                completion(error)
             }
-            print("계정 삭제 성공")
+            completion(nil)
+        }
+    }
+    
+    func recertification(password: String, completion: @escaping (Error?) -> Void) {
+        guard let userEmail = self.currentUserEmail else { return }
+        let user = Auth.auth().currentUser
+        let email = EmailAuthProvider.credential(withEmail: userEmail, password: password)
+        user?.reauthenticate(with: email) { result, error in
+            if let error = error {
+                completion(error)
+            }
+            completion(nil)
         }
     }
     
