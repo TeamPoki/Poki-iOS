@@ -264,17 +264,18 @@ final class FirestoreManager {
 //        }
 //    }
     
-    func fetchUserDocumentFromFirestore() {
+    func fetchUserDocumentFromFirestore(completion: @escaping (Error?) -> Void) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let docRef = db.collection("users").document(userEmail)
         
         docRef.getDocument { (snapshot, error) in
             if let error = error {
                 print("ERROR: 파이어 스토어에서 유저 문서를 가져오지 못했습니다! \(error.localizedDescription)")
-                return
+                completion(error)
             }
             let userData = try? snapshot?.data(as: User.self)
             self.userData = userData
+            completion(nil)
         }
     }
     

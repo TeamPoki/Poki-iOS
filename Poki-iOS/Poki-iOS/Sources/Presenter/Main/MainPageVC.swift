@@ -39,8 +39,12 @@ final class MainPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
-        firestoreManager.fetchUserDocumentFromFirestore()
         setupPhotoData()
+        firestoreManager.fetchUserDocumentFromFirestore { error in
+            if let error = error {
+                print("ERROR: 유저 문서 불러오는 것을 실패했습니다. ㅠㅠ\(error)")
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

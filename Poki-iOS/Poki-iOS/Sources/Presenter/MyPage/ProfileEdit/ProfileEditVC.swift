@@ -174,8 +174,13 @@ final class ProfileEditVC: UIViewController {
                         print("ERROR: 프로필 수정 페이지에서 유저 문서 업데이트를 실패했습니다 ㅠㅠ \(error)")
                         return
                     }
-                    self.firestoreManager.fetchUserDocumentFromFirestore()
-                    self.navigationController?.popViewController(animated: true)
+                    self.firestoreManager.fetchUserDocumentFromFirestore { error in
+                        if let error = error {
+                            print("ERROR: 프로필 수정 페이지에서 유저 문서를 불러오지 못했습니다. ㅠㅠ\(error)")
+                            return
+                        }
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
                 case .failure(let error):
                     print("Error uploading images: \(error.localizedDescription)")
