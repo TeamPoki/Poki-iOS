@@ -185,23 +185,18 @@ final class MyPageVC: UIViewController {
     
     func profileDataBinding() {
         guard let nickname = self.firestoreManager.userData?.nickname else { return }
-//        firestoreManager.fetchUserDocumentFromFirestore()
         if nickname == "" {
             self.nameLabel.text = ""
         } else {
             self.nameLabel.text = nickname
             emailLabel.text = authManager.currentUserEmail
         }
-        //이미지 변경
-        guard let imageURL = self.firestoreManager.userData?.imageURL else { return }
-        if self.userImage.image == nil {
-            self.userImage.image = UIImage()
-        } else {
-            storageManager.downloadImage(urlString: imageURL) { [weak self] image in
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    self.userImage.image = image
-                }
+        guard let imageURL = self.firestoreManager.userData?.imageURL,
+              imageURL.isEmpty == false else { return }
+        storageManager.downloadImage(urlString: imageURL) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.userImage.image = image
             }
         }
     }
