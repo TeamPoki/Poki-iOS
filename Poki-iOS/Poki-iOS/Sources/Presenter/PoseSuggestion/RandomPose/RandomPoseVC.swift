@@ -144,6 +144,7 @@ final class RandomPoseVC: UIViewController {
                 self?.hideLoadingIndicator()
             }
         }
+        print(url)
     }
     
     // MARK: - Actions

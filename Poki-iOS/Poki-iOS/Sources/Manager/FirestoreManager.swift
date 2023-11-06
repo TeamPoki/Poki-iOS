@@ -318,7 +318,7 @@ final class FirestoreManager {
 //        }
 //    }
     
-    func createRecommendPose(imageData: ImageData) {
+    func createRecommendPoseDocument(imageData: ImageData) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let docRef = db.collection("users/\(userEmail)/Image").document()
         do {
@@ -426,47 +426,47 @@ final class FirestoreManager {
 extension FirestoreManager {
     func makePoseData() {
         // MARK: - alone
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpeg",
                                              category: "alone", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpeg",
                                              category: "alone", isSelected: false))
         
         // MARK: - two
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose1.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose1.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose2.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose2.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose3.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose3.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose4.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose4.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose5.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose5.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose6.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose6.jpeg",
                                              category: "twoPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose7.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/twoPeoplePose/two-pose7.jpeg",
                                              category: "twoPose", isSelected: false))
         
         // MARK: - many
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose1.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose1.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose2.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose2.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose3.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose3.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose4.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose4.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose5.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose5.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose6.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose6.jpeg",
                                              category: "manyPose", isSelected: false))
-        createRecommendPose(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose7.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/manyPeoplePose/many-pose7.jpeg",
                                              category: "manyPose", isSelected: false))
     }
 }
