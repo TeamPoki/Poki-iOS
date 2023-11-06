@@ -63,8 +63,12 @@ final class LikedPoseImageDetailVC: UIViewController {
     // MARK: - Actions
     
     @objc private func handleCloseButton() {
-        firestoreManager.poseRealTimebinding { _ in
-            self.dismiss(animated: true, completion: nil)
+        firestoreManager.fetchRecommendPoseDocumentFromFirestore { error in
+            if let error = error {
+                print("ERROR: 찜한 포즈 상세보기 페이지에서 추천 포즈 이미지를 불러오지 못했습니다 ㅠㅠ \(error)")
+                return
+            }
+            self.dismiss(animated: true)
         }
     }
     

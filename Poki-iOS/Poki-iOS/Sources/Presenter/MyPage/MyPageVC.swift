@@ -122,7 +122,8 @@ final class MyPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
-        firestoreManager.poseRealTimebinding { _ in }
+        // 여기서 불러야할까요?
+//        firestoreManager.poseRealTimebinding { _ in }
     }
     
     override func viewWillAppear(_ animated: Bool) {

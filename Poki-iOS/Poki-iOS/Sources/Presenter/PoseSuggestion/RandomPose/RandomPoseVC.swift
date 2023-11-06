@@ -192,12 +192,15 @@ final class RandomPoseVC: UIViewController {
     }
     
     private func loadButtonData() {
-        firestoreManager.poseRealTimebinding { [weak self] images in
+        firestoreManager.fetchRecommendPoseDocumentFromFirestore { [weak self] error in
+            if let error = error {
+                print("ERROR: 랜덤 포즈 페이지에서 추천 포즈 이미지를 불러오지 못했습니다 ㅠㅠ \(error)")
+                return
+            }
             guard let self = self else { return }
-            
-            switch selectedCategory {
+            switch self.selectedCategory {
             case .alone, .twoPeople, .manyPeople:
-                if isSelected {
+                if self.isSelected == true {
                     self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
                 } else {
                     self.bookmarkButton.setImage(UIImage(systemName: self.bookmarkButtonImageName), for: .normal)
@@ -208,6 +211,4 @@ final class RandomPoseVC: UIViewController {
             }
         }
     }
-    
-    
 }

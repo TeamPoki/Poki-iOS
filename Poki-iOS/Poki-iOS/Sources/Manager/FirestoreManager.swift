@@ -318,6 +318,23 @@ final class FirestoreManager {
 //        }
 //    }
     
+    func fetchRecommendPoseDocumentFromFirestore(completion: @escaping (Error?) -> Void) {
+        guard let userEmail = authManager.currentUserEmail else { return }
+        let docRef = db.collection("users/\(userEmail)/Image")
+        docRef.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print("ERROR: 파이어 스토어에서 Photo 컬렉션의 문서를 가져오지 못했습니다! \(error.localizedDescription)")
+                completion(error)
+            }
+            guard let documents = snapshot?.documents else { return }
+            self.poseData = documents.compactMap { document -> ImageData? in
+                let poseData = try? document.data(as: ImageData.self)
+                return poseData
+            }
+            completion(nil)
+        }
+    }
+    
     func createRecommendPoseDocument(imageData: ImageData) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let docRef = db.collection("users/\(userEmail)/Image").document()
@@ -342,7 +359,7 @@ final class FirestoreManager {
 //        }
 //    }
     
-    
+    /// 이것은 아직 리팩토링을 못했습니다. isSelected 필드만 변경하기 때문에 updateData 메서드를 호출해서 처리하는게 효율적인 것 같아 아직 고민중입니다. 의견 주십쇼!!
     func poseImageUpdate(imageUrl: String, isSelected: Bool) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let imageCollectionRef = db.collection("users/\(userEmail)/Image")
@@ -370,7 +387,6 @@ final class FirestoreManager {
                 }
             }
         }
-        poseRealTimebinding { _ in}
     }
     
     
@@ -395,27 +411,27 @@ final class FirestoreManager {
 //        }
 //    }
     
-    func poseRealTimebinding(completion: @escaping ([ImageData]) -> Void) {
-        guard let userEmail = authManager.currentUserEmail else { return }
-        let docRef = db.collection("users/\(userEmail)/Image")
-        docRef.addSnapshotListener { (snapshot, error) in
-            guard let documents = snapshot?.documents else {
-                print("Error Firestore fetching document: \(String(describing: error))")
-                return
-            }
-            self.poseData = documents.compactMap { doc -> ImageData? in
-                // Firestore 스냅샷에서 필요한 데이터를 가져와 ImageData 모델에 직접 할당
-                let data = doc.data()
-                if let poseData = self.createImageFromData(data) {
-                    return poseData
-                }
-                return nil
-            }
-            
-            // 업데이트된 데이터를 completion 핸들러를 통해 전달
-            completion(self.poseData)
-        }
-    }
+//    func poseRealTimebinding(completion: @escaping ([ImageData]) -> Void) {
+//        guard let userEmail = authManager.currentUserEmail else { return }
+//        let docRef = db.collection("users/\(userEmail)/Image")
+//        docRef.addSnapshotListener { (snapshot, error) in
+//            guard let documents = snapshot?.documents else {
+//                print("Error Firestore fetching document: \(String(describing: error))")
+//                return
+//            }
+//            self.poseData = documents.compactMap { doc -> ImageData? in
+//                // Firestore 스냅샷에서 필요한 데이터를 가져와 ImageData 모델에 직접 할당
+//                let data = doc.data()
+//                if let poseData = self.createImageFromData(data) {
+//                    return poseData
+//                }
+//                return nil
+//            }
+//
+//            // 업데이트된 데이터를 completion 핸들러를 통해 전달
+//            completion(self.poseData)
+//        }
+//    }
 }
 
 extension FirestoreManager {
