@@ -130,19 +130,19 @@ final class FirestoreManager {
 //        }
 //    }
     
-    func photoDelete(documentPath: String) {
-        guard let userUID = authManager.currentUserUID else { return }
-        let documentComponents = documentPath.components(separatedBy: "/")
-        _ = documentComponents[0]
-        let documentID = documentComponents[3]
-        let docRef = db.collection("users/\(userUID)/Photo").document(documentID)
-        docRef.delete { error in
-            if let error = error {
-                print("Error updating document: \(error)")
-            }
-            print("Document updated successfully.")
-        }
-    }
+//    func photoDelete(documentPath: String) {
+//        guard let userUID = authManager.currentUserUID else { return }
+//        let documentComponents = documentPath.components(separatedBy: "/")
+//        _ = documentComponents[0]
+//        let documentID = documentComponents[3]
+//        let docRef = db.collection("users/\(userUID)/Photo").document(documentID)
+//        docRef.delete { error in
+//            if let error = error {
+//                print("Error updating document: \(error)")
+//            }
+//            print("Document updated successfully.")
+//        }
+//    }
     
     //실시간반영
 //    func photoRealTimebinding(collectionView : UICollectionView) {
@@ -416,11 +416,6 @@ final class FirestoreManager {
             completion(self.poseData)
         }
     }
-
-    
-   
-    
-    
 }
 
 extension FirestoreManager {
