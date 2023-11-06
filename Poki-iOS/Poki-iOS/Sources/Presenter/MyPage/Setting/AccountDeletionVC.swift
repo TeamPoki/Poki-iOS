@@ -231,8 +231,8 @@ final class AccountDeletionVC: UIViewController {
     }
     
     func deleteAllDatas() {
-        guard let imageUrl = firestoreManager.userData?.imageURL else { return }
-        StorageManager.shared.deleteImage(imageURL: imageUrl) { _ in }
+//        guard let imageUrl = firestoreManager.userData?.imageURL else { return }
+//        StorageManager.shared.deleteImage(imageURL: imageUrl) { _ in }
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
         firestoreManager.deleteUserDocument()
@@ -258,25 +258,19 @@ final class AccountDeletionVC: UIViewController {
                 print("회원탈퇴 사유를 서버에 전송했습니다.")
             }
         }
-        self.showRecertificationAlert { error in
-            if let error = error {
-                print("ERROR: 사용자 재인증을 실패했습니다. \(error)")
-                return
-            }
+        self.hideLoadingIndicator()
+        self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
             self.authManager.userDelete { error in
                 if let error = error {
-                    print("ERROR: 회원 탈퇴를 실패했습니다. \(error)")
+                    print("ERROR: 회원 탈퇴를 실패했습니다. ㅠㅠ \(error)")
                     return
                 }
             }
-            self.hideLoadingIndicator()
-            self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
-                let rootVC = UINavigationController(rootViewController: LoginVC())
-                guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-                sceneDelegate.changeRootViewController(rootVC)
-                UserDefaults.standard.set(false, forKey: "LoginStatus")
-                UserDataManager.deleteUserEmail()
-            }
+            let rootVC = UINavigationController(rootViewController: LoginVC())
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+            sceneDelegate.changeRootViewController(rootVC)
+            UserDefaults.standard.set(false, forKey: "LoginStatus")
+            UserDataManager.deleteUserEmail()
         }
     }
 
