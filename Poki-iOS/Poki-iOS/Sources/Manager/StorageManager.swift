@@ -143,6 +143,7 @@ final class StorageManager {
     
     // MARK: - PoseData
     
+    /// 해당 메서드는 사용하지 않는 것 같습니다!! 필요하지 않다면, 지워도 괜찮을까요!?
     func poseDownloadImages(fromURLs urls: [String], completion: @escaping ([UIImage?]) -> Void) {
         let storage = Storage.storage()
         let group = DispatchGroup()
@@ -168,7 +169,7 @@ final class StorageManager {
         }
     }
     
-    func userImageUpload(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+    func uploadUserImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let ImageData = image.jpegData(compressionQuality: 0.4)
         
         guard let photoData = ImageData else {

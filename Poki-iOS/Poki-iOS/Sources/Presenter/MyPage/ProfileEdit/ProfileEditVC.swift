@@ -164,7 +164,7 @@ final class ProfileEditVC: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
-        storageManager.userImageUpload(image: userImageView.image ?? UIImage()) { [weak self] result in
+        storageManager.uploadUserImage(image: userImageView.image ?? UIImage()) { [weak self] result in
             guard let self = self else { return }
             switch result {
                 case .success((let photoURL)):
