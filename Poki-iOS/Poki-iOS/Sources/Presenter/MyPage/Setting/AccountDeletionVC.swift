@@ -26,7 +26,7 @@ final class AccountDeletionVC: UIViewController {
 
     private var toastSize: CGRect {
         let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 710, width: width, height: Constants.toastHeight)
+        let frame = CGRect(x: 60, y: 700, width: width, height: Constants.toastHeight)
         return frame
     }
 
@@ -192,6 +192,27 @@ final class AccountDeletionVC: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    func showRecertificationAlert(completion: @escaping (Error?) -> Void) {
+        let alertController = UIAlertController(title: "필수 인증 정보", message: "계정의 비밀번호를 입력해주세요.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let password = alertController.textFields?[0].text else { return }
+            self?.authManager.recertification(password: password) { error in
+                if let error = error {
+                    completion(error)
+                }
+                completion(nil)
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.addTextField { textField in
+            textField.placeholder = "비밀번호를 입력해주세요."
+            textField.isSecureTextEntry = true
+        }
+        present(alertController, animated: true, completion: nil)
+    }
 
     // MARK: - Actions
 
@@ -208,12 +229,27 @@ final class AccountDeletionVC: UIViewController {
             checkBoxLabel.textColor = .lightGray
         }
     }
-
-    @objc func withdrawButtonTapped() {
+    
+    func getImageURL() -> String {
+        guard let imageURL = firestoreManager.userData?.imageURL else { return "" }
+        return imageURL
+    }
+    
+    func deleteAllDatas() {
+        StorageManager.shared.deleteImage(imageURL: self.getImageURL()) { _ in }
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
-        firestoreManager.deleteAllUserData()
         firestoreManager.deleteUserDocument()
+        let photos = self.firestoreManager.photoList
+        StorageManager.shared.deleteAllImagesFromStorage(photos: photos) { error in
+            if let error = error {
+                print("ERROR: 회원 탈퇴 과정에서 스토리지의 모든 이미지 삭제 실패 \(error)")
+            }
+        }
+    }
+
+    @objc func withdrawButtonTapped() {
+        self.deleteAllDatas()
         self.showLoadingIndicator()
         let reasonText = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if reasonText != "" && reasonText != "떠나는 이유를 50자 이내로 입력해주세요." {
@@ -228,7 +264,12 @@ final class AccountDeletionVC: UIViewController {
         }
         self.hideLoadingIndicator()
         self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
-            self.authManager.userDelete()
+            self.authManager.userDelete { error in
+                if let error = error {
+                    print("ERROR: 회원 탈퇴를 실패했습니다. ㅠㅠ \(error)")
+                    return
+                }
+            }
             let rootVC = UINavigationController(rootViewController: LoginVC())
             guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
             sceneDelegate.changeRootViewController(rootVC)

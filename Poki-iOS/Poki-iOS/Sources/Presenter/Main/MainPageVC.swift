@@ -39,8 +39,12 @@ final class MainPageVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         setupCollectionView()
-        firestoreManager.userRealTimebinding()
-        firestoreManager.photoRealTimebinding(collectionView: photoListCollectionView)
+        setupPhotoData()
+        firestoreManager.fetchUserDocumentFromFirestore { error in
+            if let error = error {
+                print("ERROR: 유저 문서 불러오는 것을 실패했습니다. ㅠㅠ\(error)")
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +68,19 @@ final class MainPageVC: UIViewController {
         let filterButton = createFilterButton()
         let plusButton = createPlusButton()
         navigationItem.rightBarButtonItems = [plusButton, filterButton]
+    }
+    
+    private func setupPhotoData() {
+        self.showLoadingIndicator()
+        firestoreManager.fetchPhotoFromFirestore { [weak self] error in
+            if let error = error {
+                print("ERROR: MainPageVC - 파이어 스토어에서 포토 문서를 못가져왔습니다. \(error)")
+                return
+            }
+            self?.photoListCollectionView.reloadData()
+            self?.hideLoadingIndicator()
+            self?.updateEmptyPhotoListViewVisibility()
+        }
     }
 
     private func createFilterButton() -> UIBarButtonItem {
@@ -225,7 +242,6 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
                 print(error)
             }
         }
-
         return cell
     }
 
@@ -233,6 +249,9 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let photoDetailVC = PhotoDetailVC()
         photoDetailVC.photoData = firestoreManager.photoList[indexPath.row]
         photoDetailVC.indexPath = indexPath
+        photoDetailVC.updatePhotoCompletionHandler = { [weak self] in
+            self?.photoListCollectionView.reloadData()
+        }
         photoDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(photoDetailVC, animated: true)
     }
@@ -254,10 +273,9 @@ extension MainPageVC: PHPickerViewControllerDelegate {
                     addPhotoVC.hidesBottomBarWhenPushed = true
                     addPhotoVC.addPhotoView.photoImageView.image = dataImage
                     addPhotoVC.addPhotoCompletionHandler = { photo in
-                        self.photoListCollectionView.performBatchUpdates {
-                            self.firestoreManager.photoList.insert(photo, at: 0)
-                            self.photoListCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
-                        }
+                        guard let photo = photo else { return }
+                        self.firestoreManager.photoList.append(photo)
+                        self.photoListCollectionView.reloadData()
                     }
                     self.navigationController?.pushViewController(addPhotoVC, animated: true)
                 }

@@ -69,7 +69,13 @@ final class PoseSuggestionVC: UIViewController {
         configure()
         addSubviews()
         setupLayout()
-        firestoreManager.poseRealTimebinding { _ in }
+        firestoreManager.makePoseData()
+        firestoreManager.fetchRecommendPoseDocumentFromFirestore { error in
+            if let error = error {
+                print("ERROR: 포즈 추천 페이지에서 추천 포즈 문서를 불러오지 못했습니다 ㅠㅠ \(error)")
+                return
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

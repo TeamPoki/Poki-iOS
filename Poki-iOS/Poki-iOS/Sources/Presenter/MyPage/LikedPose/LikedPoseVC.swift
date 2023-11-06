@@ -82,7 +82,7 @@ final class LikedPoseVC: UIViewController {
         contentsViewUI()
         likedPoseCollectionViewUI()
         configureNav()
-        firestoreManager.poseRealTimebinding { _ in }
+        firestoreManager.fetchRecommendPoseDocumentFromFirestore { _ in }
         showBarColorForLabel(poseOne)
         self.imageDatas = bookmarkImageData(category: .alone)
     }
