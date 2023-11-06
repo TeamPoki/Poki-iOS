@@ -288,14 +288,16 @@ final class FirestoreManager {
         }
     }
     
-    func updateUserDocument(user: User) {
+    func updateUserDocument(user: User, completion: (Error?) -> Void) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let docRef = db.collection("users").document(userEmail)
         do {
             try docRef.setData(from: user)
             print("SUCCESS: 유저 문서 업데이트 성공!!")
+            completion(nil)
         } catch let error {
             print("ERROR: 유저 문서 업데이트 실패 ㅠㅠ!!! \(error)")
+            completion(error)
         }
     }
     
