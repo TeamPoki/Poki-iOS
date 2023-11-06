@@ -230,9 +230,13 @@ final class AccountDeletionVC: UIViewController {
         }
     }
     
+    func getImageURL() -> String {
+        guard let imageURL = firestoreManager.userData?.imageURL else { return "" }
+        return imageURL
+    }
+    
     func deleteAllDatas() {
-//        guard let imageUrl = firestoreManager.userData?.imageURL else { return }
-//        StorageManager.shared.deleteImage(imageURL: imageUrl) { _ in }
+        StorageManager.shared.deleteImage(imageURL: self.getImageURL()) { _ in }
         firestoreManager.deleteAllPhotoData()
         firestoreManager.deleteAllPoseData()
         firestoreManager.deleteUserDocument()

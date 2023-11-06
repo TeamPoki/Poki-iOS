@@ -128,6 +128,7 @@ final class StorageManager {
     }
     
     func deleteImage(imageURL: String, completion: @escaping (Error?) -> Void) {
+        guard imageURL != "" else { return }
         let storageReference = Storage.storage().reference(forURL: imageURL)
         
         // 이미지를 삭제합니다.

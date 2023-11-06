@@ -163,31 +163,62 @@ final class ProfileEditVC: UIViewController {
         selectImageButton.showsMenuAsPrimaryAction = true
     }
     
-    @objc private func doneButtonTapped() {
-        storageManager.uploadUserImage(image: userImageView.image ?? UIImage()) { [weak self] result in
-            guard let self = self else { return }
+    func getImageURL() -> String {
+        guard let image = userImageView.image else { return "" }
+        var stringURL = ""
+        storageManager.uploadUserImage(image: image) { result in
             switch result {
-                case .success((let photoURL)):
-                guard let nickname = self.nicknameTextField.text else { return }
-                firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: photoURL.absoluteString)) { error in
-                    if let error = error {
-                        print("ERROR: 프로필 수정 페이지에서 유저 문서 업데이트를 실패했습니다 ㅠㅠ \(error)")
-                        return
-                    }
-                    self.firestoreManager.fetchUserDocumentFromFirestore { error in
-                        if let error = error {
-                            print("ERROR: 프로필 수정 페이지에서 유저 문서를 불러오지 못했습니다. ㅠㅠ\(error)")
-                            return
-                        }
-                        self.navigationController?.popViewController(animated: true)
-                    }
+            case .success(let url):
+                stringURL = url.absoluteString
+            case .failure(let error):
+                print("ERROR: 프로필 수정 페이지에서 이미지 URL을 가져오지 못했습니다. \(error)")
+            }
+        }
+        return stringURL
+    }
+    
+    @objc private func doneButtonTapped() {
+        guard let nickname = self.nicknameTextField.text else { return }
+        firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: self.getImageURL())) { error in
+            if let error = error {
+                print("ERROR: 프로필 수정 페이지에서 유저 문서 업데이트를 실패했습니다 ㅠㅠ \(error)")
+                return
+            }
+            self.firestoreManager.fetchUserDocumentFromFirestore { error in
+                if let error = error {
+                    print("ERROR: 프로필 수정 페이지에서 유저 문서를 불러오지 못했습니다. ㅠㅠ\(error)")
+                    return
                 }
-                case .failure(let error):
-                    print("Error uploading images: \(error.localizedDescription)")
-                    // 오류 처리
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
+    
+//    @objc private func doneButtonTapped() {
+//        storageManager.uploadUserImage(image: userImageView.image ?? UIImage()) { [weak self] result in
+//            guard let self = self else { return }
+//            switch result {
+//                case .success((let photoURL)):
+//                guard let nickname = self.nicknameTextField.text else { return }
+//                firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: photoURL.absoluteString)) { error in
+//                    if let error = error {
+//                        print("ERROR: 프로필 수정 페이지에서 유저 문서 업데이트를 실패했습니다 ㅠㅠ \(error)")
+//                        return
+//                    }
+//                    self.firestoreManager.fetchUserDocumentFromFirestore { error in
+//                        if let error = error {
+//                            print("ERROR: 프로필 수정 페이지에서 유저 문서를 불러오지 못했습니다. ㅠㅠ\(error)")
+//                            return
+//                        }
+//                        self.navigationController?.popViewController(animated: true)
+//                    }
+//                }
+//                case .failure(let error):
+//                    print("Error uploading images: \(error.localizedDescription)")
+//                    // 오류 처리
+//            }
+//        }
+//    }
     
     @objc private func textFieldEditingChanged() {
         if let text = nicknameTextField.text, text.isEmpty {
