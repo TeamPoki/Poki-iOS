@@ -79,6 +79,7 @@ extension UIImage {
 // MARK: - UIViewController
 
 extension UIViewController {
+    // criterionView 파라미터 설명 - 기준이 되는 뷰를 전달받아서 autoLayout 설정
     func showToast(criterionView: UIView, message: String, completion: (() -> Void)?) {
         let toast = UILabel()
         toast.setupToast()
