@@ -310,13 +310,15 @@ final class LoginVC: UIViewController {
     // MARK: - Helpers
     
     private func showAlertToFindPassword(completion: @escaping (String?) -> Void) {
-        let alert = UIAlertController(title: "비밀번호 찾기", message: "이메일을 입력해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "비밀번호 찾기", message: "가입한 이메일을 입력해주세요.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .destructive)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             let email = alert.textFields?[0].text
             completion(email)
         }
-        alert.addTextField()
+        alert.addTextField {
+            $0.placeholder = "이메일을 입력해주세요."
+        }
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         present(alert, animated: true)
