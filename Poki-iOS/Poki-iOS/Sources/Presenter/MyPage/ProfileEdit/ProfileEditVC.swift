@@ -195,32 +195,6 @@ final class ProfileEditVC: UIViewController {
         }
     }
     
-//    @objc private func doneButtonTapped() {
-//        storageManager.uploadUserImage(image: userImageView.image ?? UIImage()) { [weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//                case .success((let photoURL)):
-//                guard let nickname = self.nicknameTextField.text else { return }
-//                firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: photoURL.absoluteString)) { error in
-//                    if let error = error {
-//                        print("ERROR: 프로필 수정 페이지에서 유저 문서 업데이트를 실패했습니다 ㅠㅠ \(error)")
-//                        return
-//                    }
-//                    self.firestoreManager.fetchUserDocumentFromFirestore { error in
-//                        if let error = error {
-//                            print("ERROR: 프로필 수정 페이지에서 유저 문서를 불러오지 못했습니다. ㅠㅠ\(error)")
-//                            return
-//                        }
-//                        self.navigationController?.popViewController(animated: true)
-//                    }
-//                }
-//                case .failure(let error):
-//                    print("Error uploading images: \(error.localizedDescription)")
-//                    // 오류 처리
-//            }
-//        }
-//    }
-    
     @objc private func textFieldEditingChanged() {
         if let text = nicknameTextField.text, text.isEmpty {
             hintLabel.isHidden = false
