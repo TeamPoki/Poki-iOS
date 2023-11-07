@@ -144,6 +144,7 @@ final class PoseSuggestionVC: UIViewController {
         }
     }
     
+    /// 아이폰 max 일 때, 레이아웃 조정
     private func setupLayoutForMaxDevice() {
         commentLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(120)
