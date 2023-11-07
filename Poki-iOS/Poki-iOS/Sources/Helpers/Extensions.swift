@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreImage
+import SnapKit
 import Then
 
 // MARK: - UIView
@@ -78,11 +79,17 @@ extension UIImage {
 // MARK: - UIViewController
 
 extension UIViewController {
-    func showToast(message: String, frame: CGRect, completion: (() -> Void)?) {
-        let toast = UILabel(frame: frame)
+    // criterionView 파라미터 설명 - 기준이 되는 뷰를 전달받아서 autoLayout 설정
+    func showToast(criterionView: UIView, message: String, completion: (() -> Void)?) {
+        let toast = UILabel()
         toast.setupToast()
         toast.text = message
         view.addSubview(toast)
+        toast.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(60)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(criterionView.snp.top).offset(-15)
+        }
         UIView.animate(withDuration: 1.2, delay: 0.3) {
             toast.alpha = 0
         } completion: { _ in

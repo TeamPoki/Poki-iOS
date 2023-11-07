@@ -33,14 +33,6 @@ final class LoginVC: UIViewController {
     private var loginButtonColor: UIColor {
         isLoginFormValid == true ? Constants.appBlackColor : UIColor.lightGray
     }
-    
-    // MARK: - Size
-    
-    private var toastSize: CGRect {
-        let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
-        return frame
-    }
 
     // MARK: - Components
     
@@ -318,13 +310,15 @@ final class LoginVC: UIViewController {
     // MARK: - Helpers
     
     private func showAlertToFindPassword(completion: @escaping (String?) -> Void) {
-        let alert = UIAlertController(title: "비밀번호 찾기", message: "이메일을 입력해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "비밀번호 찾기", message: "가입한 이메일을 입력해주세요.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .destructive)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             let email = alert.textFields?[0].text
             completion(email)
         }
-        alert.addTextField()
+        alert.addTextField {
+            $0.placeholder = "이메일을 입력해주세요."
+        }
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         present(alert, animated: true)
@@ -369,7 +363,7 @@ final class LoginVC: UIViewController {
         self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
-                self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
+                self.showToast(criterionView: self.loginButton, message: "이메일과 비밀번호를 확인해주세요.") {
                     print("로그인 에러 : \(error.localizedDescription)")
                 }
                 self.hideLoadingIndicator()

@@ -22,14 +22,6 @@ final class AccountDeletionVC: UIViewController {
         "이상의 내용에 동의하여 탈퇴를 원하실 경우, 아래의 동의 체크박스 버튼을 클릭하고 탈퇴하기 버튼을 눌러주세요."
     ]
 
-    // MARK: - Size
-
-    private var toastSize: CGRect {
-        let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 700, width: width, height: Constants.toastHeight)
-        return frame
-    }
-
     private let titleLabel = UILabel().then {
         $0.text = "정말 떠나시는 건가요?"
         $0.font = UIFont(name: Constants.fontSemiBold, size: 24)
@@ -263,7 +255,7 @@ final class AccountDeletionVC: UIViewController {
             }
         }
         self.hideLoadingIndicator()
-        self.showToast(message: "탈퇴가 완료되었습니다.", frame: self.toastSize) {
+        self.showToast(criterionView: self.withdrawButton, message: "탈퇴가 완료되었습니다.") {
             self.authManager.userDelete { error in
                 if let error = error {
                     print("ERROR: 회원 탈퇴를 실패했습니다. ㅠㅠ \(error)")

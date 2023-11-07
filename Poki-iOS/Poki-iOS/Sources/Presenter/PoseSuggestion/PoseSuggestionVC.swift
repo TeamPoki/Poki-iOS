@@ -69,18 +69,16 @@ final class PoseSuggestionVC: UIViewController {
         configure()
         addSubviews()
         setupLayout()
-        firestoreManager.makePoseData()
-        firestoreManager.fetchRecommendPoseDocumentFromFirestore { error in
-            if let error = error {
-                print("ERROR: 포즈 추천 페이지에서 추천 포즈 문서를 불러오지 못했습니다 ㅠㅠ \(error)")
-                return
-            }
-        }
+        setupRecommendPoseImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNav()
+    }
+    
+    deinit {
+        print("deinit: 포즈 추천 페이지 사라집니다.!")
     }
     
     // MARK: - Helpers
@@ -130,6 +128,18 @@ final class PoseSuggestionVC: UIViewController {
             $0.top.equalTo(commentLabel.snp.bottom).offset(90)
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
+        }
+    }
+    
+    private func setupRecommendPoseImage() {
+        if firestoreManager.poseData.isEmpty {
+            firestoreManager.makePoseData()
+            firestoreManager.fetchRecommendPoseDocumentFromFirestore { error in
+                if let error = error {
+                    print("ERROR: 포즈 추천 페이지에서 추천 포즈 문서를 불러오지 못했습니다 ㅠㅠ \(error)")
+                    return
+                }
+            }
         }
     }
     
