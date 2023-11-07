@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreImage
+import SnapKit
 import Then
 
 // MARK: - UIView
@@ -78,7 +79,7 @@ extension UIImage {
 // MARK: - UIViewController
 
 extension UIViewController {
-    func showToast(message: String, completion: (() -> Void)?) {
+    func showToast(criterionView: UIView, message: String, completion: (() -> Void)?) {
         let toast = UILabel()
         toast.setupToast()
         toast.text = message
@@ -86,7 +87,7 @@ extension UIViewController {
         toast.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(60)
             $0.height.equalTo(40)
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalTo(criterionView.snp.top).offset(-15)
         }
         UIView.animate(withDuration: 1.2, delay: 0.3) {
             toast.alpha = 0

@@ -255,7 +255,7 @@ final class AccountDeletionVC: UIViewController {
             }
         }
         self.hideLoadingIndicator()
-        self.showToast(message: "탈퇴가 완료되었습니다.") {
+        self.showToast(criterionView: self.withdrawButton, message: "탈퇴가 완료되었습니다.") {
             self.authManager.userDelete { error in
                 if let error = error {
                     print("ERROR: 회원 탈퇴를 실패했습니다. ㅠㅠ \(error)")

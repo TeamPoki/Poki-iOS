@@ -363,7 +363,7 @@ final class LoginVC: UIViewController {
         self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
-                self.showToast(message: "이메일과 비밀번호를 확인해주세요.") {
+                self.showToast(criterionView: self.loginButton, message: "이메일과 비밀번호를 확인해주세요.") {
                     print("로그인 에러 : \(error.localizedDescription)")
                 }
                 self.hideLoadingIndicator()

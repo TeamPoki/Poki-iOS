@@ -192,7 +192,7 @@ final class SignUpVC: UIViewController {
             // 왜 회원가입할 때, 이것을 하나요?
 //            firestoreManager.makePoseData()
             self.hideLoadingIndicator()
-            self.showToast(message: "회원가입이 완료되었습니다.") {
+            self.showToast(criterionView: self.signUpView.signUpButton, message: "회원가입이 완료되었습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
         }
