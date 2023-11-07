@@ -22,6 +22,11 @@ final class PoseSuggestionVC: UIViewController {
     private let manyPeopleButtonText = "여럿이서 찍기"
     private let manyPeopleButtonImageName = "person.3.fill"
     
+    // 아이폰 15 pro 화면 넓이가 393 이여서 기준을 393으로 잡았습니다.
+    var isMaxDevice: Bool {
+        UIScreen.main.bounds.size.width > 393
+    }
+    
     // MARK: - Properties
     
     let firestoreManager =  FirestoreManager.shared
@@ -66,10 +71,10 @@ final class PoseSuggestionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configure()
         addSubviews()
         setupLayout()
         setupRecommendPoseImage()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +88,7 @@ final class PoseSuggestionVC: UIViewController {
     
     // MARK: - Helpers
     
-    private func configure() {
+    private func configureUI() {
         [aloneButton, twoPeopleButton, manyPeopleButton].forEach { configure($0) }
     }
 
@@ -98,7 +103,6 @@ final class PoseSuggestionVC: UIViewController {
         button.configuration = buttonConfig
         button.backgroundColor = Constants.appBlackColor
         button.tintColor = .white
-        button.titleLabel?.font = UIFont(name: Constants.fontExtraBold, size: 16)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(numberOfPeopleButtonTapped), for: .touchUpInside)
@@ -110,8 +114,39 @@ final class PoseSuggestionVC: UIViewController {
     }
     
     private func setupLayout() {
+        if self.isMaxDevice == true {
+            setupLayoutForMaxDevice()
+        }
+        if self.isMaxDevice == false {
+            setupDefaultLayout()
+        }
+    }
+    
+    private func setupDefaultLayout() {
         commentLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(90)
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
+        }
+        aloneButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        twoPeopleButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        manyPeopleButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+        }
+        mainStackView.snp.makeConstraints {
+            $0.top.equalTo(commentLabel.snp.bottom).offset(90)
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
+        }
+    }
+    
+    private func setupLayoutForMaxDevice() {
+        commentLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(120)
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().inset(30)
         }
