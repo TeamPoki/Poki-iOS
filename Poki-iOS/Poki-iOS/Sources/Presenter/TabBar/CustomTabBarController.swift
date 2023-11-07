@@ -45,7 +45,7 @@ class CustomTabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = .gray
 
         let controllers = [mainPageVC, poseSuggestionVC, myPageVC]
-        viewControllers = controllers.map { UINavigationController(rootViewController: $0) }
+        viewControllers = controllers.map { DynamicStatusBarNavigation(rootViewController: $0) }
     }
 }
 
@@ -61,5 +61,13 @@ extension CustomTabBarController: UITabBarControllerDelegate {
         }
 
         return true
+    }
+}
+
+// MARK: - Status Bar Custom Setting
+
+open class DynamicStatusBarNavigation: UINavigationController {
+    override open var childForStatusBarStyle: UIViewController? {
+        return topViewController
     }
 }

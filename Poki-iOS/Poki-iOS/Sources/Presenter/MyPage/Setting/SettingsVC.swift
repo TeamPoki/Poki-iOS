@@ -19,7 +19,7 @@ final class SettingsVC: UIViewController {
         $0.register(UITableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
     }
     
-    private var data: [String] = ["공지사항", "개인정보 처리방침", "서비스 이용약관", "탈퇴하기"]
+    private var data: [String] = ["공지사항", "개인정보처리방침", "서비스 이용약관", "탈퇴하기"]
     private var dataFont = UIFont(name: Constants.fontMedium, size: 14)
     
     // MARK: - Life Cycle
@@ -107,7 +107,7 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
             let accountDeletionVC = AccountDeletionVC()
             navigationController?.pushViewController(accountDeletionVC, animated: true)
             accountDeletionVC.hidesBottomBarWhenPushed = true
-        } else if selectedData == "개인정보 처리방침" {
+        } else if selectedData == "개인정보처리방침" {
             openSFSafariPrivacyPolicy()
         } else if selectedData == "서비스 이용약관" {
             openSFSafariServiceRule()
