@@ -45,13 +45,6 @@ final class SignUpVC: UIViewController {
         isSignUpFormValid == true ? Constants.appBlackColor : UIColor.lightGray
     }
     
-    // MARK: - Size
-    private var toastSize: CGRect {
-        let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 710, width: width, height: Constants.toastHeight)
-        return frame
-    }
-
     // MARK: - Life Cycle
     let signUpView = SignUpView()
     override func loadView() {
@@ -199,7 +192,7 @@ final class SignUpVC: UIViewController {
             // 왜 회원가입할 때, 이것을 하나요?
 //            firestoreManager.makePoseData()
             self.hideLoadingIndicator()
-            self.showToast(message: "회원가입이 완료되었습니다.", frame: self.toastSize) {
+            self.showToast(message: "회원가입이 완료되었습니다.") {
                 self.navigationController?.popViewController(animated: true)
             }
         }

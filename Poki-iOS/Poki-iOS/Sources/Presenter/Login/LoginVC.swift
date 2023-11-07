@@ -33,14 +33,6 @@ final class LoginVC: UIViewController {
     private var loginButtonColor: UIColor {
         isLoginFormValid == true ? Constants.appBlackColor : UIColor.lightGray
     }
-    
-    // MARK: - Size
-    
-    private var toastSize: CGRect {
-        let width = view.frame.size.width - 120
-        let frame = CGRect(x: 60, y: 610, width: width, height: Constants.toastHeight)
-        return frame
-    }
 
     // MARK: - Components
     
@@ -369,7 +361,7 @@ final class LoginVC: UIViewController {
         self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
-                self.showToast(message: "이메일과 비밀번호를 확인해주세요.", frame: self.toastSize) {
+                self.showToast(message: "이메일과 비밀번호를 확인해주세요.") {
                     print("로그인 에러 : \(error.localizedDescription)")
                 }
                 self.hideLoadingIndicator()
