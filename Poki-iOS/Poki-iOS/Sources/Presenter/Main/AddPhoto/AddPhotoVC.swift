@@ -67,6 +67,8 @@ final class AddPhotoVC: UIViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        addPhotoView.dateTextField.delegate = self
+        addPhotoView.memoTextField.delegate = self
     }
     
     private func configuration() {
@@ -357,4 +359,22 @@ extension AddPhotoVC: TagSelectionDelegate {
         addPhotoView.tagImageView.kf.setImage(with: url)
         addPhotoView.setTagStackViewBorder(show: true)
     }
+}
+
+
+
+extension AddPhotoVC : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == addPhotoView.dateTextField {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        addPhotoView.memoTextField.resignFirstResponder()
+        return true
+    }
+    
 }
