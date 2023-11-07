@@ -31,6 +31,10 @@ final class MainPageVC: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
 
     // MARK: - Life Cycle
 

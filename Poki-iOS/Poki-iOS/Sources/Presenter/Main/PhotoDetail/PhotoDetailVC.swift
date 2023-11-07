@@ -16,6 +16,7 @@ final class PhotoDetailVC: UIViewController {
             setupPhotoData()
         }
     }
+
     var indexPath: IndexPath?
     var updatePhotoCompletionHandler: (() -> Void)?
     
@@ -23,6 +24,7 @@ final class PhotoDetailVC: UIViewController {
     private let storageManager = StorageManager.shared
     
     // MARK: - Components
+
     private let titleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 32)
         $0.text = "GOOD EATS"
@@ -45,7 +47,6 @@ final class PhotoDetailVC: UIViewController {
         $0.alignment = .fill
     }
    
-
     private let backgroundImageView = UIImageView()
     
     private lazy var backgroundBlurEffectView = UIVisualEffectView().then {
@@ -60,8 +61,13 @@ final class PhotoDetailVC: UIViewController {
     }
     
     private lazy var detailMenu = UIMenu(children: setupDetailMenuAction())
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubViews()
@@ -75,6 +81,7 @@ final class PhotoDetailVC: UIViewController {
     }
     
     // MARK: - Helper
+
     private func configureNav() {
         navigationItem.rightBarButtonItem = self.menuButton
         navigationController?.configureClearAppearance()
@@ -138,11 +145,14 @@ final class PhotoDetailVC: UIViewController {
     
     private func setupDetailMenuAction() -> [UIAction] {
         let update = UIAction(title: "수정하기", image: UIImage(systemName: "highlighter")) { _ in
-            self.editMenuTapped() }
+            self.editMenuTapped()
+        }
         let share = UIAction(title: "공유하기", image: UIImage(systemName: "arrowshape.turn.up.right")) { _ in
-            self.shareMenuTapped() }
+            self.shareMenuTapped()
+        }
         let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-            self.deleteMenuTapped() }
+            self.deleteMenuTapped()
+        }
         let actions = [update, share, delete]
         return actions
     }
@@ -190,7 +200,4 @@ final class PhotoDetailVC: UIViewController {
     private func deleteMenuTapped() {
         showAlertMessage()
     }
-    
- 
-    
 }
