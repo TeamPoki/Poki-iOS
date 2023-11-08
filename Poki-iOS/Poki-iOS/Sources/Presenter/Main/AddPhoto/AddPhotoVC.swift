@@ -37,6 +37,7 @@ final class AddPhotoVC: UIViewController {
     var updateCompletionHandler: (() -> Void)?
     
     // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -49,6 +50,13 @@ final class AddPhotoVC: UIViewController {
         tagImageSetupTapGestures()
         addButtonTapped()
         keyboardLayoutSetting()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if addPhotoView.isTagSet {
+            addPhotoView.setTagStackViewBorder(show: true)
+        }
     }
     
     // MARK: - Helpers
@@ -75,19 +83,25 @@ final class AddPhotoVC: UIViewController {
         guard let photoData = photoData else { return }
         let photoImageURL = URL(string: photoData.image)
         let tagImageURL = URL(string: photoData.tag.tagImage)
+        
         switch self.viewSeperated {
         case .edit:
             navigationItem.title = "추억 수정하기"
             addPhotoView.photoImageView.kf.setImage(with: photoImageURL)
             addPhotoView.dateTextField.text = photoData.date
             addPhotoView.memoTextField.text = photoData.memo
-            addPhotoView.tagImageView.kf.setImage(with: tagImageURL)
             addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
             addPhotoView.addButton.setTitle("수정하기", for: .normal)
+            addPhotoView.tagImageView.kf.setImage(with: tagImageURL)
+            addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
+            addPhotoView.tagAddButton.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 14)
+            addPhotoView.isTagSet = true
+            
         default:
             break
         }
     }
+
     
     private func tagButtonTapped() {
         addPhotoView.tagAddButton.addTarget(self, action: #selector(tagButtonAction), for: .touchUpInside)
@@ -227,30 +241,7 @@ final class AddPhotoVC: UIViewController {
         }
     }
     
-//    func updateData(documentPath: String, image: [UIImage], date: String, memo: String, tagText: String) {
-//        storageManager.photoUploadImage(image: image, date: date, memo: memo, tagText: tagText) { result in
-//            switch result {
-//            case .success((let photoURL, let tagURL)):
-//                // 이미지 업로드 및 다운로드 URL 가져온 후에 데이터 생성 및 Firestore에 저장
-//                self.updateImageData(documentPath: documentPath, photoURL: photoURL, tagURL: tagURL, date: date, memo: memo, tagText: tagText)
-//            case .failure(let error):
-//                print("Error uploading images: \(error.localizedDescription)")
-//                // 오류 처리
-//            }
-//        }
-//    }
-    
-    // Firestore에 데이터 생성 및 저장
-//    private func updateImageData(documentPath: String, photoURL: URL, tagURL: URL, date: String, memo: String, tagText: String) {
-//        // URL을 문자열로 변환
-//        let photoURLString = photoURL.absoluteString
-//        let tagURLString = tagURL.absoluteString
-//
-//         Firestore에 데이터 생성
-//        firestoreManager.photoUpdate(documentPath: documentPath, image: photoURLString, date: date, memo: memo, tagText: tagText, tagImage: tagURLString)
-//    }
-    
-    // Creat 메서드
+    // Create 메서드
     @objc private func addButtonAction() {
         if addPhotoView.photoImageView.image != nil {
             switch self.viewSeperated {
@@ -357,13 +348,11 @@ extension AddPhotoVC: TagSelectionDelegate {
         addPhotoView.tagAddButton.setTitle(tag.tagLabel, for: .normal)
         addPhotoView.tagAddButton.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 14)
         addPhotoView.tagImageView.kf.setImage(with: url)
-        addPhotoView.setTagStackViewBorder(show: true)
+        addPhotoView.isTagSet = true
     }
 }
 
-
-
-extension AddPhotoVC : UITextFieldDelegate {
+extension AddPhotoVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == addPhotoView.dateTextField {
             return false
@@ -376,5 +365,4 @@ extension AddPhotoVC : UITextFieldDelegate {
         addPhotoView.memoTextField.resignFirstResponder()
         return true
     }
-    
 }
