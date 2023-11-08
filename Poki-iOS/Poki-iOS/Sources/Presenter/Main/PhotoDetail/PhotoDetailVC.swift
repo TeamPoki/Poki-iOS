@@ -86,6 +86,8 @@ final class PhotoDetailVC: UIViewController {
         navigationItem.rightBarButtonItem = self.menuButton
         navigationController?.configureClearAppearance()
         navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.layoutIfNeeded()
     }
     
     private func addSubViews() {
