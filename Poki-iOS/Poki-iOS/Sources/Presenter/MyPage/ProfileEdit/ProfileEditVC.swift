@@ -16,6 +16,9 @@ final class ProfileEditVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
+    var profileImage: UIImage?
+    var nickname: String?
+    
     private var userImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = 1.0
@@ -76,14 +79,8 @@ final class ProfileEditVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
+        setupUserData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        configureUserName()
-        configureUserImage()
-    }
-    
     
     // MARK: - Helpers
     
@@ -119,30 +116,16 @@ final class ProfileEditVC: UIViewController {
             $0.leading.equalTo(view).offset(20)
             $0.trailing.equalTo(view).offset(-20)
         }
-        
     }
     
-    private func configureUserName() {
-        guard let nickname = self.firestoreManager.userData?.nickname else { return }
-        nicknameTextField.text = nickname
-        if nicknameTextField.text == "" {
+    private func setupUserData() {
+        self.userImageView.image = self.profileImage
+        self.nicknameTextField.text = self.nickname
+        if self.nicknameTextField.text?.isEmpty == true {
             hintLabel.isHidden = false
-        } else {
-            hintLabel.isHidden = true
         }
-    }
-    
-    private func configureUserImage() {
-        guard let imageURL = self.firestoreManager.userData?.imageURL else { return }
-        let imageData = imageURL
-        if imageData == "" {
-            userImageView.image = UIImage(named: "default-profile")
-        } else {
-            storageManager.downloadImage(urlString: imageData) { image in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    userImageView.image = image }
-            }
+        if self.nicknameTextField.text?.isEmpty == false {
+            hintLabel.isHidden = true
         }
     }
     

@@ -17,7 +17,6 @@ final class MyPageVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
-    
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorColor = Constants.separatorGrayColor
@@ -270,6 +269,8 @@ final class MyPageVC: UIViewController {
     @objc private func modifyProfileButtonTapped() {
         let profileEditVC = ProfileEditVC()
         profileEditVC.hidesBottomBarWhenPushed = true
+        profileEditVC.nickname = self.nameLabel.text
+        profileEditVC.profileImage = self.userImage.image
         navigationController?.pushViewController(profileEditVC, animated: true)
     }
 }
