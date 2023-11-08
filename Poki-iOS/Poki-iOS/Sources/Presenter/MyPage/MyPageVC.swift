@@ -244,11 +244,10 @@ final class MyPageVC: UIViewController {
     
     private func retrieveAppVersion() -> String? {
         guard let dictionary = Bundle.main.infoDictionary,
-              let version = dictionary["CFBundleShortVersionString"] as? String,
-              let build = dictionary["CFBundleVersion"] as? String else {
+              let version = dictionary["CFBundleShortVersionString"] as? String else {
             return nil
         }
-        return "\(version).\(build)"
+        return "\(version)"
     }
     
     func updateConfigureCell(_ title: String, cell: MyPageMenuCell) {
@@ -265,8 +264,9 @@ final class MyPageVC: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let galleryAction = UIAlertAction(title: "갤러리에 추가하기", style: .destructive) { (action) in
-            let mainPageVCInstance = MainPageVC()
-            mainPageVCInstance.requestPhotoLibraryAccess()
+            if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 0
+            }
         }
         
         let qrCodeAction = UIAlertAction(title: "QR코드로 추가하기", style: .destructive) { (action) in

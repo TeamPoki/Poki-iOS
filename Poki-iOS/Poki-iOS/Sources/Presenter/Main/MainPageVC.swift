@@ -250,18 +250,6 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 중앙 지점 계솨안
-        let centerPoint = CGPoint(x: collectionView.bounds.midX + collectionView.contentOffset.x,
-                     y: collectionView.bounds.midY + collectionView.contentOffset.y)
-
-        // 중앙 지점에 있는 셀의 indexPath 가져오기
-        guard let centerIndexPath = collectionView.indexPathForItem(at: centerPoint) else { return }
-         
-        // 선택된 셀이 중앙 셀인지 확인
-        guard centerIndexPath == indexPath else {
-          return
-        }
-
         let photoDetailVC = PhotoDetailVC()
         photoDetailVC.photoData = firestoreManager.photoList[indexPath.row]
         photoDetailVC.indexPath = indexPath

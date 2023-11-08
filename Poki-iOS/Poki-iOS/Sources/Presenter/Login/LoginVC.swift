@@ -16,23 +16,6 @@ final class LoginVC: UIViewController {
     private var email: String?
     private var password: String?
     private var authManager = AuthManager.shared
-    
-    // MARK: - Validation
-    
-    private var isLoginFormValid: Bool? {
-        isValidEmail == true && isValidPassword == true
-    }
-    private var isValidEmail: Bool? {
-        self.email?.isEmpty == false &&
-        authManager.isValid(form: self.email, regex: Constants.emailRegex)
-    }
-    private var isValidPassword: Bool? {
-        self.password?.isEmpty == false &&
-        authManager.isValid(form: self.password, regex: Constants.passwordRegex)
-    }
-    private var loginButtonColor: UIColor {
-        isLoginFormValid == true ? Constants.appBlackColor : UIColor.lightGray
-    }
 
     // MARK: - Components
     
@@ -135,9 +118,10 @@ final class LoginVC: UIViewController {
     }
     
     private lazy var loginButton = UIButton().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = Constants.appBlackColor
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .highlighted)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
         $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
@@ -147,6 +131,7 @@ final class LoginVC: UIViewController {
         $0.backgroundColor = .white
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .highlighted)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
         $0.layer.borderWidth = 1
@@ -295,18 +280,6 @@ final class LoginVC: UIViewController {
         }
     }
     
-    // MARK: - Update UI
-    
-    private func updateLoginButton() {
-        if isLoginFormValid == true {
-            loginButton.isEnabled = true
-        }
-        if isLoginFormValid == false {
-            loginButton.isEnabled = false
-        }
-        loginButton.backgroundColor = self.loginButtonColor
-    }
-    
     // MARK: - Helpers
     
     private func showAlertToFindPassword(completion: @escaping (String?) -> Void) {
@@ -333,7 +306,6 @@ final class LoginVC: UIViewController {
         if sender == passwordTextField {
             self.password = sender.text
         }
-        updateLoginButton()
     }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
