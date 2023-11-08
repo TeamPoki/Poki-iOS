@@ -244,11 +244,10 @@ final class MyPageVC: UIViewController {
     
     private func retrieveAppVersion() -> String? {
         guard let dictionary = Bundle.main.infoDictionary,
-              let version = dictionary["CFBundleShortVersionString"] as? String,
-              let build = dictionary["CFBundleVersion"] as? String else {
+              let version = dictionary["CFBundleShortVersionString"] as? String else {
             return nil
         }
-        return "\(version).\(build)"
+        return "\(version)"
     }
     
     func updateConfigureCell(_ title: String, cell: MyPageMenuCell) {
