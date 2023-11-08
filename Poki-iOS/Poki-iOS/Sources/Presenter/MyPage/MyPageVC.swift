@@ -122,7 +122,7 @@ final class MyPageVC: UIViewController {
         configureNav()
         configureUI()
         // 여기서 불러야할까요?
-//        firestoreManager.poseRealTimebinding { _ in }
+        //        firestoreManager.poseRealTimebinding { _ in }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,22 +148,15 @@ final class MyPageVC: UIViewController {
         myPageTableView.delegate = self
         myPageTableView.dataSource = self
         
-        view.addSubviews(myPageTableView, stackView, contentView)
+        view.addSubviews(stackView, contentView, myPageTableView)
         contentView.addSubview(subStackView)
         subStackView.addArrangedSubviews(addButtonStackView, bookMarkButtonStackView, modifyProfileButtonStackView)
-        
-        myPageTableView.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
         
         stackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            //            $0.leading.equalToSuperview().offset(20)
+            //            $0.trailing.equalToSuperview().offset(-20)
         }
         
         contentView.snp.makeConstraints {
@@ -181,6 +174,23 @@ final class MyPageVC: UIViewController {
             $0.width.equalTo(150)
             $0.height.equalTo(150)
         }
+        
+        myPageTableView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(5)
+        }
+        
+        let addPhotoTapped = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
+        addButtonStackView.addGestureRecognizer(addPhotoTapped)
+        
+        let bookMarkTapped = UITapGestureRecognizer(target: self, action: #selector(bookMarkButtonTapped))
+        bookMarkButtonStackView.addGestureRecognizer(bookMarkTapped)
+        
+        let modifyProfileTapped = UITapGestureRecognizer(target: self, action: #selector(modifyProfileButtonTapped))
+        modifyProfileButtonStackView.addGestureRecognizer(modifyProfileTapped)
+        
     }
     
     func profileDataBinding() {
