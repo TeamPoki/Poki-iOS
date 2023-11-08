@@ -136,7 +136,7 @@ final class ProfileEditVC: UIViewController {
         guard let imageURL = self.firestoreManager.userData?.imageURL else { return }
         let imageData = imageURL
         if imageData == "" {
-            userImageView.image = UIImage()
+            userImageView.image = UIImage(named: "default-profile")
         } else {
             storageManager.downloadImage(urlString: imageData) { image in
                 DispatchQueue.main.async { [weak self] in
