@@ -118,6 +118,17 @@ final class SignUpVC: UIViewController {
     }
     
     // MARK: - Update UI
+    
+    private func updateValidFormLabel(label: UILabel, isValid: Bool?, form: String) {
+        if isValid == true {
+            label.text = "사용할 수 있는 \(form)입니다."
+            label.textColor = .systemBlue
+        }
+        if isValid == false {
+            label.text = "사용할 수 없는 \(form)입니다."
+            label.textColor = .systemRed
+        }
+    }
 
     private func updateSignUpButton() {
         if isSignUpFormValid == true {
@@ -134,14 +145,18 @@ final class SignUpVC: UIViewController {
     @objc private func textDidChange(_ sender: UITextField) {
         if sender == self.signUpView.emailTextField {
             self.email = sender.text
+            self.updateValidFormLabel(label: self.signUpView.emailHintLabel, isValid: self.isValidEmail, form: "이메일")
         }
         if sender == self.signUpView.passwordTextField {
             self.password = sender.text
+            self.updateValidFormLabel(label: self.signUpView.passwordHintLabel, isValid: self.isValidPassword, form: "비밀번호")
         }
         if sender == self.signUpView.nicknameTextField {
             self.nickname = sender.text
+            self.updateValidFormLabel(label: self.signUpView.nicknameHintLabel, isValid: self.isValidNickname, form: "닉네임")
         }
         self.updateSignUpButton()
+        
     }
     
     @objc private func eyeButtonTapped(_ sender: UIButton) {
@@ -185,12 +200,9 @@ final class SignUpVC: UIViewController {
                 self.hideLoadingIndicator()
                 return
             }
-//            firestoreManager.userCreate(name: signUpView.nicknameTextField.text!, image: "")
             guard let nickname = self.signUpView.nicknameTextField.text else { return }
             let user = User(nickname: nickname, imageURL: "")
             firestoreManager.createUserDocument(email: email, user: user)
-            // 왜 회원가입할 때, 이것을 하나요?
-//            firestoreManager.makePoseData()
             self.hideLoadingIndicator()
             self.showToast(criterionView: self.signUpView.signUpButton, message: "회원가입이 완료되었습니다.") {
                 self.navigationController?.popViewController(animated: true)
