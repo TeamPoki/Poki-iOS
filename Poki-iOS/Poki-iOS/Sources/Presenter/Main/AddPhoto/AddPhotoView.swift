@@ -13,6 +13,8 @@ final class AddPhotoView: UIView {
     
     // MARK: - Properties
     
+    var isTagSet: Bool = false
+    
     let photoImageView = UIImageView().then {
         $0.clipsToBounds = true
         $0.backgroundColor = .red
@@ -92,10 +94,11 @@ final class AddPhotoView: UIView {
     let tagLabel = UILabel().then {
         $0.textColor = .black
         $0.text = "태그"
-        $0.font = UIFont(name: Constants.fontSemiBold, size: 15)
+        $0.font = UIFont(name: Constants.fontSemiBold, size: 14)
     }
     
     let tagImageView = UIImageView().then {
+        $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.backgroundColor = .clear
         $0.image = UIImage(named: "addButton")
@@ -205,27 +208,19 @@ final class AddPhotoView: UIView {
     }
     
     func setTagStackViewBorder(show: Bool) {
-        if show {
-            imageStackView.layer.borderWidth = 0.5
-            imageStackView.layer.borderColor = Constants.separatorGrayColor.cgColor
-            imageStackView.layer.cornerRadius = imageStackView.frame.height / 2
-            imageStackView.layer.shadowOffset = CGSize(width: 0, height: 2)
-            imageStackView.layer.shadowRadius = 2
-            imageStackView.layer.shadowColor = UIColor.black.cgColor
-            imageStackView.layer.shadowOpacity = 0.2
-            imageStackView.isLayoutMarginsRelativeArrangement = true
-            imageStackView.layoutMargins = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-            
-        } else {
-            imageStackView.layer.borderWidth = 0
-            imageStackView.layer.cornerRadius = 0
-            imageStackView.layer.shadowOffset = .zero
-            imageStackView.layer.shadowRadius = 0
-            imageStackView.layer.shadowColor = nil
-            imageStackView.layer.shadowOpacity = 0
-            imageStackView.isLayoutMarginsRelativeArrangement = false
-            imageStackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
+        let borderWidth: CGFloat = show ? 0.5 : 0
+        let cornerRadius: CGFloat = show ? imageStackView.frame.height / 2 : 0
+        let shadowOpacity: Float = show ? 0.2 : 0
+        
+        imageStackView.layer.borderWidth = borderWidth
+        imageStackView.layer.borderColor = show ? Constants.separatorGrayColor.cgColor : UIColor.clear.cgColor
+        imageStackView.layer.cornerRadius = cornerRadius
+        imageStackView.layer.shadowOffset = show ? CGSize(width: 0, height: 2) : .zero
+        imageStackView.layer.shadowRadius = show ? 2 : 0
+        imageStackView.layer.shadowColor = show ? UIColor.black.cgColor : UIColor.clear.cgColor
+        imageStackView.layer.shadowOpacity = shadowOpacity
+        imageStackView.isLayoutMarginsRelativeArrangement = show
+        imageStackView.layoutMargins = show ? UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10) : .zero
     }
     
     private func getCurrentDate() -> String {
@@ -234,6 +229,4 @@ final class AddPhotoView: UIView {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: Date())
     }
-
-    
 }
