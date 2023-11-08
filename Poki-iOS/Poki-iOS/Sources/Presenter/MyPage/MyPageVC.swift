@@ -198,12 +198,8 @@ final class MyPageVC: UIViewController {
             self.userImage.image = UIImage(named: "default-profile")
             return
         }
-        storageManager.downloadImage(urlString: imageURL) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.userImage.image = image
-            }
-        }
+        let url = URL(string: imageURL)
+        self.userImage.kf.setImage(with: url)
     }
     
     private func retrieveAppVersion() -> String? {
