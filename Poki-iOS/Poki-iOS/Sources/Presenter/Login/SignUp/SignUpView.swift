@@ -35,8 +35,6 @@ class SignUpView: UIView {
     
     let validEmailCheckLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
-        $0.text = "이메일 형식이 유효하지 않습니다."
-        $0.textColor = .red
     }
     
     let emailLabelStackView = UIStackView().then {
@@ -74,8 +72,6 @@ class SignUpView: UIView {
     
     let validPasswordCheckLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
-        $0.text = "비밀번호가 유효하지 않습니다."
-        $0.textColor = .red
     }
     
     let passwordLabelStackView = UIStackView().then {
@@ -107,8 +103,6 @@ class SignUpView: UIView {
     
     let validNicknameCheckLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
-        $0.text = "닉네임이 유효하지 않습니다."
-        $0.textColor = .red
     }
     
     let nicknameLabelStackView = UIStackView().then {
@@ -227,7 +221,7 @@ class SignUpView: UIView {
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         passwordTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(40)
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(55)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
@@ -248,7 +242,7 @@ class SignUpView: UIView {
             $0.centerY.equalTo(passwordTextField)
         }
         nicknameTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(40)
+            $0.top.equalTo(passwordTextFieldView.snp.bottom).offset(55)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
