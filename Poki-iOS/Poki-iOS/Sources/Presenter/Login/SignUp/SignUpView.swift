@@ -82,6 +82,7 @@ class SignUpView: UIView {
     lazy var signUpButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .highlighted)
         $0.titleLabel?.font = UIFont(name: Constants.fontBold, size: 16)
         $0.layer.cornerRadius = 25
     }
