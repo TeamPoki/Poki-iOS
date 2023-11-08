@@ -89,7 +89,6 @@ final class LikedPoseVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(11)
         configureNav()
         updateCollectionViewForCategory(poseCategory)
     }
