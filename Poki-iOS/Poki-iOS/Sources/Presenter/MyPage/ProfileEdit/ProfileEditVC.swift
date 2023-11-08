@@ -119,8 +119,10 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func setupUserData() {
-        self.userImageView.image = self.profileImage
-        self.nicknameTextField.text = self.nickname
+        DispatchQueue.main.async {
+            self.userImageView.image = self.profileImage
+            self.nicknameTextField.text = self.nickname
+        }
         if self.nicknameTextField.text?.isEmpty == true {
             hintLabel.isHidden = false
         }
