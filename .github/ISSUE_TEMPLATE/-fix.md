@@ -1,14 +1,14 @@
 ---
-name: Feature
-about: 기능 작업 사항
-title: "[FEATURE]"
+name: "\bFix"
+about: 버그 및 수정사항
+title: "[FIX]"
 labels: ''
-assignees: ''
+assignees: playhong16
 
 ---
 
 ## Description
-> 어떤 작업을 진행할지 간단하게 내용 작성하세요.
+> 어떤 버그로 인한 작업인지 설명하세요.
 
 ## Task
 > 진행하는 작업을 작은 단위로 분리해서 작성하세요.
