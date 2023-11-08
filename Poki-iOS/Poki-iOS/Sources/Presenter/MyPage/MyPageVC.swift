@@ -17,7 +17,6 @@ final class MyPageVC: UIViewController {
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
-    
     private let myPageTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorColor = Constants.separatorGrayColor
@@ -48,7 +47,7 @@ final class MyPageVC: UIViewController {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = 1.0
         $0.layer.borderColor = UIColor.systemGray5.cgColor
-        $0.layer.cornerRadius = 120 / 2
+        $0.layer.cornerRadius = 150 / 2
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
     }
@@ -179,8 +178,8 @@ final class MyPageVC: UIViewController {
         }
         
         userImage.snp.makeConstraints {
-            $0.width.equalTo(120)
-            $0.height.equalTo(120)
+            $0.width.equalTo(150)
+            $0.height.equalTo(150)
         }
     }
     
@@ -193,13 +192,14 @@ final class MyPageVC: UIViewController {
             emailLabel.text = authManager.currentUserEmail
         }
         guard let imageURL = self.firestoreManager.userData?.imageURL,
-              imageURL.isEmpty == false else { return }
-        storageManager.downloadImage(urlString: imageURL) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.userImage.image = image
-            }
+              imageURL.isEmpty == false
+        else
+        {
+            self.userImage.image = UIImage(named: "default-profile")
+            return
         }
+        let url = URL(string: imageURL)
+        self.userImage.kf.setImage(with: url)
     }
     
     private func retrieveAppVersion() -> String? {
@@ -265,6 +265,8 @@ final class MyPageVC: UIViewController {
     @objc private func modifyProfileButtonTapped() {
         let profileEditVC = ProfileEditVC()
         profileEditVC.hidesBottomBarWhenPushed = true
+        profileEditVC.nickname = self.nameLabel.text
+        profileEditVC.profileImage = self.userImage.image
         navigationController?.pushViewController(profileEditVC, animated: true)
     }
 }
