@@ -82,6 +82,11 @@ final class ProfileEditVC: UIViewController {
         setupUserData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateNicknameTextField()
+    }
+    
     // MARK: - Helpers
     
     private func configureNav() {
@@ -123,11 +128,15 @@ final class ProfileEditVC: UIViewController {
             self.userImageView.image = self.profileImage
             self.nicknameTextField.text = self.nickname
         }
-        if self.nicknameTextField.text?.isEmpty == true {
-            hintLabel.isHidden = false
-        }
-        if self.nicknameTextField.text?.isEmpty == false {
+        updateNicknameTextField()
+    }
+    
+    private func updateNicknameTextField() {
+        if self.nickname?.isEmpty == false {
             hintLabel.isHidden = true
+        }
+        if self.nickname?.isEmpty == true {
+            hintLabel.isHidden = false
         }
     }
     
@@ -160,7 +169,6 @@ final class ProfileEditVC: UIViewController {
             self.requestPhotoLibraryAccess()
         }
         
-        
         let menu = UIMenu(title: "", children: [action])
         selectImageButton.menu = menu
         selectImageButton.showsMenuAsPrimaryAction = true
@@ -180,12 +188,11 @@ final class ProfileEditVC: UIViewController {
         }
     }
     
-    @objc private func textFieldEditingChanged() {
-        if let text = nicknameTextField.text, text.isEmpty {
-            hintLabel.isHidden = false
-        } else {
-            hintLabel.isHidden = true
+    @objc private func textFieldEditingChanged(sender: UITextField) {
+        if sender == nicknameTextField {
+            self.nickname = sender.text
         }
+        updateNicknameTextField()
     }
 }
 
