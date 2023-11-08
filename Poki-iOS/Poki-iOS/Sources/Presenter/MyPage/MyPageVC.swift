@@ -264,8 +264,9 @@ final class MyPageVC: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let galleryAction = UIAlertAction(title: "갤러리에 추가하기", style: .destructive) { (action) in
-            let mainPageVCInstance = MainPageVC()
-            mainPageVCInstance.requestPhotoLibraryAccess()
+            if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 0
+            }
         }
         
         let qrCodeAction = UIAlertAction(title: "QR코드로 추가하기", style: .destructive) { (action) in
@@ -415,3 +416,4 @@ extension MyPageVC: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
+
