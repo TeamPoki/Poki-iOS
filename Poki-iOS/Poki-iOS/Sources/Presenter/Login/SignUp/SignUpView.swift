@@ -33,17 +33,6 @@ class SignUpView: UIView {
         $0.textColor = .black
     }
     
-    let validEmailCheckLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 12)
-    }
-    
-    let emailLabelStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.distribution = .fill
-        $0.spacing = 3
-    }
-    
     let passwordPlaceholder = UILabel().then {
         $0.text = "비밀번호"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
@@ -69,18 +58,7 @@ class SignUpView: UIView {
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
         $0.textColor = .black
     }
-    
-    let validPasswordCheckLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 12)
-    }
-    
-    let passwordLabelStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.distribution = .fill
-        $0.spacing = 3
-    }
-    
+
     let nicknamePlaceholder = UILabel().then {
         $0.text = "닉네임"
         $0.font = UIFont(name: Constants.fontRegular, size: 16)
@@ -99,17 +77,6 @@ class SignUpView: UIView {
         $0.text = "2~8자, 영문, 한글만 입력할 수 있습니다."
         $0.font = UIFont(name: Constants.fontRegular, size: 12)
         $0.textColor = .black
-    }
-    
-    let validNicknameCheckLabel = UILabel().then {
-        $0.font = UIFont(name: Constants.fontRegular, size: 12)
-    }
-    
-    let nicknameLabelStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.distribution = .fill
-        $0.spacing = 3
     }
     
     lazy var signUpButton = UIButton().then {
@@ -196,10 +163,7 @@ class SignUpView: UIView {
         nicknameTextFieldView.addSubviews(nicknameTextField, nicknamePlaceholder)
         agreeToTermsOfServiceStackView.addArrangedSubviews(agreeToTermsOfServiceButton, agreeToTermsOfServiceLabel)
         passwordTextFieldView.addSubview(eyeButton)
-        emailLabelStackView.addArrangedSubviews(emailHintLabel, validEmailCheckLabel)
-        passwordLabelStackView.addArrangedSubviews(passwordHintLabel, validPasswordCheckLabel)
-        nicknameLabelStackView.addArrangedSubviews(nicknameHintLabel, validNicknameCheckLabel)
-        self.addSubviews(emailTextFieldView, emailLabelStackView, passwordTextFieldView, passwordLabelStackView, nicknameTextFieldView, nicknameLabelStackView, agreeToTermsOfServiceStackView, signUpButton)
+        self.addSubviews(emailTextFieldView, emailHintLabel, passwordTextFieldView, passwordHintLabel, nicknameTextFieldView, nicknameHintLabel, agreeToTermsOfServiceStackView, signUpButton)
     }
     
     private func setupLayout() {
@@ -216,7 +180,7 @@ class SignUpView: UIView {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(emailTextField)
         }
-        emailLabelStackView.snp.makeConstraints {
+        emailHintLabel.snp.makeConstraints {
             $0.top.equalTo(emailTextFieldView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
@@ -229,7 +193,7 @@ class SignUpView: UIView {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalToSuperview()
         }
-        passwordLabelStackView.snp.makeConstraints {
+        passwordHintLabel.snp.makeConstraints {
             $0.top.equalTo(passwordTextFieldView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
@@ -254,12 +218,12 @@ class SignUpView: UIView {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerY.equalTo(nicknameTextField)
         }
-        nicknameLabelStackView.snp.makeConstraints {
+        nicknameHintLabel.snp.makeConstraints {
             $0.top.equalTo(nicknameTextFieldView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         agreeToTermsOfServiceStackView.snp.makeConstraints {
-            $0.top.equalTo(nicknameLabelStackView.snp.bottom).offset(40)
+            $0.top.equalTo(nicknameHintLabel.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         signUpButton.snp.makeConstraints {

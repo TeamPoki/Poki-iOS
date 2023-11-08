@@ -122,11 +122,11 @@ final class SignUpVC: UIViewController {
     private func updateValidFormLabel(label: UILabel, isValid: Bool?, form: String) {
         if isValid == true {
             label.text = "사용할 수 있는 \(form)입니다."
-            label.textColor = .blue
+            label.textColor = .systemBlue
         }
         if isValid == false {
             label.text = "사용할 수 없는 \(form)입니다."
-            label.textColor = .red
+            label.textColor = .systemRed
         }
     }
 
@@ -145,15 +145,15 @@ final class SignUpVC: UIViewController {
     @objc private func textDidChange(_ sender: UITextField) {
         if sender == self.signUpView.emailTextField {
             self.email = sender.text
-            self.updateValidFormLabel(label: self.signUpView.validEmailCheckLabel, isValid: self.isValidEmail, form: "이메일")
+            self.updateValidFormLabel(label: self.signUpView.emailHintLabel, isValid: self.isValidEmail, form: "이메일")
         }
         if sender == self.signUpView.passwordTextField {
             self.password = sender.text
-            self.updateValidFormLabel(label: self.signUpView.validPasswordCheckLabel, isValid: self.isValidPassword, form: "비밀번호")
+            self.updateValidFormLabel(label: self.signUpView.passwordHintLabel, isValid: self.isValidPassword, form: "비밀번호")
         }
         if sender == self.signUpView.nicknameTextField {
             self.nickname = sender.text
-            self.updateValidFormLabel(label: self.signUpView.validNicknameCheckLabel, isValid: self.isValidNickname, form: "닉네임")
+            self.updateValidFormLabel(label: self.signUpView.nicknameHintLabel, isValid: self.isValidNickname, form: "닉네임")
         }
         self.updateSignUpButton()
         
