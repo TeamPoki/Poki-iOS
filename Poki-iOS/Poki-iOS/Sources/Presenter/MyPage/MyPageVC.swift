@@ -22,7 +22,7 @@ final class MyPageVC: UIViewController {
         $0.separatorColor = Constants.separatorGrayColor
         $0.register(MyPageMenuCell.self, forCellReuseIdentifier: "CellIdentifier")
         $0.register(MyPageMenuCell.self, forCellReuseIdentifier: "AppVersionCellIdentifier")
-        $0.isScrollEnabled = false
+        $0.isScrollEnabled = true
     }
     
     private lazy var addButton = UIButton().then {
@@ -62,6 +62,24 @@ final class MyPageVC: UIViewController {
         $0.font = UIFont(name: Constants.fontLight, size: 14)
     }
     
+    private let addButtonLabel = UILabel().then {
+        $0.text = "네컷 추가"
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.textAlignment = .center
+    }
+    
+    private let bookMarkButtonLabel = UILabel().then {
+        $0.text = "찜 한 포즈"
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.textAlignment = .center
+    }
+    
+    private let modifyProfileButtonLabel = UILabel().then {
+        $0.text = "프로필 설정"
+        $0.font = UIFont(name: Constants.fontMedium, size: 14)
+        $0.textAlignment = .center
+    }
+    
     private lazy var stackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 10
@@ -77,41 +95,32 @@ final class MyPageVC: UIViewController {
         $0.clipsToBounds = true
     }
     
-    private let subStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 40
-        $0.alignment = .center
-        $0.distribution = .equalSpacing
-    }
-    
     private lazy var addButtonStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 10
+        $0.spacing = 6
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        
         $0.addArrangedSubview(addButton)
-        $0.addArrangedSubview(UILabel().then {
-            $0.text = "네컷 추가하기"
-            $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        })
+        $0.addArrangedSubview(addButtonLabel)
     }
     
     private lazy var bookMarkButtonStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 10
+        $0.spacing = 6
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
         $0.addArrangedSubview(bookMarkButton)
-        $0.addArrangedSubview(UILabel().then {
-            $0.text = "찜 한 포즈"
-            $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        })
+        $0.addArrangedSubview(bookMarkButtonLabel)
     }
     
     private lazy var modifyProfileButtonStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 10
+        $0.spacing = 6
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
         $0.addArrangedSubview(modifyProfileButton)
-        $0.addArrangedSubview(UILabel().then {
-            $0.text = "프로필 설정"
-            $0.font = UIFont(name: Constants.fontMedium, size: 14)
-        })
+        $0.addArrangedSubview(modifyProfileButtonLabel)
     }
     
     // MARK: - Life Cycle
@@ -147,37 +156,60 @@ final class MyPageVC: UIViewController {
         myPageTableView.dataSource = self
         
         view.addSubviews(stackView, contentView, myPageTableView)
-        contentView.addSubview(subStackView)
-        subStackView.addArrangedSubviews(addButtonStackView, bookMarkButtonStackView, modifyProfileButtonStackView)
-        
-        stackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            //            $0.leading.equalToSuperview().offset(20)
-            //            $0.trailing.equalToSuperview().offset(-20)
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(20)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(320)
-            $0.height.equalTo(100)
-        }
-        
-        subStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10)
-        }
+        contentView.addSubviews(addButtonStackView, bookMarkButtonStackView, modifyProfileButtonStackView)
         
         userImage.snp.makeConstraints {
             $0.width.equalTo(150)
             $0.height.equalTo(150)
         }
         
+        stackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        addButtonLabel.snp.makeConstraints {
+            $0.centerX.equalTo(addButton)
+        }
+        
+        modifyProfileButtonLabel.snp.makeConstraints {
+            $0.centerX.equalTo(modifyProfileButton)
+        }
+
+        bookMarkButtonLabel.snp.makeConstraints {
+            $0.centerX.equalTo(bookMarkButton)
+        }
+        
+        addButtonStackView.snp.makeConstraints {
+            $0.centerX.equalTo(bookMarkButtonStackView).offset(-110)
+            $0.centerY.equalToSuperview()
+
+        }
+        
+        bookMarkButtonStackView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+
+        }
+        
+        modifyProfileButtonStackView.snp.makeConstraints {
+            $0.centerX.equalTo(bookMarkButtonStackView).offset(110)
+            $0.centerY.equalToSuperview()
+            
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(stackView.snp.bottom).offset(30)
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.equalTo(100)
+        }
+        
         myPageTableView.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.bottom).offset(30)
+            $0.top.equalTo(contentView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(5)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
         }
         
         let addPhotoTapped = UITapGestureRecognizer(target: self, action: #selector(addPhotoButtonTapped))
@@ -348,7 +380,7 @@ extension MyPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60.0
+        return 55.0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
