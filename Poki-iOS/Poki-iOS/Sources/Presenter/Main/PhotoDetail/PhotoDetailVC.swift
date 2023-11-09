@@ -27,25 +27,17 @@ final class PhotoDetailVC: UIViewController {
 
     private let titleLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 32)
-        $0.text = "GOOD EATS"
         $0.textColor = .white
         $0.textAlignment = .center
     }
     
     private let dateLabel = UILabel().then {
         $0.font = UIFont(name: Constants.fontBold, size: 16)
-        $0.text = "2023. 10. 16"
         $0.textColor = .white
         $0.textAlignment = .center
     }
     
     private let mainImageView = UIImageView()
-    
-    private lazy var mainStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.distribution = .fill
-        $0.alignment = .fill
-    }
    
     private let backgroundImageView = UIImageView()
     
@@ -72,6 +64,7 @@ final class PhotoDetailVC: UIViewController {
         super.viewDidLoad()
         addSubViews()
         setupLayout()
+        configureGestures()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,9 +84,8 @@ final class PhotoDetailVC: UIViewController {
     }
     
     private func addSubViews() {
-        mainStackView.addArrangedSubviews(titleLabel, dateLabel, mainImageView)
-        view.addSubview(backgroundImageView)
-        backgroundImageView.addSubviews(backgroundBlurEffectView, mainStackView)
+        view.addSubviews(backgroundImageView, titleLabel, dateLabel, mainImageView)
+        backgroundImageView.addSubviews(backgroundBlurEffectView)
     }
     
     private func setupLayout() {
@@ -103,10 +95,21 @@ final class PhotoDetailVC: UIViewController {
         backgroundBlurEffectView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        mainStackView.setCustomSpacing(3, after: self.titleLabel)
-        mainStackView.setCustomSpacing(20, after: self.dateLabel)
-        mainStackView.snp.makeConstraints {
+
+        titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(35)
+        }
+
+        dateLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(20)
+        }
+
+        mainImageView.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
@@ -196,6 +199,26 @@ final class PhotoDetailVC: UIViewController {
         storageManager.downloadImage(urlString: imageUrl) { image in
             let activityVC = UIActivityViewController(activityItems: [image ?? UIImage()], applicationActivities: nil)
             self.present(activityVC, animated: true)
+        }
+    }
+    
+    private func configureGestures() {
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture))
+        mainImageView.isUserInteractionEnabled = true
+        mainImageView.addGestureRecognizer(pinchGesture)
+    }
+
+    @objc private func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
+        guard let view = gesture.view else { return }
+        
+        if gesture.state == .began || gesture.state == .changed {
+            let pinchScale = gesture.scale
+            view.transform = view.transform.scaledBy(x: pinchScale, y: pinchScale)
+            gesture.scale = 1.0
+        } else if gesture.state == .ended || gesture.state == .cancelled {
+            UIView.animate(withDuration: 0.3) {
+                view.transform = CGAffineTransform.identity
+            }
         }
     }
     
