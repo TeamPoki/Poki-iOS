@@ -161,6 +161,8 @@ final class FirestoreManager {
         }
     }
     
+    // MARK: - Recommend Pose Images
+
     func fetchRecommendPoseDocumentFromFirestore(completion: @escaping (Error?) -> Void) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let docRef = db.collection("users/\(userEmail)/Image")
@@ -190,12 +192,12 @@ final class FirestoreManager {
     }
     
     /// 이것은 아직 리팩토링을 못했습니다. isSelected 필드만 변경하기 때문에 updateData 메서드를 호출해서 처리하는게 효율적인 것 같아 아직 고민중입니다. 의견 주십쇼!!
-    func poseImageUpdate(imageUrl: String, isSelected: Bool) {
+    func poseImageUpdate(imageUrl: String, isSelected: Bool, completion: @escaping (Error?) -> Void) {
         guard let userEmail = authManager.currentUserEmail else { return }
         let imageCollectionRef = db.collection("users/\(userEmail)/Image")
         imageCollectionRef.whereField("imageUrl", isEqualTo: imageUrl).getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error fetching documents: \(error)")
+                completion(error)
                 return
             }
             
@@ -210,10 +212,9 @@ final class FirestoreManager {
             
             documentToUpdate.reference.updateData(data) { error in
                 if let error = error {
-                    print("Error updating document: \(error)")
+                    completion(error)
                 } else {
-                    print("Document updated successfully.")
-                    
+                    completion(nil)
                 }
             }
         }
@@ -223,15 +224,15 @@ final class FirestoreManager {
 extension FirestoreManager {
     func makePoseData() {
         // MARK: - alone
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose1.jpg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose1.jpg?alt=media&token=3bcb8611-fb5b-42c6-b2f5-228bd44f7fd4",
                                              category: "alone", isSelected: false))
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose2.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose2.jpeg?alt=media&token=29acce39-0ff0-429b-9a0d-edabb7771bc8",
                                              category: "alone", isSelected: false))
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose3.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose3.jpeg?alt=media&token=f61cdcf1-1fb6-48ec-aa20-ec9c1e061364",
                                              category: "alone", isSelected: false))
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose4.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose4.jpeg?alt=media&token=c4b802ac-9ad4-440c-a611-9f3d13cbdf49",
                                              category: "alone", isSelected: false))
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "gs://poki-ios-87d7e.appspot.com/alonePose/alone-pose5.jpeg",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose5.jpeg?alt=media&token=35db86c9-5585-427e-8d2f-6d7fc1b8f75b",
                                              category: "alone", isSelected: false))
         
         // MARK: - two

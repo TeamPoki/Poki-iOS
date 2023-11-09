@@ -74,11 +74,11 @@ final class LikedPoseImageDetailVC: UIViewController {
     
     @objc private func customBarButtonTapped() {
         if isSelected {
-            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: false)
+            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: false) { _ in }
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star")
             self.isSelected = false
         } else {
-            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: true)
+            firestoreManager.poseImageUpdate(imageUrl: url!, isSelected: true) { _ in }
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "star.fill")
             self.isSelected = true
         }
