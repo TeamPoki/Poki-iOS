@@ -150,7 +150,9 @@ final class RandomPoseVC: UIViewController {
     
         let url = URL(string: pose.imageUrl)
         
-        self.poseImageView.kf.setImage(with: url)
+        self.poseImageView.kf.setImage(with: url) { _ in
+            completion()
+        }
     }
     
     // MARK: - Actions
@@ -177,6 +179,7 @@ final class RandomPoseVC: UIViewController {
     
     private func updateBookmark(completion: @escaping (Error?) -> Void) {
         self.poseData?.isSelected.toggle()
+        self.showLoadingIndicator()
         guard let poseData = self.poseData else { return }
         if self.poseData?.isSelected == true {
             self.bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
@@ -191,6 +194,8 @@ final class RandomPoseVC: UIViewController {
                         completion(error)
                         return
                     }
+                    self.hideLoadingIndicator()
+                    self.showToast(criterionView: self.buttonStackView, message: "찜한 포즈에 추가했습니다!", completion: nil)
                 }
             }
         }
@@ -208,6 +213,8 @@ final class RandomPoseVC: UIViewController {
                         completion(error)
                         return
                     }
+                    self.hideLoadingIndicator()
+                    self.showToast(criterionView: self.buttonStackView, message: "찜한 포즈에서 삭제했습니다!", completion: nil)
                 }
             }
         }
