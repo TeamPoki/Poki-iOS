@@ -33,6 +33,7 @@ struct Constants {
     static let emailRegex = "[A-Z0-9a-z._]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     /// 영대/소문자 1개, 숫자 1개, 특수문자 1개를 포함한 8 ~ 16 자리 비밀번호를 사용할 수 있습니다.
     static let passwordRegex = "(?=.*[a-zA-Z])(?=.*\\d)(?=.*[$@$!%*?&#^().,])[A-Za-z\\d$@$!%*?&#^().,]{8,20}"
+    /// 첫 문자열의 시작이 한글, 영대소문자, 숫자 중 1자리 + 한글, 영대소문자, 숫자, 공백 중 1~7자리를 사용할 수 있습니다.
     static let nicknameRegex = "(^[가-힣A-Za-z0-9])+([가-힣A-Za-z0-9\\s]){1,7}"
     
     // MARK: - Toast Size
