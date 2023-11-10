@@ -12,7 +12,7 @@ import PhotosUI
 final class ProfileEditVC: UIViewController {
     
     // MARK: - Properties
-    
+    let authManager = AuthManager.shared
     let firestoreManager = FirestoreManager.shared
     let storageManager = StorageManager.shared
     
@@ -33,6 +33,14 @@ final class ProfileEditVC: UIViewController {
         $0.font = UIFont(name: Constants.fontBold, size: 16)
         $0.textColor = .black
         $0.textAlignment = .left
+    }
+    
+    private var nicknameValidation: Bool {
+        guard let nicknameText = self.nicknameTextField.text else {
+            return false
+        }
+        self.nickname = nicknameText
+        return nicknameText.isEmpty == false && authManager.isValid(form: self.nickname, regex: Constants.nicknameRegex)
     }
     
     private lazy var nicknameTextField = UITextField().then {
@@ -140,6 +148,14 @@ final class ProfileEditVC: UIViewController {
         }
     }
     
+    private func nicknameValidationAlert() {
+        let alertController = UIAlertController(title: "유효하지 않은 닉네임", message: "닉네임이 유효하지 않습니다. 다시 입력해주세요.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+        return
+    }
+    
     private func handleImageURL(with url: URL?) {
         guard let nickname = self.nicknameTextField.text else { return }
         self.firestoreManager.updateUserDocument(user: User(nickname: nickname, imageURL: url?.absoluteString ?? "")) { error in
@@ -176,6 +192,14 @@ final class ProfileEditVC: UIViewController {
     
     @objc private func doneButtonTapped() {
         guard let image = userImageView.image else { return }
+        guard nicknameValidation else {
+            DispatchQueue.main.async {
+                self.hintLabel.text = "닉네임이 유효하지 않습니다."
+                self.hintLabel.isHidden = false
+            }
+            nicknameValidationAlert()
+            return
+        }
         self.showLoadingIndicator()
         storageManager.uploadUserImage(image: image) { result in
             switch result {
