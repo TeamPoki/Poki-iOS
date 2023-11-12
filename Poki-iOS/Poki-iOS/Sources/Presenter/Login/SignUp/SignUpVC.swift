@@ -119,6 +119,21 @@ final class SignUpVC: UIViewController {
     
     // MARK: - Update UI
     
+    private func updateDefaultFormLabel() {
+        if self.email?.isEmpty == true {
+            signUpView.emailHintLabel.text = "이메일 형식으로 입력해주세요."
+            signUpView.emailHintLabel.textColor = Constants.appBlackColor
+        }
+        if self.password?.isEmpty == true {
+            signUpView.passwordHintLabel.text = "8~20자, 영문, 숫자, 특수문자를 포함해주세요."
+            signUpView.passwordHintLabel.textColor = Constants.appBlackColor
+        }
+        if self.nickname?.isEmpty == true {
+            signUpView.nicknameHintLabel.text = "2~8자, 영문, 숫자, 한글만 입력할 수 있습니다."
+            signUpView.nicknameHintLabel.textColor = Constants.appBlackColor
+        }
+    }
+    
     private func updateValidFormLabel(label: UILabel, isValid: Bool?, form: String) {
         if isValid == true {
             label.text = "사용할 수 있는 \(form)입니다."
@@ -128,6 +143,7 @@ final class SignUpVC: UIViewController {
             label.text = "사용할 수 없는 \(form)입니다."
             label.textColor = .systemRed
         }
+        self.updateDefaultFormLabel()
     }
 
     private func updateSignUpButton() {
