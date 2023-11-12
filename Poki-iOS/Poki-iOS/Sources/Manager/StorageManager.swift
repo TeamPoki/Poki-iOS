@@ -20,7 +20,7 @@ final class StorageManager {
         }
         
         let photoImageData = image[0].jpegData(compressionQuality: 0.4)
-        let tagImageData = image[1].jpegData(compressionQuality: 0.4)
+        let tagImageData = image[1].jpegData(compressionQuality: 1.0)
         
         guard let photoData = photoImageData, let tagData = tagImageData else {
             completion(.failure(FirebaseError.imageDataError))
@@ -64,7 +64,7 @@ final class StorageManager {
     
     func downloadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let storageReference = Storage.storage().reference(forURL: urlString)
-        let megaByte = Int64(4.9 * 1024 * 1024)
+        let megaByte = Int64(4 * 1024 * 1024)
         
         storageReference.getData(maxSize: megaByte) { data, error in
             guard let imageData = data else {
@@ -119,7 +119,7 @@ final class StorageManager {
     }
     
     func uploadUserImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-        let ImageData = image.jpegData(compressionQuality: 0.4)
+        let ImageData = image.jpegData(compressionQuality: 0.8)
         
         guard let photoData = ImageData else {
             completion(.failure(FirebaseError.imageDataError))
