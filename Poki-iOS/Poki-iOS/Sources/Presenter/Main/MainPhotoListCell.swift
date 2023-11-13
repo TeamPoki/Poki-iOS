@@ -105,4 +105,27 @@ final class MainPhotoListCell: UICollectionViewCell {
             applyGradient(with: color)
         }
     }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard let collectionView = superview as? UICollectionView else { return false }
+        
+        // CarouselFlowLayout 파일 -> sideItemScale 사용
+        let layout = collectionView.collectionViewLayout as? CarouselFlowLayout
+        let scale = layout?.sideItemScale ?? 1.0
+
+        // 중앙 셀의 너비를 계산
+        let centralWidth = bounds.width * scale
+
+        // 셀의 프레임을 상위 뷰의 좌표계로 변환
+        let cellFrameInSuperview = collectionView.convert(frame, to: collectionView.superview)
+        
+        // 중앙 셀 터치 가능 영역 설정
+        let centralRect = CGRect(x: cellFrameInSuperview.origin.x + (cellFrameInSuperview.size.width - centralWidth) / 3,
+                                 y: cellFrameInSuperview.origin.y,
+                                 width: centralWidth,
+                                 height: cellFrameInSuperview.size.height)
+
+        // 터치 포인트가 중앙 영역 안에 있는지 확인
+        return centralRect.contains(point)
+    }
 }
