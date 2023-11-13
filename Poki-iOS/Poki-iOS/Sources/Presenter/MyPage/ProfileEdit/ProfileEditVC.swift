@@ -45,13 +45,15 @@ final class ProfileEditVC: UIViewController {
     
     private lazy var nicknameTextField = UITextField().then {
         $0.placeholder = "닉네임을 입력하세요"
+        $0.clearButtonMode = .whileEditing
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.borderStyle = .roundedRect
+        $0.tintColor = .black
         $0.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
     }
     
     private var hintLabel = UILabel().then {
-        $0.text = "닉네임을 입력해주세요!"
+        $0.text = "사용할 수 없는 닉네임입니다."
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
         $0.textColor = .systemRed
         $0.isHidden = false

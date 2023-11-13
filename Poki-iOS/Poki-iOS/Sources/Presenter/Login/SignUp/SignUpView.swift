@@ -21,6 +21,7 @@ class SignUpView: UIView {
     
     let emailTextField = UITextField().then {
         $0.keyboardType = .emailAddress
+        $0.clearButtonMode = .whileEditing
     }
     
     let emailTextFieldView = UIView().then {
@@ -67,6 +68,7 @@ class SignUpView: UIView {
     
     let nicknameTextField = UITextField().then {
         $0.keyboardType = .default
+        $0.clearButtonMode = .whileEditing
     }
     
     let nicknameTextFieldView = UIView().then {
