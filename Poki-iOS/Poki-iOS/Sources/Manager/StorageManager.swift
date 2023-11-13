@@ -90,34 +90,6 @@ final class StorageManager {
         }
     }
     
-    // MARK: - PoseData
-    
-    /// 해당 메서드는 사용하지 않는 것 같습니다!! 필요하지 않다면, 지워도 괜찮을까요!?
-    func poseDownloadImages(fromURLs urls: [String], completion: @escaping ([UIImage?]) -> Void) {
-        let storage = Storage.storage()
-        let group = DispatchGroup()
-        var images: [UIImage?] = Array(repeating: nil, count: urls.count)
-        
-        for (index, urlString) in urls.enumerated() {
-            group.enter()
-            
-            let storageReference = storage.reference(forURL: urlString)
-            let megaByte = Int64(4.9 * 1024 * 1024)
-            
-            storageReference.getData(maxSize: megaByte) { data, error in
-                if let imageData = data {
-                    images[index] = UIImage(data: imageData)
-                }
-                
-                group.leave()
-            }
-        }
-        
-        group.notify(queue: .main) {
-            completion(images)
-        }
-    }
-    
     func uploadUserImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let ImageData = image.jpegData(compressionQuality: 0.8)
         
