@@ -113,9 +113,6 @@ final class LikedPoseVC: UIViewController {
             $0.leading.equalTo(label.snp.leading)
             $0.trailing.equalTo(label.snp.trailing)
         }
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
     }
     
     private func contentsViewUI() {
@@ -209,18 +206,27 @@ final class LikedPoseVC: UIViewController {
         showBarColorForLabel(poseOne)
         poseCategory = .alone
         updateCollectionViewForCategory(.alone)
+        UIView.animate(withDuration: 0.4) {
+            self.contentView.layoutIfNeeded()
+        }
     }
     
     @objc private func poseTwoTapped() {
         showBarColorForLabel(poseTwo)
         poseCategory = .twoPose
         updateCollectionViewForCategory(.twoPose)
+        UIView.animate(withDuration: 0.4) {
+            self.contentView.layoutIfNeeded()
+        }
     }
     
     @objc private func poseManyTapped() {
         showBarColorForLabel(poseThree)
         poseCategory = .manyPose
         updateCollectionViewForCategory(.manyPose)
+        UIView.animate(withDuration: 0.4) {
+            self.contentView.layoutIfNeeded()
+        }
     }
     
     private func bookmarkImageData(category: PoseCategory) -> [ImageData] {
