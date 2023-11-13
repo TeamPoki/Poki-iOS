@@ -230,10 +230,21 @@ extension FirestoreManager {
                                              category: "alone", isSelected: false))
         createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose3.jpeg?alt=media&token=f61cdcf1-1fb6-48ec-aa20-ec9c1e061364",
                                              category: "alone", isSelected: false))
-        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose4.jpeg?alt=media&token=c4b802ac-9ad4-440c-a611-9f3d13cbdf49",
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose4.jpg?alt=media&token=6459d08f-d327-4b3e-8150-db887772290b",
                                              category: "alone", isSelected: false))
         createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose5.jpeg?alt=media&token=35db86c9-5585-427e-8d2f-6d7fc1b8f75b",
                                              category: "alone", isSelected: false))
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose6.jpeg?alt=media&token=9cfec9fe-12bf-481f-8ef3-e0aa5ce24f71",
+                                             category: "alone", isSelected: false))
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose7.jpeg?alt=media&token=32f3df94-4b6a-4686-88d7-08a82d63551b",
+                                             category: "alone", isSelected: false))
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose8.jpeg?alt=media&token=a9c3e0a0-1061-4ca4-a036-227c49baeece",
+                                             category: "alone", isSelected: false))
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/alonePose%2Falone-pose9.jpg?alt=media&token=ff66e814-32a4-4dc5-9d52-d5decb29b4dd",
+                                             category: "alone", isSelected: false))
+        
+   
+    
         
         // MARK: - two
         createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/twoPeoplePose%2Ftwo-pose1.jpeg?alt=media&token=d17f7bbb-0141-4349-80f1-2ffa13437367",
@@ -267,6 +278,8 @@ extension FirestoreManager {
         createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/manyPeoplePose%2Fmany-pose6.jpeg?alt=media&token=40ed9958-ef5d-47ec-b075-6dce620b9840",
                                              category: "manyPose", isSelected: false))
         createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/manyPeoplePose%2Fmany-pose7.jpeg?alt=media&token=be602c34-9a74-4a72-9bbe-0a1268db40aa",
+                                             category: "manyPose", isSelected: false))
+        createRecommendPoseDocument(imageData: ImageData(imageUrl: "https://firebasestorage.googleapis.com/v0/b/poki-ios-87d7e.appspot.com/o/manyPeoplePose%2Fmany-pose8.jpg?alt=media&token=b60113b9-b349-4756-993e-37723c48b3e4",
                                              category: "manyPose", isSelected: false))
     }
 }
