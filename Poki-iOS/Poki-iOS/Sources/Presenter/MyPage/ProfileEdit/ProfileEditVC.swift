@@ -45,6 +45,7 @@ final class ProfileEditVC: UIViewController {
     
     private lazy var nicknameTextField = UITextField().then {
         $0.placeholder = "닉네임을 입력하세요"
+        $0.clearButtonMode = .whileEditing
         $0.font = UIFont(name: Constants.fontRegular, size: 14)
         $0.borderStyle = .roundedRect
         $0.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
