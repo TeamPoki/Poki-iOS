@@ -81,8 +81,11 @@ final class NoticeListCell: UITableViewCell {
     func configure(notice: NoticeList, isExpanded: Bool) {
         titleLabel.text = notice.title
         dateLabel.text = notice.date
-        contentLabel.text = notice.content
+        
+        let modifiedContent = notice.content.replacingOccurrences(of: "\\n", with: "\n")
+        contentLabel.text = modifiedContent
         contentLabel.isHidden = !isExpanded
+        
         if isExpanded {
             stackView.addArrangedSubview(contentLabel)
             buttonImageView.image = UIImage(systemName: "chevron.up")
