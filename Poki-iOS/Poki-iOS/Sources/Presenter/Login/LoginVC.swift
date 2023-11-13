@@ -242,7 +242,7 @@ final class LoginVC: UIViewController {
         }
         
         eyeButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(5)
             $0.centerY.equalTo(passwordTextField)
         }
         
@@ -332,7 +332,12 @@ final class LoginVC: UIViewController {
     }
     
     @objc private func loginButtonTapped(_ sender: UIButton) {
-        guard let email = self.email, let password = self.password else { return }
+        guard let email = self.email,
+              let password = self.password else
+        {
+            self.showToast(criterionView: self.loginButton, message: "이메일과 비밀번호를 확인해주세요.", completion: nil)
+            return
+        }
         self.showLoadingIndicator()
         authManager.loginUser(withEmail: email, password: password) { result, error in
             if let error = error {
