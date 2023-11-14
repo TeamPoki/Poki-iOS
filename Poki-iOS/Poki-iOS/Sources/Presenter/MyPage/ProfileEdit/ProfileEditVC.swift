@@ -53,7 +53,7 @@ final class ProfileEditVC: UIViewController {
     }
     
     private var hintLabel = UILabel().then {
-        $0.text = "사용할 수 없는 닉네임입니다."
+        $0.text = ""
         $0.font = UIFont(name: Constants.fontMedium, size: 14)
         $0.textColor = .systemRed
         $0.isHidden = false
@@ -80,7 +80,7 @@ final class ProfileEditVC: UIViewController {
         
         $0.addTarget(self, action: #selector(selectImageButtonTapped), for: .touchUpInside)
     }
-
+    
     
     // MARK: - Life Cycle
     
@@ -89,6 +89,7 @@ final class ProfileEditVC: UIViewController {
         view.backgroundColor = .white
         configureNav()
         configureUI()
+        nicknameTextField.delegate = self
         setupUserData()
     }
     
@@ -142,11 +143,20 @@ final class ProfileEditVC: UIViewController {
     }
     
     private func updateNicknameTextField() {
-        if self.nickname?.isEmpty == false {
+        if let nicknameText = nicknameTextField.text, !nicknameText.isEmpty == false {
             hintLabel.isHidden = true
-        }
-        if self.nickname?.isEmpty == true {
+        } else {
             hintLabel.isHidden = false
+        }
+    }
+    
+    private func updateFormHintLabel(label: UILabel, isValid: Bool) {
+        if isValid {
+            label.text = "사용할 수 있는 닉네임입니다."
+            label.textColor = .systemBlue
+        } else {
+            label.text = "사용할 수 없는 닉네임입니다."
+            label.textColor = .systemRed
         }
     }
     
@@ -179,7 +189,7 @@ final class ProfileEditVC: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
+    
     // MARK: - Actions
     
     @objc private func selectImageButtonTapped() {
@@ -195,10 +205,6 @@ final class ProfileEditVC: UIViewController {
     @objc private func doneButtonTapped() {
         guard let image = userImageView.image else { return }
         guard nicknameValidation else {
-            DispatchQueue.main.async {
-                self.hintLabel.text = "닉네임이 유효하지 않습니다."
-                self.hintLabel.isHidden = false
-            }
             nicknameValidationAlert()
             return
         }
@@ -216,10 +222,15 @@ final class ProfileEditVC: UIViewController {
     
     @objc private func textFieldEditingChanged(sender: UITextField) {
         if sender == nicknameTextField {
-            self.nickname = sender.text
+            guard let nicknameText = sender.text else {
+                return
+            }
+            let isNicknameValid = authManager.isValid(form: nicknameText, regex: Constants.nicknameRegex)
+            updateFormHintLabel(label: hintLabel, isValid: isNicknameValid)
+            updateNicknameTextField()
         }
-        updateNicknameTextField()
     }
+    
 }
 
 extension ProfileEditVC: PHPickerViewControllerDelegate {
@@ -262,12 +273,12 @@ extension ProfileEditVC: PHPickerViewControllerDelegate {
             case .notDetermined: break
                 // 사용자가 아직 결정을 내리지 않은 경우
                 // 다음에 권한 요청을 수행할 수 있습니다.
-
+                
             case .limited:
                 let fetchOptions = PHFetchOptions()
                 fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 fetchOptions.fetchLimit = 30 // 최신 30장만 가져옴
-                @unknown default:
+            @unknown default:
                 break
             }
         }
@@ -282,4 +293,11 @@ extension ProfileEditVC: PHPickerViewControllerDelegate {
         present(picker, animated: true, completion: nil)
     }
     
+}
+
+extension ProfileEditVC : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
 }
