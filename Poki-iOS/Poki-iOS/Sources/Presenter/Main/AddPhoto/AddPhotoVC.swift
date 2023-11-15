@@ -95,8 +95,12 @@ final class AddPhotoVC: UIViewController {
             addPhotoView.tagImageView.kf.setImage(with: tagImageURL)
             addPhotoView.tagAddButton.setTitle(photoData.tag.tagLabel, for: .normal)
             addPhotoView.tagAddButton.titleLabel?.font = UIFont(name: Constants.fontSemiBold, size: 14)
-            addPhotoView.isTagSet = true
             
+            if photoData.tag.tagLabel == "" {
+                addPhotoView.isTagSet = false
+            } else {
+                addPhotoView.isTagSet = true
+            }
         default:
             break
         }
