@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 enum PoseCategory: String {
     case alone
@@ -38,7 +39,6 @@ final class LikedPoseVC: UIViewController {
     private let likedPoseCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        //layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 10
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
@@ -82,8 +82,10 @@ final class LikedPoseVC: UIViewController {
         contentsViewUI()
         likedPoseCollectionViewUI()
         configureNav()
-        firestoreManager.fetchRecommendPoseDocumentFromFirestore { _ in }
         showBarColorForLabel(poseOne)
+        firestoreManager.fetchRecommendPoseDocumentFromFirestore { _ in
+            self.updatePoseCategory(self.poseCategory)
+        }
         self.imageDatas = bookmarkImageData(category: .alone)
     }
     
@@ -242,16 +244,15 @@ final class LikedPoseVC: UIViewController {
     
     func collectionViewDataBinding(collectionView: UICollectionView, indexPath: IndexPath, category: PoseCategory) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        
         let imageView = UIImageView()
         cell.contentView.addSubview(imageView)
         
         let imageData = imageDatas[indexPath.row]
-        let urlData = imageData.imageUrl
+        let urlData = URL(string: imageData.imageUrl)
         
-        storageManager.downloadImage(urlString: urlData) { [weak self] image in
-            guard self != nil else { return }
-            imageView.image = image
-        }
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: urlData)
         
         imageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
