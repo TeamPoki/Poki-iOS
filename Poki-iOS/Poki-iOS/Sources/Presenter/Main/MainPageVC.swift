@@ -231,6 +231,7 @@ extension MainPageVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.dateLabel.text = photo.date
         cell.tagLabel.text = photo.tag.tagLabel
         
+        cell.photoImage.kf.indicatorType = .activity
         // Kingfisher를 사용하여 비동기적으로 이미지를 다운로드하고 셀에 그라데이션 설정
         cell.photoImage.kf.setImage(
             with: url,

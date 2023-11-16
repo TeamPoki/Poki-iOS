@@ -118,24 +118,17 @@ final class RandomPoseVC: UIViewController {
     
     func setup(selectCategory: Category) {
         self.selectedCategory = selectCategory
-        self.showLoadingIndicator()
            switch selectCategory {
            case .alone:
-               self.setupPoseData(categoryString: "alone") {
-                   self.hideLoadingIndicator()
-               }
+               self.setupPoseData(categoryString: "alone")
            case .twoPeople:
-               self.setupPoseData(categoryString: "twoPose") {
-                   self.hideLoadingIndicator()
-               }
+               self.setupPoseData(categoryString: "twoPose")
            case .manyPeople:
-               self.setupPoseData(categoryString: "manyPose") {
-                   self.hideLoadingIndicator()
-               }
+               self.setupPoseData(categoryString: "manyPose")
         }
     }
     
-    func setupPoseData(categoryString: String, completion: @escaping () -> Void) {
+    func setupPoseData(categoryString: String, completion: (() -> Void)? = nil) {
         guard let pose = firestoreManager.poseData.filter({ $0.category == categoryString }).randomElement() else { return }
         
         self.poseData = pose
@@ -150,28 +143,22 @@ final class RandomPoseVC: UIViewController {
     
         let url = URL(string: pose.imageUrl)
         
+        self.poseImageView.kf.indicatorType = .activity
         self.poseImageView.kf.setImage(with: url) { _ in
-            completion()
+            completion?()
         }
     }
     
     // MARK: - Actions
     
     @objc private func refreshButtonTapped(_ sender: UIButton) {
-        self.showLoadingIndicator()
         switch selectedCategory {
         case .alone:
-            self.setupPoseData(categoryString: "alone") {
-                self.hideLoadingIndicator()
-            }
+            self.setupPoseData(categoryString: "alone")
         case .twoPeople:
-            self.setupPoseData(categoryString: "twoPose") {
-                self.hideLoadingIndicator()
-            }
+            self.setupPoseData(categoryString: "twoPose")
         case .manyPeople:
-            self.setupPoseData(categoryString: "manyPose") {
-                self.hideLoadingIndicator()
-            }
+            self.setupPoseData(categoryString: "manyPose")
         case .none:
             break
         }
