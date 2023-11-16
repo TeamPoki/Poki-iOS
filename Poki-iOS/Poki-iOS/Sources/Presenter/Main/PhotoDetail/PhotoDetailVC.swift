@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class PhotoDetailVC: UIViewController {
     
@@ -19,6 +20,7 @@ final class PhotoDetailVC: UIViewController {
 
     var indexPath: IndexPath?
     var updatePhotoCompletionHandler: (() -> Void)?
+    private var initialCenter: CGPoint = CGPoint()
     
     private let firestoreManager = FirestoreManager.shared
     private let storageManager = StorageManager.shared
@@ -210,14 +212,20 @@ final class PhotoDetailVC: UIViewController {
 
     @objc private func handlePinchGesture(_ gesture: UIPinchGestureRecognizer) {
         guard let view = gesture.view else { return }
-        
-        if gesture.state == .began || gesture.state == .changed {
+
+        if gesture.state == .began {
+            initialCenter = view.center
+        } else if gesture.state == .changed {
             let pinchScale = gesture.scale
-            view.transform = view.transform.scaledBy(x: pinchScale, y: pinchScale)
+            let pinchCenter = CGPoint(x: gesture.location(in: view).x - view.bounds.midX,
+                                      y: gesture.location(in: view).y - view.bounds.midY)
+            view.transform = view.transform.translatedBy(x: pinchCenter.x, y: pinchCenter.y)
+                                                .scaledBy(x: pinchScale, y: pinchScale)
             gesture.scale = 1.0
         } else if gesture.state == .ended || gesture.state == .cancelled {
             UIView.animate(withDuration: 0.3) {
                 view.transform = CGAffineTransform.identity
+                view.center = self.initialCenter
             }
         }
     }
